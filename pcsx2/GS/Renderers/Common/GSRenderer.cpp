@@ -15,6 +15,7 @@
 #include "pcsx2/Config.h"
 #include "VMManager.h"
 
+#include "common/Console.h"
 #include "common/FileSystem.h"
 #include "common/Image.h"
 #include "common/Path.h"
