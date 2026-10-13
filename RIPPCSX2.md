@@ -35,6 +35,20 @@ no switch in the settings dialogs yet: set it in `inis/PCSX2.ini`. The code is i
 `pcsx2/GS/Renderers/Common/GSRenderer.cpp` (look for `RIPPCSX2`), `pcsx2/VMManager.cpp` and the option in
 `pcsx2/Config.h` / `pcsx2/Pcsx2Config.cpp`. It needs proper testing beyond RIPPS2 and OPL.
 
+## Testing themes with it (OPL, RiptOPL, RIPPS2)
+
+1. Unzip a release, start `pcsx2-qt.exe` and point it at your own BIOS dump.
+2. Boot the front end: System > Start File (`OPNPS2LD.ELF`, `RIPPS2.elf` ...), or `pcsx2-qt.exe -fastboot -elf <file>`.
+3. Put the theme where the front end looks for themes: a `THM` folder holding `thm_<name>` folders on a device it
+   reads. Under PCSX2 that is the internal HDD image (Settings > Network & HDD) or a network share through DEV9.
+4. Pick the theme and set the front end's Video Mode to 720p or 1080i: the window turns 16:9 at once.
+5. F8 saves a screenshot at 1280 x 720 or 1920 x 1080 (`snaps`), F11 records at that size (`videos`).
+
+For a side-by-side with stock behaviour, set `HDTVOutput = false` under `[EmuCore/GS]` in `inis/PCSX2.ini`.
+Releases are tagged `v2.9.96-rippcsx2.N`; a tag in that form keeps PCSX2's auto updater off, so a RIPPCSX2 build is
+never offered stock PCSX2 as an update. Please report problems to RIPPS2 (its psx-place thread or GitHub issues),
+not to the PCSX2 project.
+
 ## Checked in the lab (2026-10-13)
 
 RIPPS2 v0.1.0 beta, RIPGRID, the same take (the grid, then a game's info page) in each mode, with the lab's
