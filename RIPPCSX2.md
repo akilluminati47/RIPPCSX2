@@ -28,6 +28,7 @@ In an HDTV mode (720p or 1080i), with `HDTVOutput = true`:
 | A mode switch while recording | the file keeps its first size | once the new mode has held for half a second, the recording **goes on in a new file** at the new size (as PCSX2 already does after a reset) |
 | Screenshots | window size or the buffer's shape | **1280 x 720** or **1920 x 1080** ("Internal Resolution (Aspect Uncorrected)" still saves the raw buffer) |
 | Window Size presets | 4:3 widths | 16:9: 1x of 720p is 1280 x 720 |
+| Where 1080i sits | moved up 42 lines: the top cut off, a black band at the bottom | from line 40, where the console's own 1080i timing starts the picture area |
 
 Standard definition (NTSC, PAL, 480p, VESA) is untouched, and so is everything with `HDTVOutput = false`. There is
 no switch in the settings dialogs yet: set it in `inis/PCSX2.ini`. The code is in
@@ -46,9 +47,15 @@ settings (fixed 640 x 480 capture, window-size screenshots):
 | 480i | 640 x 480 (4:3) / 1284 x 963 | 640 x 480 (4:3) / 1284 x 963, byte for byte the same screenshots |
 
 In 720p and 1080i the text and art now have their real proportions (stock showed them squeezed into 4:3), and
-1080i's two fields come out combined with no combing. One thing both builds show alike: in 1080i the picture
-fills about 1038 of the 1080 lines, with a black band of about 42 lines at the bottom. It is not from this change;
-whether a real console's 1080i does the same needs a look at a TV.
+1080i's two fields come out combined with no combing. The first lab build still showed what stock does in 1080i:
+the picture moved up 42 lines, its top cut off and a black band at the bottom. That is a PCSX2 bug. Its table of
+where each mode's picture starts holds a per-field line for NTSC and PAL (25 and 36, doubled for interlace to 50 and
+72) but already a frame line for 1080i (40), which the same doubling makes 80. The console's own 1080i timing, as
+the BIOS sets it (SYNCV VS 10, VBPE 2, VBP 28, VDP 1080: 1125 lines), starts the picture area 40 lines after sync,
+and gsKit places RIPPS2's 1080i picture at DY 38, so stock PCSX2 moved it 38 - 80 = -42 lines. With HDTVOutput on,
+RIPPCSX2 counts 1080i from line 40 (`ModeStartLine` in `pcsx2/GS/GSState.cpp`); RIPPS2's picture then sits 2 lines
+high, where gsKit really puts it. RIPPCSX2 logs the sync and display registers on every video mode change
+("RIPPCSX2: video mode ..." in `logs/emulog.txt`). Commercial 1080i games are still to be checked against it.
 
 The CI build's version reads 0.0.0.0: the checkout is shallow, so `git describe` cannot reach the v2.9.96 tag.
 

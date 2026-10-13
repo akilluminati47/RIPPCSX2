@@ -7084,6 +7084,16 @@ static inline constexpr GSVector4i VideoModeDividers[6] = {
 	GSVector4i::cxpr(0, 0, 1919, 1079)
 };
 
+// RIPPCSX2: the start line (w) in the tables above is per field for NTSC and PAL, and the code below doubles it when
+// interlaced. 1080i's 40 is already in frame lines: the console's own 1080i timing (SYNCV VS 10 + VBPE 2 + VBP 28, as
+// the BIOS sets it) starts the picture area 40 lines after sync, and gsKit puts its 1080i pictures at DY 38. Doubled
+// to 80, it moved such a picture up 42 lines: the top cut off and a black band at the bottom. With HDTVOutput on,
+// 1080i counts 20 per field. Needs checking against commercial 1080i games.
+static int ModeStartLine(int videomode, int w)
+{
+	return (GSConfig.HDTVOutput && videomode == static_cast<int>(GSVideoMode::HDTV_1080I) - 1) ? 20 : w;
+}
+
 bool GSState::GSPCRTCRegs::IsAnalogue()
 {
 	const GSVideoMode video = static_cast<GSVideoMode>(videomode + 1);
@@ -7113,7 +7123,7 @@ GSVector2i GSState::GSPCRTCRegs::NearestToZeroOffset()
 		returnValue.x = 0;
 
 	// When interlaced, the vertical base offset is doubled
-	const int verticalOffset = VideoModeOffsets[videomode].w * (1 << interlaced);
+	const int verticalOffset = ModeStartLine(videomode, VideoModeOffsets[videomode].w) * (1 << interlaced);
 
 	if (abs(PCRTCDisplays[0].displayOffset.y - verticalOffset) <
 		abs(PCRTCDisplays[1].displayOffset.y - verticalOffset))
@@ -7549,7 +7559,7 @@ void GSState::GSPCRTCRegs::CalculateDisplayOffset(bool scanmask)
 				continue;
 
 			// Should this be MAGV/H in the DISPLAY register rather than the "default" magnification?
-			const int offset = (PCRTCDisplays[i].displayOffset.y - (offsets.w * (interlaced + 1))) / (VideoModeDividers[videomode].y + 1);
+			const int offset = (PCRTCDisplays[i].displayOffset.y - (ModeStartLine(videomode, offsets.w) * (interlaced + 1))) / (VideoModeDividers[videomode].y + 1);
 
 			if (offset > 4)
 				continue;
@@ -7588,7 +7598,7 @@ void GSState::GSPCRTCRegs::CalculateDisplayOffset(bool scanmask)
 		// Handle any large vertical offset from the zero position on the screen.
 		// Example: Hokuto no Ken, does a rougly -14 offset to bring the screen up.
 		// Ignore the lowest bit, we've already accounted for this
-		int vOffset = ((static_cast<int>(baseOffset.y) - (offsets.w * (interlaced + 1))) / (VideoModeDividers[videomode].y + 1));
+		int vOffset = ((static_cast<int>(baseOffset.y) - (ModeStartLine(videomode, offsets.w) * (interlaced + 1))) / (VideoModeDividers[videomode].y + 1));
 
 		if(vOffset <= 4 && vOffset != 0)
 		{
@@ -7620,7 +7630,7 @@ void GSState::GSPCRTCRegs::CalculateDisplayOffset(bool scanmask)
 			// Should this be MAGV/H in the DISPLAY register rather than the "default" magnification?
 			const GSVector2i offset = {
 				(static_cast<int>(PCRTCDisplays[i].displayOffset.x) - offsets.z) / (VideoModeDividers[videomode].x + 1),
-				(static_cast<int>(PCRTCDisplays[i].displayOffset.y) - (offsets.w * (interlaced + 1))) / (VideoModeDividers[videomode].y + 1)
+				(static_cast<int>(PCRTCDisplays[i].displayOffset.y) - (ModeStartLine(videomode, offsets.w) * (interlaced + 1))) / (VideoModeDividers[videomode].y + 1)
 			};
 
 			PCRTCDisplays[i].displayRect.x += offset.x;
