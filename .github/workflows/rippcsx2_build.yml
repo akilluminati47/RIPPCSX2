@@ -1,0 +1,26 @@
+name: RIPPCSX2 lab build
+
+# The RIPPS2 lab's PCSX2: one Windows x64 AVX2 build of the rippcsx2 branch (PCSX2 v2.9.96 plus the lab's
+# changes, see RIPPCSX2.md). Upstream's Windows, Linux and macOS matrices skip this branch.
+
+on:
+  push:
+    branches:
+      - "rippcsx2"
+  workflow_dispatch:
+
+jobs:
+  build_deps:
+    name: "Dependencies"
+    uses: ./.github/workflows/windows_deps_build.yml
+
+  build:
+    needs: build_deps
+    name: "Windows x64 AVX2"
+    uses: ./.github/workflows/windows_build_qt.yml
+    with:
+      jobName: "RIPPCSX2 MSVC AVX2"
+      artifactPrefixName: "RIPPCSX2-windows-x64-avx2"
+      configuration: Release AVX2
+      fetchTags: true
+    secrets: inherit

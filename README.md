@@ -1,3 +1,7 @@
+# RIPPCSX2
+
+> The RIPPS2 lab's PCSX2: v2.9.96 with **HDTV output**, so RIPPS2's 720p and 1080i are shown, captured and saved as an HDTV shows them (16:9, 1280 x 720 and 1920 x 1080). An unofficial fork for testing [RIPPS2](https://github.com/akilluminati47/RIPPS2), not affiliated with the PCSX2 team. What changed, how it builds and how it goes into the lab: **[RIPPCSX2.md](RIPPCSX2.md)**. PCSX2's own README follows.
+
 # PCSX2
 
 ![Windows Build Status](https://img.shields.io/github/actions/workflow/status/PCSX2/pcsx2/windows_build_matrix.yml?label=%F0%9F%96%A5%EF%B8%8F%20Windows%20Builds)

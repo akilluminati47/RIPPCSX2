@@ -21,6 +21,10 @@ private:
 	u32 m_skipped_duplicate_frames = 0;
 	bool m_saving_metrics = false;
 
+	// RIPPCSX2: the video mode a capture was started in, and how many frames another mode has held since
+	GSVideoMode m_capture_mode = GSVideoMode::Unknown;
+	u32 m_capture_mode_frames = 0;
+
 	// Tracking draw counters for idle frame detection.
 	u64 m_last_draw_n = 0;
 	u64 m_last_transfer_n = 0;

@@ -715,6 +715,7 @@ Pcsx2Config::GSOptions::GSOptions()
 	DisableInterlaceOffset = false;
 	PCRTCOffsets = false;
 	PCRTCOverscan = false;
+	HDTVOutput = true; // RIPPCSX2
 	IntegerScaling = false;
 	LinearPresent = GSPostBilinearMode::BilinearSmooth;
 	UseDebugDevice = false;
@@ -1037,6 +1038,7 @@ void Pcsx2Config::GSOptions::LoadSave(SettingsWrapper& wrap)
 	SettingsWrapBitBool(EnableVideoCapture);
 	SettingsWrapBitBool(EnableVideoCaptureParameters);
 	SettingsWrapBitBool(VideoCaptureAutoResolution);
+	SettingsWrapBitBool(HDTVOutput); // RIPPCSX2
 	SettingsWrapBitBool(EnableAudioCapture);
 	SettingsWrapBitBool(EnableAudioCaptureParameters);
 

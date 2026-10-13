@@ -954,6 +954,12 @@ void VMManager::RequestDisplaySize(float scale /*= 0.0f*/)
 			break;
 	}
 
+	// RIPPCSX2: an HDTV mode's window is 16:9 (1x of RIPPS2's 640 x 720 720p is 1280 x 720), as GSRenderer draws it
+	const GSVideoMode display_mode = GSgetDisplayMode();
+	if (GSConfig.HDTVOutput && GSConfig.AspectRatio != AspectRatioType::Stretch &&
+		(display_mode == GSVideoMode::HDTV_720P || display_mode == GSVideoMode::HDTV_1080I))
+		x_scale = (16.0f / 9.0f) / (static_cast<float>(iwidth) / static_cast<float>(iheight));
+
 	float width = static_cast<float>(iwidth) * x_scale;
 	float height = static_cast<float>(iheight);
 

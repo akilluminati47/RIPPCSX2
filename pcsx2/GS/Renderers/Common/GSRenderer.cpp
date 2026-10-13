@@ -286,8 +286,27 @@ float GSRenderer::GetModXYOffset()
 	return 0.0f;
 }
 
-static float GetCurrentAspectRatioFloat(bool is_progressive)
+// RIPPCSX2: an HDTV mode is 16:9 on any HDTV, and its picture is the mode's own raster. A homebrew front end
+// like RIPPS2 draws 720p as 640 x 720 and 1080i as 640 x 1080 and lets the GS stretch every line across 1280 or
+// 1920 (DISPLAY.MAGH). With HDTVOutput on, the window, video capture and screenshots show an HDTV mode that way,
+// instead of as a 4:3 picture or the raw buffer's shape. Standard definition is untouched. Needs proper testing
+// beyond RIPPS2 and OPL.
+static bool IsHDTVOutput(GSVideoMode mode)
 {
+	return GSConfig.HDTVOutput && (mode == GSVideoMode::HDTV_720P || mode == GSVideoMode::HDTV_1080I);
+}
+
+static GSVector2i GetHDTVRaster(GSVideoMode mode)
+{
+	return (mode == GSVideoMode::HDTV_720P) ? GSVector2i(1280, 720) : GSVector2i(1920, 1080);
+}
+
+static float GetCurrentAspectRatioFloat(GSVideoMode mode)
+{
+	if (IsHDTVOutput(mode))
+		return 16.0f / 9.0f;
+
+	const bool is_progressive = (mode == GSVideoMode::SDTV_480P);
 	switch (GSConfig.AspectRatio)
 	{
 		default:
@@ -309,14 +328,19 @@ static float GetCurrentAspectRatioFloat(bool is_progressive)
 	}
 }
 
-static GSVector4 CalculateDrawDstRect(s32 window_width, s32 window_height, const GSVector4i& src_rect, const GSVector2i& src_size, GSDisplayAlignment alignment, bool flip_y, bool is_progressive)
+static GSVector4 CalculateDrawDstRect(s32 window_width, s32 window_height, const GSVector4i& src_rect, const GSVector2i& src_size, GSDisplayAlignment alignment, bool flip_y, GSVideoMode mode)
 {
 	const float f_width = static_cast<float>(window_width);
 	const float f_height = static_cast<float>(window_height);
 	const float clientAr = f_width / f_height;
+	const bool is_progressive = (mode == GSVideoMode::SDTV_480P);
 
 	float targetAr = clientAr;
-	if (EmuConfig.CurrentAspectRatio == AspectRatioType::RAuto4_3_3_2)
+	if (IsHDTVOutput(mode) && EmuConfig.CurrentAspectRatio != AspectRatioType::Stretch)
+	{
+		targetAr = 16.0f / 9.0f; // RIPPCSX2: an HDTV mode, whatever the standard-definition setting says
+	}
+	else if (EmuConfig.CurrentAspectRatio == AspectRatioType::RAuto4_3_3_2)
 	{
 		if (is_progressive)
 			targetAr = 3.0f / 2.0f;
@@ -664,7 +688,7 @@ void GSRenderer::VSync(u32 field, bool registers_written, bool idle_frame)
 			src_uv = GSVector4(src_rect) / GSVector4(current->GetSize()).xyxy();
 			draw_rect = CalculateDrawDstRect(g_gs_device->GetWindowWidth(), g_gs_device->GetWindowHeight(),
 				src_rect, current->GetSize(), s_display_alignment, g_gs_device->UsesLowerLeftOrigin(),
-				GetVideoMode() == GSVideoMode::SDTV_480P);
+				GetVideoMode());
 			s_last_draw_rect = draw_rect;
 
 			if (GSConfig.CASMode != GSCASMode::Disabled)
@@ -774,10 +798,15 @@ void GSRenderer::VSync(u32 field, bool registers_written, bool idle_frame)
 
 		const bool internal_resolution = (GSConfig.ScreenshotSize >= GSScreenshotSize::InternalResolution);
 		const bool aspect_correct = (GSConfig.ScreenshotSize != GSScreenshotSize::InternalResolutionUncorrected);
+		// RIPPCSX2: an HDTV mode's screenshot is its own raster (1280 x 720, 1920 x 1080), as the TV receives it;
+		// the uncorrected setting still saves the raw buffer
+		const GSVideoMode shot_mode = GetVideoMode();
+		const bool hdtv_shot = aspect_correct && IsHDTVOutput(shot_mode);
+		const GSVector2i hdtv_raster = GetHDTVRaster(shot_mode);
 
 		if (g_gs_device->GetCurrent() && SaveSnapshotToMemory(
-			internal_resolution ? 0 : g_gs_device->GetWindowWidth(),
-			internal_resolution ? 0 : g_gs_device->GetWindowHeight(),
+			hdtv_shot ? hdtv_raster.x : (internal_resolution ? 0 : g_gs_device->GetWindowWidth()),
+			hdtv_shot ? hdtv_raster.y : (internal_resolution ? 0 : g_gs_device->GetWindowHeight()),
 			aspect_correct, true,
 			&screenshot_width, &screenshot_height, &screenshot_pixels))
 		{
@@ -811,6 +840,28 @@ void GSRenderer::VSync(u32 field, bool registers_written, bool idle_frame)
 	// metrics
 	if (m_saving_metrics && !PerformanceMetrics::IsSavingMetrics())
 		DumpSavedMetrics();
+
+	// RIPPCSX2: the console switched between standard definition and an HDTV mode, or between 720p and 1080i, while
+	// recording. A TV would switch with it, so once the new mode has held for half a second (a mode change writes
+	// SMODE1 and SMODE2 apart) the recording goes on in a new file at the new picture's size.
+	if (GSCapture::IsCapturingVideo() && GSConfig.HDTVOutput)
+	{
+		const GSVideoMode mode = GetVideoMode();
+		if (mode != m_capture_mode && (IsHDTVOutput(mode) || IsHDTVOutput(m_capture_mode)))
+		{
+			if (++m_capture_mode_frames >= 30)
+			{
+				std::string next_filename = GSCapture::GetNextCaptureFileName();
+				Console.WriteLn(fmt::format("RIPPCSX2: the video mode changed, recording goes on in {}.", next_filename));
+				EndCapture();
+				BeginCapture(std::move(next_filename));
+			}
+		}
+		else
+		{
+			m_capture_mode_frames = 0;
+		}
+	}
 
 	// capture
 	if (GSCapture::IsCapturingVideo())
@@ -994,7 +1045,7 @@ void GSRenderer::PresentCurrentFrame()
 			const GSVector4 src_uv(GSVector4(src_rect) / GSVector4(current->GetSize()).xyxy());
 			const GSVector4 draw_rect(CalculateDrawDstRect(g_gs_device->GetWindowWidth(), g_gs_device->GetWindowHeight(),
 				src_rect, current->GetSize(), s_display_alignment, g_gs_device->UsesLowerLeftOrigin(),
-				GetVideoMode() == GSVideoMode::SDTV_480P));
+				GetVideoMode()));
 			s_last_draw_rect = draw_rect;
 
 			const u64 current_time = Common::Timer::GetCurrentValue();
@@ -1032,15 +1083,37 @@ void GSSetDisplayAlignment(GSDisplayAlignment alignment)
 
 bool GSRenderer::BeginCapture(std::string filename, const GSVector2i& size)
 {
-	const GSVector2i capture_resolution = (size.x != 0 && size.y != 0) ?
-											  size :
-											  (GSConfig.VideoCaptureAutoResolution ?
-													  GetInternalResolution() :
-													  GSVector2i(GSConfig.VideoCaptureWidth, GSConfig.VideoCaptureHeight));
+	const GSVideoMode mode = GetVideoMode();
+	GSVector2i capture_resolution = (size.x != 0 && size.y != 0) ?
+										size :
+										(GSConfig.VideoCaptureAutoResolution ?
+												GetInternalResolution() :
+												GSVector2i(GSConfig.VideoCaptureWidth, GSConfig.VideoCaptureHeight));
 
-	return GSCapture::BeginCapture(GetTvRefreshRate(), capture_resolution,
-		GetCurrentAspectRatioFloat(GetVideoMode() == GSVideoMode::SDTV_480P),
-		std::move(filename));
+	// RIPPCSX2: an HDTV mode records at its own raster, every frame stretched across it as the GS stretches its lines.
+	// Automatic resolution scales the raster by the upscale multiplier (to at most 3840 x 2160); a fixed size that
+	// is already 16:9 is kept, any other fixed size gives way to the raster.
+	if (size.x == 0 && size.y == 0 && IsHDTVOutput(mode))
+	{
+		const GSVector2i raster = GetHDTVRaster(mode);
+		const bool fixed_wide = !GSConfig.VideoCaptureAutoResolution && GSConfig.VideoCaptureWidth > 0 &&
+								GSConfig.VideoCaptureWidth * 9 == GSConfig.VideoCaptureHeight * 16;
+		if (GSConfig.VideoCaptureAutoResolution)
+		{
+			const float scale = std::clamp(GetUpscaleMultiplier(), 1.0f, 3840.0f / static_cast<float>(raster.x));
+			capture_resolution = GSVector2i(static_cast<int>(raster.x * scale) & ~7, static_cast<int>(raster.y * scale) & ~7);
+		}
+		else if (!fixed_wide)
+		{
+			capture_resolution = raster;
+		}
+		Console.WriteLn("RIPPCSX2: %s captured as an HDTV shows it, %d x %d at 16:9",
+			mode == GSVideoMode::HDTV_720P ? "720p" : "1080i", capture_resolution.x, capture_resolution.y);
+	}
+
+	m_capture_mode = mode;
+	m_capture_mode_frames = 0;
+	return GSCapture::BeginCapture(GetTvRefreshRate(), capture_resolution, GetCurrentAspectRatioFloat(mode), std::move(filename));
 }
 
 void GSRenderer::EndCapture()
@@ -1073,14 +1146,14 @@ bool GSRenderer::SaveSnapshotToMemory(u32 window_width, u32 window_height, bool 
 	const GSVector4i src_rect(CalculateDrawSrcRect(current, m_real_size));
 	const GSVector4 src_uv(GSVector4(src_rect) / GSVector4(current->GetSize()).xyxy());
 
-	const bool is_progressive = (GetVideoMode() == GSVideoMode::SDTV_480P);
+	const GSVideoMode mode = GetVideoMode();
 	GSVector4 draw_rect;
 	if (window_width == 0 || window_height == 0)
 	{
 		if (apply_aspect)
 		{
 			// use internal resolution of the texture
-			const float aspect = GetCurrentAspectRatioFloat(is_progressive);
+			const float aspect = GetCurrentAspectRatioFloat(mode);
 			const int tex_width = current->GetWidth();
 			const int tex_height = current->GetHeight();
 
@@ -1100,7 +1173,7 @@ bool GSRenderer::SaveSnapshotToMemory(u32 window_width, u32 window_height, bool 
 	else
 	{
 		draw_rect = CalculateDrawDstRect(window_width, window_height, src_rect, current->GetSize(),
-			GSDisplayAlignment::LeftOrTop, false, is_progressive);
+			GSDisplayAlignment::LeftOrTop, false, mode);
 	}
 	const u32 draw_width = static_cast<u32>(draw_rect.z - draw_rect.x);
 	const u32 draw_height = static_cast<u32>(draw_rect.w - draw_rect.y);

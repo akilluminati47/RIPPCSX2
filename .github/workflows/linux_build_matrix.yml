@@ -4,6 +4,7 @@ on:
   push:
     branches-ignore:
       - "l10n_master"
+      - "rippcsx2" # RIPPCSX2: the lab branch builds with rippcsx2_build.yml only
   pull_request:
     branches:
       - master

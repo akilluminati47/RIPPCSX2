@@ -841,7 +841,8 @@ struct Pcsx2Config
 					EnableAudioCapture : 1,
 					EnableAudioCaptureParameters : 1,
 					OrganizeSnapshotsByGame : 1,
-					OrganizeVideoCaptureByGame : 1;
+					OrganizeVideoCaptureByGame : 1,
+					HDTVOutput : 1; // RIPPCSX2: HDTV modes shown, captured and saved as an HDTV shows them (16:9, their own raster)
 			};
 		};
 
