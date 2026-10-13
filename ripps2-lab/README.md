@@ -35,6 +35,9 @@ once a second, and has two buttons:
   desktop at that state, so you play on by hand from where the run was.
 - **Stop run** ends the run and closes the hidden PCSX2. Closing the window does the same.
 
+`rec` toggles the video capture; under RIPPCSX2 a capture made while RIPPS2 is in 720p or 1080i comes out at
+1280 x 720 or 1920 x 1080, and a mode change mid-take continues in a new file (the newest file is the HD one).
+
 The hidden PCSX2 is tied to the run's process, so ending the run in Task Manager closes it too. (`-NoPanel` leaves
 the window out; `-Keep`, which leaves PCSX2 running for a later `-Attach`, is not tied.)
 
@@ -44,9 +47,6 @@ The lab PCSX2 is an ordinary PCSX2 when you start it: open `pcsx2-qt.exe` in the
 `pcsx2-qt.exe -fastboot -elf <RIPPS2.elf>`) and it opens a normal window on your desktop. The pad is bound to an
 XInput controller, an SDL controller and the keyboard at once, so a controller just works. Close it when done; a
 hidden run needs the lab PCSX2 closed.
-
-`rec` toggles the video capture; under RIPPCSX2 a capture made while RIPPS2 is in 720p or 1080i comes out at
-1280 x 720 or 1920 x 1080, and a mode change mid-take continues in a new file (the newest file is the HD one).
 
 ## Testing HD
 
