@@ -19,8 +19,14 @@ RIPPS2 itself is started as an ELF from `ripps2-test\tNNN\RIPPS2.elf`.
 
 ## Driving it
 
-The RIPPS2 repo's `tools/dev/ps2bg.ps1` starts the lab PCSX2 on its own hidden desktop (it never takes the focus),
-runs a step list (`wait:5`, `cross`, `square`, `rec`, `shot` ...) through PINE on port **28012**, and closes it.
+The RIPPS2 repo's `tools/dev/ps2bg.ps1` is a script, not a PCSX2 feature, and works with any `pcsx2-qt.exe` in
+the lab folder, stock or RIPPCSX2. It makes a second Windows desktop, `RIPPS2LAB`, that is never shown, starts the
+lab PCSX2 there (`-fastboot -elf <RIPPS2.elf>`, minimized and never activated), and runs a step list (`wait:5`,
+`cross`, `square`, `rec`, `shot` ...) by posting the `[Pad1]` keyboard bindings as window messages straight to
+PCSX2's window, so the real keyboard, mouse and focus stay with whoever is using the PC. `grab` copies the window
+with PrintWindow, `rec` and `shot` post F11 (video capture) and F8 (screenshot). At the end it closes PCSX2.
+(PINE is on, port **28012**, for tools that read the PS2's memory; the driver does not use it.)
+
 `rec` toggles the video capture; under RIPPCSX2 a capture made while RIPPS2 is in 720p or 1080i comes out at
 1280 x 720 or 1920 x 1080, and a mode change mid-take continues in a new file (the newest file is the HD one).
 
