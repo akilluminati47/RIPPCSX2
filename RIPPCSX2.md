@@ -34,6 +34,24 @@ no switch in the settings dialogs yet: set it in `inis/PCSX2.ini`. The code is i
 `pcsx2/GS/Renderers/Common/GSRenderer.cpp` (look for `RIPPCSX2`), `pcsx2/VMManager.cpp` and the option in
 `pcsx2/Config.h` / `pcsx2/Pcsx2Config.cpp`. It needs proper testing beyond RIPPS2 and OPL.
 
+## Checked in the lab (2026-10-13)
+
+RIPPS2 v0.1.0 beta, RIPGRID, the same take (the grid, then a game's info page) in each mode, with the lab's
+settings (fixed 640 x 480 capture, window-size screenshots):
+
+| Mode | Stock v2.9.96: capture / screenshot | RIPPCSX2: capture / screenshot |
+|---|---|---|
+| 720p | 640 x 480 (4:3) / 1284 x 963 | **1280 x 720 (16:9) / 1280 x 720** |
+| 1080i | 640 x 480 (4:3) / 1284 x 963 | **1920 x 1080 (16:9) / 1920 x 1080** |
+| 480i | 640 x 480 (4:3) / 1284 x 963 | 640 x 480 (4:3) / 1284 x 963, byte for byte the same screenshots |
+
+In 720p and 1080i the text and art now have their real proportions (stock showed them squeezed into 4:3), and
+1080i's two fields come out combined with no combing. One thing both builds show alike: in 1080i the picture
+fills about 1038 of the 1080 lines, with a black band of about 42 lines at the bottom. It is not from this change;
+whether a real console's 1080i does the same needs a look at a TV.
+
+The CI build's version reads 0.0.0.0: the checkout is shallow, so `git describe` cannot reach the v2.9.96 tag.
+
 ## Building
 
 Pushing to `rippcsx2` runs **RIPPCSX2 lab build** (`.github/workflows/rippcsx2_build.yml`): PCSX2's own Windows
