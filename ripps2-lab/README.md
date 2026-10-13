@@ -27,6 +27,24 @@ PCSX2's window, so the real keyboard, mouse and focus stay with whoever is using
 with PrintWindow, `rec` and `shot` post F11 (video capture) and F8 (screenshot). At the end it closes PCSX2.
 (PINE is on, port **28012**, for tools that read the PS2's memory; the driver does not use it.)
 
+A hidden run is not out of sight: for the whole run a small **"RIPPS2 lab: AI run"** window sits on the user's
+taskbar (bottom right), shown without taking the focus. It says which step the run is on, previews the hidden screen
+once a second, and has two buttons:
+
+- **Take over** finishes any recording, saves a state (F1), closes the hidden PCSX2 and opens PCSX2 on your own
+  desktop at that state, so you play on by hand from where the run was.
+- **Stop run** ends the run and closes the hidden PCSX2. Closing the window does the same.
+
+The hidden PCSX2 is tied to the run's process, so ending the run in Task Manager closes it too. (`-NoPanel` leaves
+the window out; `-Keep`, which leaves PCSX2 running for a later `-Attach`, is not tied.)
+
+## Playing it yourself
+
+The lab PCSX2 is an ordinary PCSX2 when you start it: open `pcsx2-qt.exe` in the lab folder (or boot RIPPS2 with
+`pcsx2-qt.exe -fastboot -elf <RIPPS2.elf>`) and it opens a normal window on your desktop. The pad is bound to an
+XInput controller, an SDL controller and the keyboard at once, so a controller just works. Close it when done; a
+hidden run needs the lab PCSX2 closed.
+
 `rec` toggles the video capture; under RIPPCSX2 a capture made while RIPPS2 is in 720p or 1080i comes out at
 1280 x 720 or 1920 x 1080, and a mode change mid-take continues in a new file (the newest file is the HD one).
 
