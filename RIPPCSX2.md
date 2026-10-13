@@ -51,7 +51,7 @@ not to the PCSX2 project.
 
 ## Checked in the lab (2026-10-13)
 
-RIPPS2 v0.1.0 beta, RIPGRID, the same take (the grid, then a game's info page) in each mode, with the lab's
+RIPPS2 v1.0.0 beta, RIPGRID, the same take (the grid, then a game's info page) in each mode, with the lab's
 settings (fixed 640 x 480 capture, window-size screenshots):
 
 | Mode | Stock v2.9.96: capture / screenshot | RIPPCSX2: capture / screenshot |
