@@ -842,6 +842,34 @@ void GSRenderer::VSync(u32 field, bool registers_written, bool idle_frame)
 	if (m_saving_metrics && !PerformanceMetrics::IsSavingMetrics())
 		DumpSavedMetrics();
 
+	// RIPPCSX2: on every video mode change, the sync timing the console set and where the program put its picture,
+	// so where a TV's picture area begins (after VS + VBP lines) can be checked against each display's DY
+	// (logged as the mode changes and again two seconds on, once the program has set its display)
+	const GSVideoMode logged = GetVideoMode();
+	if (logged != m_logged_mode)
+	{
+		m_logged_mode = logged;
+		m_logged_frames = 0;
+	}
+	if (m_logged_frames == 0 || m_logged_frames == 120)
+	{
+		const GSRegSYNCV& sv = m_regs->SYNCV;
+		std::string line = fmt::format("RIPPCSX2: video mode {}{} (SMODE1 LC {} CMOD {}, SMODE2 INT {} FFMD {}): SYNCV VS {} VBP {} VBPE {} "
+			"VDP {} VFP {} VFPE {}", static_cast<int>(logged), m_logged_frames ? ", settled" : "", static_cast<u32>(m_regs->SMODE1.LC), static_cast<u32>(m_regs->SMODE1.CMOD),
+			static_cast<u32>(m_regs->SMODE2.INT), static_cast<u32>(m_regs->SMODE2.FFMD), static_cast<u32>(sv.VS), static_cast<u32>(sv.VBP),
+			static_cast<u32>(sv.VBPE), static_cast<u32>(sv.VDP), static_cast<u32>(sv.VFP), static_cast<u32>(sv.VFPE));
+		for (int i = 0; i < 2; i++)
+		{
+			const GSRegDISPLAY& d = m_regs->DISP[i].DISPLAY;
+			line += fmt::format("; DISPLAY{} EN {} DX {} DY {} MAGH {} MAGV {} DW {} DH {}", i + 1,
+				static_cast<u32>(i == 0 ? m_regs->PMODE.EN1 : m_regs->PMODE.EN2), static_cast<u32>(d.DX), static_cast<u32>(d.DY),
+				static_cast<u32>(d.MAGH), static_cast<u32>(d.MAGV), static_cast<u32>(d.DW), static_cast<u32>(d.DH));
+		}
+		Console.WriteLn(line);
+	}
+	if (m_logged_frames <= 120)
+		m_logged_frames++;
+
 	// RIPPCSX2: the console switched between standard definition and an HDTV mode, or between 720p and 1080i, while
 	// recording. A TV would switch with it, so once the new mode has held for half a second (a mode change writes
 	// SMODE1 and SMODE2 apart) the recording goes on in a new file at the new picture's size.
