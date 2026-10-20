@@ -170,6 +170,10 @@ bool SaveStateBase::FreezeBios()
 	return IsOkay();
 }
 
+// RIPPCSX2: version of the save state file being loaded (SaveVersion has no minor field per state
+// otherwise). In-memory states are always the current version.
+static u32 s_loadingSaveVersion = g_SaveVersion;
+
 bool SaveStateBase::FreezeInternals(Error* error)
 {
 	// Print this until the MTVU problem in gifPathFreeze is taken care of (rama)
@@ -191,6 +195,13 @@ bool SaveStateBase::FreezeInternals(Error* error)
 	Freeze(cachedTlbs);		// cached tlbs
 	Freeze(AllowParams1);	//OSDConfig written (Fast Boot)
 	Freeze(AllowParams2);
+	// RIPPCSX2: COP0 $24 breakpoint registers (save version minor 1 and up).
+	if (IsSaving() || (s_loadingSaveVersion & 0xffff) >= 1)
+		Freeze(eeDebugRegs);
+	else if (IsLoading())
+		std::memset(&eeDebugRegs, 0, sizeof(eeDebugRegs));
+	if (IsLoading())
+		eeDebugRegsUpdate();
 
 	// Third Block - Cycle Timers and Events
 	// -------------------------------------
@@ -1117,6 +1128,7 @@ static bool CheckVersion(const std::string& filename, zip_t* zf, Error* error)
 		return false;
 	}
 
+	s_loadingSaveVersion = savever; // RIPPCSX2
 	return true;
 }
 
@@ -1165,6 +1177,8 @@ static bool LoadInternalStructuresState(zip_t* zf, s64 index, Error* error)
 bool SaveState_UnzipFromDisk(const std::string& filename, Error* error)
 {
 	zip_error_t ze = {};
+	s_loadingSaveVersion = g_SaveVersion; // RIPPCSX2: CheckVersion sets the file's version
+	ScopedGuard reset_load_version([]() { s_loadingSaveVersion = g_SaveVersion; });
 	auto zf = zip_open_managed(filename.c_str(), ZIP_RDONLY, &ze);
 	if (!zf)
 	{

@@ -3,6 +3,7 @@
 
 #include "Common.h"
 #include "R5900OpcodeTables.h"
+#include "COP0.h"
 #include "VMManager.h"
 #include "Elfheader.h"
 #include "Cache.h"
@@ -215,6 +216,20 @@ static void execI()
 
 
 	cpuBlockCycles += opcode.cycles * (2 - ((cpuRegs.CP0.n.Config >> 18) & 0x1));
+
+	// RIPPCSX2: COP0 data write breakpoint. The debug exception is taken before the store executes.
+	// cpuRegs.branch is set while a delay slot runs (_doBranch_shared).
+	if (opcode.flags & IS_STORE)
+	{
+		u32 addr = cpuRegs.GPR.r[(cpuRegs.code >> 21) & 0x1F].UL[0] + static_cast<s16>(cpuRegs.code);
+		if ((opcode.flags & MEMTYPE_MASK) == MEMTYPE_QWORD)
+			addr &= ~0xFu;
+		if ((addr & eeDataWriteBpMask) == eeDataWriteBpMatch)
+		{
+			eeDataWriteBpException(pc, cpuRegs.branch != 0);
+			return;
+		}
+	}
 
 	opcode.interpret();
 }

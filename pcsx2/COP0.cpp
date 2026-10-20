@@ -4,11 +4,15 @@
 #include "Common.h"
 #include "COP0.h"
 
+#include <cstring>
+
 // Updates the CPU's mode of operation (either, Kernel, Supervisor, or User modes).
 // Currently the different modes are not implemented.
 // Given this function is called so much, it's commented out for now. (rama)
 __ri void cpuUpdateOperationMode()
 {
+	// RIPPCSX2: the data write breakpoint depends on the mode (ERL/EXL/KSU).
+	eeDebugRegsUpdate();
 
 	//u32 value = cpuRegs.CP0.n.Status.val;
 
@@ -24,7 +28,127 @@ void WriteCP0Status(u32 value)
 {
 	COP0_UpdatePCCR();
 	cpuRegs.CP0.n.Status.val = value;
+	eeDebugRegsUpdate();
 	cpuSetNextEventDelta(4);
+}
+
+// --------------------------------------------------------------------------------------
+//  RIPPCSX2: R5900 hardware breakpoint registers and the data write breakpoint
+// --------------------------------------------------------------------------------------
+// BPC bits (TX79 / R5900 manual): DWE 29 (data write), DUE 21 / DSE 20 / DKE 19 / DXE 18 (user,
+// supervisor, kernel, EXL mode), BED 15 (breakpoint exceptions disabled), DWB 2 (data write hit).
+// A hit raises a level 2 debug exception before the store executes: ErrorEPC = the store (or the
+// branch before it, with Cause.BD2), Status.ERL = 1, pc = 0x80000100 (0xBFC00300 when Status.DEV).
+// No debug exception is taken while Status.ERL is set, so a handler's own store goes through.
+// The address compare is (addr & DABM) == (DAB & DABM) on the store's virtual address.
+
+static constexpr u32 BPC_DWE = 1u << 29;
+static constexpr u32 BPC_DUE = 1u << 21;
+static constexpr u32 BPC_DSE = 1u << 20;
+static constexpr u32 BPC_DKE = 1u << 19;
+static constexpr u32 BPC_DXE = 1u << 18;
+static constexpr u32 BPC_BED = 1u << 15;
+static constexpr u32 BPC_DWB = 1u << 2;
+
+EEDebugRegs eeDebugRegs;
+u32 eeDataWriteBpMask = 0;
+u32 eeDataWriteBpMatch = 1;
+static u32 s_dataWriteBpHits = 0;
+
+bool eeDataWriteBpArmed()
+{
+	const u32 bpc = eeDebugRegs.BPC;
+	return (bpc & BPC_DWE) && (bpc & (BPC_DUE | BPC_DSE | BPC_DKE | BPC_DXE)) && !(bpc & BPC_BED);
+}
+
+void eeDebugRegsUpdate()
+{
+	bool live = false;
+	if (eeDataWriteBpArmed() && !cpuRegs.CP0.n.Status.b.ERL)
+	{
+		const u32 bpc = eeDebugRegs.BPC;
+		if (cpuRegs.CP0.n.Status.b.EXL)
+			live = (bpc & BPC_DXE) != 0;
+		else if (cpuRegs.CP0.n.Status.b.KSU == 0)
+			live = (bpc & BPC_DKE) != 0;
+		else if (cpuRegs.CP0.n.Status.b.KSU == 1)
+			live = (bpc & BPC_DSE) != 0;
+		else
+			live = (bpc & BPC_DUE) != 0;
+	}
+
+	eeDataWriteBpMask = live ? eeDebugRegs.DABM : 0;
+	eeDataWriteBpMatch = live ? (eeDebugRegs.DAB & eeDebugRegs.DABM) : 1;
+}
+
+void eeDebugRegsReset()
+{
+	std::memset(&eeDebugRegs, 0, sizeof(eeDebugRegs));
+	s_dataWriteBpHits = 0;
+	eeDebugRegsUpdate();
+}
+
+u32 ReadCP0Debug(u32 sel)
+{
+	switch (sel & 7)
+	{
+		case 0: return eeDebugRegs.BPC;
+		case 2: return eeDebugRegs.IAB;
+		case 3: return eeDebugRegs.IABM;
+		case 4: return eeDebugRegs.DAB;
+		case 5: return eeDebugRegs.DABM;
+		case 6: return eeDebugRegs.DVB;
+		case 7: return eeDebugRegs.DVBM;
+		default: return 0;
+	}
+}
+
+void WriteCP0Debug(u32 sel, u32 value)
+{
+	const bool was_armed = eeDataWriteBpArmed();
+	const u32 old_dab = eeDebugRegs.DAB, old_dabm = eeDebugRegs.DABM;
+
+	switch (sel & 7)
+	{
+		case 0: eeDebugRegs.BPC = value; break;
+		case 2: eeDebugRegs.IAB = value; break;
+		case 3: eeDebugRegs.IABM = value; break;
+		case 4: eeDebugRegs.DAB = value; break;
+		case 5: eeDebugRegs.DABM = value; break;
+		case 6: eeDebugRegs.DVB = value; break;
+		case 7: eeDebugRegs.DVBM = value; break;
+		default: break;
+	}
+
+	const bool armed = eeDataWriteBpArmed();
+	eeDebugRegsUpdate();
+
+	if (armed != was_armed)
+		Console.WriteLn("RIPPCSX2: EE data write breakpoint %s (BPC %08x DAB %08x DABM %08x)",
+			armed ? "armed" : "off", eeDebugRegs.BPC, eeDebugRegs.DAB, eeDebugRegs.DABM);
+
+	// The recompiler only emits the store checks while the trap is armed, and it folds stores with a
+	// constant address at compile time, so recompile when either changes.
+	if (armed != was_armed || (armed && (old_dab != eeDebugRegs.DAB || old_dabm != eeDebugRegs.DABM)))
+	{
+		if (Cpu == &recCpu)
+			Cpu->Reset();
+	}
+}
+
+void eeDataWriteBpException(u32 storepc, u32 bd)
+{
+	if (s_dataWriteBpHits < 8)
+		Console.WriteLn("RIPPCSX2: EE data write breakpoint hit at %08x%s", storepc, bd ? " (delay slot)" : "");
+	s_dataWriteBpHits++;
+
+	eeDebugRegs.BPC |= BPC_DWB;
+	cpuRegs.CP0.n.Cause = (cpuRegs.CP0.n.Cause & ~(0x40000000u | 0x70000u)) | 0x30000u | (bd ? 0x40000000u : 0);
+	cpuRegs.CP0.n.ErrorEPC = bd ? storepc - 4 : storepc;
+	cpuRegs.CP0.n.Status.b.ERL = 1;
+	cpuRegs.pc = cpuRegs.CP0.n.Status.b.DEV ? 0xBFC00300 : 0x80000100;
+	cpuRegs.branch = 0; // tells the interpreter's branch code that an exception was taken
+	eeDebugRegsUpdate();
 }
 
 void WriteCP0Config(u32 value)
@@ -519,6 +643,7 @@ cpuRegs.PERF.n.pccr, cpuRegs.PERF.n.pcr0, cpuRegs.PERF.n.pcr1, _Imm_ & 0x3F);*/
 
 			case 24:
 				COP0_LOG("MFC0 Breakpoint debug Registers code = %x", cpuRegs.code & 0x3FF);
+				cpuRegs.GPR.r[_Rt_].SD[0] = (s32)ReadCP0Debug(cpuRegs.code & 7);
 				break;
 
 			case 9:
@@ -558,6 +683,7 @@ cpuRegs.PERF.n.pccr, cpuRegs.PERF.n.pcr0, cpuRegs.PERF.n.pcr1, _Imm_ & 0x3F);*/
 
 			case 24:
 				COP0_LOG("MTC0 Breakpoint debug Registers code = %x", cpuRegs.code & 0x3FF);
+				WriteCP0Debug(cpuRegs.code & 7, cpuRegs.GPR.r[_Rt_].UL[0]);
 				break;
 
 			case 25:

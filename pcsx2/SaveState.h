@@ -26,7 +26,8 @@ enum class FreezeAction
 // [SAVEVERSION+]
 // This informs the auto updater that the users savestates will be invalidated.
 
-static const u32 g_SaveVersion = (0x9A59 << 16) | 0x0000;
+// RIPPCSX2: minor 1 adds the COP0 $24 breakpoint registers after the cpuRegs block.
+static const u32 g_SaveVersion = (0x9A59 << 16) | 0x0001;
 
 
 // the freezing data between submodules and core

@@ -3,6 +3,7 @@
 
 #include "Common.h"
 #include "CDVD/CDVD.h"
+#include "COP0.h"
 #include "DebugTools/Breakpoints.h"
 #include "Elfheader.h"
 #include "GS.h"
@@ -948,6 +949,11 @@ bool TrySwapDelaySlot(u32 rs, u32 rt, u32 rd, bool allow_loadstore)
 		return true;
 	}
 
+	// RIPPCSX2: a delay slot store must run after its branch so that a data write breakpoint sees the
+	// branch's state (GSHandler emulates the branch from ErrorEPC).
+	if (eeDataWriteBpArmed() && (GetInstruction(opcode_encoded).flags & IS_STORE))
+		return false;
+
 	//std::string disasm;
 	//disR5900Fasm(disasm, opcode_encoded, pc, false);
 
@@ -1638,6 +1644,64 @@ void recMemcheck(u32 op, u32 bits, bool store)
 	}
 }
 
+// RIPPCSX2: COP0 data write breakpoint (BPC.DWE, DAB/DABM). While it is armed every store gets an
+// inline address compare against eeDataWriteBpMask/eeDataWriteBpMatch (both read at run time, so the
+// CPU mode is honoured without recompiling). On a hit the guest registers are written back on that
+// path only and the debug exception is raised before the store executes, then the block is left
+// through the dispatcher. The non-hit path keeps its register allocation untouched.
+static void recDataWriteBreakpoint(u32 op, u32 storepc, bool delayslot)
+{
+	const OPCODE& opcode = GetInstruction(op);
+	if (!(opcode.flags & IS_STORE))
+		return;
+
+	const bool qword = (opcode.flags & MEMTYPE_MASK) == MEMTYPE_QWORD;
+	const u32 rs = (op >> 21) & 0x1F;
+
+	// A constant address is decided now: DAB/DABM changes recompile everything.
+	if (GPR_IS_CONST1(rs))
+	{
+		u32 addr = g_cpuConstRegs[rs].UL[0] + static_cast<s16>(op);
+		if (qword)
+			addr &= ~0xFu;
+		if ((addr & eeDebugRegs.DABM) != (eeDebugRegs.DAB & eeDebugRegs.DABM))
+			return;
+	}
+
+	const int tmp = _allocX86reg(X86TYPE_TEMP, 0, 0);
+	const xRegister32 addr(tmp);
+	_eeMoveGPRtoR(addr, rs, false);
+	if (static_cast<s16>(op) != 0)
+		xADD(addr, static_cast<s16>(op));
+	if (qword)
+		xAND(addr, ~0xF);
+	xAND(addr, ptr32[&eeDataWriteBpMask]);
+	xCMP(addr, ptr32[&eeDataWriteBpMatch]);
+	_freeX86reg(tmp);
+
+	xForwardJNE32 no_hit;
+	{
+		_x86regs saved_x86[iREGCNT_GPR];
+		_xmmregs saved_xmm[iREGCNT_XMM];
+		std::memcpy(saved_x86, x86regs, sizeof(x86regs));
+		std::memcpy(saved_xmm, xmmregs, sizeof(xmmregs));
+		const u32 saved_has_const = g_cpuHasConstReg;
+		const u32 saved_flushed_const = g_cpuFlushedConstReg;
+
+		_flushX86regs();
+		_flushXMMregs();
+		_flushConstRegs(false);
+		xFastCall((void*)eeDataWriteBpException, storepc, static_cast<u32>(delayslot ? 1 : 0));
+		xJMP((void*)DispatcherReg);
+
+		std::memcpy(x86regs, saved_x86, sizeof(x86regs));
+		std::memcpy(xmmregs, saved_xmm, sizeof(xmmregs));
+		g_cpuHasConstReg = saved_has_const;
+		g_cpuFlushedConstReg = saved_flushed_const;
+	}
+	no_hit.SetTarget();
+}
+
 bool encodeBreakpoint()
 {
 	if (isBreakpointNeeded(pc) != 0)
@@ -1705,6 +1769,11 @@ void recompileNextInstruction(bool delayslot, bool swapped_delay_slot)
 
 	s_pCode = (int*)PSM(pc);
 	pxAssert(s_pCode);
+
+	// RIPPCSX2: COP0 data write breakpoint check, ahead of the store. pc is the store here, in a delay
+	// slot too (the branch is pc - 4).
+	if (eeDataWriteBpArmed())
+		recDataWriteBreakpoint(*(u32*)s_pCode, pc, delayslot);
 
 #if 0
 	// acts as a tag for delimiting recompiled instructions when viewing x86 disasm.

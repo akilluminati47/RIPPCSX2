@@ -73,6 +73,32 @@ high, where gsKit really puts it. RIPPCSX2 logs the sync and display registers o
 
 The CI build's version reads 0.0.0.0: the checkout is shallow, so `git describe` cannot reach the v2.9.96 tag.
 
+## EE data write breakpoint (COP0 `$24`)
+
+Stock PCSX2 ignores the R5900's hardware breakpoint registers (`MTBPC`, `MTDAB`, `MTDABM` ... are no-ops), so
+Open PS2 Loader's GSM and RIPPS2's in-game menu never see a game's writes to the GS privileged registers (`PMODE`,
+`SMODE2`, `DISPFB1/2`, `DISPLAY1/2`): GSM cannot force a mode, and RIPPS2's in-game menu does not know which frame
+the game shows. RIPPCSX2 emulates the **data write breakpoint**:
+
+- `BPC`, `IAB`, `IABM`, `DAB`, `DABM`, `DVB`, `DVBM` are kept and read back (`MFBPC` ...), and saved in save states
+  (save version minor 1; older states still load).
+- With `BPC.DWE` set, `BED` clear and the mode bit for the current CPU mode (`DUE`, `DSE`, `DKE`, or `DXE` with
+  `Status.EXL`), a store whose virtual address matches (`addr & DABM == DAB & DABM`, `SQ`/`SQC2` 16-byte aligned)
+  raises the debug exception **before the store executes**: `ErrorEPC` = the store (or the branch before it, with
+  `Cause.BD2` and `EXC2` = 3), `Status.ERL` = 1, `BPC.DWB` set, jump to `0x80000100` (`0xBFC00300` with
+  `Status.DEV`). Nothing traps while `Status.ERL` is set, so the handler replays the store itself and returns with
+  `ERET`, exactly what GSM's `GSHandler` does.
+- Both the interpreter and the recompiler do it. The recompiler adds an address compare to every store while the
+  trap is armed (and nothing while it is not); arming it, or changing `DAB`/`DABM` while armed, resets the
+  recompiler. A store in a branch delay slot is never moved ahead of its branch while armed.
+- Not emulated: instruction breakpoints, data read and data value breakpoints (stored, never fire).
+- `JALR` with the same register as link and target in front of a trapped delay-slot store resolves the target
+  after the link write (GSM reads the saved register); no known game does this.
+
+The log says `RIPPCSX2: EE data write breakpoint armed` / `hit at ...` (first 8 hits). Code: `pcsx2/COP0.cpp`,
+`pcsx2/Interpreter.cpp` (`execI`), `pcsx2/x86/ix86-32/iR5900.cpp` (`recDataWriteBreakpoint`),
+`pcsx2/x86/iCOP0.cpp`, `pcsx2/SaveState.cpp`; look for `RIPPCSX2`.
+
 ## Building
 
 Pushing to `rippcsx2` runs **RIPPCSX2 lab build** (`.github/workflows/rippcsx2_build.yml`): PCSX2's own Windows

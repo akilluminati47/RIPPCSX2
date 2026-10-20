@@ -132,6 +132,17 @@ REC_SYS(MTC0);
 
 void recMFC0()
 {
+	// RIPPCSX2: breakpoint registers (MFBPC/MFDAB/...) go through the interpreter.
+	if (_Rd_ == 24)
+	{
+		if (_Rt_)
+		{
+			_deleteEEreg(_Rt_, 1);
+			recCall(Interp::MFC0);
+		}
+		return;
+	}
+
 	if (_Rd_ == 9)
 	{
 		// This case needs to be handled even if the write-back is ignored (_Rt_ == 0 )
@@ -198,6 +209,14 @@ void recMFC0()
 
 void recMTC0()
 {
+	// RIPPCSX2: breakpoint registers (MTBPC/MTDAB/...) go through the interpreter, which arms the data
+	// write breakpoint and resets the recompiler when it changes.
+	if (_Rd_ == 24)
+	{
+		recCall(Interp::MTC0);
+		return;
+	}
+
 	if (GPR_IS_CONST1(_Rt_))
 	{
 		switch (_Rd_)
