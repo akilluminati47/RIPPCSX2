@@ -14,6 +14,33 @@ tools.
 Windows 10 or 11, x64, a CPU with AVX2. Unzip it anywhere, start `pcsx2-qtx64-avx2.exe`, point it at your own
 BIOS dump. An empty `portable.txt` beside the exe keeps all settings and files in that folder.
 
+**It runs `.elf` programs for testing:** System > Start File, or `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`,
+and the program boots as it would from a memory card or USB stick on a PS2. It **behaves like real hardware**: an ELF
+that launches another ELF hands the machine over and is gone, an in-game menu that hooks the GS draws over the
+game's real frame, and a power off closes the VM like a console switching off.
+
+## See it work
+
+Each clip is a real lab run on this build, cut to under 12 seconds.
+
+![Claude runs a RIPPS2 test in RIPPCSX2 on a hidden desktop, watched from the taskbar panel](docs/rippcsx2-ai-test.gif)
+
+**An AI agent testing an ELF.** Recorded from the bottom right of the user's screen (taskbar, part of the Claude
+session): Claude starts `RIPPS2.elf` in RIPPCSX2 on a hidden desktop, launches Aqua Teen Hunger Force from the HDD image and opens
+RIPPS2's in-game menu over it. The small panel is the only thing on screen; the user keeps the keyboard and mouse.
+
+![RIPPS2's in-game menu in RIPPCSX2: achievements, resume, menu again, power off](docs/rippcsx2-igr-menu.gif)
+
+**The in-game menu, every function.** L1+L2+R1+R2+SELECT+START over a running game: ACHIEVEMENTS, RESUME (the
+game plays on), the menu again over a later frame, then POWER OFF, which closes the VM. The menu knows which
+frame to draw over because RIPPCSX2 emulates the EE's data write breakpoint.
+
+![RIPPS2 running a newer RIPPS2.elf from the memory card in RIPPCSX2](docs/rippcsx2-elf-launch.gif)
+
+**An ELF launching an ELF, like a real PS2.** RIPPS2's Memory Files opens `mc0:/RIPPS2/RIPPS2.ELF` (the newest
+build, copied to the card) and runs it. The running RIPPS2 hands over and is gone; the new one loads from the card
+and boots to its game list.
+
 ## What you get over vanilla PCSX2 v2.9.96
 
 - **HD modes look right.** 720p and 1080i are shown 16:9 (stock draws them 4:3), in every aspect setting except
@@ -23,8 +50,7 @@ BIOS dump. An empty `portable.txt` beside the exe keeps all settings and files i
 - **A mode switch mid-recording** carries on in a new file at the new size, instead of squeezing into the first.
 - **1080i in the right place.** Stock moves a 1080i picture up 42 lines (top cut off, black band below); RIPPCSX2
   starts it at line 40, where the console's own timing does.
-- **EE data write breakpoint** (on the `rippcsx2` branch, in lab testing; it ships in the next release, not in
-  rippcsx2.1). COP0 `$24` (`MTBPC`, `MTDAB`, `MTDABM` ...) works: a store to a watched address raises the level 2
+- **EE data write breakpoint** (new in rippcsx2.2). COP0 `$24` (`MTBPC`, `MTDAB`, `MTDABM` ...) works: a store to a watched address raises the level 2
   debug exception at `0x80000100` before it executes, in the interpreter and the recompiler. OPL GSM and RIPPS2's
   in-game menu need it to learn which frame a game shows.
 - **Video mode log lines.** Every mode change logs the sync timing and display registers

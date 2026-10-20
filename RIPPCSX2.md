@@ -99,6 +99,21 @@ The log says `RIPPCSX2: EE data write breakpoint armed` / `hit at ...` (first 8 
 `pcsx2/Interpreter.cpp` (`execI`), `pcsx2/x86/ix86-32/iR5900.cpp` (`recDataWriteBreakpoint`),
 `pcsx2/x86/iCOP0.cpp`, `pcsx2/SaveState.cpp`; look for `RIPPCSX2`.
 
+### Checked in the lab (2026-10-20)
+
+RIPPS2 build 108 (branch b108, a normal build, not the `RIPPS2_IGR_TEST` one that fakes a frame), In-Game Menu on,
+Aqua Teen Hunger Force from the reel HDD image. Stock PCSX2: the menu combo found no frame (`CANNOT_DRAW`) and left
+the game for a black screen. RIPPCSX2: ee_core arms the trap (`BPC 20280000`, `DAB 12000000`, `DABM 1fffef0f`),
+GSHandler takes the hits at `0x8000bfxx` and replays the stores, and the menu opens over the game's real frame,
+again later over a different frame, with ACHIEVEMENTS, RESUME and POWER OFF all working. RIPPS2 running a second
+`RIPPS2.elf` from `mc0:/RIPPS2` (Memory Files) hands over cleanly.
+
+Known: while ATHF boots, something (the kernel or ee_core) turns the trap off and on again about 50 times in two
+seconds, and each change resets the recompiler, so the game's boot stutters briefly. A later build can keep the
+store checks compiled across an off/on with the same `DAB`/`DABM`. EXIT GAME's `rom0:OSDSYS` stops on a black screen
+after the IOP reboot (after `rom0:ROMVER`); the trap is already off by then (`BPC 00008000`), and the lab saw the
+same black screen before this change.
+
 ## Building
 
 Pushing to `rippcsx2` runs **RIPPCSX2 lab build** (`.github/workflows/rippcsx2_build.yml`): PCSX2's own Windows
