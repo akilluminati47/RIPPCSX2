@@ -11,10 +11,13 @@ do on a console. Everything else is plain PCSX2. It began as the test lab of the
 [RIPPS2](https://github.com/akilluminati47/RIPPS2) front end and is meant for anyone building PS2 homebrew, themes or
 tools.
 
-### [Download the latest release](https://github.com/akilluminati47/RIPPCSX2/releases/latest)
+### [Download RIPPCSX2 (Windows zip)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
 
 Windows 10 or 11, x64, a CPU with AVX2. Unzip it anywhere, start `pcsx2-qtx64-avx2.exe`, point it at your own
-BIOS dump. An empty `portable.txt` beside the exe keeps all settings and files in that folder.
+BIOS dump. The zip carries an empty `portable.txt` beside the exe, so RIPPCSX2 keeps all its settings and files in its
+own folder: a PCSX2 you already have installed keeps its own settings, untouched. The release always holds the newest
+build ([its page](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); the clips below are in
+[docs/videos](docs/videos).
 
 **It runs `.elf` programs for testing:** System > Start File, or `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`,
 and the program boots as it would from a memory card or USB stick on a PS2. It **behaves like real hardware**: an ELF
@@ -77,10 +80,10 @@ and boots to its game list.
 This repo is written so an agent can set a user up from the link alone. Give your assistant
 `https://github.com/akilluminati47/RIPPCSX2` and ask it to install RIPPCSX2; everything it needs is here:
 
-1. **Get the build:** the newest `RIPPCSX2-*-windows-x64-avx2.zip` from
-   [releases/latest](https://github.com/akilluminati47/RIPPCSX2/releases/latest)
-   (`gh release download -R akilluminati47/RIPPCSX2 -p "*.zip"`). Unzip it into a folder of its own and add an
-   empty `portable.txt` beside the exe.
+1. **Get the build:** `RIPPCSX2-windows-x64-avx2.zip` from the rolling release
+   ([direct link](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip),
+   or `gh release download rolling -R akilluminati47/RIPPCSX2 -p "*.zip"`). Unzip it into a folder of its own; its
+   `portable.txt` is already beside the exe, so it never touches an installed PCSX2's settings.
 2. **BIOS:** the user supplies their own console's BIOS dump (never download one): put it in the `bios` folder
    beside the exe (or point `[Folders] Bios` in `inis/PCSX2.ini` at it) and pick it in the first-run wizard
    (`[Filenames] BIOS`).
