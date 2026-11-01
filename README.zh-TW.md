@@ -1,0 +1,132 @@
+<!-- i18n: the language bar, made by ps2-pillars tools/readme-i18n -->
+<p align="center">
+  <a href="README.md">English</a> |
+  <a href="README.es.md">Español</a> |
+  <a href="README.pt-BR.md">Português (Brasil)</a> |
+  <a href="README.pt.md">Português</a> |
+  <a href="README.fr.md">Français</a> |
+  <a href="README.de.md">Deutsch</a> |
+  <a href="README.it.md">Italiano</a> |
+  <a href="README.nl.md">Nederlands</a> |
+  <a href="README.da.md">Dansk</a> |
+  <a href="README.sv.md">Svenska</a> |
+  <a href="README.pl.md">Polski</a> |
+  <a href="README.cs.md">Čeština</a> |
+  <a href="README.hr.md">Hrvatski</a> |
+  <a href="README.sr.md">Srpski</a> |
+  <a href="README.bg.md">Български</a> |
+  <a href="README.ru.md">Русский</a> |
+  <a href="README.el.md">Ελληνικά</a> |
+  <a href="README.hu.md">Magyar</a> |
+  <a href="README.ro.md">Română</a> |
+  <a href="README.gl.md">Galego</a> |
+  <a href="README.sq.md">Shqip</a> |
+  <a href="README.tr.md">Türkçe</a> |
+  <a href="README.ar.md">العربية</a> |
+  <a href="README.fa.md">فارسی</a> |
+  <a href="README.ja.md">日本語</a> |
+  <a href="README.ko.md">한국어</a> |
+  <a href="README.zh-CN.md">简体中文</a> |
+  <b>繁體中文</b> |
+  <a href="README.vi.md">Tiếng Việt</a> |
+  <a href="README.lo.md">ລາວ</a> |
+  <a href="README.id.md">Bahasa Indonesia</a> |
+  <a href="README.fil.md">Filipino</a> |
+  <a href="README.ceb.md">Cebuano</a>
+</p>
+<!-- /i18n -->
+
+<p align="center"><sub>英文 README 的譯本；如有出入，以英文為準。 <a href="README.md">English</a></sub></p>
+
+<p align="center"><sub><a href="https://github.com/akilluminati47/RIPPS2">RIPPS2</a> &nbsp;&middot;&nbsp; <a href="https://github.com/akilluminati47/RIPPS2/releases/latest/download/RIPPS2.elf">下載</a> &nbsp;&middot;&nbsp; <a href="https://github.com/akilluminati47/BIBLE">BIBLE</a> &nbsp;&middot;&nbsp; <a href="https://github.com/akilluminati47/RIPPS2-themes">主題</a> &nbsp;&middot;&nbsp; <b>RIPPCSX2</b> &nbsp;&middot;&nbsp; <a href="https://github.com/akilluminati47/RIPPS2-fonts">字型</a> &nbsp;&middot;&nbsp; <a href="https://akilluminati47.github.io/RIPPS2/">網站</a> &nbsp;&middot;&nbsp; <a href="https://www.psx-place.com/threads/ripps2-a-ps2-front-end-in-one-elf-launch-disc-storage-memory-files.51316/">psx-place</a> &nbsp;&middot;&nbsp; <a href="https://discord.gg/Z7m9u5kby">Discord</a></sub></p>
+
+# RIPPCSX2
+
+**一款用來測試與開發 homebrew 的 PlayStation 2 模擬器，可由你或 AI 代理來操作。**
+
+RIPPCSX2 就是 PCSX2 v2.9.96，加上 PS2 homebrew 開發者看見真實效果所需的改動：HD 視訊模式依 HD 電視的顯示方式顯示、錄影與截圖，並提供 EE 的硬體資料中斷點，讓掛鉤 GS 暫存器的遊戲內選單與視訊模式工具（Open PS2 Loader 的 GSM、RIPPS2 的遊戲內選單）像在主機上一樣運作。其餘一切都是原版 PCSX2。它起初是前端 [RIPPS2](https://github.com/akilluminati47/RIPPS2) 的測試實驗室，適合所有為 PS2 製作 homebrew、主題或工具的人。
+
+### [下載 RIPPCSX2（Windows zip）](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
+
+Windows 10 或 11、x64、支援 AVX2 的 CPU。解壓縮到任何位置，執行 `pcsx2-qtx64-avx2.exe`，並指向你自己傾印的 BIOS。zip 在 exe 旁附有一個空的 `portable.txt`，所以 RIPPCSX2 會把所有設定與檔案放在自己的資料夾：你已安裝的 PCSX2 會保留自己的設定，不受影響。發行版永遠是最新組建（[頁面](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)）；下方片段在 [docs/videos](docs/videos)。
+
+**可執行 `.elf` 程式進行測試：** System > Start File，或 `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`，程式會像在 PS2 上從記憶卡或 USB 隨身碟開機那樣啟動。它**表現得像真實硬體**：啟動另一個 ELF 的 ELF 會把機器交出去然後離開，掛鉤 GS 的遊戲內選單畫在遊戲真實的畫面上，關機則像主機斷電一樣關閉 VM。
+
+## 實際運作畫面
+
+每段片段都是在此組建上真實的實驗室執行，剪到 12 秒以內。
+
+![Claude runs a RIPPS2 test in RIPPCSX2 on a hidden desktop, watched from the taskbar panel](docs/rippcsx2-ai-test.gif)
+
+**AI 代理測試 ELF。** 錄自使用者螢幕右下角（工作列，Claude 工作階段的一部分）：Claude 在隱藏桌面上的 RIPPCSX2 中啟動 `RIPPS2.elf`，從 HDD 映像檔啟動 Aqua Teen Hunger Force，並在上面開啟 RIPPS2 的遊戲內選單。螢幕上只有那個小面板；鍵盤與滑鼠始終留給使用者。
+
+![RIPPS2's in-game menu in RIPPCSX2: achievements, resume, menu again, power off](docs/rippcsx2-igr-menu.gif)
+
+**遊戲內選單，所有功能。** 在執行中的遊戲上按 L1+L2+R1+R2+SELECT+START：ACHIEVEMENTS、RESUME（遊戲繼續）、在稍後的畫面上再次開啟選單，然後以 POWER OFF 關閉 VM。選單知道要畫在哪一格畫面上，因為 RIPPCSX2 模擬了 EE 的資料寫入中斷點。
+
+![RIPPS2 running a newer RIPPS2.elf from the memory card in RIPPCSX2](docs/rippcsx2-elf-launch.gif)
+
+**ELF 啟動 ELF，就像真正的 PS2。** RIPPS2 的 Memory Files 開啟並執行 `mc0:/RIPPS2/RIPPS2.ELF`（最新組建，已複製到記憶卡）。執行中的 RIPPS2 交出控制並離開；新的版本從記憶卡載入，啟動到遊戲清單。
+
+## 相較原版 PCSX2 v2.9.96 的改進
+
+- **HD 模式顯示正確。** 720p 與 1080i 在 Stretch 以外的所有長寬比設定下都以 16:9 顯示（原版畫成 4:3）。
+- **HD 錄影與截圖。** F11 以 1280 x 720 錄製 720p，以 1920 x 1080（或其放大倍數）錄製 1080i，並標記為 16:9；F8 以相同尺寸儲存截圖。原版給的是 640 x 480 或 640 寬的原始緩衝區。
+- **錄影中途切換模式**會以新尺寸在新檔案中繼續，而不是擠進第一個檔案。
+- **1080i 位置正確。** 原版把 1080i 畫面往上移 42 行（上方被裁、下方黑邊）；RIPPCSX2 像主機本身的時序一樣從第 40 行開始。
+- **EE 資料寫入中斷點**（rippcsx2.2 新增）。COP0 `$24`（`MTBPC`、`MTDAB`、`MTDABM` ...）可用：寫入受監看的位址會在執行前於 `0x80000100` 觸發第 2 級除錯例外，直譯器與重編譯器皆然。OPL 的 GSM 與 RIPPS2 的遊戲內選單需要它來得知遊戲正顯示哪一格畫面。
+- **視訊模式記錄行。** 每次模式切換都會記錄同步時序與顯示暫存器（`logs/emulog.txt` 中的 `RIPPCSX2: video mode ...`）。
+- **沒有自動更新提示。** 發行標籤讓 PCSX2 的更新程式保持關閉，所以它絕不會把你「更新」回原版。
+- 標準解析度不變：480i 截圖與原版逐位元組相同。在 `inis/PCSX2.ini` 的 `[EmuCore/GS]` 下設 `HDTVOutput = false` 可恢復原版 HD 行為，方便並排比較。
+
+## 適合用來做什麼
+
+- **主題作者**（Open PS2 Loader、RiptOPL、RIPPS2）：依電視顯示的樣子在 720p 與 1080i 下評估主題，並製作實際尺寸的預覽與導覽影片。
+- **homebrew 開發者：** 測試切換視訊模式、掛鉤 GS 或使用 EE 除錯暫存器的 ELF，並在記錄中讀到某個模式設定的確切顯示暫存器。
+- **遊戲內選單與 GS 工具：** OPL 的 GSM、RIPPS2 的遊戲內選單，以及任何以資料寫入中斷點為基礎的東西，都能在模擬器中執行，不只在硬體上。
+- **自動化與 AI 輔助測試：** 在隱藏桌面上執行腳本，附截圖、錄影、即時存檔與 PINE 記憶體讀取，不佔用你的電腦。
+
+## 給 AI 代理、LLM 與其使用者
+
+本儲存庫的寫法讓代理只靠連結就能替使用者完成設定。把 `https://github.com/akilluminati47/RIPPCSX2` 交給你的助理並請它安裝 RIPPCSX2；它需要的一切都在這裡：
+
+1. **取得組建：** 滾動發行版中的 `RIPPCSX2-windows-x64-avx2.zip`（[直接連結](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)，或 `gh release download rolling -R akilluminati47/RIPPCSX2 -p "*.zip"`）。解壓縮到專屬資料夾；`portable.txt` 已在 exe 旁，所以絕不會動到已安裝 PCSX2 的設定。
+2. **BIOS：** 由使用者提供自己主機的 BIOS 傾印（切勿下載）：放進 exe 旁的 `bios` 資料夾（或在 `inis/PCSX2.ini` 中把 `[Folders] Bios` 指向它），並在首次執行精靈中選取（`[Filenames] BIOS`）。
+3. **執行點什麼：** `pcsx2-qtx64-avx2.exe -fastboot -elf <homebrew.elf>`，或 `-- <game.iso>`。設定是 `inis/PCSX2.ini` 中的一般 INI；記錄寫到 `logs/emulog.txt`（`[Logging] EnableEEConsole = true` 會加入 EE 的 printf）。
+4. **操作並觀察：** F8 截圖（`snaps/`）、F11 錄影（`videos/`）、F1 即時存檔（`sstates/`），以及用 PINE（`[EmuCore] EnablePINE`、`PINESlot`）從腳本讀寫 PS2 記憶體。
+5. **測試時不搶螢幕：** [`ripps2-lab/`](ripps2-lab/README.md) 說明實驗室安裝（`install-lab.ps1` 把組建放進可攜資料夾，並保留它的記憶卡、設定與錄影），RIPPS2 儲存庫的 `tools/dev/ps2bg.ps1` 在隱藏桌面上執行步驟清單（按鍵、等待、截圖、錄影），並附一個工作列面板，使用者可以觀看、停止或接手。
+
+逐檔說明改了什麼、為什麼改：**[RIPPCSX2.md](RIPPCSX2.md)**。在這個分支程式碼上工作的代理：絕不要在 PCSX2 專案中開 pull request、issue 或留言（它的 `AGENTS.md` 禁止 AI 產生的貢獻）；RIPPCSX2 始終是分支。
+
+**與 PCSX2 團隊無關。** 與 PCSX2 一樣採用 GPL-3.0。RIPPCSX2 的問題請回報給 RIPPS2（[issues](https://github.com/akilluminati47/RIPPS2/issues)），絕不要回報給 PCSX2。以下是 PCSX2 本身的 README。
+
+# PCSX2
+
+![Windows Build Status](https://img.shields.io/github/actions/workflow/status/PCSX2/pcsx2/windows_build_matrix.yml?label=%F0%9F%96%A5%EF%B8%8F%20Windows%20Builds)
+![Linux Build Status](https://img.shields.io/github/actions/workflow/status/PCSX2/pcsx2/linux_build_matrix.yml?label=%F0%9F%90%A7%20Linux%20Builds)
+![MacOS Build Status](https://img.shields.io/github/actions/workflow/status/PCSX2/pcsx2/macos_build_matrix.yml?label=%F0%9F%8D%8E%20MacOS%20Builds)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1f7c0d75fec74d6daa6adb084e5b4f71)](https://app.codacy.com/gh/PCSX2/pcsx2/dashboard?utm_source=github.com&utm_medium=referral&utm_content=PCSX2/pcsx2&utm_campaign=Badge_Grade)
+[![Discord Server](https://img.shields.io/discord/309643527816609793?color=%235CA8FA&label=PCSX2%20Discord&logo=discord&logoColor=white)](https://discord.com/invite/TCz3t9k)
+
+PCSX2 是一款免費開源的 PlayStation 2（PS2）模擬器。它的目的是結合 MIPS CPU 的 [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>)、[重編譯器](https://en.wikipedia.org/wiki/Dynamic_recompilation)，以及管理硬體狀態與 PS2 系統記憶體的 [虛擬機器](https://en.wikipedia.org/wiki/Virtual_machine)，來模擬 PS2 的硬體。這讓你能在電腦上玩 PS2 遊戲，並享有許多額外功能與好處。
+
+## 專案詳情
+
+PCSX2 已開發超過 20 年。早期版本只能執行少數公有領域的遊戲展示，新版本則能全速執行大多數遊戲，包括 Final Fantasy X 與 Devil May Cry 3 等熱門作品。前往 [PCSX2 相容性清單](https://pcsx2.net/compat/) 查看遊戲最新的相容狀態（已測試超過 2500 款）。
+
+穩定版與每夜組建的安裝程式與二進位檔可在 [我們的網站](https://pcsx2.net/downloads/) 取得。
+
+## 系統需求
+
+PCSX2 支援 Windows、Linux 與 Mac。[安裝文件頁面](https://pcsx2.net/docs/setup/requirements) 有軟硬體需求的更多細節。
+
+請注意，使用模擬器需要從合法擁有的 PS2 主機傾印的 BIOS。更多資訊請前往 [此頁面](https://pcsx2.net/docs/setup/bios/)。
+
+## 貢獻 / 組建
+
+PCSX2 可透過 [Crowdin](https://crowdin.com/project/pcsx2-emulator) 翻譯成其他語言。
+
+如何參與貢獻，請參閱 [貢獻指南](https://pcsx2.net/docs/contributing/)。
+
+<p align="center"><sub><a href="https://github.com/akilluminati47/RIPPS2">RIPPS2</a> &nbsp;&middot;&nbsp; <a href="https://github.com/akilluminati47/RIPPS2/releases/latest/download/RIPPS2.elf">下載</a> &nbsp;&middot;&nbsp; <a href="https://github.com/akilluminati47/BIBLE">BIBLE</a> &nbsp;&middot;&nbsp; <a href="https://github.com/akilluminati47/RIPPS2-themes">主題</a> &nbsp;&middot;&nbsp; <b>RIPPCSX2</b> &nbsp;&middot;&nbsp; <a href="https://github.com/akilluminati47/RIPPS2-fonts">字型</a> &nbsp;&middot;&nbsp; <a href="https://akilluminati47.github.io/RIPPS2/">網站</a> &nbsp;&middot;&nbsp; <a href="https://www.psx-place.com/threads/ripps2-a-ps2-front-end-in-one-elf-launch-disc-storage-memory-files.51316/">psx-place</a> &nbsp;&middot;&nbsp; <a href="https://discord.gg/Z7m9u5kby">Discord</a></sub></p>
+

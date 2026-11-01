@@ -1,0 +1,182 @@
+{
+ "0669618af5ef": {
+  "en": "0669618af5ef",
+  "t": "- **Mga gumagawa ng theme** (Open PS2 Loader, RiptOPL, RIPPS2): suriin ang theme sa 720p at 1080i gaya ng pagpapakita ng TV, at gumawa ng mga preview na tunay ang laki at mga tour video."
+ },
+ "0fa344bc7427": {
+  "en": "0fa344bc7427",
+  "t": "Windows 10 o 11, x64, CPU na may AVX2. I-unzip kahit saan, patakbuhin ang `pcsx2-qtx64-avx2.exe`, at ituro ito sa sarili mong BIOS dump. May walang lamang `portable.txt` ang zip sa tabi ng exe, kaya iniimbak ng RIPPCSX2 ang lahat ng setting at file nito sa sarili nitong folder: ang PCSX2 na naka-install na ay mananatili sa sarili nitong mga setting, hindi nagagalaw. Ang release ay laging ang pinakabagong build ([ang page nito](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); nasa [docs/videos](docs/videos) ang mga clip sa ibaba."
+ },
+ "1076d5a2e707": {
+  "en": "1076d5a2e707",
+  "t": "## Mga detalye ng proyekto"
+ },
+ "11e9d19787c2": {
+  "en": "11e9d19787c2",
+  "t": "**Isang PlayStation 2 emulator para sa pag-test at pagbuo ng homebrew, ginawa para ikaw o isang AI agent ang magpatakbo.**"
+ },
+ "32337dc66fa2": {
+  "en": "32337dc66fa2",
+  "t": "Mahigit 20 taon nang dine-develop ang PCSX2. Ilang public domain game demo lang ang kayang patakbuhin ng mga lumang bersyon, pero kaya ng mga bagong bersyon na patakbuhin ang karamihan ng laro nang full speed, kasama ang mga sikat na pamagat gaya ng Final Fantasy X at Devil May Cry 3. Bisitahin ang [PCSX2 compatibility list](https://pcsx2.net/compat/) para sa pinakabagong compatibility status ng mga laro (mahigit 2500 pamagat ang na-test)."
+ },
+ "3481f97a7b60": {
+  "en": "3481f97a7b60",
+  "t": "Ano ang nagbago at bakit, bawat file: **[RIPPCSX2.md](RIPPCSX2.md)**. Mga agent na gumagawa sa code ng fork na ito: huwag kailanman magbukas ng pull request, issue o comment sa proyekto ng PCSX2 (ipinagbabawal ng `AGENTS.md` nito ang mga kontribusyong gawa ng AI); mananatiling fork ang RIPPCSX2."
+ },
+ "35b7a733c862": {
+  "en": "35b7a733c862",
+  "t": "Tingnan ang [Gabay sa Pag-ambag](https://pcsx2.net/docs/contributing/) para malaman kung paano mag-ambag."
+ },
+ "362c6f55a338": {
+  "en": "362c6f55a338",
+  "t": "- Hindi ginalaw ang standard definition: magkapareho byte por byte ang mga 480i screenshot sa orihinal. Ibinabalik ng `HDTVOutput = false` sa ilalim ng `[EmuCore/GS]` sa `inis/PCSX2.ini` ang orihinal na HD behavior para sa magkatabing paghahambing."
+ },
+ "38f3d642ac04": {
+  "en": "38f3d642ac04",
+  "t": "- **Mga log line ng video mode.** Bawat pagpalit ng mode ay nagla-log ng sync timing at mga display register (`RIPPCSX2: video mode ...` sa `logs/emulog.txt`)."
+ },
+ "41f07537d676": {
+  "en": "41f07537d676",
+  "t": "4. **Patakbuhin at obserbahan:** F8 screenshot (`snaps/`), F11 record (`videos/`), F1 save state (`sstates/`), at PINE (`[EmuCore] EnablePINE`, `PINESlot`) para basahin at sulatan ang PS2 memory mula sa isang script."
+ },
+ "42a7b75be2fa": {
+  "en": "42a7b75be2fa",
+  "t": "- **Mga homebrew developer:** i-test ang mga ELF na nagpapalit ng video mode, kumakabit sa GS o gumagamit ng mga debug register ng EE, at basahin sa log ang eksaktong display register na itinatakda ng isang mode."
+ },
+ "4d6c8e889c93": {
+  "en": "4d6c8e889c93",
+  "t": "Ang RIPPCSX2 ay PCSX2 v2.9.96 na may mga pagbabagong kailangan ng isang PS2 homebrew developer para makita ang totoo: ipinapakita, nire-record at kinukunan ng screenshot ang mga HD video mode gaya ng pagpapakita ng HD TV, kasama ang hardware data breakpoint ng EE, para gumana ang mga in-game menu at video mode tool na kumakabit sa mga GS register (ang GSM ng Open PS2 Loader, ang in-game menu ng RIPPS2) gaya sa console. Ang lahat ng iba pa ay karaniwang PCSX2. Nagsimula ito bilang test lab ng front end na [RIPPS2](https://github.com/akilluminati47/RIPPS2) at para ito sa sinumang gumagawa ng homebrew, theme o tool para sa PS2."
+ },
+ "51e43635dead": {
+  "en": "51e43635dead",
+  "t": "- **Data write breakpoint ng EE** (bago sa rippcsx2.2). Gumagana ang COP0 `$24` (`MTBPC`, `MTDAB`, `MTDABM` ...): ang pagsulat sa binabantayang address ay nagti-trigger ng level 2 debug exception sa `0x80000100` bago ito tumakbo, sa interpreter at sa recompiler. Kailangan ito ng GSM ng OPL at ng in-game menu ng RIPPS2 para malaman kung aling frame ang ipinapakita ng laro."
+ },
+ "5584f79d9ca6": {
+  "en": "5584f79d9ca6",
+  "t": "2. **BIOS:** ang user ang nagbibigay ng BIOS dump mula sa sarili nilang console (huwag kailanman mag-download ng isa): ilagay ito sa `bios` folder sa tabi ng exe (o ituro roon ang `[Folders] Bios` sa `inis/PCSX2.ini`) at piliin ito sa first-run wizard (`[Filenames] BIOS`)."
+ },
+ "58cf40d49047": {
+  "en": "58cf40d49047",
+  "t": "- **Walang alok ng auto-updater.** Pinapanatiling patay ng mga release tag ang updater ng PCSX2, kaya hindi ka nito kailanman \"ia-update\" pabalik sa orihinal."
+ },
+ "58f7807193d9": {
+  "en": "58f7807193d9",
+  "t": "Maaaring isalin ang PCSX2 sa ibang mga wika sa pamamagitan ng [Crowdin](https://crowdin.com/project/pcsx2-emulator)."
+ },
+ "5b3af678efb8": {
+  "en": "5b3af678efb8",
+  "t": "Pakitandaan na kailangan ang BIOS dump mula sa legal na pag-aaring PS2 console para magamit ang emulator. Para sa higit pang impormasyon, bisitahin ang [page na ito](https://pcsx2.net/docs/setup/bios/)."
+ },
+ "645fb3973f3c": {
+  "en": "645fb3973f3c",
+  "t": "- **HD na recording at screenshot.** Nire-record ng F11 ang 720p sa 1280 x 720 at ang 1080i sa 1920 x 1080 (o isang upscale multiple nito), naka-tag na 16:9; nagse-save ang F8 ng screenshot sa parehong laki. Ang orihinal ay nagbibigay ng 640 x 480 o ng raw buffer na 640 ang lapad."
+ },
+ "679a28a10a91": {
+  "en": "679a28a10a91",
+  "t": "Isinulat ang repo na ito para maihanda ng isang agent ang lahat para sa user mula sa link lang. Ibigay sa iyong assistant ang `https://github.com/akilluminati47/RIPPCSX2` at hilingin na i-install ang RIPPCSX2; narito ang lahat ng kailangan nito:"
+ },
+ "73ab93cb322a": {
+  "en": "73ab93cb322a",
+  "t": "- **Ang pagpalit ng mode habang nagre-record** ay nagpapatuloy sa bagong file sa bagong laki sa halip na isiksik sa unang file."
+ },
+ "7ebc0e242dae": {
+  "en": "7ebc0e242dae",
+  "t": "- **Nasa tamang puwesto ang 1080i.** Itinataas ng orihinal ang 1080i na larawan nang 42 linya (putol ang itaas, itim na guhit sa ibaba); sinisimulan ito ng RIPPCSX2 sa linya 40 gaya ng sariling timing ng console."
+ },
+ "806fbc56a05d": {
+  "en": "806fbc56a05d",
+  "t": "## Pag-ambag / Pag-build"
+ },
+ "819f05f68db0": {
+  "en": "819f05f68db0",
+  "t": "## Para sa mga AI agent, LLM at sa mga user nila"
+ },
+ "8f797e5a632e": {
+  "en": "8f797e5a632e",
+  "t": "- **Tama ang itsura ng HD modes.** Ang 720p at 1080i ay ipinapakita sa 16:9 (4:3 ang guhit ng orihinal), sa bawat aspect setting maliban sa Stretch."
+ },
+ "9eb76be1ef20": {
+  "en": "9eb76be1ef20",
+  "t": "1. **Kunin ang build:** `RIPPCSX2-windows-x64-avx2.zip` mula sa rolling release ([direktang link](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip), o `gh release download rolling -R akilluminati47/RIPPCSX2 -p \"*.zip\"`). I-unzip ito sa sarili nitong folder; nasa tabi na ng exe ang `portable.txt` nito, kaya hindi nito kailanman gagalawin ang mga setting ng naka-install na PCSX2."
+ },
+ "9f3e9c694c53": {
+  "en": "9f3e9c694c53",
+  "t": "**Nagpapatakbo ng mga `.elf` program para sa pag-test:** System > Start File, o `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, at magbo-boot ang program gaya ng pag-boot nito mula sa memory card o USB stick sa PS2. **Kumikilos ito gaya ng tunay na hardware**: ang ELF na naglulunsad ng ibang ELF ay ipinapasa ang makina rito at umaalis, ang in-game menu na kumakabit sa GS ay gumuguhit sa ibabaw ng tunay na frame ng laro, at ang pag-power off ay nagsasara sa VM gaya ng console na pinatay."
+ },
+ "a6e586e875ae": {
+  "en": "a6e586e875ae",
+  "t": "- **Automated at AI-assisted na pag-test:** mga scripted run sa nakatagong desktop na may screenshot, recording, save state at pagbasa ng memory sa pamamagitan ng PINE, nang hindi inaagaw ang iyong computer."
+ },
+ "a94fbb820125": {
+  "en": "a94fbb820125",
+  "t": "3. **Magpatakbo ng kahit ano:** `pcsx2-qtx64-avx2.exe -fastboot -elf <homebrew.elf>`, o `-- <game.iso>`. Simpleng INI ang mga setting sa `inis/PCSX2.ini`; napupunta ang mga log sa `logs/emulog.txt` (idinadagdag ng `[Logging] EnableEEConsole = true` ang printf ng EE)."
+ },
+ "abee0a94d13d": {
+  "en": "abee0a94d13d",
+  "t": "## Panoorin itong gumagana"
+ },
+ "af21e9655a53": {
+  "en": "af21e9655a53",
+  "t": "**Ang in-game menu, bawat function.** L1+L2+R1+R2+SELECT+START sa ibabaw ng tumatakbong laro: ACHIEVEMENTS, RESUME (tuloy ang laro), ang menu ulit sa isang mas huling frame, tapos POWER OFF na nagsasara sa VM. Alam ng menu kung aling frame ang guguhitan dahil ine-emulate ng RIPPCSX2 ang data write breakpoint ng EE."
+ },
+ "b1512611f5fe": {
+  "en": "b1512611f5fe",
+  "t": "**Walang kaugnayan sa PCSX2 team.** GPL-3.0 gaya ng PCSX2. I-report ang mga isyu ng RIPPCSX2 sa RIPPS2 ([issues](https://github.com/akilluminati47/RIPPS2/issues)), huwag kailanman sa PCSX2. Kasunod ang sariling README ng PCSX2."
+ },
+ "b1641398a974": {
+  "en": "b1641398a974",
+  "t": "**ELF na naglulunsad ng ELF, gaya ng tunay na PS2.** Binubuksan at pinapatakbo ng Memory Files ng RIPPS2 ang `mc0:/RIPPS2/RIPPS2.ELF` (ang pinakabagong build, kinopya sa card). Ipinapasa ito ng tumatakbong RIPPS2 at nawawala; nilo-load mula sa card ang bago at nagbo-boot hanggang sa listahan ng mga laro nito."
+ },
+ "b2b89f08b31b": {
+  "en": "b2b89f08b31b",
+  "t": "# PCSX2"
+ },
+ "b35522b36312": {
+  "en": "b35522b36312",
+  "t": "## Mga kailangan ng system"
+ },
+ "b44db6b4399f": {
+  "en": "b44db6b4399f",
+  "t": "# RIPPCSX2"
+ },
+ "bb83e0e75436": {
+  "en": "bb83e0e75436",
+  "t": "5. **Mag-test nang hindi inaagaw ang screen:** inilalarawan ng [`ripps2-lab/`](ripps2-lab/README.md) ang lab install (inilalagay ng `install-lab.ps1` ang isang build sa portable folder at iniingatan ang mga card, setting at recording nito), at pinapatakbo ng `tools/dev/ps2bg.ps1` sa RIPPS2 repo ang mga listahan ng hakbang (button, paghihintay, screenshot, recording) sa nakatagong desktop, may taskbar panel na maaaring panoorin, ihinto o kunin ng user."
+ },
+ "cd140e6effef": {
+  "en": "cd140e6effef",
+  "t": "### [I-download ang RIPPCSX2 (Windows zip)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)"
+ },
+ "d4ac16d079e7": {
+  "en": "d4ac16d079e7",
+  "t": "**Isang AI agent na nagte-test ng ELF.** Ni-record mula sa kanang-ibabang sulok ng screen ng user (ang taskbar, bahagi ng Claude session): inilulunsad ni Claude ang `RIPPS2.elf` sa RIPPCSX2 sa isang nakatagong desktop, inilulunsad ang Aqua Teen Hunger Force mula sa HDD image at binubuksan sa ibabaw nito ang in-game menu ng RIPPS2. Ang maliit na panel lang ang nasa screen; nananatili sa user ang keyboard at mouse."
+ },
+ "d80d578d0636": {
+  "en": "d80d578d0636",
+  "t": "## Para saan ito"
+ },
+ "df17eb4c3191": {
+  "en": "df17eb4c3191",
+  "t": "Makukuha ang mga installer at binary ng stable at nightly build sa [aming website](https://pcsx2.net/downloads/)."
+ },
+ "e6bd0b06e0e4": {
+  "en": "e6bd0b06e0e4",
+  "t": "## Ano ang makukuha mo kumpara sa karaniwang PCSX2 v2.9.96"
+ },
+ "e938ae4740c4": {
+  "en": "e938ae4740c4",
+  "t": "Ang PCSX2 ay isang libre at open-source na PlayStation 2 (PS2) emulator. Layunin nitong i-emulate ang hardware ng PS2, gamit ang kumbinasyon ng [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>) ng MIPS CPU, [Mga Recompiler](https://en.wikipedia.org/wiki/Dynamic_recompilation) at isang [Virtual machine](https://en.wikipedia.org/wiki/Virtual_machine) na namamahala sa mga hardware state at sa system memory ng PS2. Pinapayagan ka nitong maglaro ng mga PS2 game sa iyong PC, na may maraming dagdag na feature at benepisyo."
+ },
+ "f70f55e121db": {
+  "en": "f70f55e121db",
+  "t": "Sinusuportahan ng PCSX2 ang Windows, Linux at Mac. May dagdag na detalye tungkol sa mga kailangang software at hardware ang aming [setup documentation page](https://pcsx2.net/docs/setup/requirements)."
+ },
+ "f845d37a589e": {
+  "en": "f845d37a589e",
+  "t": "- **Mga in-game menu at GS tool:** tumatakbo sa emulator ang GSM ng OPL, ang in-game menu ng RIPPS2 at anumang nakabatay sa data write breakpoint, hindi lang sa hardware."
+ },
+ "fcd7c8d4eb16": {
+  "en": "fcd7c8d4eb16",
+  "t": "Bawat clip ay tunay na lab run sa build na ito, pinaikli sa ilalim ng 12 segundo."
+ }
+}

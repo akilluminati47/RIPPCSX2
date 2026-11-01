@@ -1,0 +1,182 @@
+{
+ "0669618af5ef": {
+  "en": "0669618af5ef",
+  "t": "- **Pembuat tema** (Open PS2 Loader, RiptOPL, RIPPS2): nilai tema di 720p dan 1080i seperti tampilan TV, dan buat pratinjau ukuran asli serta video tur."
+ },
+ "0fa344bc7427": {
+  "en": "0fa344bc7427",
+  "t": "Windows 10 atau 11, x64, CPU dengan AVX2. Ekstrak di mana saja, jalankan `pcsx2-qtx64-avx2.exe`, dan arahkan ke dump BIOS milik Anda sendiri. Zip ini membawa `portable.txt` kosong di samping exe, jadi RIPPCSX2 menyimpan semua pengaturan dan file di foldernya sendiri: PCSX2 yang sudah Anda pasang tetap memakai pengaturannya, tidak tersentuh. Rilisnya selalu build terbaru ([halamannya](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); klip di bawah ada di [docs/videos](docs/videos)."
+ },
+ "1076d5a2e707": {
+  "en": "1076d5a2e707",
+  "t": "## Detail proyek"
+ },
+ "11e9d19787c2": {
+  "en": "11e9d19787c2",
+  "t": "**Emulator PlayStation 2 untuk menguji dan mengembangkan homebrew, dibuat agar bisa dikendalikan oleh Anda atau agen AI.**"
+ },
+ "32337dc66fa2": {
+  "en": "32337dc66fa2",
+  "t": "PCSX2 telah dikembangkan lebih dari 20 tahun. Versi lama hanya bisa menjalankan beberapa demo game domain publik, tetapi versi baru bisa menjalankan sebagian besar game dengan kecepatan penuh, termasuk judul populer seperti Final Fantasy X dan Devil May Cry 3. Kunjungi [daftar kompatibilitas PCSX2](https://pcsx2.net/compat/) untuk status kompatibilitas game terbaru (lebih dari 2500 judul telah diuji)."
+ },
+ "3481f97a7b60": {
+  "en": "3481f97a7b60",
+  "t": "Apa yang berubah dan mengapa, file demi file: **[RIPPCSX2.md](RIPPCSX2.md)**. Agen yang mengerjakan kode fork ini: jangan pernah membuka pull request, issue, atau komentar di proyek PCSX2 (`AGENTS.md`-nya melarang kontribusi buatan AI); RIPPCSX2 tetap menjadi fork."
+ },
+ "35b7a733c862": {
+  "en": "35b7a733c862",
+  "t": "Lihat [Panduan Kontribusi](https://pcsx2.net/docs/contributing/) untuk mempelajari cara berkontribusi."
+ },
+ "362c6f55a338": {
+  "en": "362c6f55a338",
+  "t": "- Resolusi standar tidak diubah: screenshot 480i identik byte demi byte dengan aslinya. `HDTVOutput = false` di bawah `[EmuCore/GS]` dalam `inis/PCSX2.ini` mengembalikan perilaku HD asli untuk perbandingan berdampingan."
+ },
+ "38f3d642ac04": {
+  "en": "38f3d642ac04",
+  "t": "- **Baris log mode video.** Setiap pergantian mode mencatat timing sinkronisasi dan register tampilan (`RIPPCSX2: video mode ...` di `logs/emulog.txt`)."
+ },
+ "41f07537d676": {
+  "en": "41f07537d676",
+  "t": "4. **Kendalikan dan amati:** F8 screenshot (`snaps/`), F11 rekam (`videos/`), F1 save state (`sstates/`), dan PINE (`[EmuCore] EnablePINE`, `PINESlot`) untuk membaca dan menulis memori PS2 dari skrip."
+ },
+ "42a7b75be2fa": {
+  "en": "42a7b75be2fa",
+  "t": "- **Pengembang homebrew:** uji ELF yang mengganti mode video, mengait ke GS, atau memakai register debug EE, dan baca di log register tampilan persis yang diatur sebuah mode."
+ },
+ "4d6c8e889c93": {
+  "en": "4d6c8e889c93",
+  "t": "RIPPCSX2 adalah PCSX2 v2.9.96 dengan perubahan yang dibutuhkan pengembang homebrew PS2 untuk melihat yang sebenarnya: mode video HD ditampilkan, direkam, dan di-screenshot seperti yang ditampilkan TV HD, plus breakpoint data perangkat keras milik EE, sehingga menu dalam game dan alat mode video yang mengait ke register GS (GSM milik Open PS2 Loader, menu dalam game RIPPS2) bekerja seperti di konsol. Selebihnya PCSX2 biasa. Awalnya ini lab uji untuk front end [RIPPS2](https://github.com/akilluminati47/RIPPS2) dan ditujukan bagi siapa pun yang membuat homebrew, tema, atau alat untuk PS2."
+ },
+ "51e43635dead": {
+  "en": "51e43635dead",
+  "t": "- **Breakpoint penulisan data EE** (baru di rippcsx2.2). COP0 `$24` (`MTBPC`, `MTDAB`, `MTDABM` ...) berfungsi: penulisan ke alamat yang diawasi memicu exception debug level 2 di `0x80000100` sebelum dieksekusi, di interpreter maupun recompiler. GSM milik OPL dan menu dalam game RIPPS2 memerlukannya untuk tahu frame mana yang sedang ditampilkan game."
+ },
+ "5584f79d9ca6": {
+  "en": "5584f79d9ca6",
+  "t": "2. **BIOS:** pengguna menyediakan dump BIOS dari konsolnya sendiri (jangan pernah mengunduhnya): taruh di folder `bios` di samping exe (atau arahkan `[Folders] Bios` di `inis/PCSX2.ini` ke sana) dan pilih di wizard jalankan-pertama (`[Filenames] BIOS`)."
+ },
+ "58cf40d49047": {
+  "en": "58cf40d49047",
+  "t": "- **Tidak ada tawaran pembaru otomatis.** Tag rilis membuat pembaru PCSX2 tetap mati, jadi ia tidak pernah \"memperbarui\" Anda kembali ke versi asli."
+ },
+ "58f7807193d9": {
+  "en": "58f7807193d9",
+  "t": "PCSX2 bisa diterjemahkan ke bahasa lain melalui [Crowdin](https://crowdin.com/project/pcsx2-emulator)."
+ },
+ "5b3af678efb8": {
+  "en": "5b3af678efb8",
+  "t": "Perlu diingat bahwa dump BIOS dari konsol PS2 yang dimiliki secara sah diperlukan untuk memakai emulator. Untuk info lebih lanjut, kunjungi [halaman ini](https://pcsx2.net/docs/setup/bios/)."
+ },
+ "645fb3973f3c": {
+  "en": "645fb3973f3c",
+  "t": "- **Rekaman dan screenshot HD.** F11 merekam 720p pada 1280 x 720 dan 1080i pada 1920 x 1080 (atau kelipatan upscale-nya), bertanda 16:9; F8 menyimpan screenshot dengan ukuran yang sama. Aslinya memberi 640 x 480 atau buffer mentah selebar 640."
+ },
+ "679a28a10a91": {
+  "en": "679a28a10a91",
+  "t": "Repo ini ditulis agar sebuah agen bisa menyiapkan semuanya untuk pengguna hanya dari tautannya. Berikan `https://github.com/akilluminati47/RIPPCSX2` kepada asisten Anda dan minta ia memasang RIPPCSX2; semua yang ia perlukan ada di sini:"
+ },
+ "73ab93cb322a": {
+  "en": "73ab93cb322a",
+  "t": "- **Ganti mode di tengah rekaman** berlanjut di file baru dengan ukuran baru, bukannya dijejalkan ke file pertama."
+ },
+ "7ebc0e242dae": {
+  "en": "7ebc0e242dae",
+  "t": "- **1080i di tempat yang benar.** Aslinya menggeser gambar 1080i 42 baris ke atas (atas terpotong, pita hitam di bawah); RIPPCSX2 memulainya di baris 40 seperti timing konsol itu sendiri."
+ },
+ "806fbc56a05d": {
+  "en": "806fbc56a05d",
+  "t": "## Berkontribusi / Build"
+ },
+ "819f05f68db0": {
+  "en": "819f05f68db0",
+  "t": "## Untuk agen AI, LLM, dan penggunanya"
+ },
+ "8f797e5a632e": {
+  "en": "8f797e5a632e",
+  "t": "- **Mode HD tampil benar.** 720p dan 1080i tampil 16:9 (aslinya menggambarnya 4:3), pada setiap pengaturan rasio aspek kecuali Stretch."
+ },
+ "9eb76be1ef20": {
+  "en": "9eb76be1ef20",
+  "t": "1. **Ambil build-nya:** `RIPPCSX2-windows-x64-avx2.zip` dari rilis bergulir ([tautan langsung](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip), atau `gh release download rolling -R akilluminati47/RIPPCSX2 -p \"*.zip\"`). Ekstrak ke folder khusus untuknya; `portable.txt` sudah ada di samping exe, jadi ia tidak pernah menyentuh pengaturan PCSX2 yang terpasang."
+ },
+ "9f3e9c694c53": {
+  "en": "9f3e9c694c53",
+  "t": "**Menjalankan program `.elf` untuk pengujian:** System > Start File, atau `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, dan program akan boot seperti dari kartu memori atau flashdisk USB di PS2. Ia **berperilaku seperti perangkat keras asli**: ELF yang menjalankan ELF lain menyerahkan mesin kepadanya lalu pergi, menu dalam game yang mengait ke GS menggambar di atas frame asli game, dan mematikan daya menutup VM seperti konsol yang dimatikan."
+ },
+ "a6e586e875ae": {
+  "en": "a6e586e875ae",
+  "t": "- **Pengujian otomatis dan berbantuan AI:** jalankan skrip di desktop tersembunyi dengan screenshot, rekaman, save state, dan pembacaan memori lewat PINE, tanpa mengambil alih komputer Anda."
+ },
+ "a94fbb820125": {
+  "en": "a94fbb820125",
+  "t": "3. **Jalankan sesuatu:** `pcsx2-qtx64-avx2.exe -fastboot -elf <homebrew.elf>`, atau `-- <game.iso>`. Pengaturan berupa INI biasa di `inis/PCSX2.ini`; log masuk ke `logs/emulog.txt` (`[Logging] EnableEEConsole = true` menambahkan printf milik EE)."
+ },
+ "abee0a94d13d": {
+  "en": "abee0a94d13d",
+  "t": "## Lihat cara kerjanya"
+ },
+ "af21e9655a53": {
+  "en": "af21e9655a53",
+  "t": "**Menu dalam game, semua fungsinya.** L1+L2+R1+R2+SELECT+START di atas game yang berjalan: ACHIEVEMENTS, RESUME (game berlanjut), menu lagi di atas frame berikutnya, lalu POWER OFF yang menutup VM. Menu tahu frame mana yang harus digambari karena RIPPCSX2 mengemulasikan breakpoint penulisan data milik EE."
+ },
+ "b1512611f5fe": {
+  "en": "b1512611f5fe",
+  "t": "**Tidak berafiliasi dengan tim PCSX2.** GPL-3.0 seperti PCSX2. Laporkan masalah RIPPCSX2 ke RIPPS2 ([issues](https://github.com/akilluminati47/RIPPS2/issues)), jangan pernah ke PCSX2. Berikutnya adalah README milik PCSX2 sendiri."
+ },
+ "b1641398a974": {
+  "en": "b1641398a974",
+  "t": "**ELF menjalankan ELF, seperti PS2 asli.** Memory Files milik RIPPS2 membuka dan menjalankan `mc0:/RIPPS2/RIPPS2.ELF` (build terbaru, disalin ke kartu). RIPPS2 yang sedang berjalan menyerahkan kendali dan menghilang; yang baru dimuat dari kartu dan boot sampai ke daftar gamenya."
+ },
+ "b2b89f08b31b": {
+  "en": "b2b89f08b31b",
+  "t": "# PCSX2"
+ },
+ "b35522b36312": {
+  "en": "b35522b36312",
+  "t": "## Kebutuhan sistem"
+ },
+ "b44db6b4399f": {
+  "en": "b44db6b4399f",
+  "t": "# RIPPCSX2"
+ },
+ "bb83e0e75436": {
+  "en": "bb83e0e75436",
+  "t": "5. **Uji tanpa merebut layar:** [`ripps2-lab/`](ripps2-lab/README.md) menjelaskan instalasi lab (`install-lab.ps1` menaruh build di folder portabel dan menyimpan kartu, pengaturan, serta rekamannya), dan `tools/dev/ps2bg.ps1` di repo RIPPS2 menjalankan daftar langkah (tombol, jeda, screenshot, rekaman) di desktop tersembunyi dengan panel taskbar yang bisa ditonton, dihentikan, atau diambil alih oleh pengguna."
+ },
+ "cd140e6effef": {
+  "en": "cd140e6effef",
+  "t": "### [Unduh RIPPCSX2 (zip Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)"
+ },
+ "d4ac16d079e7": {
+  "en": "d4ac16d079e7",
+  "t": "**Agen AI menguji ELF.** Direkam dari pojok kanan bawah layar pengguna (taskbar, bagian dari sesi Claude): Claude menjalankan `RIPPS2.elf` di RIPPCSX2 pada desktop tersembunyi, menjalankan Aqua Teen Hunger Force dari image HDD, dan membuka menu dalam game RIPPS2 di atasnya. Panel kecil itu satu-satunya yang ada di layar; keyboard dan mouse tetap milik pengguna."
+ },
+ "d80d578d0636": {
+  "en": "d80d578d0636",
+  "t": "## Untuk apa"
+ },
+ "df17eb4c3191": {
+  "en": "df17eb4c3191",
+  "t": "Installer dan binary untuk build stabil maupun nightly tersedia di [situs web kami](https://pcsx2.net/downloads/)."
+ },
+ "e6bd0b06e0e4": {
+  "en": "e6bd0b06e0e4",
+  "t": "## Apa yang Anda dapat dibanding PCSX2 v2.9.96 biasa"
+ },
+ "e938ae4740c4": {
+  "en": "e938ae4740c4",
+  "t": "PCSX2 adalah emulator PlayStation 2 (PS2) gratis dan open source. Tujuannya mengemulasikan perangkat keras PS2 dengan kombinasi [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>) CPU MIPS, [Recompiler](https://en.wikipedia.org/wiki/Dynamic_recompilation), dan [Mesin virtual](https://en.wikipedia.org/wiki/Virtual_machine) yang mengelola status perangkat keras dan memori sistem PS2. Ini memungkinkan Anda memainkan game PS2 di PC, dengan banyak fitur dan keuntungan tambahan."
+ },
+ "f70f55e121db": {
+  "en": "f70f55e121db",
+  "t": "PCSX2 mendukung Windows, Linux, dan Mac. [Halaman dokumentasi penyiapan](https://pcsx2.net/docs/setup/requirements) memuat detail tambahan tentang kebutuhan perangkat lunak dan perangkat keras."
+ },
+ "f845d37a589e": {
+  "en": "f845d37a589e",
+  "t": "- **Menu dalam game dan alat GS:** GSM milik OPL, menu dalam game RIPPS2, dan apa pun yang dibangun di atas breakpoint penulisan data berjalan di emulator, bukan hanya di perangkat keras."
+ },
+ "fcd7c8d4eb16": {
+  "en": "fcd7c8d4eb16",
+  "t": "Setiap klip adalah jalannya lab sungguhan pada build ini, dipangkas hingga kurang dari 12 detik."
+ }
+}

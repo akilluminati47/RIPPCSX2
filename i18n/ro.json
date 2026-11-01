@@ -1,0 +1,182 @@
+{
+ "0669618af5ef": {
+  "en": "0669618af5ef",
+  "t": "- **Creatori de teme** (Open PS2 Loader, RiptOPL, RIPPS2): judecă o temă în 720p și 1080i așa cum o arată un televizor, și fă previzualizări la mărime reală și videoclipuri de prezentare."
+ },
+ "0fa344bc7427": {
+  "en": "0fa344bc7427",
+  "t": "Windows 10 sau 11, x64, un procesor cu AVX2. Dezarhivează-l oriunde, pornește `pcsx2-qtx64-avx2.exe` și indică-i propriul dump de BIOS. Zip-ul are un `portable.txt` gol lângă exe, așa că RIPPCSX2 își ține toate setările și fișierele în propriul folder: un PCSX2 pe care îl ai deja instalat își păstrează setările, neatinse. Versiunea conține mereu cel mai nou build ([pagina ei](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); clipurile de mai jos sunt în [docs/videos](docs/videos)."
+ },
+ "1076d5a2e707": {
+  "en": "1076d5a2e707",
+  "t": "## Detalii despre proiect"
+ },
+ "11e9d19787c2": {
+  "en": "11e9d19787c2",
+  "t": "**Un emulator PlayStation 2 pentru testarea și dezvoltarea homebrew, făcut să fie condus de tine sau de un agent AI.**"
+ },
+ "32337dc66fa2": {
+  "en": "32337dc66fa2",
+  "t": "PCSX2 e în dezvoltare de peste 20 de ani. Versiunile vechi puteau rula doar câteva demo-uri din domeniul public, dar cele noi rulează majoritatea jocurilor la viteză maximă, inclusiv titluri populare ca Final Fantasy X și Devil May Cry 3. Vezi [lista de compatibilitate PCSX2](https://pcsx2.net/compat/) pentru cea mai recentă stare de compatibilitate a jocurilor (peste 2500 de titluri testate)."
+ },
+ "3481f97a7b60": {
+  "en": "3481f97a7b60",
+  "t": "Ce s-a schimbat și de ce, fișier cu fișier: **[RIPPCSX2.md](RIPPCSX2.md)**. Agenți care lucrați la codul acestui fork: nu deschideți niciodată pull requesturi, issues sau comentarii în proiectul PCSX2 (`AGENTS.md`-ul lui interzice contribuțiile făcute de AI); RIPPCSX2 rămâne un fork."
+ },
+ "35b7a733c862": {
+  "en": "35b7a733c862",
+  "t": "Vezi [Ghidul de contribuție](https://pcsx2.net/docs/contributing/) pentru mai multe despre cum poți contribui."
+ },
+ "362c6f55a338": {
+  "en": "362c6f55a338",
+  "t": "- Definiția standard rămâne neatinsă: capturile în 480i sunt identice octet cu octet cu ale originalului. `HDTVOutput = false` sub `[EmuCore/GS]` în `inis/PCSX2.ini` aduce înapoi comportamentul HD original pentru comparație."
+ },
+ "38f3d642ac04": {
+  "en": "38f3d642ac04",
+  "t": "- **Linii de jurnal pentru modul video.** Fiecare schimbare de mod înregistrează sincronizarea și regiștrii de afișare (`RIPPCSX2: video mode ...` în `logs/emulog.txt`)."
+ },
+ "41f07537d676": {
+  "en": "41f07537d676",
+  "t": "4. **Condu-l și observă-l:** F8 captură (`snaps/`), F11 înregistrare (`videos/`), F1 stare salvată (`sstates/`), PINE (`[EmuCore] EnablePINE`, `PINESlot`) ca să citești și să scrii memoria PS2 dintr-un script."
+ },
+ "42a7b75be2fa": {
+  "en": "42a7b75be2fa",
+  "t": "- **Dezvoltatori de homebrew:** testează ELF-uri care schimbă modul video, se agață de GS sau folosesc regiștrii de depanare ai EE, și citește în jurnal regiștrii de afișare exacți pe care îi setează un mod."
+ },
+ "4d6c8e889c93": {
+  "en": "4d6c8e889c93",
+  "t": "RIPPCSX2 este PCSX2 v2.9.96 cu schimbările de care un dezvoltator de homebrew pentru PS2 are nevoie ca să vadă realitatea: modurile video HD afișate, înregistrate și capturate așa cum le arată un televizor HD, și punctul de întrerupere hardware pentru date al EE, ca meniurile din joc și uneltele de mod video care se agață de regiștrii GS (GSM din Open PS2 Loader, meniul din joc al RIPPS2) să funcționeze ca pe o consolă. Restul e PCSX2 simplu. A pornit ca laborator de test al front end-ului [RIPPS2](https://github.com/akilluminati47/RIPPS2) și e gândit pentru oricine face homebrew, teme sau unelte pentru PS2."
+ },
+ "51e43635dead": {
+  "en": "51e43635dead",
+  "t": "- **Punctul de întrerupere la scrierea datelor al EE** (nou în rippcsx2.2). COP0 `$24` (`MTBPC`, `MTDAB`, `MTDABM` ...) funcționează: o scriere la o adresă urmărită ridică excepția de depanare de nivel 2 la `0x80000100` înainte de a se executa, în interpretor și în recompilator. GSM din OPL și meniul din joc al RIPPS2 au nevoie de el ca să știe ce cadru arată un joc."
+ },
+ "5584f79d9ca6": {
+  "en": "5584f79d9ca6",
+  "t": "2. **BIOS:** utilizatorul furnizează dump-ul de BIOS al propriei console (nu descărca niciodată unul): pune-l în folderul `bios` lângă exe (sau îndreaptă `[Folders] Bios` din `inis/PCSX2.ini` spre el) și alege-l în expertul de la prima pornire (`[Filenames] BIOS`)."
+ },
+ "58cf40d49047": {
+  "en": "58cf40d49047",
+  "t": "- **Fără oferte de actualizare automată.** Etichetele de versiune țin oprit actualizatorul PCSX2, așa că nu te „actualizează” niciodată înapoi la original."
+ },
+ "58f7807193d9": {
+  "en": "58f7807193d9",
+  "t": "PCSX2 poate fi tradus în alte limbi prin [Crowdin](https://crowdin.com/project/pcsx2-emulator)."
+ },
+ "5b3af678efb8": {
+  "en": "5b3af678efb8",
+  "t": "Reține că pentru a folosi emulatorul e nevoie de un dump de BIOS de pe o consolă PS2 deținută legal. Pentru mai multe informații, vezi [această pagină](https://pcsx2.net/docs/setup/bios/)."
+ },
+ "645fb3973f3c": {
+  "en": "645fb3973f3c",
+  "t": "- **Înregistrări și capturi HD.** F11 înregistrează 720p la 1280 x 720 și 1080i la 1920 x 1080 (sau asta înmulțit cu scalarea), marcate 16:9; F8 salvează capturi la aceleași dimensiuni. Originalul dă 640 x 480 sau bufferul brut lat de 640."
+ },
+ "679a28a10a91": {
+  "en": "679a28a10a91",
+  "t": "Acest depozit e scris ca un agent să poată configura totul pentru un utilizator doar din link. Dă-i asistentului tău `https://github.com/akilluminati47/RIPPCSX2` și cere-i să instaleze RIPPCSX2; tot ce îi trebuie e aici:"
+ },
+ "73ab93cb322a": {
+  "en": "73ab93cb322a",
+  "t": "- **O schimbare de mod în timpul înregistrării** continuă într-un fișier nou la noua dimensiune, în loc să se înghesuie în primul."
+ },
+ "7ebc0e242dae": {
+  "en": "7ebc0e242dae",
+  "t": "- **1080i la locul lui.** Originalul mută o imagine 1080i cu 42 de linii în sus (tăiată sus, bandă neagră jos); RIPPCSX2 o începe la linia 40, unde o începe și sincronizarea consolei înseși."
+ },
+ "806fbc56a05d": {
+  "en": "806fbc56a05d",
+  "t": "## Contribuții / Compilare"
+ },
+ "819f05f68db0": {
+  "en": "819f05f68db0",
+  "t": "## Pentru agenți AI, LLM-uri și utilizatorii lor"
+ },
+ "8f797e5a632e": {
+  "en": "8f797e5a632e",
+  "t": "- **Modurile HD arată corect.** 720p și 1080i sunt afișate în 16:9 (originalul le desenează în 4:3), cu orice setare de aspect în afară de Stretch."
+ },
+ "9eb76be1ef20": {
+  "en": "9eb76be1ef20",
+  "t": "1. **Ia build-ul:** `RIPPCSX2-windows-x64-avx2.zip` din versiunea continuă ([link direct](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip), sau `gh release download rolling -R akilluminati47/RIPPCSX2 -p \"*.zip\"`). Dezarhivează-l într-un folder propriu; `portable.txt` e deja lângă exe, așa că nu atinge niciodată setările unui PCSX2 instalat."
+ },
+ "9f3e9c694c53": {
+  "en": "9f3e9c694c53",
+  "t": "**Rulează programe `.elf` pentru test:** System > Start File, sau `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, iar programul pornește cum ar porni de pe un card de memorie sau un stick USB pe un PS2. **Se comportă ca hardware-ul real**: un ELF care pornește alt ELF îi predă mașina și dispare, un meniu din joc agățat de GS se desenează peste cadrul real al jocului, iar oprirea închide VM-ul ca o consolă care se stinge."
+ },
+ "a6e586e875ae": {
+  "en": "a6e586e875ae",
+  "t": "- **Testare automată și asistată de AI:** rulări scriptate pe un desktop ascuns cu capturi, înregistrări, stări salvate și citiri de memorie prin PINE, fără să-ți acapareze PC-ul."
+ },
+ "a94fbb820125": {
+  "en": "a94fbb820125",
+  "t": "3. **Rulează ceva:** `pcsx2-qtx64-avx2.exe -fastboot -elf <homebrew.elf>`, sau `-- <game.iso>`. Setările sunt INI simplu în `inis/PCSX2.ini`; jurnalele merg în `logs/emulog.txt` (`[Logging] EnableEEConsole = true` adaugă printf-ul EE)."
+ },
+ "abee0a94d13d": {
+  "en": "abee0a94d13d",
+  "t": "## Vezi-l lucrând"
+ },
+ "af21e9655a53": {
+  "en": "af21e9655a53",
+  "t": "**Meniul din joc, fiecare funcție.** L1+L2+R1+R2+SELECT+START peste un joc care rulează: ACHIEVEMENTS, RESUME (jocul continuă), din nou meniul peste un cadru mai târziu, apoi POWER OFF, care închide VM-ul. Meniul știe peste ce cadru să deseneze pentru că RIPPCSX2 emulează punctul de întrerupere la scrierea datelor al EE."
+ },
+ "b1512611f5fe": {
+  "en": "b1512611f5fe",
+  "t": "**Nu este afiliat echipei PCSX2.** GPL-3.0 ca PCSX2. Raportează problemele RIPPCSX2 la RIPPS2 ([issues](https://github.com/akilluminati47/RIPPS2/issues)), niciodată la PCSX2. Urmează README-ul propriu al PCSX2."
+ },
+ "b1641398a974": {
+  "en": "b1641398a974",
+  "t": "**Un ELF care lansează un ELF, ca un PS2 real.** Memory Files din RIPPS2 deschide `mc0:/RIPPS2/RIPPS2.ELF` (cel mai nou build, copiat pe card) și îl rulează. RIPPS2 care rula predă controlul și dispare; cel nou se încarcă de pe card și pornește până la lista lui de jocuri."
+ },
+ "b2b89f08b31b": {
+  "en": "b2b89f08b31b",
+  "t": "# PCSX2"
+ },
+ "b35522b36312": {
+  "en": "b35522b36312",
+  "t": "## Cerințe de sistem"
+ },
+ "b44db6b4399f": {
+  "en": "b44db6b4399f",
+  "t": "# RIPPCSX2"
+ },
+ "bb83e0e75436": {
+  "en": "bb83e0e75436",
+  "t": "5. **Testează fără să furi ecranul:** [`ripps2-lab/`](ripps2-lab/README.md) descrie o instalare de laborator (`install-lab.ps1` pune un build într-un folder portabil și îi păstrează cardurile, setările și înregistrările), iar `tools/dev/ps2bg.ps1` din depozitul RIPPS2 rulează liste de pași (butoane, așteptări, capturi, înregistrări) pe un desktop ascuns, cu un panou în bara de activități pe care utilizatorul îl poate urmări, opri sau prelua."
+ },
+ "cd140e6effef": {
+  "en": "cd140e6effef",
+  "t": "### [Descarcă RIPPCSX2 (zip pentru Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)"
+ },
+ "d4ac16d079e7": {
+  "en": "d4ac16d079e7",
+  "t": "**Un agent AI testând un ELF.** Înregistrat din colțul din dreapta jos al ecranului utilizatorului (bara de activități, o parte din sesiunea Claude): Claude pornește `RIPPS2.elf` în RIPPCSX2 pe un desktop ascuns, lansează Aqua Teen Hunger Force de pe imaginea HDD și deschide peste el meniul din joc al RIPPS2. Panoul mic e singurul lucru de pe ecran; utilizatorul își păstrează tastatura și mouse-ul."
+ },
+ "d80d578d0636": {
+  "en": "d80d578d0636",
+  "t": "## La ce folosește"
+ },
+ "df17eb4c3191": {
+  "en": "df17eb4c3191",
+  "t": "Programele de instalare și binarele pentru build-urile stabile și nightly sunt disponibile pe [site-ul nostru](https://pcsx2.net/downloads/)."
+ },
+ "e6bd0b06e0e4": {
+  "en": "e6bd0b06e0e4",
+  "t": "## Ce primești față de PCSX2 v2.9.96 simplu"
+ },
+ "e938ae4740c4": {
+  "en": "e938ae4740c4",
+  "t": "PCSX2 este un emulator PlayStation 2 (PS2) gratuit și open source. Scopul lui este să emuleze hardware-ul PS2 folosind o combinație de [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>) pentru procesorul MIPS, [Recompilatoare](https://en.wikipedia.org/wiki/Dynamic_recompilation) și o [Mașină virtuală](https://en.wikipedia.org/wiki/Virtual_machine) care gestionează stările hardware și memoria de sistem a PS2. Asta îți permite să joci jocuri PS2 pe PC, cu multe funcții și avantaje suplimentare."
+ },
+ "f70f55e121db": {
+  "en": "f70f55e121db",
+  "t": "PCSX2 suportă Windows, Linux și Mac. [Pagina noastră de documentație despre configurare](https://pcsx2.net/docs/setup/requirements) are mai multe detalii despre cerințele software și hardware."
+ },
+ "f845d37a589e": {
+  "en": "f845d37a589e",
+  "t": "- **Meniuri din joc și unelte GS:** GSM din OPL, meniul din joc al RIPPS2 și orice altceva construit pe punctul de întrerupere la scrierea datelor rulează în emulator, nu doar pe hardware."
+ },
+ "fcd7c8d4eb16": {
+  "en": "fcd7c8d4eb16",
+  "t": "Fiecare clip e o rulare reală în laborator pe acest build, tăiată sub 12 secunde."
+ }
+}
