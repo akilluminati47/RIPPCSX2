@@ -46,11 +46,15 @@
 
 RIPPCSX2 je PCSX2 v2.9.96 se změnami, které vývojář homebrew pro PS2 potřebuje, aby viděl skutečný výsledek: HD video režimy zobrazené, nahrávané a snímané tak, jak je ukazuje HD televize, a hardwarový datový breakpoint EE, aby menu ve hře a nástroje video režimů, které se napojují na registry GS (GSM z Open PS2 Loader, menu ve hře RIPPS2), fungovaly jako na konzoli. Všechno ostatní je čisté PCSX2. Vznikl jako testovací laboratoř front endu [RIPPS2](https://github.com/akilluminati47/RIPPS2) a je určen každému, kdo tvoří homebrew, motivy nebo nástroje pro PS2.
 
+<a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
+
 ### [Stáhnout RIPPCSX2 (zip pro Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
 
 Windows 10 nebo 11, x64, procesor s AVX2. Rozbalte ho kamkoli, spusťte `pcsx2-qtx64-avx2.exe` a nasměrujte ho na vlastní výpis BIOS. Zip obsahuje prázdný `portable.txt` vedle exe, takže RIPPCSX2 drží všechna nastavení a soubory ve vlastní složce: již nainstalované PCSX2 si ponechá svá nastavení, nedotčená. Vydání vždy obsahuje nejnovější build ([jeho stránka](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); klipy níže jsou v [docs/videos](docs/videos).
 
 **Spouští programy `.elf` k testování:** System > Start File, nebo `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, a program nastartuje, jako by startoval z paměťové karty nebo USB disku na PS2. **Chová se jako skutečný hardware**: ELF, který spustí jiný ELF, mu předá stroj a zmizí, menu ve hře napojené na GS kreslí přes skutečný snímek hry a vypnutí zavře VM jako vypínaná konzole.
+
+<a id="see-it-work"></a>
 
 ## Podívejte se, jak funguje
 
@@ -68,6 +72,8 @@ Každý klip je skutečný běh v laboratoři na tomto buildu, zkrácený pod 12
 
 **ELF spouštějící ELF, jako skutečná PS2.** Memory Files v RIPPS2 otevře `mc0:/RIPPS2/RIPPS2.ELF` (nejnovější build, zkopírovaný na kartu) a spustí ho. Běžící RIPPS2 předá řízení a zmizí; nový se načte z karty a nastartuje do seznamu her.
 
+<a id="what-you-get-over-vanilla-pcsx2-v2996"></a>
+
 ## Co získáte oproti běžnému PCSX2 v2.9.96
 
 - **HD režimy vypadají správně.** 720p a 1080i se zobrazují v 16:9 (originál je kreslí v 4:3), při každém nastavení poměru stran kromě Stretch.
@@ -79,12 +85,16 @@ Každý klip je skutečný běh v laboratoři na tomto buildu, zkrácený pod 12
 - **Žádné nabídky automatických aktualizací.** Značky vydání nechávají aktualizátor PCSX2 vypnutý, takže vás nikdy „neaktualizuje“ zpět na originál.
 - Standardní rozlišení zůstává nedotčené: snímky v 480i jsou bajt po bajtu stejné jako u originálu. `HDTVOutput = false` pod `[EmuCore/GS]` v `inis/PCSX2.ini` vrátí původní HD chování pro srovnání.
 
+<a id="what-it-is-for"></a>
+
 ## K čemu slouží
 
 - **Tvůrci motivů** (Open PS2 Loader, RiptOPL, RIPPS2): posuďte motiv v 720p a 1080i tak, jak ho ukazuje televize, a dělejte náhledy ve skutečné velikosti a prezentační videa.
 - **Vývojáři homebrew:** testujte ELF, které mění video režim, napojují se na GS nebo používají ladicí registry EE, a čtěte v logu přesné registry zobrazení, které režim nastaví.
 - **Menu ve hře a nástroje GS:** GSM z OPL, menu ve hře RIPPS2 a vše ostatní postavené na breakpointu zápisu dat běží v emulátoru, ne jen na hardwaru.
 - **Automatizované a AI asistované testování:** skriptované běhy na skryté ploše se snímky, nahrávkami, uloženými stavy a čtením paměti přes PINE, aniž by se zmocnily vašeho PC.
+
+<a id="for-ai-agents-llms-and-their-users"></a>
 
 ## Pro AI agenty, LLM a jejich uživatele
 
@@ -110,17 +120,23 @@ Co se změnilo a proč, soubor po souboru: **[RIPPCSX2.md](RIPPCSX2.md)**. Agent
 
 PCSX2 je svobodný emulátor PlayStation 2 (PS2) s otevřeným kódem. Jeho účelem je emulovat hardware PS2 pomocí kombinace [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>) procesoru MIPS, [rekompilátorů](https://en.wikipedia.org/wiki/Dynamic_recompilation) a [virtuálního stroje](https://en.wikipedia.org/wiki/Virtual_machine), který spravuje stavy hardwaru a systémovou paměť PS2. Díky tomu můžete hrát hry pro PS2 na PC s mnoha dalšími funkcemi a výhodami.
 
+<a id="project-details"></a>
+
 ## Podrobnosti o projektu
 
 PCSX2 se vyvíjí přes 20 let. Starší verze zvládly spustit jen pár herních dem z volného díla, ale novější verze spustí většinu her v plné rychlosti, včetně populárních titulů jako Final Fantasy X a Devil May Cry 3. Na [seznamu kompatibility PCSX2](https://pcsx2.net/compat/) najdete nejnovější stav kompatibility her (s více než 2500 otestovanými tituly).
 
 Instalátory a binárky stabilních i nightly buildů jsou k dispozici na [našem webu](https://pcsx2.net/downloads/).
 
+<a id="system-requirements"></a>
+
 ## Systémové požadavky
 
 PCSX2 podporuje Windows, Linux a Mac. Naše [stránka dokumentace k nastavení](https://pcsx2.net/docs/setup/requirements) obsahuje další podrobnosti o softwarových a hardwarových požadavcích.
 
 Upozorňujeme, že k použití emulátoru je nutný výpis BIOS z legálně vlastněné konzole PS2. Další informace najdete na [této stránce](https://pcsx2.net/docs/setup/bios/).
+
+<a id="contributing--building"></a>
 
 ## Přispívání / Sestavení
 

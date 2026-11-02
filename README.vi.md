@@ -46,11 +46,15 @@
 
 RIPPCSX2 là PCSX2 v2.9.96 cộng thêm những thay đổi mà nhà phát triển homebrew PS2 cần để thấy đúng thực tế: các chế độ video HD được hiển thị, quay và chụp màn hình như một TV HD hiển thị chúng, cùng điểm dừng dữ liệu phần cứng của EE, để các menu trong game và công cụ chế độ video móc vào thanh ghi GS (GSM của Open PS2 Loader, menu trong game của RIPPS2) chạy như trên máy thật. Mọi thứ còn lại là PCSX2 nguyên bản. Nó bắt đầu là phòng thử nghiệm cho front end [RIPPS2](https://github.com/akilluminati47/RIPPS2) và dành cho bất kỳ ai làm homebrew, theme hay công cụ cho PS2.
 
+<a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
+
 ### [Tải RIPPCSX2 (file zip cho Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
 
 Windows 10 hoặc 11, x64, CPU hỗ trợ AVX2. Giải nén ở đâu cũng được, chạy `pcsx2-qtx64-avx2.exe` và chỉ nó tới bản dump BIOS của chính bạn. File zip có một `portable.txt` trống cạnh exe, nên RIPPCSX2 giữ mọi cài đặt và tập tin trong thư mục riêng của nó: PCSX2 bạn đã cài vẫn giữ nguyên cài đặt, không bị đụng tới. Bản phát hành luôn là bản build mới nhất ([trang của nó](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); các clip bên dưới nằm trong [docs/videos](docs/videos).
 
 **Chạy chương trình `.elf` để thử nghiệm:** System > Start File, hoặc `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, và chương trình khởi động như khi khởi động từ thẻ nhớ hoặc USB trên PS2. Nó **hoạt động như phần cứng thật**: một ELF khởi chạy ELF khác sẽ trao máy cho nó rồi biến mất, menu trong game móc vào GS được vẽ lên khung hình thật của game, và tắt nguồn sẽ đóng VM như một máy console tắt điện.
+
+<a id="see-it-work"></a>
 
 ## Xem nó hoạt động
 
@@ -68,6 +72,8 @@ Mỗi clip là một lần chạy thật trong phòng thử nghiệm trên bản
 
 **ELF khởi chạy ELF, như một PS2 thật.** Memory Files của RIPPS2 mở và chạy `mc0:/RIPPS2/RIPPS2.ELF` (bản build mới nhất, đã chép vào thẻ). RIPPS2 đang chạy trao quyền và biến mất; bản mới được nạp từ thẻ và khởi động tới danh sách game.
 
+<a id="what-you-get-over-vanilla-pcsx2-v2996"></a>
+
 ## Bạn được gì so với PCSX2 v2.9.96 nguyên bản
 
 - **Chế độ HD hiển thị đúng.** 720p và 1080i hiển thị 16:9 (bản gốc vẽ chúng 4:3), ở mọi cài đặt tỉ lệ khung hình trừ Stretch.
@@ -79,12 +85,16 @@ Mỗi clip là một lần chạy thật trong phòng thử nghiệm trên bản
 - **Không có lời mời tự cập nhật.** Thẻ phát hành giữ trình cập nhật của PCSX2 ở trạng thái tắt, nên nó không bao giờ "cập nhật" bạn trở lại bản gốc.
 - Độ phân giải chuẩn không bị đụng tới: ảnh chụp 480i giống hệt bản gốc từng byte. `HDTVOutput = false` dưới `[EmuCore/GS]` trong `inis/PCSX2.ini` trả lại hành vi HD gốc để so sánh song song.
 
+<a id="what-it-is-for"></a>
+
 ## Dùng để làm gì
 
 - **Người làm theme** (Open PS2 Loader, RiptOPL, RIPPS2): đánh giá theme ở 720p và 1080i như TV hiển thị, và làm ảnh xem trước đúng kích thước thật cùng video giới thiệu.
 - **Nhà phát triển homebrew:** thử các ELF đổi chế độ video, móc vào GS hoặc dùng thanh ghi gỡ lỗi của EE, và đọc trong log chính xác các thanh ghi hiển thị mà một chế độ đặt.
 - **Menu trong game và công cụ GS:** GSM của OPL, menu trong game của RIPPS2 và mọi thứ khác dựa trên điểm dừng ghi dữ liệu đều chạy được trong trình giả lập, không chỉ trên phần cứng.
 - **Thử nghiệm tự động và có AI hỗ trợ:** chạy bằng script trên một màn hình ẩn với ảnh chụp, video, trạng thái lưu và đọc bộ nhớ qua PINE, mà không chiếm máy tính của bạn.
+
+<a id="for-ai-agents-llms-and-their-users"></a>
 
 ## Dành cho tác tử AI, LLM và người dùng của chúng
 
@@ -110,17 +120,23 @@ Thay đổi gì và vì sao, từng file một: **[RIPPCSX2.md](RIPPCSX2.md)**. 
 
 PCSX2 là trình giả lập PlayStation 2 (PS2) miễn phí và mã nguồn mở. Mục đích của nó là giả lập phần cứng PS2 bằng sự kết hợp giữa [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>) cho CPU MIPS, [Trình biên dịch lại](https://en.wikipedia.org/wiki/Dynamic_recompilation) và một [Máy ảo](https://en.wikipedia.org/wiki/Virtual_machine) quản lý trạng thái phần cứng và bộ nhớ hệ thống PS2. Nhờ vậy bạn có thể chơi game PS2 trên PC, với nhiều tính năng và lợi ích bổ sung.
 
+<a id="project-details"></a>
+
 ## Chi tiết dự án
 
 PCSX2 đã được phát triển hơn 20 năm. Các phiên bản cũ chỉ chạy được vài bản demo game thuộc phạm vi công cộng, còn phiên bản mới chạy được hầu hết game ở tốc độ tối đa, kể cả những tựa nổi tiếng như Final Fantasy X và Devil May Cry 3. Xem [danh sách tương thích PCSX2](https://pcsx2.net/compat/) để biết tình trạng tương thích mới nhất của game (hơn 2500 tựa đã thử).
 
 Trình cài đặt và file thực thi của bản ổn định lẫn bản nightly có trên [trang web của chúng tôi](https://pcsx2.net/downloads/).
 
+<a id="system-requirements"></a>
+
 ## Yêu cầu hệ thống
 
 PCSX2 hỗ trợ Windows, Linux và Mac. [Trang tài liệu cài đặt](https://pcsx2.net/docs/setup/requirements) có thêm chi tiết về yêu cầu phần mềm và phần cứng.
 
 Xin lưu ý rằng để dùng trình giả lập cần có bản dump BIOS từ một máy PS2 sở hữu hợp pháp. Để biết thêm, hãy xem [trang này](https://pcsx2.net/docs/setup/bios/).
+
+<a id="contributing--building"></a>
 
 ## Đóng góp / Build
 

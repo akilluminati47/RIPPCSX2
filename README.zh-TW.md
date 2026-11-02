@@ -46,11 +46,15 @@
 
 RIPPCSX2 就是 PCSX2 v2.9.96，加上 PS2 homebrew 開發者看見真實效果所需的改動：HD 視訊模式依 HD 電視的顯示方式顯示、錄影與截圖，並提供 EE 的硬體資料中斷點，讓掛鉤 GS 暫存器的遊戲內選單與視訊模式工具（Open PS2 Loader 的 GSM、RIPPS2 的遊戲內選單）像在主機上一樣運作。其餘一切都是原版 PCSX2。它起初是前端 [RIPPS2](https://github.com/akilluminati47/RIPPS2) 的測試實驗室，適合所有為 PS2 製作 homebrew、主題或工具的人。
 
+<a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
+
 ### [下載 RIPPCSX2（Windows zip）](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
 
 Windows 10 或 11、x64、支援 AVX2 的 CPU。解壓縮到任何位置，執行 `pcsx2-qtx64-avx2.exe`，並指向你自己傾印的 BIOS。zip 在 exe 旁附有一個空的 `portable.txt`，所以 RIPPCSX2 會把所有設定與檔案放在自己的資料夾：你已安裝的 PCSX2 會保留自己的設定，不受影響。發行版永遠是最新組建（[頁面](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)）；下方片段在 [docs/videos](docs/videos)。
 
 **可執行 `.elf` 程式進行測試：** System > Start File，或 `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`，程式會像在 PS2 上從記憶卡或 USB 隨身碟開機那樣啟動。它**表現得像真實硬體**：啟動另一個 ELF 的 ELF 會把機器交出去然後離開，掛鉤 GS 的遊戲內選單畫在遊戲真實的畫面上，關機則像主機斷電一樣關閉 VM。
+
+<a id="see-it-work"></a>
 
 ## 實際運作畫面
 
@@ -68,6 +72,8 @@ Windows 10 或 11、x64、支援 AVX2 的 CPU。解壓縮到任何位置，執�
 
 **ELF 啟動 ELF，就像真正的 PS2。** RIPPS2 的 Memory Files 開啟並執行 `mc0:/RIPPS2/RIPPS2.ELF`（最新組建，已複製到記憶卡）。執行中的 RIPPS2 交出控制並離開；新的版本從記憶卡載入，啟動到遊戲清單。
 
+<a id="what-you-get-over-vanilla-pcsx2-v2996"></a>
+
 ## 相較原版 PCSX2 v2.9.96 的改進
 
 - **HD 模式顯示正確。** 720p 與 1080i 在 Stretch 以外的所有長寬比設定下都以 16:9 顯示（原版畫成 4:3）。
@@ -79,12 +85,16 @@ Windows 10 或 11、x64、支援 AVX2 的 CPU。解壓縮到任何位置，執�
 - **沒有自動更新提示。** 發行標籤讓 PCSX2 的更新程式保持關閉，所以它絕不會把你「更新」回原版。
 - 標準解析度不變：480i 截圖與原版逐位元組相同。在 `inis/PCSX2.ini` 的 `[EmuCore/GS]` 下設 `HDTVOutput = false` 可恢復原版 HD 行為，方便並排比較。
 
+<a id="what-it-is-for"></a>
+
 ## 適合用來做什麼
 
 - **主題作者**（Open PS2 Loader、RiptOPL、RIPPS2）：依電視顯示的樣子在 720p 與 1080i 下評估主題，並製作實際尺寸的預覽與導覽影片。
 - **homebrew 開發者：** 測試切換視訊模式、掛鉤 GS 或使用 EE 除錯暫存器的 ELF，並在記錄中讀到某個模式設定的確切顯示暫存器。
 - **遊戲內選單與 GS 工具：** OPL 的 GSM、RIPPS2 的遊戲內選單，以及任何以資料寫入中斷點為基礎的東西，都能在模擬器中執行，不只在硬體上。
 - **自動化與 AI 輔助測試：** 在隱藏桌面上執行腳本，附截圖、錄影、即時存檔與 PINE 記憶體讀取，不佔用你的電腦。
+
+<a id="for-ai-agents-llms-and-their-users"></a>
 
 ## 給 AI 代理、LLM 與其使用者
 
@@ -110,17 +120,23 @@ Windows 10 或 11、x64、支援 AVX2 的 CPU。解壓縮到任何位置，執�
 
 PCSX2 是一款免費開源的 PlayStation 2（PS2）模擬器。它的目的是結合 MIPS CPU 的 [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>)、[重編譯器](https://en.wikipedia.org/wiki/Dynamic_recompilation)，以及管理硬體狀態與 PS2 系統記憶體的 [虛擬機器](https://en.wikipedia.org/wiki/Virtual_machine)，來模擬 PS2 的硬體。這讓你能在電腦上玩 PS2 遊戲，並享有許多額外功能與好處。
 
+<a id="project-details"></a>
+
 ## 專案詳情
 
 PCSX2 已開發超過 20 年。早期版本只能執行少數公有領域的遊戲展示，新版本則能全速執行大多數遊戲，包括 Final Fantasy X 與 Devil May Cry 3 等熱門作品。前往 [PCSX2 相容性清單](https://pcsx2.net/compat/) 查看遊戲最新的相容狀態（已測試超過 2500 款）。
 
 穩定版與每夜組建的安裝程式與二進位檔可在 [我們的網站](https://pcsx2.net/downloads/) 取得。
 
+<a id="system-requirements"></a>
+
 ## 系統需求
 
 PCSX2 支援 Windows、Linux 與 Mac。[安裝文件頁面](https://pcsx2.net/docs/setup/requirements) 有軟硬體需求的更多細節。
 
 請注意，使用模擬器需要從合法擁有的 PS2 主機傾印的 BIOS。更多資訊請前往 [此頁面](https://pcsx2.net/docs/setup/bios/)。
+
+<a id="contributing--building"></a>
 
 ## 貢獻 / 組建
 

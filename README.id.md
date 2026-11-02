@@ -46,11 +46,15 @@
 
 RIPPCSX2 adalah PCSX2 v2.9.96 dengan perubahan yang dibutuhkan pengembang homebrew PS2 untuk melihat yang sebenarnya: mode video HD ditampilkan, direkam, dan di-screenshot seperti yang ditampilkan TV HD, plus breakpoint data perangkat keras milik EE, sehingga menu dalam game dan alat mode video yang mengait ke register GS (GSM milik Open PS2 Loader, menu dalam game RIPPS2) bekerja seperti di konsol. Selebihnya PCSX2 biasa. Awalnya ini lab uji untuk front end [RIPPS2](https://github.com/akilluminati47/RIPPS2) dan ditujukan bagi siapa pun yang membuat homebrew, tema, atau alat untuk PS2.
 
+<a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
+
 ### [Unduh RIPPCSX2 (zip Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
 
 Windows 10 atau 11, x64, CPU dengan AVX2. Ekstrak di mana saja, jalankan `pcsx2-qtx64-avx2.exe`, dan arahkan ke dump BIOS milik Anda sendiri. Zip ini membawa `portable.txt` kosong di samping exe, jadi RIPPCSX2 menyimpan semua pengaturan dan file di foldernya sendiri: PCSX2 yang sudah Anda pasang tetap memakai pengaturannya, tidak tersentuh. Rilisnya selalu build terbaru ([halamannya](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); klip di bawah ada di [docs/videos](docs/videos).
 
 **Menjalankan program `.elf` untuk pengujian:** System > Start File, atau `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, dan program akan boot seperti dari kartu memori atau flashdisk USB di PS2. Ia **berperilaku seperti perangkat keras asli**: ELF yang menjalankan ELF lain menyerahkan mesin kepadanya lalu pergi, menu dalam game yang mengait ke GS menggambar di atas frame asli game, dan mematikan daya menutup VM seperti konsol yang dimatikan.
+
+<a id="see-it-work"></a>
 
 ## Lihat cara kerjanya
 
@@ -68,6 +72,8 @@ Setiap klip adalah jalannya lab sungguhan pada build ini, dipangkas hingga kuran
 
 **ELF menjalankan ELF, seperti PS2 asli.** Memory Files milik RIPPS2 membuka dan menjalankan `mc0:/RIPPS2/RIPPS2.ELF` (build terbaru, disalin ke kartu). RIPPS2 yang sedang berjalan menyerahkan kendali dan menghilang; yang baru dimuat dari kartu dan boot sampai ke daftar gamenya.
 
+<a id="what-you-get-over-vanilla-pcsx2-v2996"></a>
+
 ## Apa yang Anda dapat dibanding PCSX2 v2.9.96 biasa
 
 - **Mode HD tampil benar.** 720p dan 1080i tampil 16:9 (aslinya menggambarnya 4:3), pada setiap pengaturan rasio aspek kecuali Stretch.
@@ -79,12 +85,16 @@ Setiap klip adalah jalannya lab sungguhan pada build ini, dipangkas hingga kuran
 - **Tidak ada tawaran pembaru otomatis.** Tag rilis membuat pembaru PCSX2 tetap mati, jadi ia tidak pernah "memperbarui" Anda kembali ke versi asli.
 - Resolusi standar tidak diubah: screenshot 480i identik byte demi byte dengan aslinya. `HDTVOutput = false` di bawah `[EmuCore/GS]` dalam `inis/PCSX2.ini` mengembalikan perilaku HD asli untuk perbandingan berdampingan.
 
+<a id="what-it-is-for"></a>
+
 ## Untuk apa
 
 - **Pembuat tema** (Open PS2 Loader, RiptOPL, RIPPS2): nilai tema di 720p dan 1080i seperti tampilan TV, dan buat pratinjau ukuran asli serta video tur.
 - **Pengembang homebrew:** uji ELF yang mengganti mode video, mengait ke GS, atau memakai register debug EE, dan baca di log register tampilan persis yang diatur sebuah mode.
 - **Menu dalam game dan alat GS:** GSM milik OPL, menu dalam game RIPPS2, dan apa pun yang dibangun di atas breakpoint penulisan data berjalan di emulator, bukan hanya di perangkat keras.
 - **Pengujian otomatis dan berbantuan AI:** jalankan skrip di desktop tersembunyi dengan screenshot, rekaman, save state, dan pembacaan memori lewat PINE, tanpa mengambil alih komputer Anda.
+
+<a id="for-ai-agents-llms-and-their-users"></a>
 
 ## Untuk agen AI, LLM, dan penggunanya
 
@@ -110,17 +120,23 @@ Apa yang berubah dan mengapa, file demi file: **[RIPPCSX2.md](RIPPCSX2.md)**. Ag
 
 PCSX2 adalah emulator PlayStation 2 (PS2) gratis dan open source. Tujuannya mengemulasikan perangkat keras PS2 dengan kombinasi [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>) CPU MIPS, [Recompiler](https://en.wikipedia.org/wiki/Dynamic_recompilation), dan [Mesin virtual](https://en.wikipedia.org/wiki/Virtual_machine) yang mengelola status perangkat keras dan memori sistem PS2. Ini memungkinkan Anda memainkan game PS2 di PC, dengan banyak fitur dan keuntungan tambahan.
 
+<a id="project-details"></a>
+
 ## Detail proyek
 
 PCSX2 telah dikembangkan lebih dari 20 tahun. Versi lama hanya bisa menjalankan beberapa demo game domain publik, tetapi versi baru bisa menjalankan sebagian besar game dengan kecepatan penuh, termasuk judul populer seperti Final Fantasy X dan Devil May Cry 3. Kunjungi [daftar kompatibilitas PCSX2](https://pcsx2.net/compat/) untuk status kompatibilitas game terbaru (lebih dari 2500 judul telah diuji).
 
 Installer dan binary untuk build stabil maupun nightly tersedia di [situs web kami](https://pcsx2.net/downloads/).
 
+<a id="system-requirements"></a>
+
 ## Kebutuhan sistem
 
 PCSX2 mendukung Windows, Linux, dan Mac. [Halaman dokumentasi penyiapan](https://pcsx2.net/docs/setup/requirements) memuat detail tambahan tentang kebutuhan perangkat lunak dan perangkat keras.
 
 Perlu diingat bahwa dump BIOS dari konsol PS2 yang dimiliki secara sah diperlukan untuk memakai emulator. Untuk info lebih lanjut, kunjungi [halaman ini](https://pcsx2.net/docs/setup/bios/).
+
+<a id="contributing--building"></a>
 
 ## Berkontribusi / Build
 

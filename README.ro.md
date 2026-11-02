@@ -46,11 +46,15 @@
 
 RIPPCSX2 este PCSX2 v2.9.96 cu schimbările de care un dezvoltator de homebrew pentru PS2 are nevoie ca să vadă realitatea: modurile video HD afișate, înregistrate și capturate așa cum le arată un televizor HD, și punctul de întrerupere hardware pentru date al EE, ca meniurile din joc și uneltele de mod video care se agață de regiștrii GS (GSM din Open PS2 Loader, meniul din joc al RIPPS2) să funcționeze ca pe o consolă. Restul e PCSX2 simplu. A pornit ca laborator de test al front end-ului [RIPPS2](https://github.com/akilluminati47/RIPPS2) și e gândit pentru oricine face homebrew, teme sau unelte pentru PS2.
 
+<a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
+
 ### [Descarcă RIPPCSX2 (zip pentru Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
 
 Windows 10 sau 11, x64, un procesor cu AVX2. Dezarhivează-l oriunde, pornește `pcsx2-qtx64-avx2.exe` și indică-i propriul dump de BIOS. Zip-ul are un `portable.txt` gol lângă exe, așa că RIPPCSX2 își ține toate setările și fișierele în propriul folder: un PCSX2 pe care îl ai deja instalat își păstrează setările, neatinse. Versiunea conține mereu cel mai nou build ([pagina ei](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); clipurile de mai jos sunt în [docs/videos](docs/videos).
 
 **Rulează programe `.elf` pentru test:** System > Start File, sau `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, iar programul pornește cum ar porni de pe un card de memorie sau un stick USB pe un PS2. **Se comportă ca hardware-ul real**: un ELF care pornește alt ELF îi predă mașina și dispare, un meniu din joc agățat de GS se desenează peste cadrul real al jocului, iar oprirea închide VM-ul ca o consolă care se stinge.
+
+<a id="see-it-work"></a>
 
 ## Vezi-l lucrând
 
@@ -68,6 +72,8 @@ Fiecare clip e o rulare reală în laborator pe acest build, tăiată sub 12 sec
 
 **Un ELF care lansează un ELF, ca un PS2 real.** Memory Files din RIPPS2 deschide `mc0:/RIPPS2/RIPPS2.ELF` (cel mai nou build, copiat pe card) și îl rulează. RIPPS2 care rula predă controlul și dispare; cel nou se încarcă de pe card și pornește până la lista lui de jocuri.
 
+<a id="what-you-get-over-vanilla-pcsx2-v2996"></a>
+
 ## Ce primești față de PCSX2 v2.9.96 simplu
 
 - **Modurile HD arată corect.** 720p și 1080i sunt afișate în 16:9 (originalul le desenează în 4:3), cu orice setare de aspect în afară de Stretch.
@@ -79,12 +85,16 @@ Fiecare clip e o rulare reală în laborator pe acest build, tăiată sub 12 sec
 - **Fără oferte de actualizare automată.** Etichetele de versiune țin oprit actualizatorul PCSX2, așa că nu te „actualizează” niciodată înapoi la original.
 - Definiția standard rămâne neatinsă: capturile în 480i sunt identice octet cu octet cu ale originalului. `HDTVOutput = false` sub `[EmuCore/GS]` în `inis/PCSX2.ini` aduce înapoi comportamentul HD original pentru comparație.
 
+<a id="what-it-is-for"></a>
+
 ## La ce folosește
 
 - **Creatori de teme** (Open PS2 Loader, RiptOPL, RIPPS2): judecă o temă în 720p și 1080i așa cum o arată un televizor, și fă previzualizări la mărime reală și videoclipuri de prezentare.
 - **Dezvoltatori de homebrew:** testează ELF-uri care schimbă modul video, se agață de GS sau folosesc regiștrii de depanare ai EE, și citește în jurnal regiștrii de afișare exacți pe care îi setează un mod.
 - **Meniuri din joc și unelte GS:** GSM din OPL, meniul din joc al RIPPS2 și orice altceva construit pe punctul de întrerupere la scrierea datelor rulează în emulator, nu doar pe hardware.
 - **Testare automată și asistată de AI:** rulări scriptate pe un desktop ascuns cu capturi, înregistrări, stări salvate și citiri de memorie prin PINE, fără să-ți acapareze PC-ul.
+
+<a id="for-ai-agents-llms-and-their-users"></a>
 
 ## Pentru agenți AI, LLM-uri și utilizatorii lor
 
@@ -110,17 +120,23 @@ Ce s-a schimbat și de ce, fișier cu fișier: **[RIPPCSX2.md](RIPPCSX2.md)**. A
 
 PCSX2 este un emulator PlayStation 2 (PS2) gratuit și open source. Scopul lui este să emuleze hardware-ul PS2 folosind o combinație de [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>) pentru procesorul MIPS, [Recompilatoare](https://en.wikipedia.org/wiki/Dynamic_recompilation) și o [Mașină virtuală](https://en.wikipedia.org/wiki/Virtual_machine) care gestionează stările hardware și memoria de sistem a PS2. Asta îți permite să joci jocuri PS2 pe PC, cu multe funcții și avantaje suplimentare.
 
+<a id="project-details"></a>
+
 ## Detalii despre proiect
 
 PCSX2 e în dezvoltare de peste 20 de ani. Versiunile vechi puteau rula doar câteva demo-uri din domeniul public, dar cele noi rulează majoritatea jocurilor la viteză maximă, inclusiv titluri populare ca Final Fantasy X și Devil May Cry 3. Vezi [lista de compatibilitate PCSX2](https://pcsx2.net/compat/) pentru cea mai recentă stare de compatibilitate a jocurilor (peste 2500 de titluri testate).
 
 Programele de instalare și binarele pentru build-urile stabile și nightly sunt disponibile pe [site-ul nostru](https://pcsx2.net/downloads/).
 
+<a id="system-requirements"></a>
+
 ## Cerințe de sistem
 
 PCSX2 suportă Windows, Linux și Mac. [Pagina noastră de documentație despre configurare](https://pcsx2.net/docs/setup/requirements) are mai multe detalii despre cerințele software și hardware.
 
 Reține că pentru a folosi emulatorul e nevoie de un dump de BIOS de pe o consolă PS2 deținută legal. Pentru mai multe informații, vezi [această pagină](https://pcsx2.net/docs/setup/bios/).
+
+<a id="contributing--building"></a>
 
 ## Contribuții / Compilare
 

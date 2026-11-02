@@ -46,11 +46,15 @@
 
 A RIPPCSX2 a PCSX2 v2.9.96 azokkal a változtatásokkal, amelyekre egy PS2-homebrew fejlesztőnek szüksége van, hogy a valódi képet lássa: a HD videómódok úgy jelennek meg, rögzülnek és készül róluk képernyőkép, ahogy egy HD tévé mutatja őket, valamint az EE hardveres adat-töréspontja, hogy a játékon belüli menük és a GS regisztereire akaszkodó videómód-eszközök (az Open PS2 Loader GSM-je, a RIPPS2 játékon belüli menüje) úgy működjenek, mint egy konzolon. Minden más tiszta PCSX2. A [RIPPS2](https://github.com/akilluminati47/RIPPS2) front end tesztlaborjaként indult, és mindenkinek szól, aki PS2-homebrew-t, témákat vagy eszközöket készít.
 
+<a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
+
 ### [A RIPPCSX2 letöltése (Windows zip)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
 
 Windows 10 vagy 11, x64, AVX2-t támogató processzor. Csomagold ki bárhová, indítsd el a `pcsx2-qtx64-avx2.exe` fájlt, és add meg neki a saját BIOS-dumpodat. A zipben egy üres `portable.txt` van az exe mellett, így a RIPPCSX2 minden beállítását és fájlját a saját mappájában tartja: egy már telepített PCSX2 megtartja a saját beállításait, érintetlenül. A kiadás mindig a legújabb buildet tartalmazza ([az oldala](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); a lenti klipek a [docs/videos](docs/videos) mappában vannak.
 
 **`.elf` programokat futtat tesztelésre:** System > Start File, vagy `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, és a program úgy indul, ahogy egy PS2-n memóriakártyáról vagy pendrive-ról indulna. **Úgy viselkedik, mint a valódi hardver**: egy ELF, amely egy másik ELF-et indít, átadja neki a gépet és eltűnik, egy GS-re akaszkodó játékon belüli menü a játék valódi képkockájára rajzol, a kikapcsolás pedig úgy zárja be a VM-et, mint egy kikapcsolt konzol.
+
+<a id="see-it-work"></a>
 
 ## Működés közben
 
@@ -68,6 +72,8 @@ Minden klip valódi laborfuttatás ezen a buildön, 12 másodperc alá vágva.
 
 **Egy ELF, amely ELF-et indít, mint egy valódi PS2.** A RIPPS2 Memory Files funkciója megnyitja a `mc0:/RIPPS2/RIPPS2.ELF` fájlt (a legújabb build, a kártyára másolva), és futtatja. A futó RIPPS2 átadja a vezérlést és eltűnik; az új betöltődik a kártyáról, és a játéklistájáig indul.
 
+<a id="what-you-get-over-vanilla-pcsx2-v2996"></a>
+
 ## Amit a sima PCSX2 v2.9.96-hoz képest kapsz
 
 - **A HD módok jól néznek ki.** A 720p és az 1080i 16:9-ben jelenik meg (az eredeti 4:3-ban rajzolja őket), minden képarány-beállításnál a Stretch kivételével.
@@ -79,12 +85,16 @@ Minden klip valódi laborfuttatás ezen a buildön, 12 másodperc alá vágva.
 - **Nincsenek automatikus frissítési ajánlatok.** A kiadási címkék kikapcsolva tartják a PCSX2 frissítőjét, így sosem „frissít” vissza az eredetire.
 - A normál felbontás érintetlen: a 480i képernyőképek bájtról bájtra megegyeznek az eredetiével. A `HDTVOutput = false` az `[EmuCore/GS]` alatt az `inis/PCSX2.ini` fájlban visszahozza az eredeti HD viselkedést összehasonlításhoz.
 
+<a id="what-it-is-for"></a>
+
 ## Mire való
 
 - **Témakészítők** (Open PS2 Loader, RiptOPL, RIPPS2): ítéld meg a témát 720p-ben és 1080i-ben úgy, ahogy egy tévé mutatja, és készíts valós méretű előnézeteket és bemutató videókat.
 - **Homebrew-fejlesztők:** tesztelj olyan ELF-eket, amelyek videómódot váltanak, a GS-re akaszkodnak vagy az EE hibakereső regisztereit használják, és olvasd ki a naplóból, pontosan mely kijelzőregisztereket állít be egy mód.
 - **Játékon belüli menük és GS-eszközök:** az OPL GSM-je, a RIPPS2 játékon belüli menüje és minden más, ami az adatírási töréspontra épül, az emulátorban fut, nem csak hardveren.
 - **Automatizált és MI-támogatott tesztelés:** szkriptelt futtatások rejtett asztalon képernyőképekkel, felvételekkel, mentett állapotokkal és PINE-memóriaolvasással, anélkül hogy átvennék a PC-det.
+
+<a id="for-ai-agents-llms-and-their-users"></a>
 
 ## MI-ügynököknek, LLM-eknek és felhasználóiknak
 
@@ -110,17 +120,23 @@ Mi változott és miért, fájlról fájlra: **[RIPPCSX2.md](RIPPCSX2.md)**. Üg
 
 A PCSX2 egy ingyenes, nyílt forráskódú PlayStation 2 (PS2) emulátor. Célja a PS2 hardverének emulálása a MIPS processzor [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>), [rekompilerek](https://en.wikipedia.org/wiki/Dynamic_recompilation) és egy [virtuális gép](https://en.wikipedia.org/wiki/Virtual_machine) kombinációjával, amely kezeli a hardver állapotait és a PS2 rendszermemóriáját. Így a PC-den játszhatsz PS2-játékokkal, sok extra funkcióval és előnnyel.
 
+<a id="project-details"></a>
+
 ## A projekt részletei
 
 A PCSX2 több mint 20 éve fejlődik. A korábbi verziók csak néhány közkincs játékdemót tudtak futtatni, de az újabbak a legtöbb játékot teljes sebességgel futtatják, köztük népszerű címeket, mint a Final Fantasy X és a Devil May Cry 3. Nézd meg a [PCSX2 kompatibilitási listáját](https://pcsx2.net/compat/) a játékok legfrissebb kompatibilitási állapotáért (több mint 2500 tesztelt címmel).
 
 A stabil és a nightly buildek telepítői és binárisai elérhetők [a weboldalunkon](https://pcsx2.net/downloads/).
 
+<a id="system-requirements"></a>
+
 ## Rendszerkövetelmények
 
 A PCSX2 támogatja a Windowst, a Linuxot és a Macet. A [telepítési dokumentációs oldalunkon](https://pcsx2.net/docs/setup/requirements) további részletek vannak a szoftver- és hardverkövetelményekről.
 
 Vedd figyelembe, hogy az emulátor használatához egy jogszerűen birtokolt PS2 konzol BIOS-dumpja szükséges. További információ [ezen az oldalon](https://pcsx2.net/docs/setup/bios/).
+
+<a id="contributing--building"></a>
 
 ## Közreműködés / Fordítás
 

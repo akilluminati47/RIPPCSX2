@@ -46,11 +46,15 @@
 
 RIPPCSX2, bir PS2 homebrew geliştiricisinin gerçeği görmek için ihtiyaç duyduğu değişikliklerle PCSX2 v2.9.96’dır: HD video modları bir HD televizyonun gösterdiği gibi gösterilir, kaydedilir ve ekran görüntüsü alınır, ayrıca EE’nin donanımsal veri kesme noktası vardır; böylece oyun içi menüler ve GS yazmaçlarına kanca atan video modu araçları (Open PS2 Loader’ın GSM’i, RIPPS2’nin oyun içi menüsü) bir konsoldaki gibi çalışır. Geri kalan her şey düz PCSX2’dir. [RIPPS2](https://github.com/akilluminati47/RIPPS2) ön ucunun test laboratuvarı olarak başladı ve PS2 için homebrew, tema ya da araç yapan herkes içindir.
 
+<a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
+
 ### [RIPPCSX2’yi indir (Windows zip)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
 
 Windows 10 veya 11, x64, AVX2 destekli bir işlemci. İstediğiniz yere açın, `pcsx2-qtx64-avx2.exe` dosyasını başlatın ve kendi BIOS dökümünüzü gösterin. Zip, exe’nin yanında boş bir `portable.txt` taşır, bu yüzden RIPPCSX2 tüm ayarlarını ve dosyalarını kendi klasöründe tutar: zaten kurulu bir PCSX2 kendi ayarlarını korur, el değmeden. Sürüm her zaman en yeni derlemeyi içerir ([sayfası](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); aşağıdaki klipler [docs/videos](docs/videos) içinde.
 
 **Test için `.elf` programları çalıştırır:** System > Start File ya da `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`; program, bir PS2’de hafıza kartından veya USB bellekten açılacağı gibi açılır. **Gerçek donanım gibi davranır**: başka bir ELF başlatan ELF makineyi ona devreder ve gider, GS’ye kanca atan bir oyun içi menü oyunun gerçek karesinin üstüne çizer, kapatmak da VM’yi kapanan bir konsol gibi kapatır.
+
+<a id="see-it-work"></a>
 
 ## Çalışırken görün
 
@@ -68,6 +72,8 @@ Her klip, bu derlemede gerçek bir laboratuvar çalışmasıdır, 12 saniyenin a
 
 **ELF başlatan bir ELF, gerçek bir PS2 gibi.** RIPPS2’nin Memory Files’ı `mc0:/RIPPS2/RIPPS2.ELF` dosyasını (karta kopyalanmış en yeni derleme) açar ve çalıştırır. Çalışan RIPPS2 devreder ve gider; yenisi karttan yüklenir ve oyun listesine kadar açılır.
 
+<a id="what-you-get-over-vanilla-pcsx2-v2996"></a>
+
 ## Düz PCSX2 v2.9.96’ya göre ne kazanırsınız
 
 - **HD modlar doğru görünür.** 720p ve 1080i, Stretch dışındaki her en-boy ayarında 16:9 gösterilir (orijinal onları 4:3 çizer).
@@ -79,12 +85,16 @@ Her klip, bu derlemede gerçek bir laboratuvar çalışmasıdır, 12 saniyenin a
 - **Otomatik güncelleyici teklifi yok.** Sürüm etiketleri PCSX2’nin güncelleyicisini kapalı tutar, böylece sizi asla orijinale geri "güncellemez".
 - Standart çözünürlüğe dokunulmaz: 480i ekran görüntüleri orijinalinkilerle bayt bayt aynıdır. `inis/PCSX2.ini` içinde `[EmuCore/GS]` altındaki `HDTVOutput = false`, karşılaştırma için orijinal HD davranışını geri getirir.
 
+<a id="what-it-is-for"></a>
+
 ## Ne işe yarar
 
 - **Tema yapanlar** (Open PS2 Loader, RiptOPL, RIPPS2): bir temayı 720p ve 1080i’de bir televizyonun gösterdiği gibi değerlendirin, gerçek boyutlu önizlemeler ve tanıtım videoları yapın.
 - **Homebrew geliştiricileri:** video modu değiştiren, GS’ye kanca atan ya da EE’nin hata ayıklama yazmaçlarını kullanan ELF’leri test edin ve bir modun ayarladığı ekran yazmaçlarını günlükte tam olarak okuyun.
 - **Oyun içi menüler ve GS araçları:** OPL GSM’i, RIPPS2’nin oyun içi menüsü ve veri yazma kesme noktası üzerine kurulu her şey yalnızca donanımda değil emülatörde de çalışır.
 - **Otomatik ve yapay zekâ destekli test:** gizli bir masaüstünde ekran görüntüleri, kayıtlar, kayıt durumları ve PINE bellek okumalarıyla betikli çalıştırmalar, bilgisayarınızı ele geçirmeden.
+
+<a id="for-ai-agents-llms-and-their-users"></a>
 
 ## Yapay zekâ ajanları, LLM’ler ve kullanıcıları için
 
@@ -110,17 +120,23 @@ Neyin değiştiği ve neden, dosya dosya: **[RIPPCSX2.md](RIPPCSX2.md)**. Bu for
 
 PCSX2, ücretsiz ve açık kaynaklı bir PlayStation 2 (PS2) emülatörüdür. Amacı, MIPS işlemci [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>), [Yeniden derleyiciler](https://en.wikipedia.org/wiki/Dynamic_recompilation) ve donanım durumlarını ve PS2 sistem belleğini yöneten bir [Sanal makine](https://en.wikipedia.org/wiki/Virtual_machine) birleşimiyle PS2’nin donanımını öykünmektir. Bu sayede PS2 oyunlarını bilgisayarınızda, pek çok ek özellik ve avantajla oynayabilirsiniz.
 
+<a id="project-details"></a>
+
 ## Proje ayrıntıları
 
 PCSX2 20 yılı aşkın süredir geliştiriliyor. Eski sürümler yalnızca birkaç kamu malı oyun demosunu çalıştırabiliyordu, yeni sürümler ise Final Fantasy X ve Devil May Cry 3 gibi popüler oyunlar dahil çoğu oyunu tam hızda çalıştırabiliyor. Oyunların en güncel uyumluluk durumu için [PCSX2 uyumluluk listesini](https://pcsx2.net/compat/) ziyaret edin (2500’den fazla oyun test edildi).
 
 Kararlı ve nightly derlemelerin kurulum dosyaları ve ikili dosyaları [web sitemizde](https://pcsx2.net/downloads/) bulunur.
 
+<a id="system-requirements"></a>
+
 ## Sistem gereksinimleri
 
 PCSX2 Windows, Linux ve Mac’i destekler. [Kurulum belgeleri sayfamız](https://pcsx2.net/docs/setup/requirements) yazılım ve donanım gereksinimleriyle ilgili ek ayrıntılar içerir.
 
 Emülatörü kullanmak için yasal olarak sahip olunan bir PS2 konsolundan alınmış BIOS dökümünün gerektiğini unutmayın. Daha fazla bilgi için [bu sayfayı](https://pcsx2.net/docs/setup/bios/) ziyaret edin.
+
+<a id="contributing--building"></a>
 
 ## Katkı / Derleme
 

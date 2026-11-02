@@ -46,11 +46,15 @@
 
 RIPPCSX2 は、PS2 homebrew 開発者が本物を見るのに必要な変更を加えた PCSX2 v2.9.96 です。HD ビデオモードを HD テレビの映し方どおりに表示・録画・スクリーンショットでき、EE のハードウェアデータブレークポイントにより、GS レジスタにフックするゲーム内メニューやビデオモードツール（Open PS2 Loader の GSM、RIPPS2 のゲーム内メニュー）が実機と同じように動きます。それ以外はすべて素の PCSX2 です。フロントエンド [RIPPS2](https://github.com/akilluminati47/RIPPS2) のテストラボとして始まり、PS2 の homebrew、テーマ、ツールを作るすべての人に向けたものです。
 
+<a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
+
 ### [RIPPCSX2 をダウンロード（Windows 用 zip）](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
 
 Windows 10 または 11、x64、AVX2 対応 CPU。好きな場所に展開して `pcsx2-qtx64-avx2.exe` を起動し、自分の BIOS ダンプを指定します。zip には exe の隣に空の `portable.txt` が入っているので、RIPPCSX2 は設定とファイルをすべて自分のフォルダーに保存します。すでにインストール済みの PCSX2 の設定はそのまま手つかずです。リリースは常に最新ビルドです（[そのページ](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)）。下のクリップは [docs/videos](docs/videos) にあります。
 
 **テスト用に `.elf` プログラムを実行できます：** System > Start File、または `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>` で、PS2 のメモリーカードや USB メモリーから起動するのと同じようにプログラムが起動します。**実機と同じように動作します**：別の ELF を起動した ELF はマシンを引き渡して消え、GS にフックするゲーム内メニューはゲームの本物のフレームの上に描かれ、電源オフでは本体の電源を切るように VM が閉じます。
+
+<a id="see-it-work"></a>
 
 ## 動作を見る
 
@@ -68,6 +72,8 @@ Windows 10 または 11、x64、AVX2 対応 CPU。好きな場所に展開して
 
 **ELF が ELF を起動する、実機の PS2 のように。** RIPPS2 の Memory Files が `mc0:/RIPPS2/RIPPS2.ELF`（カードにコピーした最新ビルド）を開いて実行します。実行中の RIPPS2 は制御を渡して消え、新しいほうがカードから読み込まれてゲームリストまで起動します。
 
+<a id="what-you-get-over-vanilla-pcsx2-v2996"></a>
+
 ## 素の PCSX2 v2.9.96 と比べて得られるもの
 
 - **HD モードが正しく見える。** 720p と 1080i は、Stretch 以外のどのアスペクト設定でも 16:9 で表示されます（素の版は 4:3 で描画）。
@@ -79,12 +85,16 @@ Windows 10 または 11、x64、AVX2 対応 CPU。好きな場所に展開して
 - **自動更新の提案なし。** リリースタグにより PCSX2 のアップデーターはオフのままなので、素の版に「アップデート」で戻されることはありません。
 - 標準解像度はそのまま：480i のスクリーンショットは素の版とバイト単位で同一です。`inis/PCSX2.ini` の `[EmuCore/GS]` で `HDTVOutput = false` にすると、比較用に素の HD 動作に戻せます。
 
+<a id="what-it-is-for"></a>
+
 ## 用途
 
 - **テーマ作者**（Open PS2 Loader、RiptOPL、RIPPS2）：テレビに映るとおりに 720p と 1080i でテーマを判断し、実寸のプレビューや紹介動画を作れます。
 - **homebrew 開発者：** ビデオモードを切り替える ELF、GS にフックする ELF、EE のデバッグレジスタを使う ELF をテストし、モードが設定する正確なディスプレイレジスタをログで確認できます。
 - **ゲーム内メニューと GS ツール：** OPL の GSM、RIPPS2 のゲーム内メニュー、データ書き込みブレークポイントに頼るほかのすべてが、実機だけでなくエミュレーターでも動きます。
 - **自動化・AI 支援テスト：** スクリーンショット、録画、ステートセーブ、PINE によるメモリー読み取り付きのスクリプト実行を隠しデスクトップで行い、PC を乗っ取りません。
+
+<a id="for-ai-agents-llms-and-their-users"></a>
 
 ## AI エージェント、LLM とそのユーザーへ
 
@@ -110,17 +120,23 @@ Windows 10 または 11、x64、AVX2 対応 CPU。好きな場所に展開して
 
 PCSX2 は無料でオープンソースの PlayStation 2（PS2）エミュレーターです。MIPS CPU の [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>)、[リコンパイラー](https://en.wikipedia.org/wiki/Dynamic_recompilation)、ハードウェアの状態と PS2 のシステムメモリーを管理する[仮想マシン](https://en.wikipedia.org/wiki/Virtual_machine)を組み合わせて PS2 のハードウェアをエミュレートすることを目的としています。これにより、PC で PS2 のゲームを、多くの追加機能と利点とともに遊べます。
 
+<a id="project-details"></a>
+
 ## プロジェクトの詳細
 
 PCSX2 は 20 年以上開発が続いています。昔のバージョンはパブリックドメインのゲームデモを少し動かせるだけでしたが、新しいバージョンは Final Fantasy X や Devil May Cry 3 などの人気タイトルを含むほとんどのゲームをフルスピードで動かせます。ゲームの最新の互換性状況は [PCSX2 互換性リスト](https://pcsx2.net/compat/)をご覧ください（2500 本以上のタイトルをテスト済み）。
 
 安定版とナイトリー版のインストーラーとバイナリは [公式サイト](https://pcsx2.net/downloads/) から入手できます。
 
+<a id="system-requirements"></a>
+
 ## 動作環境
 
 PCSX2 は Windows、Linux、Mac に対応しています。ソフトウェアとハードウェアの要件の詳細は [セットアップのドキュメントページ](https://pcsx2.net/docs/setup/requirements) にあります。
 
 エミュレーターを使うには、正規に所有する PS2 本体の BIOS ダンプが必要です。詳しくは [このページ](https://pcsx2.net/docs/setup/bios/) をご覧ください。
+
+<a id="contributing--building"></a>
 
 ## 貢献 / ビルド
 

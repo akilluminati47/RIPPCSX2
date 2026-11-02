@@ -46,11 +46,15 @@
 
 Ang RIPPCSX2 mao ang PCSX2 v2.9.96 nga adunay mga kausaban nga kinahanglan sa usa ka PS2 homebrew developer aron makita ang tinuod: ang mga HD video mode gipakita, gi-record ug gikuhaan og screenshot sama sa pagpakita sa HD TV, uban ang hardware data breakpoint sa EE, aron ang mga in-game menu ug video mode tool nga mokabit sa mga GS register (ang GSM sa Open PS2 Loader, ang in-game menu sa RIPPS2) molihok sama sa console. Ang tanan nga uban kay yanong PCSX2. Nagsugod kini isip test lab sa front end nga [RIPPS2](https://github.com/akilluminati47/RIPPS2) ug para kini sa bisan kinsa nga naghimo og homebrew, theme o tool para sa PS2.
 
+<a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
+
 ### [I-download ang RIPPCSX2 (Windows zip)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
 
 Windows 10 o 11, x64, CPU nga adunay AVX2. I-unzip bisan asa, padagana ang `pcsx2-qtx64-avx2.exe`, ug itudlo kini sa imong kaugalingong BIOS dump. Ang zip adunay walay sulod nga `portable.txt` tupad sa exe, mao nga gitipigan sa RIPPCSX2 ang tanan niyang setting ug file sa kaugalingon niyang folder: ang PCSX2 nga na-install na nimo magpabilin sa kaugalingon niyang mga setting, wala matandog. Ang release kanunay ang pinakabag-o nga build ([ang page niini](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); ang mga clip sa ubos naa sa [docs/videos](docs/videos).
 
 **Nagpadagan og mga `.elf` program para sa pag-test:** System > Start File, o `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, ug ang program mo-boot sama sa pag-boot niini gikan sa memory card o USB stick sa PS2. **Molihok kini sama sa tinuod nga hardware**: ang ELF nga molansad og laing ELF motugyan sa makina niini ug mobiya, ang in-game menu nga mokabit sa GS modrowing ibabaw sa tinuod nga frame sa dula, ug ang pag-power off mosira sa VM sama sa console nga gipalong.
+
+<a id="see-it-work"></a>
 
 ## Tan-awa kini nga molihok
 
@@ -68,6 +72,8 @@ Ang matag clip usa ka tinuod nga lab run niini nga build, giputol ngadto sa ubos
 
 **ELF nga molansad og ELF, sama sa tinuod nga PS2.** Giablihan ug gipadagan sa Memory Files sa RIPPS2 ang `mc0:/RIPPS2/RIPPS2.ELF` (ang pinakabag-o nga build, gikopya sa card). Ang nagdagan nga RIPPS2 motugyan ug mawala; ang bag-o i-load gikan sa card ug mo-boot hangtod sa listahan sa iyang mga dula.
 
+<a id="what-you-get-over-vanilla-pcsx2-v2996"></a>
+
 ## Unsa ang imong makuha kumpara sa yanong PCSX2 v2.9.96
 
 - **Husto ang hitsura sa HD modes.** Ang 720p ug 1080i gipakita sa 16:9 (4:3 ang drowing sa orihinal), sa matag aspect setting gawas sa Stretch.
@@ -79,12 +85,16 @@ Ang matag clip usa ka tinuod nga lab run niini nga build, giputol ngadto sa ubos
 - **Walay tanyag sa auto-updater.** Ang mga release tag nagpabilin nga patay sa updater sa PCSX2, mao nga dili ka niini "i-update" pabalik sa orihinal.
 - Wala gitandog ang standard definition: ang mga 480i screenshot parehas byte matag byte sa orihinal. Ang `HDTVOutput = false` ilalom sa `[EmuCore/GS]` sa `inis/PCSX2.ini` mobalik sa orihinal nga HD behavior para sa magtupad nga pagkumpara.
 
+<a id="what-it-is-for"></a>
+
 ## Para asa kini
 
 - **Mga naghimo og theme** (Open PS2 Loader, RiptOPL, RIPPS2): timbanga ang theme sa 720p ug 1080i sama sa pagpakita sa TV, ug paghimo og mga preview nga tinuod ang gidak-on ug mga tour video.
 - **Mga homebrew developer:** i-test ang mga ELF nga moilis og video mode, mokabit sa GS o mogamit sa mga debug register sa EE, ug basaha sa log ang eksaktong display register nga gitakda sa usa ka mode.
 - **Mga in-game menu ug GS tool:** ang GSM sa OPL, ang in-game menu sa RIPPS2 ug bisan unsa nga gitukod sa data write breakpoint modagan sa emulator, dili lang sa hardware.
 - **Automated ug AI-assisted nga pag-test:** mga scripted run sa tinago nga desktop nga adunay screenshot, recording, save state ug pagbasa sa memory pinaagi sa PINE, nga dili moilog sa imong computer.
+
+<a id="for-ai-agents-llms-and-their-users"></a>
 
 ## Para sa mga AI agent, LLM ug sa ilang mga user
 
@@ -110,17 +120,23 @@ Unsa ang nausab ug ngano, matag file: **[RIPPCSX2.md](RIPPCSX2.md)**. Mga agent 
 
 Ang PCSX2 usa ka libre ug open-source nga PlayStation 2 (PS2) emulator. Ang tumong niini mao ang pag-emulate sa hardware sa PS2, gamit ang kombinasyon sa [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>) sa MIPS CPU, [Mga Recompiler](https://en.wikipedia.org/wiki/Dynamic_recompilation) ug usa ka [Virtual machine](https://en.wikipedia.org/wiki/Virtual_machine) nga nagdumala sa mga hardware state ug sa system memory sa PS2. Tugotan ka niini nga magdula og mga PS2 game sa imong PC, uban ang daghang dugang nga feature ug benepisyo.
 
+<a id="project-details"></a>
+
 ## Mga detalye sa proyekto
 
 Kapin na sa 20 ka tuig nga gi-develop ang PCSX2. Pipila ra ka public domain game demo ang kaya padaganon sa mga daan nga bersyon, apan kaya sa mga bag-ong bersyon nga padaganon ang kadaghanan sa mga dula nga full speed, lakip ang mga sikat nga titulo sama sa Final Fantasy X ug Devil May Cry 3. Bisitaha ang [PCSX2 compatibility list](https://pcsx2.net/compat/) para sa pinakabag-o nga compatibility status sa mga dula (kapin sa 2500 ka titulo ang na-test).
 
 Ang mga installer ug binary sa stable ug nightly build anaa sa [among website](https://pcsx2.net/downloads/).
 
+<a id="system-requirements"></a>
+
 ## Mga kinahanglanon sa system
 
 Gisuportahan sa PCSX2 ang Windows, Linux ug Mac. Ang among [setup documentation page](https://pcsx2.net/docs/setup/requirements) adunay dugang nga detalye bahin sa mga kinahanglanon sa software ug hardware.
 
 Palihug timan-i nga kinahanglan ang BIOS dump gikan sa legal nga gipanag-iya nga PS2 console aron magamit ang emulator. Para sa dugang impormasyon, bisitaha [kini nga page](https://pcsx2.net/docs/setup/bios/).
+
+<a id="contributing--building"></a>
 
 ## Pag-amot / Pag-build
 

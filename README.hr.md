@@ -46,11 +46,15 @@
 
 RIPPCSX2 je PCSX2 v2.9.96 s promjenama koje razvijatelju homebrewa za PS2 trebaju da vidi pravo stanje: HD video načini prikazani, snimljeni i uslikani onako kako ih prikazuje HD televizor, i hardverska podatkovna prekidna točka EE-a, kako bi izbornici u igri i alati za video načine koji se kače na registre GS-a (GSM iz Open PS2 Loadera, izbornik u igri RIPPS2) radili kao na konzoli. Sve ostalo je čisti PCSX2. Nastao je kao testni laboratorij front enda [RIPPS2](https://github.com/akilluminati47/RIPPS2) i namijenjen je svakome tko radi homebrew, teme ili alate za PS2.
 
+<a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
+
 ### [Preuzmi RIPPCSX2 (zip za Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
 
 Windows 10 ili 11, x64, procesor s AVX2. Raspakirajte ga bilo gdje, pokrenite `pcsx2-qtx64-avx2.exe` i usmjerite ga na vlastiti dump BIOS-a. Zip sadrži prazan `portable.txt` pokraj exe datoteke, pa RIPPCSX2 drži sve postavke i datoteke u vlastitoj mapi: već instalirani PCSX2 zadržava svoje postavke, netaknute. Izdanje uvijek sadrži najnoviji build ([njegova stranica](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); isječci ispod su u [docs/videos](docs/videos).
 
 **Pokreće `.elf` programe za testiranje:** System > Start File, ili `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, a program se pokreće kao što bi s memorijske kartice ili USB sticka na PS2. **Ponaša se kao pravi hardver**: ELF koji pokrene drugi ELF predaje mu stroj i nestaje, izbornik u igri koji se kači na GS crta preko pravog kadra igre, a gašenje zatvara VM kao konzola koja se gasi.
+
+<a id="see-it-work"></a>
 
 ## Pogledajte kako radi
 
@@ -68,6 +72,8 @@ Svaki isječak je pravo pokretanje u laboratoriju na ovom buildu, skraćeno ispo
 
 **ELF koji pokreće ELF, kao pravi PS2.** Memory Files u RIPPS2 otvara `mc0:/RIPPS2/RIPPS2.ELF` (najnoviji build, kopiran na karticu) i pokreće ga. Pokrenuti RIPPS2 predaje i nestaje; novi se učitava s kartice i pokreće do popisa igara.
 
+<a id="what-you-get-over-vanilla-pcsx2-v2996"></a>
+
 ## Što dobivate u odnosu na obični PCSX2 v2.9.96
 
 - **HD načini izgledaju ispravno.** 720p i 1080i prikazuju se u 16:9 (izvornik ih crta u 4:3), uz svaku postavku omjera osim Stretch.
@@ -79,12 +85,16 @@ Svaki isječak je pravo pokretanje u laboratoriju na ovom buildu, skraćeno ispo
 - **Bez ponuda automatskog ažuriranja.** Oznake izdanja drže PCSX2-ovo ažuriranje isključenim, pa vas nikad ne „ažurira” natrag na izvornik.
 - Standardna razlučivost ostaje netaknuta: snimke zaslona u 480i bajt su po bajt iste kao u izvorniku. `HDTVOutput = false` pod `[EmuCore/GS]` u `inis/PCSX2.ini` vraća izvorno HD ponašanje za usporedbu.
 
+<a id="what-it-is-for"></a>
+
 ## Čemu služi
 
 - **Izrađivači tema** (Open PS2 Loader, RiptOPL, RIPPS2): procijenite temu u 720p i 1080i onako kako je prikazuje televizor, i izradite preglede u stvarnoj veličini i videa obilaska.
 - **Razvijatelji homebrewa:** testirajte ELF-ove koji mijenjaju video način, kače se na GS ili koriste registre za ispravljanje EE-a, i čitajte u zapisniku točne registre prikaza koje način postavlja.
 - **Izbornici u igri i GS alati:** GSM iz OPL-a, izbornik u igri RIPPS2 i sve ostalo izgrađeno na prekidnoj točki upisa podataka radi u emulatoru, a ne samo na hardveru.
 - **Automatizirano i AI potpomognuto testiranje:** skriptirana pokretanja na skrivenoj radnoj površini sa snimkama zaslona, snimkama, spremljenim stanjima i čitanjem memorije preko PINE-a, bez preuzimanja vašeg računala.
+
+<a id="for-ai-agents-llms-and-their-users"></a>
 
 ## Za AI agente, LLM-ove i njihove korisnike
 
@@ -110,17 +120,23 @@ Ovaj repozitorij napisan je tako da agent može postaviti sve korisniku samo iz 
 
 PCSX2 je besplatan emulator PlayStationa 2 (PS2) otvorenog koda. Svrha mu je emulirati hardver PS2 kombinacijom [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>) za MIPS procesor, [rekompajlera](https://en.wikipedia.org/wiki/Dynamic_recompilation) i [virtualnog stroja](https://en.wikipedia.org/wiki/Virtual_machine) koji upravlja stanjima hardvera i sistemskom memorijom PS2. To vam omogućuje igranje PS2 igara na računalu, s mnogo dodatnih značajki i prednosti.
 
+<a id="project-details"></a>
+
 ## Pojedinosti o projektu
 
 PCSX2 se razvija više od 20 godina. Ranije su verzije mogle pokrenuti tek nekoliko demo igara iz javnog vlasništva, a novije pokreću većinu igara punom brzinom, uključujući popularne naslove poput Final Fantasy X i Devil May Cry 3. Posjetite [popis kompatibilnosti PCSX2](https://pcsx2.net/compat/) za najnovije stanje kompatibilnosti igara (s više od 2500 testiranih naslova).
 
 Instalacijski programi i binarne datoteke stabilnih i nightly buildova dostupni su na [našoj stranici](https://pcsx2.net/downloads/).
 
+<a id="system-requirements"></a>
+
 ## Zahtjevi sustava
 
 PCSX2 podržava Windows, Linux i Mac. Naša [stranica dokumentacije o postavljanju](https://pcsx2.net/docs/setup/requirements) sadrži dodatne pojedinosti o softverskim i hardverskim zahtjevima.
 
 Imajte na umu da je za korištenje emulatora potreban dump BIOS-a s legalno nabavljene konzole PS2. Za više informacija posjetite [ovu stranicu](https://pcsx2.net/docs/setup/bios/).
+
+<a id="contributing--building"></a>
 
 ## Doprinos / Izrada
 
