@@ -114,6 +114,32 @@ store checks compiled across an off/on with the same `DAB`/`DABM`. EXIT GAME's `
 after the IOP reboot (after `rom0:ROMVER`); the trap is already off by then (`BPC 00008000`), and the lab saw the
 same black screen before this change.
 
+## The RIPPCSX2 menu
+
+Between Debug and Help, in `pcsx2-qt/RIPPCSX2Menu.cpp`, built from the same parts as the menus beside it: theme icons,
+settings bound with `SettingWidgetBinder`, the VM started and stopped through `EmuThread`.
+
+| Item | What it does |
+|---|---|
+| Run ELF, Run Last ELF | Boots a program straight away (the running one goes first, as a power cycle would). The last one is remembered as `[RIPPCSX2] LastELF`, so rebuild, press, look. |
+| Lab Monitor | Live, twice a second: the video mode, `PMODE`, `SMODE1/2`, `SYNCV`, `DISPFB1/2`, `DISPLAY1/2` read from the GS's privileged registers, and the data write breakpoint's `BPC`, `DAB`, `DABM`, hit count and last PC. |
+| Test Steps | A list of steps played into what is running, in the lab driver's own language: `wait:2.5`, a button (`cross`, `start`, `l1`, `rdown` ...), `hold:cross:1.5`, `kdown:l1`, `kup:l1`, `shot`, `rec`, `sstate`. Presses go straight to the virtual pad with `Pad::SetControllerState`, so no window needs the focus. The last list is remembered as `[RIPPCSX2] LastSteps`. |
+| Compatibility Report | The game, what started it, a result, the OPL modes used, notes. Writes `reports/<id>-<time>.md` with the machine's state and the end of the log, adds a row to `reports/compatibility.csv`, and can save a screenshot beside it. |
+| HDTV Output | `[EmuCore/GS] HDTVOutput`. |
+| EE Data Write Breakpoint | `[EmuCore] DataWriteBreakpoint`, on by default. Off, COP0 `$24` behaves as stock: nothing fires when a program arms it. |
+| Lab Switches | EE and IOP console, file logging, PINE, the host filesystem, fast boot, and Set Up For Testing, which turns them all on at once after asking. |
+| Lab Folders, Open Log | Screenshots, video captures, save states, memory cards, logs, the data folder, reports. |
+
+## A taskbar button for hidden runs
+
+A process on a hidden desktop has no taskbar button, so nothing that acts on a program through its button can reach it.
+The Windhawk mod Taskbar Volume Control Per-App, for one, maps a button to its window's process ID and then changes the
+audio sessions of that process: a lab run's panel belongs to `powershell.exe`, its sound to `pcsx2-qt.exe`, so the mod
+found no session. `RIPPCSX2Menu::StartHiddenRunButton` checks the desktop at startup. If it is not `Default`, a thread of
+its own moves to the visible desktop and holds one minimized window there. That window belongs to the PCSX2 process, so
+the mod, or anything like it, now finds the right sound. It takes no focus. Pressing it brings up the run's panel when a
+driver has one, and closing it stops the run. A PCSX2 started normally never creates it.
+
 ## Building
 
 Pushing to `rippcsx2` runs **RIPPCSX2 lab build** (`.github/workflows/rippcsx2_build.yml`): PCSX2's own Windows

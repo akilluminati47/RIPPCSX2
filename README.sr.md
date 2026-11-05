@@ -46,6 +46,8 @@
 
 RIPPCSX2 je PCSX2 v2.9.96 sa izmenama koje su razvijaocu homebrewa za PS2 potrebne da vidi pravo stanje: HD video režimi prikazani, snimljeni i uslikani onako kako ih prikazuje HD televizor, i hardverska tačka prekida za podatke EE-a, kako bi meniji u igri i alati za video režime koji se kače na registre GS-a (GSM iz Open PS2 Loader-a, meni u igri RIPPS2) radili kao na konzoli. Sve ostalo je čisti PCSX2. Nastao je kao test laboratorija front enda [RIPPS2](https://github.com/akilluminati47/RIPPS2) i namenjen je svakome ko pravi homebrew, teme ili alate za PS2.
 
+**[Pogledaj veb-sajt](https://akilluminati47.github.io/RIPPCSX2/)**: rastavi PS2 ili ga razneti, a sve o RIPPCSX2 je u panelu Info.
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [Preuzmite RIPPCSX2 (zip za Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Svaki snimak je pravo pokretanje u laboratoriji na ovom buildu, skraćeno ispod 
 
 ## Šta dobijate u odnosu na obični PCSX2 v2.9.96
 
+- **Meni RIPPCSX2** između Debug i Help: Run ELF i Run Last ELF, Lab Monitor uživo, Test Steps, Compatibility Report, prekidači forka i fascikle u koje sve stiže.
+- **Dugme na traci zadataka za skrivena pokretanja.** PCSX2 pokrenut na skrivenoj radnoj površini stavlja dugme na tvoju traku zadataka, pa ga mikser jačine zvuka ili mod jačine zvuka po aplikaciji dosegne kao i svaki drugi program.
 - **HD režimi izgledaju ispravno.** 720p i 1080i prikazuju se u 16:9 (original ih crta u 4:3), uz svako podešavanje odnosa osim Stretch.
 - **HD snimci i snimci ekrana.** F11 snima 720p u 1280 x 720 i 1080i u 1920 x 1080 (ili to puta uvećanje), označeno kao 16:9; F8 čuva snimke ekrana u istim veličinama. Original daje 640 x 480 ili sirovi bafer širine 640.
 - **Promena režima usred snimanja** nastavlja se u novoj datoteci u novoj veličini, umesto da se ugura u prvu.
@@ -93,6 +97,14 @@ Svaki snimak je pravo pokretanje u laboratoriji na ovom buildu, skraćeno ispod 
 - **Razvijaoci homebrewa:** testirajte ELF-ove koji menjaju video režim, kače se na GS ili koriste registre za otklanjanje grešaka EE-a, i čitajte u dnevniku tačne registre prikaza koje režim postavlja.
 - **Meniji u igri i GS alati:** GSM iz OPL-a, meni u igri RIPPS2 i sve ostalo zasnovano na tački prekida za upis podataka radi u emulatoru, a ne samo na hardveru.
 - **Automatizovano i AI potpomognuto testiranje:** skriptovana pokretanja na skrivenoj radnoj površini sa snimcima ekrana, snimcima, sačuvanim stanjima i čitanjem memorije preko PINE-a, bez preuzimanja vašeg računara.
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## Krajnji cilj: cela biblioteka
+
+Najveći posao pred nama je testiranje PS2 igara kroz sopstveni kodni put Open PS2 Loadera, onako kako ih pokreće konzola, i zapisivanje šta je kojoj potrebno: ELF-ovi, KELF-ovi, homebrew aplikacije i igre u OPL sandboksu, uz automatsko isprobavanje režima kompatibilnosti. Neko bi jednog dana time mogao da pokrene celu biblioteku. To je krajnji cilj RIPPCSX2.
+
+Compatibility Report je prvi korak: rezultat igre, korišćeni OPL režimi i stanje mašine, sačuvani u `reports/` kao datoteka i red u `compatibility.csv`.
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 

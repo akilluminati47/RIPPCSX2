@@ -46,6 +46,8 @@
 
 RIPPCSX2 är PCSX2 v2.9.96 med de ändringar en PS2-homebrewutvecklare behöver för att se det verkliga resultatet: HD-videolägen visade, inspelade och fångade så som en HD-tv visar dem, och EE:s hårdvarubrytpunkt för data, så att menyer i spelet och videolägesverktyg som kopplar in sig på GS-registren (Open PS2 Loaders GSM, RIPPS2:s meny i spelet) fungerar som på en konsol. Allt annat är vanlig PCSX2. Det började som testlabb för frontenden [RIPPS2](https://github.com/akilluminati47/RIPPS2) och är tänkt för alla som bygger PS2-homebrew, teman eller verktyg.
 
+**[Se webbplatsen](https://akilluminati47.github.io/RIPPCSX2/)**: ta isär en PS2 eller spräng en, med allt om RIPPCSX2 i Info-panelen.
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [Ladda ner RIPPCSX2 (zip för Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Varje klipp är en riktig labbkörning med det här bygget, nerklippt till under
 
 ## Det du får jämfört med vanliga PCSX2 v2.9.96
 
+- **En RIPPCSX2-meny** mellan Debug och Help: Run ELF och Run Last ELF, en Lab Monitor i realtid, Test Steps, en Compatibility Report, forkens växlar och mapparna där allt hamnar.
+- **En aktivitetsfältsknapp för dolda körningar.** En PCSX2 som startas på ett dolt skrivbord lägger en knapp i ditt aktivitetsfält, så att en volymmixer eller en volymmod per app når den som vilket annat program som helst.
 - **HD-lägen ser rätt ut.** 720p och 1080i visas i 16:9 (originalet ritar dem i 4:3), med alla inställningar för bildförhållande utom Stretch.
 - **HD-inspelningar och skärmbilder.** F11 spelar in 720p i 1280 x 720 och 1080i i 1920 x 1080 (eller det gånger uppskalningen), märkt 16:9; F8 sparar skärmbilder i samma storlekar. Originalet ger 640 x 480 eller den råa bufferten på 640 i bredd.
 - **Ett lägesbyte mitt i en inspelning** fortsätter i en ny fil i den nya storleken, i stället för att klämmas in i den första.
@@ -93,6 +97,14 @@ Varje klipp är en riktig labbkörning med det här bygget, nerklippt till under
 - **Homebrewutvecklare:** testa ELF:er som byter videoläge, kopplar in sig på GS eller använder EE:s felsökningsregister, och läs i loggen exakt vilka skärmregister ett läge sätter.
 - **Menyer i spelet och GS-verktyg:** OPL:s GSM, RIPPS2:s meny i spelet och allt annat som bygger på brytpunkten för dataskrivning körs i emulatorn i stället för bara på hårdvara.
 - **Automatiserad och AI-assisterad testning:** skriptade körningar på ett dolt skrivbord med skärmbilder, inspelningar, sparlägen och PINE-minnesläsningar, utan att ta över din dator.
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## Slutmålet: hela biblioteket
+
+Det största arbetet framöver är att testa PS2-spel genom Open PS2 Loaders egen kodväg, så som en konsol kör dem, och skriva ner vad varje spel behöver: ELF-filer, KELF-filer, homebrew-appar och spel i en OPL-sandlåda, där kompatibilitetslägena prövas automatiskt. Någon kan en dag använda detta för att få hela biblioteket att fungera. Det är slutmålet för RIPPCSX2.
+
+Compatibility Report är det första steget: ett spels resultat, de OPL-lägen som användes och maskinens tillstånd, sparat i `reports/` som en fil och en rad i `compatibility.csv`.
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 

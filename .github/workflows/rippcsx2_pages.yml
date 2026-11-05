@@ -1,0 +1,38 @@
+name: RIPPCSX2 website
+
+# akilluminati47.github.io/RIPPCSX2: the static site in site/. Nothing to build: the models are made in Blender by
+# tools/site/blender and committed.
+
+on:
+  push:
+    branches:
+      - "rippcsx2"
+    paths:
+      - "site/**"
+      - ".github/workflows/rippcsx2_pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v4

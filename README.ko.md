@@ -46,6 +46,8 @@
 
 RIPPCSX2는 PS2 homebrew 개발자가 실제 모습을 보는 데 필요한 변경을 더한 PCSX2 v2.9.96입니다. HD 비디오 모드를 HD TV가 보여 주는 그대로 표시하고 녹화하고 스크린샷으로 남기며, EE의 하드웨어 데이터 브레이크포인트 덕분에 GS 레지스터에 후킹하는 게임 내 메뉴와 비디오 모드 도구(Open PS2 Loader의 GSM, RIPPS2의 게임 내 메뉴)가 실기와 똑같이 동작합니다. 나머지는 모두 순정 PCSX2입니다. 프런트엔드 [RIPPS2](https://github.com/akilluminati47/RIPPS2)의 테스트 랩으로 시작했으며, PS2용 homebrew, 테마, 도구를 만드는 모든 사람을 위한 것입니다.
 
+**[웹사이트 보기](https://akilluminati47.github.io/RIPPCSX2/)**: PS2를 분해하거나 폭파해 보세요. RIPPCSX2의 모든 내용은 Info 패널에 있습니다.
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [RIPPCSX2 다운로드 (Windows zip)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Windows 10 또는 11, x64, AVX2를 지원하는 CPU. 원하는 곳에 압축을 
 
 ## 순정 PCSX2 v2.9.96보다 나은 점
 
+- **Debug와 Help 사이의 RIPPCSX2 메뉴**: Run ELF와 Run Last ELF, 실시간 Lab Monitor, Test Steps, Compatibility Report, 포크의 스위치, 결과물이 저장되는 폴더.
+- **숨김 실행용 작업 표시줄 버튼.** 숨겨진 바탕 화면에서 시작한 PCSX2는 작업 표시줄에 버튼을 하나 놓으므로, 볼륨 믹서나 앱별 볼륨 모드가 다른 프로그램처럼 접근할 수 있습니다.
 - **HD 모드가 제대로 보입니다.** 720p와 1080i는 Stretch를 제외한 모든 화면비 설정에서 16:9로 표시됩니다(순정판은 4:3으로 그립니다).
 - **HD 녹화와 스크린샷.** F11은 720p를 1280 x 720, 1080i를 1920 x 1080(또는 업스케일 배수)으로 16:9 태그를 붙여 녹화하고, F8은 같은 크기로 스크린샷을 저장합니다. 순정판은 640 x 480 또는 폭 640의 원시 버퍼를 줍니다.
 - **녹화 중 모드 변경**은 첫 파일에 억지로 넣지 않고 새 크기의 새 파일로 이어집니다.
@@ -93,6 +97,14 @@ Windows 10 또는 11, x64, AVX2를 지원하는 CPU. 원하는 곳에 압축을 
 - **homebrew 개발자:** 비디오 모드를 바꾸거나 GS에 후킹하거나 EE 디버그 레지스터를 쓰는 ELF를 테스트하고, 모드가 설정하는 정확한 디스플레이 레지스터를 로그에서 읽으세요.
 - **게임 내 메뉴와 GS 도구:** OPL의 GSM, RIPPS2의 게임 내 메뉴, 그리고 데이터 쓰기 브레이크포인트를 쓰는 모든 것이 실기뿐 아니라 에뮬레이터에서도 돌아갑니다.
 - **자동화 및 AI 지원 테스트:** 숨겨진 데스크톱에서 스크린샷, 녹화, 상태 저장, PINE 메모리 읽기를 곁들인 스크립트 실행을, PC를 점령하지 않고 할 수 있습니다.
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## 최종 목표: 라이브러리 전체
+
+앞으로의 가장 큰 일은 PS2 게임을 콘솔이 실행하는 방식 그대로 Open PS2 Loader 자체의 코드 경로로 테스트하고, 각 게임에 무엇이 필요한지 기록하는 것입니다. OPL 샌드박스에서 ELF, KELF, 홈브루 앱과 게임을 돌리며 호환 모드를 자동으로 시험합니다. 언젠가 누군가 이것으로 라이브러리 전체를 실행할 수 있을 것입니다. 그것이 RIPPCSX2의 최종 목표입니다.
+
+Compatibility Report가 그 첫걸음입니다. 게임의 결과, 사용한 OPL 모드, 기기 상태를 `reports/`에 파일로, `compatibility.csv`에 행으로 저장합니다.
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 

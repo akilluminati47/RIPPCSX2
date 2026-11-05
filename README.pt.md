@@ -46,6 +46,8 @@
 
 O RIPPCSX2 é o PCSX2 v2.9.96 com as alterações de que um programador de homebrew da PS2 precisa para ver a coisa real: modos de vídeo HD mostrados, gravados e capturados como uma TV HD os mostra, e o ponto de paragem de dados por hardware do EE, para que os menus dentro do jogo e as ferramentas de modo de vídeo que se ligam aos registos do GS (o GSM do Open PS2 Loader, o menu dentro do jogo do RIPPS2) funcionem como numa consola. Tudo o resto é PCSX2 puro. Nasceu como o laboratório de testes do front end [RIPPS2](https://github.com/akilluminati47/RIPPS2) e destina-se a quem faz homebrew, temas ou ferramentas para a PS2.
 
+**[Vê o site](https://akilluminati47.github.io/RIPPCSX2/)**: desmonta uma PS2 ou fá-la explodir, com tudo sobre o RIPPCSX2 no painel Info.
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [Transferir o RIPPCSX2 (zip para Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Cada clip é uma execução real do laboratório nesta compilação, cortada par
 
 ## O que ganha face ao PCSX2 v2.9.96 original
 
+- **Um menu RIPPCSX2** entre Debug e Help: Run ELF e Run Last ELF, um Lab Monitor em direto, Test Steps, um Compatibility Report, os interruptores do fork e as pastas onde tudo fica.
+- **Um botão na barra de tarefas para execuções ocultas.** Um PCSX2 iniciado num ambiente de trabalho oculto coloca um botão na tua barra de tarefas, para que um misturador de volume ou um mod de volume por aplicação o alcance como a qualquer outro programa.
 - **Os modos HD aparecem corretos.** 720p e 1080i são mostrados em 16:9 (o original desenha-os em 4:3), em qualquer definição de proporção exceto Stretch.
 - **Gravações e capturas em HD.** F11 grava 720p a 1280 x 720 e 1080i a 1920 x 1080 (ou isso vezes o aumento de resolução), marcados como 16:9; F8 guarda capturas nos mesmos tamanhos. O original dá 640 x 480 ou o buffer bruto com 640 de largura.
 - **Uma mudança de modo a meio da gravação** continua num ficheiro novo com o novo tamanho, em vez de se espremer no primeiro.
@@ -93,6 +97,14 @@ Cada clip é uma execução real do laboratório nesta compilação, cortada par
 - **Programadores de homebrew:** teste ELF que mudam de modo de vídeo, se ligam ao GS ou usam os registos de depuração do EE, e leia no registo os valores exatos de ecrã que um modo define.
 - **Menus dentro do jogo e ferramentas do GS:** o GSM do OPL, o menu dentro do jogo do RIPPS2 e tudo o resto assente no ponto de paragem de escrita de dados funcionam no emulador e não só no hardware.
 - **Testes automatizados e assistidos por IA:** execuções com guião num ambiente de trabalho oculto, com capturas, gravações, estados guardados e leituras de memória por PINE, sem tomar conta do seu PC.
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## O objetivo final: a biblioteca inteira
+
+O maior trabalho pela frente é testar jogos de PS2 pelo próprio caminho de código do Open PS2 Loader, tal como uma consola os executa, e registar o que cada um precisa: ELFs, KELFs, aplicações homebrew e jogos num ambiente isolado do OPL, com os seus modos de compatibilidade testados automaticamente. Alguém poderá usar isto para pôr a biblioteca inteira a funcionar um dia. Esse é o objetivo final do RIPPCSX2.
+
+O Compatibility Report é o primeiro passo: o resultado de um jogo, os modos do OPL usados e o estado da máquina, guardados em `reports/` como um ficheiro e uma linha em `compatibility.csv`.
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 

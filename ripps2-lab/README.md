@@ -35,6 +35,13 @@ once a second, and has two buttons:
   desktop at that state, so you play on by hand from where the run was.
 - **Stop run** ends the run and closes the hidden PCSX2. Closing the window does the same.
 
+It also has the hidden PCSX2's sound: a volume slider and Mute, and the mouse wheel works anywhere over the window. These
+act on PCSX2's own audio session, the one Windows' mixer shows, and Windows remembers them for the next run. Under
+RIPPCSX2 a hidden run also has a taskbar button of its own, which a per-app volume mod reaches like any other program.
+
+`PS2BG_LAB`, `PS2BG_EXE` and `PS2BG_DESK` point a run at another copy of PCSX2 on another hidden desktop, so two can run
+side by side.
+
 `rec` toggles the video capture; under RIPPCSX2 a capture made while RIPPS2 is in 720p or 1080i comes out at
 1280 x 720 or 1920 x 1080, and a mode change mid-take continues in a new file (the newest file is the HD one).
 

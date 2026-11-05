@@ -46,6 +46,8 @@
 
 RIPPCSX2 là PCSX2 v2.9.96 cộng thêm những thay đổi mà nhà phát triển homebrew PS2 cần để thấy đúng thực tế: các chế độ video HD được hiển thị, quay và chụp màn hình như một TV HD hiển thị chúng, cùng điểm dừng dữ liệu phần cứng của EE, để các menu trong game và công cụ chế độ video móc vào thanh ghi GS (GSM của Open PS2 Loader, menu trong game của RIPPS2) chạy như trên máy thật. Mọi thứ còn lại là PCSX2 nguyên bản. Nó bắt đầu là phòng thử nghiệm cho front end [RIPPS2](https://github.com/akilluminati47/RIPPS2) và dành cho bất kỳ ai làm homebrew, theme hay công cụ cho PS2.
 
+**[Xem trang web](https://akilluminati47.github.io/RIPPCSX2/)**: tháo rời một chiếc PS2 hoặc cho nổ tung nó, mọi thứ về RIPPCSX2 đều ở bảng Info.
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [Tải RIPPCSX2 (file zip cho Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Mỗi clip là một lần chạy thật trong phòng thử nghiệm trên bản
 
 ## Bạn được gì so với PCSX2 v2.9.96 nguyên bản
 
+- **Một menu RIPPCSX2** giữa Debug và Help: Run ELF và Run Last ELF, Lab Monitor trực tiếp, Test Steps, Compatibility Report, các công tắc của bản fork và các thư mục chứa mọi thứ.
+- **Một nút trên thanh tác vụ cho các lần chạy ẩn.** PCSX2 khởi động trên màn hình ẩn sẽ đặt một nút lên thanh tác vụ, nhờ đó bộ trộn âm lượng hoặc mod âm lượng theo ứng dụng có thể tác động như với mọi chương trình khác.
 - **Chế độ HD hiển thị đúng.** 720p và 1080i hiển thị 16:9 (bản gốc vẽ chúng 4:3), ở mọi cài đặt tỉ lệ khung hình trừ Stretch.
 - **Quay video và chụp màn hình HD.** F11 quay 720p ở 1280 x 720 và 1080i ở 1920 x 1080 (hoặc bội số khi nâng độ phân giải), gắn nhãn 16:9; F8 lưu ảnh chụp ở cùng kích thước. Bản gốc cho ra 640 x 480 hoặc bộ đệm thô rộng 640.
 - **Đổi chế độ giữa lúc quay** sẽ tiếp tục trong một file mới ở kích thước mới thay vì bị ép vào file đầu tiên.
@@ -93,6 +97,14 @@ Mỗi clip là một lần chạy thật trong phòng thử nghiệm trên bản
 - **Nhà phát triển homebrew:** thử các ELF đổi chế độ video, móc vào GS hoặc dùng thanh ghi gỡ lỗi của EE, và đọc trong log chính xác các thanh ghi hiển thị mà một chế độ đặt.
 - **Menu trong game và công cụ GS:** GSM của OPL, menu trong game của RIPPS2 và mọi thứ khác dựa trên điểm dừng ghi dữ liệu đều chạy được trong trình giả lập, không chỉ trên phần cứng.
 - **Thử nghiệm tự động và có AI hỗ trợ:** chạy bằng script trên một màn hình ẩn với ảnh chụp, video, trạng thái lưu và đọc bộ nhớ qua PINE, mà không chiếm máy tính của bạn.
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## Mục tiêu cuối cùng: toàn bộ thư viện
+
+Công việc lớn nhất phía trước là kiểm thử game PS2 qua chính đường mã của Open PS2 Loader, như cách máy chạy chúng, và ghi lại những gì mỗi game cần: ELF, KELF, ứng dụng homebrew và game trong một sandbox OPL, tự động thử các chế độ tương thích. Một ngày nào đó có người có thể dùng nó để khiến toàn bộ thư viện chạy được. Đó là mục tiêu cuối cùng của RIPPCSX2.
+
+Compatibility Report là bước đầu tiên: kết quả của một game, các chế độ OPL đã dùng và trạng thái máy, lưu trong `reports/` thành một tệp và một dòng trong `compatibility.csv`.
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 

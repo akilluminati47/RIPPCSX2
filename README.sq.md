@@ -46,6 +46,8 @@
 
 RIPPCSX2 është PCSX2 v2.9.96 me ndryshimet që i duhen një zhvilluesi homebrew-sh për PS2 për të parë gjënë e vërtetë: mënyrat video HD të shfaqura, të regjistruara dhe të fotografuara ashtu si i tregon një televizor HD, dhe pika e ndërprerjes së të dhënave në harduer e EE-së, që menytë brenda lojës dhe mjetet e mënyrave video që kapen pas regjistrave të GS-së (GSM e Open PS2 Loader, menyja brenda lojës e RIPPS2) të punojnë si në konsolë. Gjithçka tjetër është PCSX2 i pastër. Nisi si laboratori i testimit i front end-it [RIPPS2](https://github.com/akilluminati47/RIPPS2) dhe është menduar për këdo që ndërton homebrew, tema ose mjete për PS2.
 
+**[Shiko faqen e internetit](https://akilluminati47.github.io/RIPPCSX2/)**: çmonto një PS2 ose hidhe në erë, me gjithçka rreth RIPPCSX2 në panelin Info.
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [Shkarko RIPPCSX2 (zip për Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Windows 10 ose 11, x64, një procesor me AVX2. Shpaketoje kudo, nis `pcsx2-qtx64
 
 ## Çfarë fiton krahasuar me PCSX2 v2.9.96 të zakonshëm
 
+- **Një menu RIPPCSX2** midis Debug dhe Help: Run ELF dhe Run Last ELF, një Lab Monitor i drejtpërdrejtë, Test Steps, një Compatibility Report, çelësat e fork-ut dhe dosjet ku përfundon gjithçka.
+- **Një buton në shiritin e detyrave për ekzekutimet e fshehura.** Një PCSX2 i nisur në një desktop të fshehur vendos një buton në shiritin tënd të detyrave, kështu që një përzierës volumi ose një mod volumi për aplikacion e arrin si çdo program tjetër.
 - **Mënyrat HD duken si duhet.** 720p dhe 1080i shfaqen në 16:9 (origjinali i vizaton në 4:3), me çdo cilësim proporcioni përveç Stretch.
 - **Regjistrime dhe pamje ekrani HD.** F11 regjistron 720p në 1280 x 720 dhe 1080i në 1920 x 1080 (ose kjo herë shkallëzimin), të shënuara 16:9; F8 ruan pamje ekrani në të njëjtat madhësi. Origjinali jep 640 x 480 ose buffer-in e papërpunuar 640 të gjerë.
 - **Një ndërrim mënyre gjatë regjistrimit** vazhdon në një skedar të ri në madhësinë e re, në vend që të shtrydhet në të parin.
@@ -93,6 +97,14 @@ Windows 10 ose 11, x64, një procesor me AVX2. Shpaketoje kudo, nis `pcsx2-qtx64
 - **Zhvilluesit e homebrew-ve:** testo ELF që ndërrojnë mënyrën video, kapen pas GS-së ose përdorin regjistrat e korrigjimit të EE-së, dhe lexo në regjistër regjistrat e saktë të ekranit që vendos një mënyrë.
 - **Menytë brenda lojës dhe mjetet e GS-së:** GSM e OPL, menyja brenda lojës e RIPPS2 dhe gjithçka tjetër e ndërtuar mbi pikën e ndërprerjes për shkrimin e të dhënave punojnë në emulator dhe jo vetëm në harduer.
 - **Testim i automatizuar dhe i ndihmuar nga IA:** ekzekutime me skript në një desktop të fshehur me pamje ekrani, regjistrime, gjendje të ruajtura dhe lexime memorieje përmes PINE, pa ta marrë kompjuterin.
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## Qëllimi përfundimtar: e gjithë biblioteka
+
+Puna më e madhe përpara është testimi i lojërave PS2 përmes rrugës së vetë kodit të Open PS2 Loader, ashtu siç i ekzekuton një konsolë, dhe shënimi i asaj që i duhet secilës: ELF, KELF, aplikacione homebrew dhe lojëra në një sandbox OPL, me mënyrat e përputhshmërisë të provuara automatikisht. Dikush mund ta përdorë këtë për ta bërë të gjithë bibliotekën të funksionojë një ditë. Ky është qëllimi përfundimtar i RIPPCSX2.
+
+Compatibility Report është hapi i parë: rezultati i një loje, mënyrat OPL të përdorura dhe gjendja e makinës, të ruajtura në `reports/` si skedar dhe si rresht në `compatibility.csv`.
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 

@@ -46,6 +46,8 @@
 
 RIPPCSX2 adalah PCSX2 v2.9.96 dengan perubahan yang dibutuhkan pengembang homebrew PS2 untuk melihat yang sebenarnya: mode video HD ditampilkan, direkam, dan di-screenshot seperti yang ditampilkan TV HD, plus breakpoint data perangkat keras milik EE, sehingga menu dalam game dan alat mode video yang mengait ke register GS (GSM milik Open PS2 Loader, menu dalam game RIPPS2) bekerja seperti di konsol. Selebihnya PCSX2 biasa. Awalnya ini lab uji untuk front end [RIPPS2](https://github.com/akilluminati47/RIPPS2) dan ditujukan bagi siapa pun yang membuat homebrew, tema, atau alat untuk PS2.
 
+**[Lihat situsnya](https://akilluminati47.github.io/RIPPCSX2/)**: bongkar PS2 atau ledakkan, dengan semua hal tentang RIPPCSX2 di panel Info.
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [Unduh RIPPCSX2 (zip Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Setiap klip adalah jalannya lab sungguhan pada build ini, dipangkas hingga kuran
 
 ## Apa yang Anda dapat dibanding PCSX2 v2.9.96 biasa
 
+- **Menu RIPPCSX2** di antara Debug dan Help: Run ELF dan Run Last ELF, Lab Monitor langsung, Test Steps, Compatibility Report, sakelar fork, dan folder tempat semuanya tersimpan.
+- **Tombol bilah tugas untuk jalankan tersembunyi.** PCSX2 yang dimulai di desktop tersembunyi menaruh satu tombol di bilah tugas, sehingga mixer volume atau mod volume per aplikasi menjangkaunya seperti program lain.
 - **Mode HD tampil benar.** 720p dan 1080i tampil 16:9 (aslinya menggambarnya 4:3), pada setiap pengaturan rasio aspek kecuali Stretch.
 - **Rekaman dan screenshot HD.** F11 merekam 720p pada 1280 x 720 dan 1080i pada 1920 x 1080 (atau kelipatan upscale-nya), bertanda 16:9; F8 menyimpan screenshot dengan ukuran yang sama. Aslinya memberi 640 x 480 atau buffer mentah selebar 640.
 - **Ganti mode di tengah rekaman** berlanjut di file baru dengan ukuran baru, bukannya dijejalkan ke file pertama.
@@ -93,6 +97,14 @@ Setiap klip adalah jalannya lab sungguhan pada build ini, dipangkas hingga kuran
 - **Pengembang homebrew:** uji ELF yang mengganti mode video, mengait ke GS, atau memakai register debug EE, dan baca di log register tampilan persis yang diatur sebuah mode.
 - **Menu dalam game dan alat GS:** GSM milik OPL, menu dalam game RIPPS2, dan apa pun yang dibangun di atas breakpoint penulisan data berjalan di emulator, bukan hanya di perangkat keras.
 - **Pengujian otomatis dan berbantuan AI:** jalankan skrip di desktop tersembunyi dengan screenshot, rekaman, save state, dan pembacaan memori lewat PINE, tanpa mengambil alih komputer Anda.
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## Tujuan akhir: seluruh pustaka
+
+Pekerjaan terbesar ke depan adalah menguji game PS2 melalui jalur kode Open PS2 Loader sendiri, seperti yang dijalankan konsol, dan mencatat apa yang dibutuhkan tiap game: ELF, KELF, aplikasi homebrew, dan game dalam sandbox OPL, dengan mode kompatibilitasnya dicoba otomatis. Suatu hari seseorang bisa memakainya untuk membuat seluruh pustaka berjalan. Itulah tujuan akhir RIPPCSX2.
+
+Compatibility Report adalah langkah pertamanya: hasil sebuah game, mode OPL yang dipakai, dan keadaan mesin, disimpan di `reports/` sebagai file dan satu baris di `compatibility.csv`.
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 

@@ -46,6 +46,8 @@
 
 RIPPCSX2 は、PS2 homebrew 開発者が本物を見るのに必要な変更を加えた PCSX2 v2.9.96 です。HD ビデオモードを HD テレビの映し方どおりに表示・録画・スクリーンショットでき、EE のハードウェアデータブレークポイントにより、GS レジスタにフックするゲーム内メニューやビデオモードツール（Open PS2 Loader の GSM、RIPPS2 のゲーム内メニュー）が実機と同じように動きます。それ以外はすべて素の PCSX2 です。フロントエンド [RIPPS2](https://github.com/akilluminati47/RIPPS2) のテストラボとして始まり、PS2 の homebrew、テーマ、ツールを作るすべての人に向けたものです。
 
+**[ウェブサイトを見る](https://akilluminati47.github.io/RIPPCSX2/)**: PS2 を分解したり爆破したりでき、RIPPCSX2 のすべては Info パネルにあります。
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [RIPPCSX2 をダウンロード（Windows 用 zip）](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Windows 10 または 11、x64、AVX2 対応 CPU。好きな場所に展開して
 
 ## 素の PCSX2 v2.9.96 と比べて得られるもの
 
+- **Debug と Help の間にある RIPPCSX2 メニュー**: Run ELF と Run Last ELF、ライブの Lab Monitor、Test Steps、Compatibility Report、フォークのスイッチ、出力先のフォルダー。
+- **隠しデスクトップ実行用のタスクバーボタン。** 隠しデスクトップで起動した PCSX2 はタスクバーにボタンを置くので、音量ミキサーやアプリ別音量の mod から他のプログラムと同じように操作できます。
 - **HD モードが正しく見える。** 720p と 1080i は、Stretch 以外のどのアスペクト設定でも 16:9 で表示されます（素の版は 4:3 で描画）。
 - **HD の録画とスクリーンショット。** F11 は 720p を 1280 x 720、1080i を 1920 x 1080（またはアップスケール倍）で 16:9 として録画し、F8 は同じサイズでスクリーンショットを保存します。素の版は 640 x 480 か、幅 640 の生のバッファです。
 - **録画中のモード切り替え**は、最初のファイルに押し込まず、新しいサイズの新しいファイルで続きます。
@@ -93,6 +97,14 @@ Windows 10 または 11、x64、AVX2 対応 CPU。好きな場所に展開して
 - **homebrew 開発者：** ビデオモードを切り替える ELF、GS にフックする ELF、EE のデバッグレジスタを使う ELF をテストし、モードが設定する正確なディスプレイレジスタをログで確認できます。
 - **ゲーム内メニューと GS ツール：** OPL の GSM、RIPPS2 のゲーム内メニュー、データ書き込みブレークポイントに頼るほかのすべてが、実機だけでなくエミュレーターでも動きます。
 - **自動化・AI 支援テスト：** スクリーンショット、録画、ステートセーブ、PINE によるメモリー読み取り付きのスクリプト実行を隠しデスクトップで行い、PC を乗っ取りません。
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## 最終目標: ライブラリ全体
+
+これからの最大の仕事は、PS2 のゲームをコンソールと同じように Open PS2 Loader 自身のコード経路でテストし、それぞれに何が必要かを書き留めることです。OPL のサンドボックスで ELF、KELF、homebrew アプリ、ゲームを動かし、互換モードを自動で試します。いつか誰かがこれでライブラリ全体を動かせるかもしれません。それが RIPPCSX2 の最終目標です。
+
+Compatibility Report はその第一歩です。ゲームの結果、使った OPL モード、マシンの状態を、`reports/` にファイルとして、`compatibility.csv` に行として保存します。
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 

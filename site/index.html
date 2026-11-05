@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>RIPPCSX2: the PS2 test lab</title>
+<meta name="description" content="RIPPCSX2 is a PlayStation 2 emulator for testing: ELFs, homebrew, themes and OPL, the way a console runs them, driven by you or by an AI agent. Take a PS2 apart, or blow one up.">
+<meta name="theme-color" content="#04081a">
+<meta property="og:title" content="RIPPCSX2: the PS2 test lab">
+<meta property="og:description" content="A PS2 emulator for testing ELFs, homebrew, themes and OPL. Its end goal: the whole PS2 library, working and written down.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://akilluminati47.github.io/RIPPCSX2/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="assets/ripps2-icon.png">
+<link rel="preload" href="assets/ripps2-sleek-bold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js", "three/addons/": "./vendor/addons/" } }</script>
+</head>
+<body>
+<canvas id="stage" aria-label="A model of a PlayStation 2. Click or tap it to blow it up. Drag to turn it."></canvas>
+<div id="flash" aria-hidden="true"></div>
+<div id="veil" aria-hidden="true"><span>Spinning up the drive</span></div>
+
+<header id="top">
+  <div class="brand">
+    <h1>RIPPCSX2</h1>
+    <p id="caption">the PS2 test lab</p>
+  </div>
+  <div class="top-r">
+    <div id="score" aria-live="off"><span>Blown up</span><b id="count">0</b></div>
+    <button id="mute" class="icon" type="button" aria-pressed="true" aria-label="Explosion sound">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 4V5L8 9H4z"/><path id="waves" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M16 9.2a4 4 0 0 1 0 5.6M18.6 6.6a7.6 7.6 0 0 1 0 10.8"/><path id="cross" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M16.5 9.5l5 5m0-5l-5 5" hidden/></svg>
+    </button>
+  </div>
+</header>
+
+<div id="ready" aria-hidden="true"></div>
+<p id="hint" aria-hidden="true"></p>
+
+<footer id="hud">
+  <p id="readout" aria-live="polite"></p>
+  <div class="row">
+    <div class="actions left">
+      <button id="boom" type="button" class="ghost">Boom</button>
+      <button id="apart" type="button" class="ghost" aria-pressed="false">Take apart</button>
+      <button id="swap" type="button" class="ghost">Slim</button>
+    </div>
+    <div class="actions">
+      <a id="get" class="ghost" href="https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip">Download</a>
+      <button id="open" type="button" class="primary" aria-haspopup="dialog" aria-controls="panel">Info</button>
+    </div>
+  </div>
+</footer>
+
+<div id="scrim"></div>
+<aside id="panel" role="dialog" aria-modal="true" aria-labelledby="ptitle" tabindex="-1" inert>
+  <div class="phead">
+    <h2 id="ptitle">Info</h2>
+    <button id="close" type="button" class="primary">Resume</button>
+  </div>
+  <nav class="chips" aria-label="On this page">
+    <a href="#what">What it is</a><a href="#real">Like a PS2</a><a href="#adds">What it adds</a><a href="#uses">Use cases</a><a href="#goal">The goal</a><a href="#menu">The menu</a><a href="#agents">AI agents</a><a href="#links">Links</a>
+  </nav>
+  <div class="pbody" id="pbody">
+
+    <section class="sect" id="what">
+      <p class="lead">RIPPCSX2 is a PlayStation 2 emulator built for testing. It is PCSX2 v2.9.96 with what a PS2 homebrew developer needs to see the real thing, made to be driven by you or by an AI agent.</p>
+      <p class="note">It began as the test lab of the <a href="https://akilluminati47.github.io/RIPPS2/">RIPPS2</a> front end. It is for anyone building PS2 homebrew, themes, tools or game fixes.</p>
+      <div class="btns">
+        <a class="primary" href="https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip">Download for Windows</a>
+        <a class="ghost" href="https://github.com/akilluminati47/RIPPCSX2">GitHub</a>
+      </div>
+      <p class="note fine">Windows 10 or 11, x64, a CPU with AVX2. Unzip it anywhere and point it at your own BIOS dump. It keeps its settings in its own folder, so a PCSX2 you already have is not touched.</p>
+    </section>
+
+    <section class="sect" id="real">
+      <h3>It behaves like a real PS2</h3>
+      <p class="note">Every clip here is a real run in the lab, cut to a few seconds and linked to its video.</p>
+      <figure>
+        <a href="https://github.com/akilluminati47/RIPPCSX2/blob/rippcsx2/docs/videos/rippcsx2-elf-launch.mp4"><img loading="lazy" src="assets/rippcsx2-elf-launch.gif" width="560" height="420" alt="RIPPS2's Memory Files running another RIPPS2.elf from the memory card, which takes over and boots to its game list"></a>
+        <figcaption><b>One ELF launching another.</b> It runs <code>.elf</code> programs for testing, and when one starts another it hands the machine over and is gone, as on a console. This is the newest RIPPS2 started from a memory card by the old one.</figcaption>
+      </figure>
+      <figure>
+        <a href="https://github.com/akilluminati47/RIPPCSX2/blob/rippcsx2/docs/videos/rippcsx2-igr-menu.mp4"><img loading="lazy" src="assets/rippcsx2-igr-menu.gif" width="640" height="480" alt="RIPPS2's in-game menu drawn over a running game: achievements, resume, the menu again over a later frame, and power off"></a>
+        <figcaption><b>An in-game menu over a real game.</b> The menu hooks the GS registers through the EE's hardware breakpoint to learn which frame the game is showing. Stock PCSX2 has no such breakpoint, so the menu has nothing to draw over.</figcaption>
+      </figure>
+      <figure>
+        <a href="https://github.com/akilluminati47/RIPPCSX2/blob/rippcsx2/docs/videos/rippcsx2-ai-test.mp4"><img loading="lazy" src="assets/rippcsx2-ai-test.gif" width="640" height="480" alt="An AI agent's test run seen from the corner of a desktop: a small panel previews the hidden emulator while the user keeps the keyboard and mouse"></a>
+        <figcaption><b>An AI agent running a test.</b> The emulator is on a hidden desktop. The small panel is all that shows, and you keep your keyboard and mouse.</figcaption>
+      </figure>
+    </section>
+
+    <section class="sect" id="adds">
+      <h3>What it adds to PCSX2</h3>
+      <ul class="ticks">
+        <li><b>A RIPPCSX2 menu</b> with all of the below in one place, built like the menus beside it.</li>
+        <li><b>The EE's data write breakpoint.</b> COP0 <code>BPC</code>, <code>DAB</code> and <code>DABM</code> work, in the interpreter and the recompiler. OPL's GSM and in-game menus depend on it.</li>
+        <li><b>True 720p and 1080i.</b> Shown 16:9, captured at 1280 x 720 and 1920 x 1080, screenshots the same. Stock PCSX2 draws them 4:3.</li>
+        <li><b>1080i in the right place.</b> From line 40, as the console's own timing has it. Stock moves it up 42 lines.</li>
+        <li><b>Recordings that survive a mode change,</b> carrying on in a new file at the new size.</li>
+        <li><b>Video mode lines in the log,</b> with the sync timing and each display's registers, on every change.</li>
+        <li><b>A taskbar button for hidden runs,</b> so a volume mixer or a per-app volume mod reaches a test run like any other program.</li>
+      </ul>
+      <p class="note fine">Everything else is plain PCSX2, and standard definition is byte for byte the same as stock. Each change can be turned off for a side by side.</p>
+    </section>
+
+    <section class="sect" id="uses">
+      <h3>What it is for</h3>
+      <dl class="uses">
+        <dt>Testing ELFs and homebrew</dt><dd>Run ELF and Run Last ELF: rebuild, press, look. Read the EE and IOP console, the display registers, and PS2 memory over PINE. Keep a save state of the moment it breaks.</dd>
+        <dt>Front ends and tools</dt><dd>What RIPPS2 is built on: storage, memory cards, video modes, handing over to a game or another ELF, all without touching a console until it is ready for one.</dd>
+        <dt>Themes</dt><dd>Judge a theme for OPL, RiptOPL or RIPPS2 at 720p and 1080i as a TV shows it, with true-size screenshots and walkthrough videos.</dd>
+        <dt>In-game menus and GS tools</dt><dd>Anything built on the data write breakpoint runs here instead of only on hardware: GSM, in-game menus, screenshots read back from GS memory.</dd>
+        <dt>AI-assisted testing</dt><dd>Scripted runs with screenshots, captures, save states and memory reads, on a hidden desktop that never takes over your PC.</dd>
+      </dl>
+    </section>
+
+    <section class="sect goal" id="goal">
+      <h3>The goal: the whole library</h3>
+      <p class="lead">The biggest job for RIPPCSX2 is one nobody has finished: testing PS2 games through Open PS2 Loader's own code path, and writing down what each one needs.</p>
+      <p class="note">OPL does not run a game the way a disc does. It patches the kernel, swaps the IOP's drivers and answers for the drive, and some games need one of its compatibility modes to survive that. Finding out which takes a console, a copy of the game and an evening, for one title. The aim is that a person or an agent can do it in the emulator, in minutes, then check the answer on a console.</p>
+      <div class="road">
+        <div class="now"><h4>Works today</h4><ul>
+          <li>RIPPS2's OPL-derived core starting games from a virtual hard drive, as it does on a console</li>
+          <li>In-game menus over real game frames</li>
+          <li>ELFs and homebrew, including one starting another</li>
+          <li>The <b>Compatibility Report</b>: one game's result, the modes used and the machine's state, saved as a file and a row in a CSV</li>
+        </ul></div>
+        <div class="next"><h4>Where it is going</h4><ul>
+          <li><b>The OPL sandbox:</b> stock OPL and its forks starting games unmodified</li>
+          <li><b>Mode patching:</b> trying Modes 1 to 8 on a game automatically, and finding the set it needs</li>
+          <li><b>KELFs,</b> and homebrew apps launched through the same paths they take on hardware</li>
+          <li><b>A shared list:</b> every game, its result, its modes and its fixes</li>
+        </ul></div>
+      </div>
+      <details class="modes"><summary>OPL's compatibility modes</summary>
+        <table><tbody>
+          <tr><th>1</th><td>Accurate Reads: disc reads at the disc's own timing</td></tr>
+          <tr><th>2</th><td>Synchronous Mode: reads block until they finish</td></tr>
+          <tr><th>3</th><td>Unhook Syscalls: OPL's hooks come back out of the kernel</td></tr>
+          <tr><th>4</th><td>Skip Videos: zero-size PSS videos and skipped Bink ones, past a video that hangs</td></tr>
+          <tr><th>5</th><td>Emulate DVD-DL: answers as a dual layer disc</td></tr>
+          <tr><th>6</th><td>Disable IGR: no in-game reset or menu, for games that clash with the hook</td></tr>
+          <tr><th>7</th><td>Neutrino only: fixes a game's buffer overrun</td></tr>
+          <tr><th>8</th><td>Slow Reads: Accurate Reads at the CD rate, for audio that breaks under Mode 1</td></tr>
+        </tbody></table>
+      </details>
+      <p class="note">Someone could use this to make the entire library run one day. That is the end goal, and it is why this exists as a fork and not a patch.</p>
+    </section>
+
+    <section class="sect" id="menu">
+      <h3>The RIPPCSX2 menu</h3>
+      <p class="note">Between Debug and Help, and built like them.</p>
+      <dl class="uses menu">
+        <dt>Run ELF, Run Last ELF</dt><dd>Boot a program straight away, or the newest build of the last one.</dd>
+        <dt>Lab Monitor</dt><dd>The video mode, PMODE, SMODE, DISPFB and DISPLAY, and the data write breakpoint's state and hits, live.</dd>
+        <dt>Test Steps</dt><dd>A list of waits, button presses, screenshots and recordings, played into what is running: the same steps the lab's hidden driver runs, with no script needed.</dd>
+        <dt>Compatibility Report</dt><dd>The game, what started it, the result, the OPL modes, your notes and the machine's state.</dd>
+        <dt>HDTV Output, EE Data Write Breakpoint</dt><dd>The fork's two big changes, each one click from stock behaviour.</dd>
+        <dt>Lab Switches</dt><dd>EE and IOP console, file logging, PINE, the host filesystem, fast boot, and one item to set them all up for testing.</dd>
+        <dt>Lab Folders, Open Log</dt><dd>Screenshots, video captures, save states, cards, logs and reports, one click away.</dd>
+      </dl>
+    </section>
+
+    <section class="sect" id="agents">
+      <h3>Hand it to your AI assistant</h3>
+      <p class="note">The repo is written for agents as much as people. Give yours the link and ask it to set RIPPCSX2 up: the README tells it where to get the build, where your BIOS goes (your own dump, never a download), how to run an ELF or an image from the command line, where the logs and captures land, and how to read PS2 memory over PINE.</p>
+      <pre id="agentlink" tabindex="0">https://github.com/akilluminati47/RIPPCSX2</pre>
+      <div class="btns"><button id="copy" type="button" class="ghost">Copy the link</button></div>
+    </section>
+
+    <section class="sect" id="links">
+      <h3>Links</h3>
+      <ul class="links">
+        <li><a href="https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip">Download RIPPCSX2 (Windows zip)</a></li>
+        <li><a href="https://github.com/akilluminati47/RIPPCSX2">RIPPCSX2 on GitHub</a></li>
+        <li><a href="https://github.com/akilluminati47/RIPPCSX2/blob/rippcsx2/RIPPCSX2.md">Every change, file by file</a></li>
+        <li><a href="https://akilluminati47.github.io/RIPPS2/">RIPPS2, the PS2 front end</a></li>
+        <li><a href="https://akilluminati47.github.io/BIBLE/">BIBLE, the boot loader</a></li>
+        <li><a href="https://github.com/akilluminati47/RIPPS2-themes">RIPPS2 themes</a></li>
+        <li><a href="https://www.psx-place.com/threads/ripps2-a-ps2-front-end-in-one-elf-launch-disc-storage-memory-files.51316/">The RIPPS2 thread on psx-place</a></li>
+        <li><a href="https://discord.gg/Z7m9u5kby">Discord (#ripps2 on PS2BUG)</a></li>
+      </ul>
+    </section>
+
+    <section class="sect" id="page">
+      <h3>This page</h3>
+      <div class="set"><div class="name" id="n-sound">Sound</div><div class="opts" role="radiogroup" aria-labelledby="n-sound" data-group="sound"><button type="button" class="opt" role="radio" data-v="1">On</button><button type="button" class="opt" role="radio" data-v="0">Off</button></div></div>
+      <div class="set"><div class="name" id="n-flash">Flashes</div><div class="opts" role="radiogroup" aria-labelledby="n-flash" data-group="flash"><button type="button" class="opt" role="radio" data-v="full">Full</button><button type="button" class="opt" role="radio" data-v="soft">Reduced</button></div></div>
+      <p class="note">Both consoles are modelled in Blender from published sizes and from photographs, every position measured through a solved camera. The parts inside follow real teardowns. Blow one up and you get the other. There is no Sony audio here: the explosions are synthesised, and nothing loads from any other server. The scripts that build the models are in <a href="https://github.com/akilluminati47/RIPPCSX2/tree/rippcsx2/tools/site/blender">tools/site/blender</a>.</p>
+      <p class="note fine">Unofficial. RIPPCSX2 is a GPL-3.0 fork of <a href="https://pcsx2.net">PCSX2</a> by the PCSX2 team, not affiliated with them or with Sony. Please report problems to RIPPS2, never to the PCSX2 project. Sony, PlayStation, PS2, DVD and MagicGate are trademarks of their owners. Made by akilluminati47, built with Claude.</p>
+    </section>
+  </div>
+</aside>
+
+<div id="nogl" hidden>
+  <h2>This page needs WebGL</h2>
+  <p>Your browser could not start it, so here is the console as a picture instead.</p>
+  <img src="assets/og.jpg" width="600" alt="A PlayStation 2 coming apart">
+  <p><a href="https://github.com/akilluminati47/RIPPCSX2">RIPPCSX2 on GitHub</a></p>
+</div>
+<noscript><p style="padding:24px;color:#dfe6fb">This page needs JavaScript. <a style="color:#8fc4ff" href="https://github.com/akilluminati47/RIPPCSX2">RIPPCSX2 on GitHub</a></p></noscript>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

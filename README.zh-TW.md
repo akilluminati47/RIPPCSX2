@@ -46,6 +46,8 @@
 
 RIPPCSX2 就是 PCSX2 v2.9.96，加上 PS2 homebrew 開發者看見真實效果所需的改動：HD 視訊模式依 HD 電視的顯示方式顯示、錄影與截圖，並提供 EE 的硬體資料中斷點，讓掛鉤 GS 暫存器的遊戲內選單與視訊模式工具（Open PS2 Loader 的 GSM、RIPPS2 的遊戲內選單）像在主機上一樣運作。其餘一切都是原版 PCSX2。它起初是前端 [RIPPS2](https://github.com/akilluminati47/RIPPS2) 的測試實驗室，適合所有為 PS2 製作 homebrew、主題或工具的人。
 
+**[查看網站](https://akilluminati47.github.io/RIPPCSX2/)**:拆開一台 PS2,或者把它炸掉,關於 RIPPCSX2 的一切都在 Info 面板裡。
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [下載 RIPPCSX2（Windows zip）](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Windows 10 或 11、x64、支援 AVX2 的 CPU。解壓縮到任何位置，執�
 
 ## 相較原版 PCSX2 v2.9.96 的改進
 
+- **位於 Debug 和 Help 之間的 RIPPCSX2 選單**:Run ELF 和 Run Last ELF、即時 Lab Monitor、Test Steps、Compatibility Report、這個分支的開關,以及所有產物所在的資料夾。
+- **隱藏執行的工作列按鈕。** 在隱藏桌面上啟動的 PCSX2 會在工作列放一個按鈕,這樣音量混音器或按應用程式調音量的 mod 就能像對待其他程式一樣控制它。
 - **HD 模式顯示正確。** 720p 與 1080i 在 Stretch 以外的所有長寬比設定下都以 16:9 顯示（原版畫成 4:3）。
 - **HD 錄影與截圖。** F11 以 1280 x 720 錄製 720p，以 1920 x 1080（或其放大倍數）錄製 1080i，並標記為 16:9；F8 以相同尺寸儲存截圖。原版給的是 640 x 480 或 640 寬的原始緩衝區。
 - **錄影中途切換模式**會以新尺寸在新檔案中繼續，而不是擠進第一個檔案。
@@ -93,6 +97,14 @@ Windows 10 或 11、x64、支援 AVX2 的 CPU。解壓縮到任何位置，執�
 - **homebrew 開發者：** 測試切換視訊模式、掛鉤 GS 或使用 EE 除錯暫存器的 ELF，並在記錄中讀到某個模式設定的確切顯示暫存器。
 - **遊戲內選單與 GS 工具：** OPL 的 GSM、RIPPS2 的遊戲內選單，以及任何以資料寫入中斷點為基礎的東西，都能在模擬器中執行，不只在硬體上。
 - **自動化與 AI 輔助測試：** 在隱藏桌面上執行腳本，附截圖、錄影、即時存檔與 PINE 記憶體讀取，不佔用你的電腦。
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## 最終目標:整個遊戲庫
+
+接下來最大的工作,是透過 Open PS2 Loader 本身的程式碼路徑測試 PS2 遊戲,就像主機執行它們那樣,並記錄每款遊戲需要什麼:在 OPL 沙盒中執行 ELF、KELF、自製應用程式和遊戲,並自動嘗試它的相容模式。總有一天,有人可以藉此讓整個遊戲庫都執行起來。這就是 RIPPCSX2 的最終目標。
+
+Compatibility Report 是第一步:一款遊戲的結果、使用的 OPL 模式和機器狀態,儲存在 `reports/` 中的檔案和 `compatibility.csv` 的一列裡。
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 

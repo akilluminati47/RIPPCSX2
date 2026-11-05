@@ -46,6 +46,8 @@
 
 A RIPPCSX2 a PCSX2 v2.9.96 azokkal a változtatásokkal, amelyekre egy PS2-homebrew fejlesztőnek szüksége van, hogy a valódi képet lássa: a HD videómódok úgy jelennek meg, rögzülnek és készül róluk képernyőkép, ahogy egy HD tévé mutatja őket, valamint az EE hardveres adat-töréspontja, hogy a játékon belüli menük és a GS regisztereire akaszkodó videómód-eszközök (az Open PS2 Loader GSM-je, a RIPPS2 játékon belüli menüje) úgy működjenek, mint egy konzolon. Minden más tiszta PCSX2. A [RIPPS2](https://github.com/akilluminati47/RIPPS2) front end tesztlaborjaként indult, és mindenkinek szól, aki PS2-homebrew-t, témákat vagy eszközöket készít.
 
+**[Nézd meg a weboldalt](https://akilluminati47.github.io/RIPPCSX2/)**: szedj szét egy PS2-t, vagy robbants fel egyet, és a RIPPCSX2-ről mindent megtalálsz az Info panelen.
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [A RIPPCSX2 letöltése (Windows zip)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Minden klip valódi laborfuttatás ezen a buildön, 12 másodperc alá vágva.
 
 ## Amit a sima PCSX2 v2.9.96-hoz képest kapsz
 
+- **Egy RIPPCSX2 menü** a Debug és a Help között: Run ELF és Run Last ELF, élő Lab Monitor, Test Steps, Compatibility Report, a fork kapcsolói és a mappák, ahová minden kerül.
+- **Tálcagomb a rejtett futtatásokhoz.** A rejtett asztalon indított PCSX2 egy gombot tesz a tálcádra, így a hangerőkeverő vagy egy alkalmazásonkénti hangerő-mod ugyanúgy eléri, mint bármely más programot.
 - **A HD módok jól néznek ki.** A 720p és az 1080i 16:9-ben jelenik meg (az eredeti 4:3-ban rajzolja őket), minden képarány-beállításnál a Stretch kivételével.
 - **HD felvételek és képernyőképek.** Az F11 a 720p-t 1280 x 720-ban, az 1080i-t 1920 x 1080-ban rögzíti (vagy ennek felskálázott többszörösében), 16:9-ként jelölve; az F8 ugyanekkora képernyőképeket ment. Az eredeti 640 x 480-at vagy a nyers, 640 széles puffert adja.
 - **Egy felvétel közbeni módváltás** új fájlban folytatódik az új méretben, ahelyett hogy belepréselődne az elsőbe.
@@ -93,6 +97,14 @@ Minden klip valódi laborfuttatás ezen a buildön, 12 másodperc alá vágva.
 - **Homebrew-fejlesztők:** tesztelj olyan ELF-eket, amelyek videómódot váltanak, a GS-re akaszkodnak vagy az EE hibakereső regisztereit használják, és olvasd ki a naplóból, pontosan mely kijelzőregisztereket állít be egy mód.
 - **Játékon belüli menük és GS-eszközök:** az OPL GSM-je, a RIPPS2 játékon belüli menüje és minden más, ami az adatírási töréspontra épül, az emulátorban fut, nem csak hardveren.
 - **Automatizált és MI-támogatott tesztelés:** szkriptelt futtatások rejtett asztalon képernyőképekkel, felvételekkel, mentett állapotokkal és PINE-memóriaolvasással, anélkül hogy átvennék a PC-det.
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## A végső cél: a teljes könyvtár
+
+A legnagyobb hátralévő munka a PS2-játékok tesztelése az Open PS2 Loader saját kódútján, ahogy egy konzol futtatja őket, és annak feljegyzése, mire van szüksége mindegyiknek: ELF-ek, KELF-ek, homebrew alkalmazások és játékok egy OPL-homokozóban, a kompatibilitási módok automatikus kipróbálásával. Valaki egy nap ezzel működésre bírhatja a teljes könyvtárat. Ez a RIPPCSX2 végső célja.
+
+A Compatibility Report az első lépés: egy játék eredménye, a használt OPL-módok és a gép állapota, a `reports/` mappába mentve fájlként és egy sorként a `compatibility.csv` fájlban.
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 

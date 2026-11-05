@@ -46,6 +46,8 @@
 
 RIPPCSX2 je PCSX2 v2.9.96 se změnami, které vývojář homebrew pro PS2 potřebuje, aby viděl skutečný výsledek: HD video režimy zobrazené, nahrávané a snímané tak, jak je ukazuje HD televize, a hardwarový datový breakpoint EE, aby menu ve hře a nástroje video režimů, které se napojují na registry GS (GSM z Open PS2 Loader, menu ve hře RIPPS2), fungovaly jako na konzoli. Všechno ostatní je čisté PCSX2. Vznikl jako testovací laboratoř front endu [RIPPS2](https://github.com/akilluminati47/RIPPS2) a je určen každému, kdo tvoří homebrew, motivy nebo nástroje pro PS2.
 
+**[Podívejte se na web](https://akilluminati47.github.io/RIPPCSX2/)**: rozeberte PS2 nebo ji vyhoďte do povětří, a vše o RIPPCSX2 najdete v panelu Info.
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [Stáhnout RIPPCSX2 (zip pro Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Každý klip je skutečný běh v laboratoři na tomto buildu, zkrácený pod 12
 
 ## Co získáte oproti běžnému PCSX2 v2.9.96
 
+- **Nabídka RIPPCSX2** mezi Debug a Help: Run ELF a Run Last ELF, živý Lab Monitor, Test Steps, Compatibility Report, přepínače forku a složky, kam vše ukládá.
+- **Tlačítko na hlavním panelu pro skryté běhy.** PCSX2 spuštěný na skryté ploše přidá tlačítko na hlavní panel, takže směšovač hlasitosti nebo mod hlasitosti pro aplikace na něj dosáhne jako na jakýkoli jiný program.
 - **HD režimy vypadají správně.** 720p a 1080i se zobrazují v 16:9 (originál je kreslí v 4:3), při každém nastavení poměru stran kromě Stretch.
 - **HD nahrávky a snímky obrazovky.** F11 nahrává 720p v 1280 x 720 a 1080i v 1920 x 1080 (nebo to krát zvětšení), označené jako 16:9; F8 ukládá snímky ve stejných velikostech. Originál dává 640 x 480 nebo surový buffer šířky 640.
 - **Změna režimu uprostřed nahrávání** pokračuje v novém souboru v nové velikosti, místo aby se namáčkla do prvního.
@@ -93,6 +97,14 @@ Každý klip je skutečný běh v laboratoři na tomto buildu, zkrácený pod 12
 - **Vývojáři homebrew:** testujte ELF, které mění video režim, napojují se na GS nebo používají ladicí registry EE, a čtěte v logu přesné registry zobrazení, které režim nastaví.
 - **Menu ve hře a nástroje GS:** GSM z OPL, menu ve hře RIPPS2 a vše ostatní postavené na breakpointu zápisu dat běží v emulátoru, ne jen na hardwaru.
 - **Automatizované a AI asistované testování:** skriptované běhy na skryté ploše se snímky, nahrávkami, uloženými stavy a čtením paměti přes PINE, aniž by se zmocnily vašeho PC.
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## Konečný cíl: celá knihovna
+
+Největší práce před námi je testovat hry pro PS2 vlastní kódovou cestou Open PS2 Loaderu, tak jak je spouští konzole, a zapisovat, co která potřebuje: ELFy, KELFy, homebrew aplikace a hry v sandboxu OPL s automaticky zkoušenými režimy kompatibility. Jednou by díky tomu někdo mohl rozběhnout celou knihovnu. To je konečný cíl RIPPCSX2.
+
+Compatibility Report je první krok: výsledek hry, použité režimy OPL a stav stroje, uložené v `reports/` jako soubor a řádek v `compatibility.csv`.
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 

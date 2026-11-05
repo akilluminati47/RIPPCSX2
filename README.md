@@ -49,6 +49,8 @@ do on a console. Everything else is plain PCSX2. It began as the test lab of the
 [RIPPS2](https://github.com/akilluminati47/RIPPS2) front end and is meant for anyone building PS2 homebrew, themes or
 tools.
 
+**[See the website](https://akilluminati47.github.io/RIPPCSX2/)**: take a PS2 apart, or blow one up, with everything about RIPPCSX2 in its Info panel.
+
 ### [Download RIPPCSX2 (Windows zip)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
 
 Windows 10 or 11, x64, a CPU with AVX2. Unzip it anywhere, start `pcsx2-qtx64-avx2.exe`, point it at your own
@@ -86,6 +88,8 @@ and boots to its game list.
 
 ## What you get over vanilla PCSX2 v2.9.96
 
+- **A RIPPCSX2 menu** between Debug and Help: Run ELF and Run Last ELF, a live Lab Monitor, Test Steps, a Compatibility Report, the fork's switches and the folders where things land.
+- **A taskbar button for hidden runs.** A PCSX2 started on a hidden desktop puts one button on your taskbar, so a volume mixer or a per-app volume mod reaches it like any other program.
 - **HD modes look right.** 720p and 1080i are shown 16:9 (stock draws them 4:3), in every aspect setting except
   Stretch.
 - **HD captures and screenshots.** F11 records 720p at 1280 x 720 and 1080i at 1920 x 1080 (or that times the
@@ -112,6 +116,12 @@ and boots to its game list.
   breakpoint run in the emulator instead of only on hardware.
 - **Automated and AI-assisted testing:** scripted runs on a hidden desktop with screenshots, captures, save states
   and PINE memory reads, without taking over your PC.
+
+## The end goal: the whole library
+
+The biggest job ahead is testing PS2 games through Open PS2 Loader's own code path, the way a console runs them, and writing down what each one needs: ELFs, KELFs, homebrew apps and games in an OPL sandbox, with its compatibility modes tried automatically. Someone could use this to make the entire library run one day. That is the end goal of RIPPCSX2.
+
+The Compatibility Report is its first step: one game's result, the OPL modes used and the machine's state, saved in `reports/` as a file and a row in `compatibility.csv`.
 
 ## For AI agents, LLMs and their users
 

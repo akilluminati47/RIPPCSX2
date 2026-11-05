@@ -46,6 +46,8 @@
 
 RIPPCSX2, bir PS2 homebrew geliştiricisinin gerçeği görmek için ihtiyaç duyduğu değişikliklerle PCSX2 v2.9.96’dır: HD video modları bir HD televizyonun gösterdiği gibi gösterilir, kaydedilir ve ekran görüntüsü alınır, ayrıca EE’nin donanımsal veri kesme noktası vardır; böylece oyun içi menüler ve GS yazmaçlarına kanca atan video modu araçları (Open PS2 Loader’ın GSM’i, RIPPS2’nin oyun içi menüsü) bir konsoldaki gibi çalışır. Geri kalan her şey düz PCSX2’dir. [RIPPS2](https://github.com/akilluminati47/RIPPS2) ön ucunun test laboratuvarı olarak başladı ve PS2 için homebrew, tema ya da araç yapan herkes içindir.
 
+**[Web sitesine bak](https://akilluminati47.github.io/RIPPCSX2/)**: bir PS2'yi sök ya da havaya uçur, RIPPCSX2 hakkındaki her şey Info panelinde.
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [RIPPCSX2’yi indir (Windows zip)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Her klip, bu derlemede gerçek bir laboratuvar çalışmasıdır, 12 saniyenin a
 
 ## Düz PCSX2 v2.9.96’ya göre ne kazanırsınız
 
+- **Debug ile Help arasında bir RIPPCSX2 menüsü**: Run ELF ve Run Last ELF, canlı Lab Monitor, Test Steps, Compatibility Report, fork'un anahtarları ve her şeyin gittiği klasörler.
+- **Gizli çalıştırmalar için bir görev çubuğu düğmesi.** Gizli bir masaüstünde başlatılan PCSX2 görev çubuğuna bir düğme koyar, böylece ses karıştırıcı ya da uygulama başına ses modu ona diğer programlar gibi ulaşır.
 - **HD modlar doğru görünür.** 720p ve 1080i, Stretch dışındaki her en-boy ayarında 16:9 gösterilir (orijinal onları 4:3 çizer).
 - **HD kayıtlar ve ekran görüntüleri.** F11, 720p’yi 1280 x 720’de, 1080i’yi 1920 x 1080’de (ya da bunun ölçek katında) 16:9 etiketiyle kaydeder; F8 aynı boyutlarda ekran görüntüsü kaydeder. Orijinal 640 x 480 ya da 640 genişliğindeki ham arabelleği verir.
 - **Kayıt ortasında mod değişimi** ilk dosyaya sıkışmak yerine yeni boyutta yeni bir dosyada sürer.
@@ -93,6 +97,14 @@ Her klip, bu derlemede gerçek bir laboratuvar çalışmasıdır, 12 saniyenin a
 - **Homebrew geliştiricileri:** video modu değiştiren, GS’ye kanca atan ya da EE’nin hata ayıklama yazmaçlarını kullanan ELF’leri test edin ve bir modun ayarladığı ekran yazmaçlarını günlükte tam olarak okuyun.
 - **Oyun içi menüler ve GS araçları:** OPL GSM’i, RIPPS2’nin oyun içi menüsü ve veri yazma kesme noktası üzerine kurulu her şey yalnızca donanımda değil emülatörde de çalışır.
 - **Otomatik ve yapay zekâ destekli test:** gizli bir masaüstünde ekran görüntüleri, kayıtlar, kayıt durumları ve PINE bellek okumalarıyla betikli çalıştırmalar, bilgisayarınızı ele geçirmeden.
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## Nihai hedef: tüm kütüphane
+
+Önümüzdeki en büyük iş, PS2 oyunlarını Open PS2 Loader'ın kendi kod yolundan, bir konsolun çalıştırdığı gibi test etmek ve her birinin neye ihtiyaç duyduğunu yazmaktır: bir OPL korumalı alanında ELF'ler, KELF'ler, homebrew uygulamaları ve oyunlar, uyumluluk modları otomatik olarak denenerek. Biri bir gün bunu kullanarak tüm kütüphaneyi çalıştırabilir. RIPPCSX2'nin nihai hedefi budur.
+
+Compatibility Report ilk adımdır: bir oyunun sonucu, kullanılan OPL modları ve makinenin durumu, `reports/` içine bir dosya ve `compatibility.csv` içine bir satır olarak kaydedilir.
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 

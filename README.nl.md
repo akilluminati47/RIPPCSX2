@@ -46,6 +46,8 @@
 
 RIPPCSX2 is PCSX2 v2.9.96 met de wijzigingen die een PS2-homebrewontwikkelaar nodig heeft om het echte beeld te zien: HD-videomodi getoond, opgenomen en vastgelegd zoals een HD-tv ze toont, en het hardware-databreekpunt van de EE, zodat in-game menu’s en videomodushulpmiddelen die op de GS-registers inhaken (het GSM van Open PS2 Loader, het in-game menu van RIPPS2) werken zoals op een console. Al het andere is gewoon PCSX2. Het begon als testlab van de front end [RIPPS2](https://github.com/akilluminati47/RIPPS2) en is bedoeld voor iedereen die PS2-homebrew, thema’s of hulpmiddelen maakt.
 
+**[Bekijk de website](https://akilluminati47.github.io/RIPPCSX2/)**: haal een PS2 uit elkaar of blaas er een op, met alles over RIPPCSX2 in het Info-paneel.
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [RIPPCSX2 downloaden (Windows-zip)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Elke clip is een echte labrun op deze build, ingekort tot onder de 12 seconden.
 
 ## Wat je krijgt ten opzichte van gewone PCSX2 v2.9.96
 
+- **Een RIPPCSX2-menu** tussen Debug en Help: Run ELF en Run Last ELF, een live Lab Monitor, Test Steps, een Compatibility Report, de schakelaars van de fork en de mappen waar alles terechtkomt.
+- **Een taakbalkknop voor verborgen runs.** Een PCSX2 die op een verborgen bureaublad start, zet een knop op je taakbalk, zodat een volumemixer of een volumemod per app hem bereikt zoals elk ander programma.
 - **HD-modi zien er goed uit.** 720p en 1080i worden in 16:9 getoond (het origineel tekent ze in 4:3), bij elke beeldverhouding-instelling behalve Stretch.
 - **HD-opnames en schermafbeeldingen.** F11 neemt 720p op in 1280 x 720 en 1080i in 1920 x 1080 (of dat maal de opschaling), gemarkeerd als 16:9; F8 bewaart schermafbeeldingen in dezelfde formaten. Het origineel geeft 640 x 480 of de ruwe buffer van 640 breed.
 - **Een moduswissel midden in een opname** gaat verder in een nieuw bestand met het nieuwe formaat, in plaats van in het eerste te worden geperst.
@@ -93,6 +97,14 @@ Elke clip is een echte labrun op deze build, ingekort tot onder de 12 seconden.
 - **Homebrewontwikkelaars:** test ELF’s die van videomodus wisselen, op de GS inhaken of de debugregisters van de EE gebruiken, en lees in het log de exacte beeldregisters die een modus instelt.
 - **In-game menu’s en GS-hulpmiddelen:** het GSM van OPL, het in-game menu van RIPPS2 en alles wat op het data-schrijfbreekpunt is gebouwd, draaien in de emulator in plaats van alleen op hardware.
 - **Geautomatiseerd en AI-ondersteund testen:** gescripte runs op een verborgen bureaublad met schermafbeeldingen, opnames, save states en PINE-geheugenlezingen, zonder je pc over te nemen.
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## Het einddoel: de hele bibliotheek
+
+De grootste klus die nog komt, is PS2-games testen via het eigen codepad van Open PS2 Loader, zoals een console ze draait, en opschrijven wat elke game nodig heeft: ELF's, KELF's, homebrew-apps en games in een OPL-sandbox, met de compatibiliteitsmodi automatisch uitgeprobeerd. Iemand zou hiermee ooit de hele bibliotheek aan de praat kunnen krijgen. Dat is het einddoel van RIPPCSX2.
+
+De Compatibility Report is de eerste stap: het resultaat van een game, de gebruikte OPL-modi en de toestand van de machine, opgeslagen in `reports/` als bestand en als rij in `compatibility.csv`.
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 

@@ -46,6 +46,8 @@
 
 Ang RIPPCSX2 mao ang PCSX2 v2.9.96 nga adunay mga kausaban nga kinahanglan sa usa ka PS2 homebrew developer aron makita ang tinuod: ang mga HD video mode gipakita, gi-record ug gikuhaan og screenshot sama sa pagpakita sa HD TV, uban ang hardware data breakpoint sa EE, aron ang mga in-game menu ug video mode tool nga mokabit sa mga GS register (ang GSM sa Open PS2 Loader, ang in-game menu sa RIPPS2) molihok sama sa console. Ang tanan nga uban kay yanong PCSX2. Nagsugod kini isip test lab sa front end nga [RIPPS2](https://github.com/akilluminati47/RIPPS2) ug para kini sa bisan kinsa nga naghimo og homebrew, theme o tool para sa PS2.
 
+**[Tan-awa ang website](https://akilluminati47.github.io/RIPPCSX2/)**: buaga ang usa ka PS2 o pabuthon kini, ug naa sa Info panel ang tanan bahin sa RIPPCSX2.
+
 <a id="download-rippcsx2-windows-ziphttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-windows-x64-avx2zip"></a>
 
 ### [I-download ang RIPPCSX2 (Windows zip)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)
@@ -76,6 +78,8 @@ Ang matag clip usa ka tinuod nga lab run niini nga build, giputol ngadto sa ubos
 
 ## Unsa ang imong makuha kumpara sa yanong PCSX2 v2.9.96
 
+- **Usa ka RIPPCSX2 menu** taliwala sa Debug ug Help: Run ELF ug Run Last ELF, live nga Lab Monitor, Test Steps, Compatibility Report, ang mga switch sa fork, ug ang mga folder diin moadto ang tanan.
+- **Usa ka taskbar button para sa mga tinago nga run.** Ang PCSX2 nga gisugdan sa tinago nga desktop magbutang og button sa imong taskbar, busa maabot kini sa volume mixer o per-app volume mod sama sa bisan unsang programa.
 - **Husto ang hitsura sa HD modes.** Ang 720p ug 1080i gipakita sa 16:9 (4:3 ang drowing sa orihinal), sa matag aspect setting gawas sa Stretch.
 - **HD nga recording ug screenshot.** Ang F11 mo-record sa 720p sa 1280 x 720 ug sa 1080i sa 1920 x 1080 (o usa ka upscale multiple niini), naka-tag og 16:9; ang F8 mo-save og screenshot sa parehas nga gidak-on. Ang orihinal mohatag og 640 x 480 o sa raw buffer nga 640 ang gilapdon.
 - **Ang pag-ilis og mode samtang nag-record** mopadayon sa bag-ong file sa bag-ong gidak-on imbes nga isiksik sa unang file.
@@ -93,6 +97,14 @@ Ang matag clip usa ka tinuod nga lab run niini nga build, giputol ngadto sa ubos
 - **Mga homebrew developer:** i-test ang mga ELF nga moilis og video mode, mokabit sa GS o mogamit sa mga debug register sa EE, ug basaha sa log ang eksaktong display register nga gitakda sa usa ka mode.
 - **Mga in-game menu ug GS tool:** ang GSM sa OPL, ang in-game menu sa RIPPS2 ug bisan unsa nga gitukod sa data write breakpoint modagan sa emulator, dili lang sa hardware.
 - **Automated ug AI-assisted nga pag-test:** mga scripted run sa tinago nga desktop nga adunay screenshot, recording, save state ug pagbasa sa memory pinaagi sa PINE, nga dili moilog sa imong computer.
+
+<a id="the-end-goal-the-whole-library"></a>
+
+## Ang kataposang tumong: ang tibuok library
+
+Ang pinakadakong buluhaton sa unahan mao ang pagsulay sa mga dula sa PS2 pinaagi sa kaugalingong code path sa Open PS2 Loader, sama sa pagpadagan sa console, ug ang pagsulat kung unsa ang gikinahanglan sa matag usa: mga ELF, KELF, homebrew app ug dula sa usa ka OPL sandbox, nga awtomatikong sulayan ang mga compatibility mode niini. Usa ka adlaw, magamit kini sa usa ka tawo aron mapadagan ang tibuok library. Mao kana ang kataposang tumong sa RIPPCSX2.
+
+Ang Compatibility Report mao ang unang lakang: ang resulta sa usa ka dula, ang mga OPL mode nga gigamit ug ang kahimtang sa makina, nga gitipigan sa `reports/` isip file ug usa ka row sa `compatibility.csv`.
 
 <a id="for-ai-agents-llms-and-their-users"></a>
 
