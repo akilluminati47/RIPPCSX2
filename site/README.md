@@ -31,6 +31,8 @@ Every position was measured, not guessed: each reference photograph's camera was
 
 A web render has no shadows, so what a photograph shows as shade is built in: the floors and roofs of the slits and vents are black, the expansion bay gets darker in steps as it goes in, and the thin lines of light along the rounded edges are real strips.
 
+To measure again, `tools/site/measure` holds the scripts: `camfit.py` solves the cameras from corner picks, `render.sh` renders through them, `compare.py` puts photo and render side by side, `elev.py` rectifies a face of each to a millimetre grid, and `bands.py` reads the bands of dark and light as numbers. They expect a `refs/` folder of your own with clear photographs of a fat from the front left and the back and a slim from the front left and back right, and the corner picks in `camfit.py` will want redoing for yours. Those are not in the repo, and should not be.
+
 ## What is real and what is not
 
 What the page says RIPPCSX2 does today was checked in the lab. What it says RIPPCSX2 is going towards is marked as that, in the panel's **Where it is going** column. The explosions are synthesised, and there is no Sony audio.

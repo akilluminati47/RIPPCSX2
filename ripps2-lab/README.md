@@ -27,6 +27,8 @@ PCSX2's window, so the real keyboard, mouse and focus stay with whoever is using
 with PrintWindow, `rec` and `shot` post F11 (video capture) and F8 (screenshot). At the end it closes PCSX2.
 (PINE is on, port **28012**, for tools that read the PS2's memory; the driver does not use it.)
 
+Two smaller tools sit in this folder. `private-copy.py` makes a RIPPCSX2 of your own from a lab, with its own folder, exe name, ini, cards and PINE slot, so a test cannot disturb the lab. `drive-menu.ps1` runs it on a hidden desktop of its own and works its windows by message: the way the RIPPCSX2 menu is tested without taking your keyboard or mouse.
+
 A hidden run is not out of sight: for the whole run a small **"RIPPS2 lab: AI run"** window sits on the user's
 taskbar (bottom right), shown without taking the focus. It says which step the run is on, previews the hidden screen
 once a second, and has two buttons:
