@@ -2011,6 +2011,7 @@ void Pcsx2Config::LoadSaveCore(SettingsWrapper& wrap)
 	SettingsWrapBitBool(EnableDiscordPresence);
 	SettingsWrapBitBool(InhibitScreensaver);
 	SettingsWrapBitBool(HostFs);
+	SettingsWrapEntry(DataWriteBreakpoint);
 
 	SettingsWrapBitBool(BackupSavestate);
 

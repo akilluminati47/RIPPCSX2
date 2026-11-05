@@ -43,6 +43,7 @@
     <ClCompile Include="AsyncDialogs.cpp" />
     <ClCompile Include="QtHost.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="RIPPCSX2Menu.cpp" />
     <ClCompile Include="$(IntDir)qrc_resources.cpp">
       <Filter>Resources</Filter>
     </ClCompile>

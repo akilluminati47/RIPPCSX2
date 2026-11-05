@@ -7,6 +7,12 @@ on:
   push:
     branches:
       - "rippcsx2"
+    paths-ignore:
+      - "site/**"
+      - "tools/site/**"
+      - "docs/**"
+      - "**.md"
+      - ".github/workflows/rippcsx2_pages.yml"
   workflow_dispatch:
 
 jobs:

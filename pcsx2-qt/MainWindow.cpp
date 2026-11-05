@@ -11,6 +11,7 @@
 #include "MainWindow.h"
 #include "QtHost.h"
 #include "QtUtils.h"
+#include "RIPPCSX2Menu.h"
 #include "SettingWidgetBinder.h"
 #include "Debugger/Docking/DockManager.h"
 #include "Settings/AchievementLoginDialog.h"
@@ -209,6 +210,8 @@ QWidget* MainWindow::getContentParent()
 
 void MainWindow::setupAdditionalUi()
 {
+	RIPPCSX2Menu::Install(this, m_ui.menuBar, m_ui.menuHelp);
+	RIPPCSX2Menu::StartHiddenRunButton();
 	makeIconsMasks(menuBar());
 	updateAdvancedSettingsVisibility();
 	setupStatusBarWidgets();

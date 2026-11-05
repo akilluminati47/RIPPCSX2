@@ -54,9 +54,22 @@ EEDebugRegs eeDebugRegs;
 u32 eeDataWriteBpMask = 0;
 u32 eeDataWriteBpMatch = 1;
 static u32 s_dataWriteBpHits = 0;
+static u32 s_dataWriteBpLastPC = 0;
+
+u32 eeDataWriteBpHits()
+{
+	return s_dataWriteBpHits;
+}
+
+u32 eeDataWriteBpLastPC()
+{
+	return s_dataWriteBpLastPC;
+}
 
 bool eeDataWriteBpArmed()
 {
+	if (!EmuConfig.DataWriteBreakpoint)
+		return false;
 	const u32 bpc = eeDebugRegs.BPC;
 	return (bpc & BPC_DWE) && (bpc & (BPC_DUE | BPC_DSE | BPC_DKE | BPC_DXE)) && !(bpc & BPC_BED);
 }
@@ -85,6 +98,7 @@ void eeDebugRegsReset()
 {
 	std::memset(&eeDebugRegs, 0, sizeof(eeDebugRegs));
 	s_dataWriteBpHits = 0;
+	s_dataWriteBpLastPC = 0;
 	eeDebugRegsUpdate();
 }
 
@@ -141,6 +155,7 @@ void eeDataWriteBpException(u32 storepc, u32 bd)
 	if (s_dataWriteBpHits < 8)
 		Console.WriteLn("RIPPCSX2: EE data write breakpoint hit at %08x%s", storepc, bd ? " (delay slot)" : "");
 	s_dataWriteBpHits++;
+	s_dataWriteBpLastPC = storepc;
 
 	eeDebugRegs.BPC |= BPC_DWB;
 	cpuRegs.CP0.n.Cause = (cpuRegs.CP0.n.Cause & ~(0x40000000u | 0x70000u)) | 0x30000u | (bd ? 0x40000000u : 0);

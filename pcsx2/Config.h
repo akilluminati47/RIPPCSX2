@@ -1405,6 +1405,9 @@ struct Pcsx2Config
 
 	int PINESlot;
 
+	// RIPPCSX2: emulate the EE's COP0 data write breakpoint. Off is stock PCSX2's behaviour.
+	bool DataWriteBreakpoint = true;
+
 	int RtcYear;
 	int RtcMonth;
 	int RtcDay;
