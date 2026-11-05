@@ -15,6 +15,8 @@
 #include "pcsx2/GS/GS.h"
 #include "pcsx2/Host.h"
 #include "pcsx2/MTGS.h"
+#include "pcsx2/SIO/Pad/Pad.h"
+#include "pcsx2/SIO/Pad/PadDualshock2.h"
 #include "pcsx2/VMManager.h"
 
 #include "common/Path.h"
@@ -23,7 +25,9 @@
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
+#include <QtCore/QHash>
 #include <QtCore/QPointer>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QTextStream>
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
@@ -98,7 +102,7 @@ namespace
 
 	QString modeName(u64 smode1, u64 smode2)
 	{
-		const u32 lc = smode1 & 0x7f;
+		const u32 lc = (smode1 >> 3) & 0x7f;
 		const u32 cmod = (smode1 >> 13) & 3;
 		const bool interlaced = smode2 & 1;
 		if (lc == 22)
@@ -131,7 +135,7 @@ namespace
 			const u64 pm = gsReg(0x00), sm1 = gsReg(0x10), sm2 = gsReg(0x20), sv = gsReg(0x60);
 			out << "\nVideo mode      " << modeName(sm1, sm2) << "\n";
 			out << "PMODE           " << Qt::hex << pm << Qt::dec << "   EN1 " << (pm & 1) << " EN2 " << ((pm >> 1) & 1) << "\n";
-			out << "SMODE1          " << Qt::hex << sm1 << Qt::dec << "   LC " << (sm1 & 0x7f) << " CMOD " << ((sm1 >> 13) & 3) << "\n";
+			out << "SMODE1          " << Qt::hex << sm1 << Qt::dec << "   LC " << ((sm1 >> 3) & 0x7f) << " CMOD " << ((sm1 >> 13) & 3) << "\n";
 			out << "SMODE2          " << Qt::hex << sm2 << Qt::dec << "   INT " << (sm2 & 1) << " FFMD " << ((sm2 >> 1) & 1) << "\n";
 			out << "SYNCV           " << Qt::hex << sv << Qt::dec << "\n";
 			for (int i = 0; i < 2; i++)
@@ -220,6 +224,191 @@ namespace
 		QObject::connect(timer, &QTimer::timeout, d, refresh);
 		refresh();
 		timer->start(500);
+		d->show();
+	}
+
+	// ---- Test Steps: the lab driver's step language, played inside the emulator ----
+	struct StepRun
+	{
+		QStringList steps;
+		int at = 0;
+		bool stopped = false;
+		bool recording = false;
+		QPointer<QLabel> status;
+		std::function<void()> finished;
+	};
+
+	int stepButton(const QString& name)
+	{
+		static const QHash<QString, int> s_buttons = {
+			{QStringLiteral("up"), PadDualshock2::PAD_UP}, {QStringLiteral("right"), PadDualshock2::PAD_RIGHT}, {QStringLiteral("down"), PadDualshock2::PAD_DOWN},
+			{QStringLiteral("left"), PadDualshock2::PAD_LEFT}, {QStringLiteral("triangle"), PadDualshock2::PAD_TRIANGLE}, {QStringLiteral("circle"), PadDualshock2::PAD_CIRCLE},
+			{QStringLiteral("cross"), PadDualshock2::PAD_CROSS}, {QStringLiteral("square"), PadDualshock2::PAD_SQUARE}, {QStringLiteral("select"), PadDualshock2::PAD_SELECT},
+			{QStringLiteral("start"), PadDualshock2::PAD_START}, {QStringLiteral("l1"), PadDualshock2::PAD_L1}, {QStringLiteral("l2"), PadDualshock2::PAD_L2},
+			{QStringLiteral("r1"), PadDualshock2::PAD_R1}, {QStringLiteral("r2"), PadDualshock2::PAD_R2}, {QStringLiteral("l3"), PadDualshock2::PAD_L3},
+			{QStringLiteral("r3"), PadDualshock2::PAD_R3}, {QStringLiteral("rup"), PadDualshock2::PAD_R_UP}, {QStringLiteral("rright"), PadDualshock2::PAD_R_RIGHT},
+			{QStringLiteral("rdown"), PadDualshock2::PAD_R_DOWN}, {QStringLiteral("rleft"), PadDualshock2::PAD_R_LEFT},
+		};
+		return s_buttons.value(name, -1);
+	}
+
+	void setButton(int bind, bool down)
+	{
+		Host::RunOnCPUThread([bind, down]() { Pad::SetControllerState(0, static_cast<u32>(bind), down ? 1.0f : 0.0f); });
+	}
+
+	void playStep(const std::shared_ptr<StepRun>& run)
+	{
+		const auto finish = [run](const QString& why) {
+			if (run->recording)
+				g_emu_thread->endCapture();
+			if (run->status)
+				run->status->setText(why);
+			if (run->finished)
+				run->finished();
+		};
+		if (run->stopped)
+		{
+			finish(QStringLiteral("Stopped."));
+			return;
+		}
+		if (run->at >= run->steps.size())
+		{
+			finish(QStringLiteral("Done: %1 steps.").arg(run->steps.size()));
+			return;
+		}
+		if (!VMManager::HasValidVM())
+		{
+			finish(QStringLiteral("Nothing is running: start an ELF or a game first."));
+			return;
+		}
+		const QString step = run->steps[run->at++].trimmed().toLower();
+		if (run->status)
+			run->status->setText(QStringLiteral("Step %1 of %2: %3").arg(run->at).arg(run->steps.size()).arg(step));
+		const auto next = [run](int ms) { QTimer::singleShot(ms, g_main_window, [run]() { playStep(run); }); };
+		const QStringList part = step.split(QLatin1Char(':'));
+		const QString verb = part[0];
+		if (verb.isEmpty())
+		{
+			next(0);
+		}
+		else if (verb == QStringLiteral("wait") && part.size() > 1)
+		{
+			next(static_cast<int>(part[1].toDouble() * 1000.0));
+		}
+		else if (verb == QStringLiteral("shot"))
+		{
+			g_emu_thread->queueSnapshot(0);
+			next(1000);
+		}
+		else if (verb == QStringLiteral("sstate"))
+		{
+			g_emu_thread->saveStateToSlot(1);
+			next(1000);
+		}
+		else if (verb == QStringLiteral("rec"))
+		{
+			if (run->recording)
+				g_emu_thread->endCapture();
+			else
+				g_emu_thread->beginCapture(QString::fromStdString(GSGetBaseVideoFilename() + "." + Host::GetStringSettingValue("EmuCore/GS", "CaptureContainer", Pcsx2Config::GSOptions::DEFAULT_CAPTURE_CONTAINER)));
+			run->recording = !run->recording;
+			next(100);
+		}
+		else if ((verb == QStringLiteral("kdown") || verb == QStringLiteral("kup")) && part.size() > 1 && stepButton(part[1]) >= 0)
+		{
+			setButton(stepButton(part[1]), verb == QStringLiteral("kdown"));
+			next(30);
+		}
+		else if (verb == QStringLiteral("hold") && part.size() > 1 && stepButton(part[1]) >= 0)
+		{
+			const int bind = stepButton(part[1]);
+			setButton(bind, true);
+			QTimer::singleShot(static_cast<int>((part.size() > 2 ? part[2].toDouble() : 1.0) * 1000.0), g_main_window, [run, bind]() {
+				setButton(bind, false);
+				QTimer::singleShot(120, g_main_window, [run]() { playStep(run); });
+			});
+		}
+		else if (stepButton(verb) >= 0)
+		{
+			// a press: down long enough for a program reading its pad once a frame, and a gap after it
+			const int bind = stepButton(verb);
+			setButton(bind, true);
+			QTimer::singleShot(100, g_main_window, [run, bind]() {
+				setButton(bind, false);
+				QTimer::singleShot(120, g_main_window, [run]() { playStep(run); });
+			});
+		}
+		else
+		{
+			finish(QStringLiteral("Stopped at step %1: I do not know \"%2\".").arg(run->at).arg(step));
+		}
+	}
+
+	void showSteps(QWidget* parent)
+	{
+		static QPointer<QDialog> s_steps;
+		if (s_steps)
+		{
+			s_steps->show();
+			s_steps->raise();
+			s_steps->activateWindow();
+			return;
+		}
+		QDialog* d = new QDialog(parent);
+		s_steps = d;
+		d->setAttribute(Qt::WA_DeleteOnClose);
+		d->setWindowTitle(QStringLiteral("RIPPCSX2 Test Steps"));
+		d->resize(560, 380);
+		QVBoxLayout* layout = new QVBoxLayout(d);
+		QLabel* help = new QLabel(QStringLiteral("Separated by commas or lines: <code>wait:2.5</code>, a button (<code>cross circle square triangle up down left right start select l1 l2 r1 r2 l3 r3 rup rdown rleft rright</code>), "
+												 "<code>hold:cross:1.5</code>, <code>kdown:l1</code>, <code>kup:l1</code>, <code>shot</code>, <code>rec</code>, <code>sstate</code>. The same steps the lab's hidden-desktop driver runs."), d);
+		help->setWordWrap(true);
+		layout->addWidget(help);
+		QPlainTextEdit* text = new QPlainTextEdit(d);
+		text->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+		text->setPlainText(QString::fromStdString(Host::GetBaseStringSettingValue("RIPPCSX2", "LastSteps", "wait:2,cross,wait:3,shot")));
+		layout->addWidget(text);
+		QLabel* status = new QLabel(QStringLiteral("Start an ELF or a game, then run these."), d);
+		layout->addWidget(status);
+		QHBoxLayout* row = new QHBoxLayout();
+		QPushButton* play = new QPushButton(QStringLiteral("Run"), d);
+		QPushButton* stop = new QPushButton(QStringLiteral("Stop"), d);
+		QPushButton* close = new QPushButton(QStringLiteral("Close"), d);
+		stop->setEnabled(false);
+		row->addWidget(play);
+		row->addWidget(stop);
+		row->addStretch(1);
+		row->addWidget(close);
+		layout->addLayout(row);
+		auto current = std::make_shared<std::shared_ptr<StepRun>>();
+		QObject::connect(play, &QPushButton::clicked, d, [=]() {
+			Host::SetBaseStringSettingValue("RIPPCSX2", "LastSteps", text->toPlainText().toUtf8().constData());
+			Host::CommitBaseSettingChanges();
+			auto run = std::make_shared<StepRun>();
+			run->steps = text->toPlainText().split(QRegularExpression(QStringLiteral("[,\\n]")), Qt::SkipEmptyParts);
+			run->status = status;
+			QPointer<QPushButton> play_ptr(play), stop_ptr(stop);
+			run->finished = [play_ptr, stop_ptr]() {
+				if (play_ptr)
+					play_ptr->setEnabled(true);
+				if (stop_ptr)
+					stop_ptr->setEnabled(false);
+			};
+			*current = run;
+			play->setEnabled(false);
+			stop->setEnabled(true);
+			playStep(run);
+		});
+		QObject::connect(stop, &QPushButton::clicked, d, [current]() {
+			if (*current)
+				(*current)->stopped = true;
+		});
+		QObject::connect(close, &QPushButton::clicked, d, &QDialog::close);
+		QObject::connect(d, &QDialog::finished, d, [current]() {
+			if (*current)
+				(*current)->stopped = true;
+		});
 		d->show();
 	}
 
@@ -395,6 +584,7 @@ void RIPPCSX2Menu::Install(MainWindow* window, QMenuBar* bar, QMenu* before)
 
 	// ---- see what it does ----
 	QObject::connect(item(menu, "chip-line", QStringLiteral("Lab &Monitor..."), QStringLiteral("The video mode and display registers, and the EE data write breakpoint's state, live.")), &QAction::triggered, window, [window]() { showMonitor(window); });
+	QObject::connect(item(menu, "keyboard-line", QStringLiteral("Test &Steps..."), QStringLiteral("Plays a list of waits, button presses, screenshots and recordings into what is running. The same steps the lab's hidden-desktop driver runs.")), &QAction::triggered, window, [window]() { showSteps(window); });
 	QObject::connect(item(menu, "list-check", QStringLiteral("&Compatibility Report..."), QStringLiteral("One game's result, the OPL modes used and the machine's state, as a file and a row in compatibility.csv.")), &QAction::triggered, window, [window]() { showReport(window); });
 	menu->addSeparator();
 
