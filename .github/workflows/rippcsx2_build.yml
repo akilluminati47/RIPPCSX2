@@ -12,6 +12,7 @@ on:
       - "tools/site/**"
       - "docs/**"
       - "**.md"
+      - "i18n/**"
       - ".github/workflows/rippcsx2_pages.yml"
   workflow_dispatch:
 
