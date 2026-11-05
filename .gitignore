@@ -125,3 +125,6 @@ CMakeSettings.json
 /ci-artifacts/
 /out/
 /.cache/
+
+# Blender and the site tools
+tools/site/**/__pycache__/
