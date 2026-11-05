@@ -7,15 +7,18 @@ from PIL import Image, ImageDraw
 W, D, H = 301, 182, 78
 SW, SD, SH = 230, 152, 28
 REFS = {
-    # file: (image size, [(world mm), (image px)])
+    # file: (image, [(world mm), (image px)]). Only what is known: the lid's corners at the top, the feet line at the bottom.
+    # The heights in between are what the cameras are for, so none of them may be assumed here.
     'fat_FL': ('refs/fat_FL.png', [((0, 0, 78), (-2, 167)), ((301, 0, 78), (550, 310)), ((301, 182, 78), (690, 138)), ((0, 182, 78), (157, 15)),
-                                   ((301, 0, 32), (550, 379)), ((0, 0, 32), (0, 243)), ((301, 182, 32), (688, 200))]),
-    'fat_back': ('refs/fat_back.jpg', [((0, 182, 78), (684, 276)), ((0, 182, 0), (680, 451)), ((301, 182, 78), (14, 231)), ((301, 182, 32), (16, 322)),
-                                       ((279, 182, 0), (80, 405)), ((301, 0, 78), (154, 149)), ((0, 0, 78), (785, 185)), ((0, 0, 0), (775, 322))]),
+                                   ((275, 14, 1.5), (508, 407)), ((0, 14, 1.5), (17, 284))]),
+    'fat_back': ('refs/fat_back.jpg', [((0, 182, 78), (684, 276)), ((0, 182, 1.5), (680, 451)), ((301, 182, 78), (14, 231)), ((275, 182, 1.5), (81, 405)),
+                                       ((301, 0, 78), (154, 149)), ((0, 0, 78), (785, 185))]),
+    'fat_FR': ('refs/fat_FR.png', [((0, 0, 78), (144, 308)), ((301, 0, 78), (690, 172)), ((301, 182, 78), (517, 14)), ((0, 14, 1.5), (126, 419)),
+                                   ((275, 14, 1.5), (615, 296))]),
     'slim_FL': ('refs/slim_FL.jpg', [((0, 0, 28), (62, 283)), ((230, 0, 28), (587, 434)), ((230, 152, 28), (747, 260)), ((0, 152, 28), (239, 119)),
-                                     ((230, 0, 12.5), (587, 464)), ((0, 0, 12.5), (62, 311))]),
+                                     ((0, 7, 1.2), (69.5, 335)), ((212, 7, 1.2), (547, 474))]),
     'slim_BR': ('refs/slim_BR.jpg', [((0, 152, 28), (583, 438)), ((230, 152, 28), (61, 283)), ((230, 0, 28), (237, 118)), ((0, 0, 28), (745, 254)),
-                                     ((0, 152, 0), (585, 487)), ((0, 0, 12.5), (744, 293))]),
+                                     ((0, 152, 1.2), (584, 488)), ((212, 152, 1.2), (102, 351))]),
 }
 
 
@@ -145,9 +148,3 @@ if __name__ == '__main__':
         cams[name] = {'P': P.tolist(), 'size': im.size, 'src': src}
         print(name, 'reprojection px', ' '.join('%.1f' % e for e in err), 'size', im.size)
     json.dump(cams, open('refs/cams.json', 'w'), indent=1)
-    P = np.array(cams['fat_FL']['P'])
-    rect(P, 'refs/fat_FL.png', 'refs/c_fat_front.png', lambda u, v: (u, 0, v), 0, 301, 28, 78, ppm=4.4)
-    rect(P, 'refs/fat_FL.png', 'refs/c_fat_lower.png', lambda u, v: (u, 11, v), 0, 285, 0, 34, ppm=4.4)
-    P = np.array(cams['slim_FL']['P'])
-    rect(P, 'refs/slim_FL.jpg', 'refs/c_slim_front.png', lambda u, v: (u, 0, v), 0, 230, 0, 28, ppm=5.5)
-    rect(P, 'refs/slim_FL.jpg', 'refs/c_slim_top.png', lambda u, v: (u, v, 28), 0, 230, 0, 152, ppm=4.2)

@@ -5,15 +5,16 @@ from mathutils import Matrix, Vector
 from ps2kit import Part, mat, plane, export_glb
 
 W, D, H = 301, 182, 78
-LOW_X = 275            # the lower block stops short of the right end
+LOW_X = 274.5          # the lower block stops short of the right end
 LOW_Y = 14             # and sits back from the front
 BOT = 1.5              # it stands on feet: 78 mm is to the bottom of the feet
-FIN_SIDE = 2.7         # how deep the slits cut on the right end
-PORT_Z = (41.9, 47.0)  # the controller ports take the place of the fourth plate
-LOW_Z = 31.6
-FIN = 6.0              # how deep the slits cut
-SLITS = (70.2, 62.65, 55.15, 47.7, 40.15)
-GAP = 3.4
+FIN_SIDE = 2.7         # how deep the slits cut on the right and left ends
+LEFT_FIN = 14.5        # the slits wrap the left end too, this far back from the front, then the flat side wall starts
+PORT_Z = (42.6, 47.7)  # the controller ports take the place of the fourth plate
+LOW_Z = 35.8           # the seam between the shell and the lower block
+FIN = 6.0              # how deep the slits cut on the front
+SLITS = (71.35, 63.8, 56.25, 48.7, 41.15)
+GAP = 3.3
 # the plates between the slits, top to bottom
 PLATES = [(SLITS[0] + GAP / 2, H), (SLITS[1] + GAP / 2, SLITS[0] - GAP / 2), (SLITS[2] + GAP / 2, SLITS[1] - GAP / 2),
           (SLITS[3] + GAP / 2, SLITS[2] - GAP / 2), (SLITS[4] + GAP / 2, SLITS[3] - GAP / 2), (LOW_Z + 0.4, SLITS[4] - GAP / 2)]
@@ -42,19 +43,21 @@ def materials(tex):
         portface=mat('port_face', '#26272b', rough=0.45),
         portrim=mat('port_rim', '#5d5e64', rough=0.42),
         portin=mat('port_inner', '#17181b', rough=0.6),
+        slot=mat('edge_slot', '#4d4742', rough=0.55),
         portpin=mat('port_pin', '#9a9ba0', rough=0.45),
         doorprint=mat('fat_door_print', '#7f8187', rough=0.6),
-        rocker=mat('rocker', '#101012', rough=0.5, spec=0.3),
-        block=mat('rear_block', '#17181b', rough=0.5),
+        rocker=mat('rocker', '#17181b', rough=0.4, spec=0.4),
+        block=mat('rear_block', '#0e0f11', rough=0.5),
+        scoop=mat('side_scoop', '#101114', rough=0.6),
         rimdark=mat('rim_dark', '#303136', rough=0.5),
-        edge_hi=mat('edge_hi', '#8a8b91', rough=0.3),
+        edge_hi=mat('edge_hi', '#a5a6ac', rough=0.3),
         edge_hi2=mat('edge_hi2', '#4a4b50', rough=0.3),
         blackgloss=mat('black_gloss', '#0a0a0c', rough=0.16),
         tab=mat('bay_tab', '#dfe1e2', rough=0.5, metal=0.2),
-        bay1=mat('bay_lit', '#6f7274', rough=0.6, metal=0.2),
-        bay2=mat('bay_mid', '#4a4c4e', rough=0.65, metal=0.1),
-        bay3=mat('bay_dim', '#2a2b2d', rough=0.7),
-        bay4=mat('bay_deep', '#141516', rough=0.8),
+        bay1=mat('bay_lit', '#55585a', rough=0.8),
+        bay2=mat('bay_mid', '#38393b', rough=0.8),
+        bay3=mat('bay_dim', '#212224', rough=0.85),
+        bay4=mat('bay_deep', '#111213', rough=0.9),
         white=mat('print_white', '#dcdde2', rough=0.5),
         grey=mat('sticker_grey', '#d8d8d8', rough=0.7),
         black=mat('plastic_black', '#0c0c0e', rough=0.45),
@@ -199,10 +202,13 @@ def usb_a(p, x0, x1, z0, z1, y, m, depth=8.0, shell=None, tongue=True):
             p.box(xx - 0.45, xx + 0.45, y + 1.37, y + 1.42, cz + 0.35, cz + 1.05, m['white'])
 
 
-def screw_cap(p, y, z, m, x=0.0):
-    """The rubber cap over a case screw on the left side."""
-    p.poly(rrect(0, 0, 9.0, 10.0, 3.0), plane((x - 0.5, y, z), (0, -1, 0), (0, 0, 1)), m['rubber'], depth=0.6)
-    p.cyl((x - 0.52, y, z), 'x', 1.6, 0.02, m['dark'], n=14, smooth=False)
+def side_recess(p, y, z, m):
+    """One of the four oblong recesses in the left side, for the vertical stand: long and shallow, deepest at its rear end, its lower lip catching the light."""
+    art = plane((-0.02, y, z), (0, -1, 0), (0, 0, 1))
+    p.poly(stadium(0, 0, 21, 7), art, m['scoop'], depth=0)
+    deep = plane((-0.04, y, z), (0, -1, 0), (0, 0, 1))
+    p.poly(stadium(-5.2, 0.2, 10.4, 6.4), deep, m['dark'], depth=0)
+    p.box(-0.05, 0.1, y - 7, y + 9, z - 3.6, z - 2.9, m['edge_hi'])
 
 
 def build(col, tex):
@@ -212,10 +218,11 @@ def build(col, tex):
     # ---------------------------------------------------- the lid: the top plate, the fins and the upper shell
     lid = Part('lid', (0, 0, 300), 'The upper shell. The six plates and five slits are the look everyone remembers, and they run round the right end to the back.')
     lid.tile = {'fat_case': 3.0}
-    lid.box(0, W, 0, D, PLATES[0][0], H, m['case'], bevel=1.4, seg=3)
+    lid.box(0, W, 0, D, PLATES[0][0], H, m['case'], bevel=0.9, seg=3)
+    lid.box(1.2, W - FIN_SIDE, D - 0.5, D + 0.012, PLATES[0][0], H - 0.9, m['fin'])
     # under the lid's rounded front edge: a seam, then a black face down to the first slit
-    lid.box(0.6, W - 0.6, -0.02, 0.8, 74.0, 74.7, m['dark'])
-    lid.box(0.6, W - 0.6, -0.015, 0.8, PLATES[0][0], 74.0, m['fin'])
+    lid.box(0.6, W - 0.6, -0.02, 0.8, 74.7, 75.4, m['dark'])
+    lid.box(0.6, W - 0.6, -0.015, 0.8, PLATES[0][0], 74.7, m['fin'])
     # the logo and its name on the lid, measured: reading rear to front, 'up' towards the right end
     art = plane((0, D, H + 0.01), (0, -1, 0), (1, 0, 0))
     ps2_logo(lid, art, 28, 162, 1.0, 1.1, (m['logo_lo'], m['logo_mid'], m['logo_hi']))
@@ -225,7 +232,7 @@ def build(col, tex):
     lid.text('PlayStation', 'segoeuib.ttf', 2.8, plane((211, 4.6, H + 0.01), (1, 0, 0), (0, 1, 0)), tone)
     lid.text('DVD', 'arialbd.ttf', 6.2, plane((230, 4.8, H + 0.01), (1, 0, 0), (0, 1, 0)), tone, stretch=1.25)
     lid.text('VIDEO', 'arialbd.ttf', 1.9, plane((231, 2.6, H + 0.01), (1, 0, 0), (0, 1, 0)), tone, stretch=1.2)
-    lid.box(250, 261, 4, 10, H, H + 0.03, tone)
+    lid.box(250, 261, 5, 11, H, H + 0.03, tone)
     lid.text('COMPACT', 'arialbd.ttf', 1.5, plane((250, 2.2, H + 0.01), (1, 0, 0), (0, 1, 0)), tone)
     lid.text('DVD', 'arialbd.ttf', 6.2, plane((265, 4.8, H + 0.01), (1, 0, 0), (0, 1, 0)), tone, stretch=1.25)
     lid.text('ROM', 'arialbd.ttf', 1.9, plane((267, 2.6, H + 0.01), (1, 0, 0), (0, 1, 0)), tone, stretch=1.2)
@@ -240,18 +247,25 @@ def build(col, tex):
     # behind the slits, the wall they are cut into
     wall = m['dark']
     lid.box(W - FIN_SIDE - 1.2, W - FIN_SIDE, 0, D, LOW_Z, PLATES[0][0], wall)
-    # the left side is flat, the back above the lower block is flat
-    lid.box(0, 1.6, 0, D, LOW_Z, PLATES[0][0], m['fin'], bevel=0.2)
+    # the slits wrap the left end for its first 14.5 mm, as five teeth like the back of the right end; behind them the side is one flat wall
+    lid.box(0, 1.6, LEFT_FIN, D, LOW_Z, PLATES[0][0], m['fin'], bevel=0.2)
+    lid.box(-0.012, 0.2, LEFT_FIN, LEFT_FIN + 0.6, LOW_Z, PLATES[0][0], m['dark'])
+    for z0, z1 in PLATES[1:]:
+        lid.box(0, FIN_SIDE, 0, LEFT_FIN, z0, z1, m['fin'], bevel=0.42, seg=2)
+        lid.box(0.5, FIN_SIDE, 0, LEFT_FIN, z1 - 0.01, z1 + 0.02, m['dark'])
+        lid.box(0.5, FIN_SIDE, 0, LEFT_FIN, z0 - 0.02, z0 + 0.01, m['dark'])
+    lid.box(0.5, FIN_SIDE, 0, LEFT_FIN, PLATES[0][0] - 0.02, PLATES[0][0] + 0.01, m['dark'])
+    lid.box(FIN_SIDE, FIN_SIDE + 1, FIN, LEFT_FIN, LOW_Z, PLATES[0][0], m['dark'])
+    # the back above the lower block is flat, round the connector's opening
     lid.box(1.6, 70.2, D - 1.6, D, LOW_Z, PLATES[0][0], m['fin'])
-    lid.box(134, W - FIN_SIDE, D - 1.6, D, 40.1, PLATES[0][0], m['fin'])
-    lid.box(134, 150.7, D - 1.6, D, LOW_Z, 40.1, m['fin'])
-    lid.box(204.8, W - FIN_SIDE, D - 1.6, D, LOW_Z, 40.1, m['fin'])
-    lid.box(150.7, 204.8, D - 1.6, D, LOW_Z, 32.0, m['fin'])
+    lid.box(133, W - FIN_SIDE, D - 1.6, D, 41.3, PLATES[0][0], m['fin'])
+    lid.box(133, 151, D - 1.6, D, LOW_Z, 41.3, m['fin'])
+    lid.box(205.5, W - FIN_SIDE, D - 1.6, D, LOW_Z, 41.3, m['fin'])
     # the seam round the rear plate
     lid.box(149.6, 150.2, D - 0.02, D + 0.02, 40, PLATES[0][0], m['dark'])
     # the front wall behind the front fins, leaving the tray's mouth open
     fy = FIN
-    lid.box(1.6, TRAY[0], fy, fy + 1.2, LOW_Z, PLATES[0][0], wall)
+    lid.box(FIN_SIDE, TRAY[0], fy, fy + 1.2, LOW_Z, PLATES[0][0], wall)
     lid.box(TRAY[1], W - FIN_SIDE - 1.2, fy, fy + 1.2, LOW_Z, PLATES[0][0], wall)
     lid.box(TRAY[0], TRAY[1], fy, fy + 1.2, PLATES[2][1], PLATES[0][0], wall)
     lid.box(TRAY[0], TRAY[1], fy, fy + 1.2, LOW_Z, PLATES[3][0] + 0.5, wall)
@@ -264,6 +278,8 @@ def build(col, tex):
         p.box(x0 + 0.4, x1 - 0.4, -0.015, 0.3, z1 - 0.65, z1 - 0.25, m['edge_hi'])
         p.box(x0, x1, 0.5, fy, z1 - 0.01, z1 + 0.02, m['dark'])
         p.box(x0, x1, 0.5, fy, z0 - 0.02, z0 + 0.01, m['dark'])
+        # under the light, the dark line a rounded edge's next facet makes
+        p.box(x0 + 0.4, x1 - 0.4, -0.012, 0.3, z1 - 1.75, z1 - 1.25, m['dark'])
     # row 1: full width to the buttons, carrying 1, MagicGate, 2
     row(0, BTN[0] - 1, 1)
     # row 2: the card doors sit in it, then the plate either side of the tray
@@ -281,29 +297,29 @@ def build(col, tex):
     # row 5, the thick one: the whole width
     row(0, W, 5)
     # a small ledge between the third row and the eject button
-    row(BTN[0] - 1, NOSE, None, z=(47.6, 48.8))
+    row(BTN[0] - 1, NOSE, None, z=(48.4, 50.1))
     # the nose carries SONY, reading top to bottom; the slits narrow as they cross it
-    for z0, z1 in ((66.9, 68.5), (61.8, 66.3), (56.0, 60.6), (48.8, 54.3), (41.2, 47.0)):
+    for z0, z1 in ((63.3, 69.7), (57.5, 62.1), (50.3, 55.8), (42.7, 48.5)):
         lid.box(NOSE, W, -0.01, fy, z0, z1, m['fin'], bevel=0.42, seg=2)
-    lid.text('SONY', 'georgiab.ttf', 7.1, plane((292.6, -0.03, 66.4), (0, 0, -1), (1, 0, 0)), m['white'], depth=0.02, stretch=1.36)
+    lid.text('SONY', 'georgiab.ttf', 7.1, plane((292.6, -0.03, 67.9), (0, 0, -1), (1, 0, 0)), m['white'], depth=0.02, stretch=1.36)
     # front labels on row 1, tone on tone
-    lid.text('1', 'arial.ttf', 3.9, plane((41, -0.02, 64.95), (1, 0, 0), (0, 0, 1)), m['label'], align='CENTER')
-    lid.text('2', 'arial.ttf', 3.9, plane((93, -0.02, 64.95), (1, 0, 0), (0, 0, 1)), m['label'], align='CENTER')
-    lid.text('MAGICGATE', 'georgiab.ttf', 2.9, plane((66.5, -0.02, 65.2), (1, 0, 0), (0, 0, 1)), m['label'], align='CENTER', stretch=0.98)
-    # the rubber screw caps on the left side
-    for y, z in ((30, 66), (D - 7, 66)):
-        screw_cap(lid, y, z, m)
+    lid.text('1', 'arial.ttf', 3.9, plane((41, -0.02, 66.2), (1, 0, 0), (0, 0, 1)), m['label'], align='CENTER')
+    lid.text('2', 'arial.ttf', 3.9, plane((93, -0.02, 66.2), (1, 0, 0), (0, 0, 1)), m['label'], align='CENTER')
+    lid.text('MAGICGATE', 'georgiab.ttf', 2.9, plane((66.5, -0.02, 66.45), (1, 0, 0), (0, 0, 1)), m['label'], align='CENTER', stretch=0.98)
+    # the recesses in the left side, the upper two here
+    for y in (30.5, 166):
+        side_recess(lid, y, 68.5, m)
     parts.append(lid)
 
     # ---------------------------------------------------- the back of the upper shell, printed
     rear = lid
     # the rating print and its small print: one picture, the case's own colour behind it
-    rear.quad_on(plane((281, D + 0.03, 41), (-1, 0, 0), (0, 0, 1)), 131, 30, m['rating'])
-    rear.box(154.8, 202.4, D, D + 0.05, 56.9, 68.8, m['grey'])
+    rear.quad_on(plane((281, D + 0.03, 41.2), (-1, 0, 0), (0, 0, 1)), 131, 30, m['rating'])
+    rear.box(154.8, 202.5, D, D + 0.05, 58.8, 70, m['grey'])
     # the column of print down the left end of the back, reading upwards
-    rear.quad_on(plane((1.4, D + 0.03, 3), (0, 0, 1), (1, 0, 0)), 60, 11, m['rating_side'])
-    rear.cyl((285, D, 57), 'y', 1.7, 0.06, m['dark'], n=14, smooth=False)
-    for x0, x1, z0, z1 in ((54.6, 55, 37.4, 71.9), (23.4, 23.8, 37.4, 71.9), (23.4, 55, 37.4, 37.8), (134, 134.6, 40, 71.9)):
+    rear.quad_on(plane((1.4, D + 0.03, 3), (0, 0, 1), (1, 0, 0)), 60, 12.6, m['rating_side'])
+    rear.cyl((284, D, 58), 'y', 1.7, 0.06, m['dark'], n=14, smooth=False)
+    for x0, x1, z0, z1 in ((7.1, 7.5, 61, PLATES[0][0]), (134, 134.6, 41.3, PLATES[0][0])):
         rear.box(x0, x1, D, D + 0.02, z0, z1, m['dark'])
 
     # ---------------------------------------------------- the tray: door, deck, disc
@@ -313,32 +329,32 @@ def build(col, tex):
     row(TRAY[0], TRAY[1], 3, p=tray)
     tray.box(TRAY[0] + 0.5, TRAY[1] - 0.5, fy, fy + 1.0, PLATES[3][0], PLATES[2][1], m['shell'])
     # the deck with its disc well
-    deck_z = 50.2
+    deck_z = 51.0
     tray.box(TRAY[0] + 1, TRAY[1] - 1, fy + 1, 150, deck_z - 1, deck_z, m['drive'])
     tray.ring((209, 85, deck_z), 'z', 60.5, 66, 0.9, m['drive'], n=72)
     tray.cyl((209, 85, deck_z), 'z', 60, 0.3, m['black'], n=72)
     tray.box(195, 223, 110, 150, deck_z, deck_z + 0.2, m['dark'])
     # the PS mark on its tile, on the tray's face
-    tray.poly(rrect(213, 53.6, 12.6, 8.4, 3.6), plane((0, -0.02, 0), (1, 0, 0), (0, 0, 1)), m['blackgloss'], depth=0.6)
-    ps_badge(tray, 213, -0.05, 53.55, 1.55, m)
+    tray.poly(rrect(213, 54.5, 12.6, 8.4, 3.6), plane((0, -0.02, 0), (1, 0, 0), (0, 0, 1)), m['blackgloss'], depth=0.6)
+    ps_badge(tray, 213, -0.05, 54.45, 1.55, m)
     parts.append(tray)
 
     # a game: the disc itself comes out with the tray
     disc = Part('disc', (40, -120, 205), 'A DVD. Most of the PS2 library is one disc image away, and the end goal of RIPPCSX2 is the whole library running through OPL\'s own code path.', spin=2.0)
-    disc.disc((209, 85, 50.8), 60, 1.2, m['disc'])
-    disc.cyl((209, 85, 52.01), 'z', 7.5, 0.05, m['dark'], n=32)
+    disc.disc((209, 85, 51.6), 60, 1.2, m['disc'])
+    disc.cyl((209, 85, 52.81), 'z', 7.5, 0.05, m['dark'], n=32)
     parts.append(disc)
 
     # ---------------------------------------------------- the card slots and controller ports (the controller board)
     ctrl = Part('controller_board', (-70, -170, -8), 'Controllers and memory cards. RIPPCSX2 keeps every card image as a file, so a save can be read, written and compared from a script.')
     for c in (CARD1, CARD2):
         # the slot's door, its lit top edge, the print on it and the small lip under it
-        ctrl.box(c[0] + 0.2, c[1] - 0.2, 0.2, fy, PLATES[2][0], 61.3, m['blackgloss'], bevel=0.25)
-        ctrl.box(c[0] + 0.6, c[1] - 0.6, 0.17, 0.3, 60.6, 61.1, m['edge_hi'])
-        ctrl.box(c[0] + 0.2, c[1] - 0.2, 0.2, fy, 55.8, 56.75, m['blackgloss'])
-        ctrl.text('MEMORY CARD', 'arial.ttf', 4.0, plane((c[0] + 20.1, 0.16, 57.45), (1, 0, 0), (0, 0, 1)), m['doorprint'], align='CENTER')
+        ctrl.box(c[0] + 0.2, c[1] - 0.2, 0.2, fy, PLATES[2][0], 62.0, m['blackgloss'], bevel=0.25)
+        ctrl.box(c[0] + 0.6, c[1] - 0.6, 0.17, 0.3, 61.3, 61.8, m['edge_hi'])
+        ctrl.box(c[0] + 0.2, c[1] - 0.2, 0.2, fy, 56.4, 57.5, m['blackgloss'])
+        ctrl.text('MEMORY CARD', 'arial.ttf', 4.0, plane((c[0] + 20.1, 0.16, 58.05), (1, 0, 0), (0, 0, 1)), m['doorprint'], align='CENTER')
     for c in (PORT1, PORT2):
-        controller_port(ctrl, c[0], c[1], PORT_Z[0], PORT_Z[1], 0.8, m, cz=44.6)
+        controller_port(ctrl, c[0], c[1], PORT_Z[0], PORT_Z[1], 0.8, m, lobe_h=4.4, cz=45.5)
     ctrl.box(10, 125, fy + 2, 34, 36.4, 37.0, m['pcb'])
     for c in (PORT1, PORT2):
         ctrl.box(c[0] - 1, c[1] + 1, 4, 30, PORT_Z[0], PORT_Z[1], m['black'])
@@ -348,20 +364,19 @@ def build(col, tex):
 
     # ---------------------------------------------------- the buttons
     btn = Part('buttons', (95, -150, 62), 'Reset and eject on a flex cable. Exit an ELF, power off from a menu, or reset the VM with the same result as this button.')
-    btn.box(BTN[0], BTN[1], 0.5, fy, 61.2, 71.0, m['teal'], bevel=0.3)
+    btn.box(BTN[0], BTN[1], 0.5, fy, 63.0, 72.8, m['teal'], bevel=0.3)
     # the power mark and RESET
-    pw = plane((284.5, 0.46, 67.4), (1, 0, 0), (0, 0, 1))
-    btn.ring((284.5, 0.46, 67.6), 'y', 1.6, 1.9, 0.05, m['tealglow'], n=24)
-    btn.box(284.36, 284.64, 0.42, 0.5, 67.6, 69.9, m['tealglow'])
-    btn.text('RESET', 'arial.ttf', 1.9, plane((284.5, 0.44, 61.9), (1, 0, 0), (0, 0, 1)), m['tealglow'], align='CENTER')
-    btn.box(BTN[0], BTN[1], 0.5, fy, 40.6, 46.9, m['bluebtn'], bevel=0.3)
-    ej = plane((284.5, 0.46, 42.4), (1, 0, 0), (0, 0, 1))
+    btn.ring((284.5, 0.46, 69.4), 'y', 1.6, 1.9, 0.05, m['tealglow'], n=24)
+    btn.box(284.36, 284.64, 0.42, 0.5, 69.4, 71.7, m['tealglow'])
+    btn.text('RESET', 'arial.ttf', 1.9, plane((284.5, 0.44, 63.7), (1, 0, 0), (0, 0, 1)), m['tealglow'], align='CENTER')
+    btn.box(BTN[0], BTN[1], 0.5, fy, 42.7, 47.3, m['bluebtn'], bevel=0.3)
+    ej = plane((284.5, 0.46, 44.0), (1, 0, 0), (0, 0, 1))
     # the eject mark in outline: a triangle's two rising sides and its base, the bar under it
-    btn.poly([(-2.2, -0.1), (2.2, -0.1), (2.2, 0.2), (-2.2, 0.2)], ej, m['blueglow'], depth=0.04)
-    btn.poly([(-2.2, -0.1), (-1.85, -0.1), (0.15, 2.45), (-0.15, 2.65)], ej, m['blueglow'], depth=0.04)
-    btn.poly([(2.2, -0.1), (1.85, -0.1), (-0.15, 2.45), (0.15, 2.65)], ej, m['blueglow'], depth=0.04)
-    btn.box(282.4, 286.6, 0.42, 0.5, 41.5, 41.85, m['blueglow'])
-    btn.box(279, 290, fy + 1.3, fy + 1.6, 36, 71, m['flex'])
+    btn.poly([(-1.8, -0.1), (1.8, -0.1), (1.8, 0.15), (-1.8, 0.15)], ej, m['blueglow'], depth=0.04)
+    btn.poly([(-1.8, -0.1), (-1.5, -0.1), (0.13, 2.0), (-0.13, 2.2)], ej, m['blueglow'], depth=0.04)
+    btn.poly([(1.8, -0.1), (1.5, -0.1), (-0.13, 2.0), (0.13, 2.2)], ej, m['blueglow'], depth=0.04)
+    btn.box(282.9, 286.1, 0.42, 0.5, 43.2, 43.5, m['blueglow'])
+    btn.box(279, 290, fy + 1.3, fy + 1.6, 40, 72, m['flex'])
     parts.append(btn)
 
     # ---------------------------------------------------- the lower block
@@ -373,54 +388,57 @@ def build(col, tex):
     base.box(0, 7, fw0, fw1, BOT, LOW_Z, bm, bevel=0.2)
     base.box(43.5, 57, fw0, fw1, BOT, LOW_Z, bm)
     base.box(245.5, LOW_X, fw0, fw1, BOT, LOW_Z, bm)
-    base.box(7, 43.5, fw0, fw1, BOT, 5.8, bm)
-    base.box(7, 43.5, fw0, fw1, 25.0, LOW_Z, bm)
-    base.box(57, 245.5, fw0, fw1, BOT, 7.8, bm)
-    base.box(57, 245.5, fw0, fw1, 22.0, LOW_Z, bm)
-    ladder(base, 57, 245.5, 7.8, 22.0, fw0, fw1, 5, 15, 0.72, bm, m['dark'])
+    base.box(7, 43.5, fw0, fw1, BOT, 5.9, bm)
+    base.box(7, 43.5, fw0, fw1, 28.0, LOW_Z, bm)
+    base.box(57, 245.5, fw0, fw1, BOT, 8.7, bm)
+    base.box(57, 245.5, fw0, fw1, 22.9, LOW_Z, bm)
+    ladder(base, 57, 245.5, 8.7, 22.9, fw0, fw1, 5, 15, 0.72, bm, m['dark'])
     # the duct behind the vent, so nothing inside can be seen lit through it
     base.box(55, 247.5, LOW_Y + 6, LOW_Y + 6.2, BOT, LOW_Z, m['dark'])
-    base.box(55, 247.5, fw1, LOW_Y + 6, BOT + 1.6, 7.2, m['dark'])
-    base.box(55, 247.5, fw1, LOW_Y + 6, 22.6, LOW_Z, m['dark'])
+    base.box(55, 247.5, fw1, LOW_Y + 6, BOT + 1.6, 8.1, m['dark'])
+    base.box(55, 247.5, fw1, LOW_Y + 6, 23.5, LOW_Z, m['dark'])
     base.box(55, 56.4, fw1, LOW_Y + 6, BOT + 1.6, LOW_Z, m['dark'])
     base.box(246.1, 247.5, fw1, LOW_Y + 6, BOT + 1.6, LOW_Z, m['dark'])
-    # the top of that wall: a ridge that catches the light, and above it the shade under the plates
-    base.box(0.5, LOW_X - 0.5, LOW_Y - 0.015, LOW_Y + 0.2, 27.9, 28.5, m['edge_hi'])
-    base.box(0.5, LOW_X - 0.5, LOW_Y - 0.015, LOW_Y + 0.2, 28.8, LOW_Z, m['dark'])
+    # the top of that wall is in the shade of the plates
+    base.box(0.5, LOW_X - 0.5, LOW_Y - 0.015, LOW_Y + 0.2, 30, LOW_Z, m['dark'])
     # the sides
     base.box(0, 1.6, LOW_Y, D, BOT, LOW_Z, bm, bevel=0.2)
     base.box(LOW_X - 1.6, LOW_X, LOW_Y, D, BOT, LOW_Z, bm, bevel=0.2)
     # the back: the fan's opening and the bay's stay open, the rest is solid
     b0, b1 = D - 1.6, D
     base.box(0, 70.2, b0, b1, BOT, LOW_Z, bm)
-    base.box(134, 150, b0, b1, BOT, LOW_Z, bm)
-    base.box(257.6, LOW_X, b0, b1, BOT, LOW_Z, bm)
-    base.box(70.2, 134, b0, b1, BOT, 11.2, bm)
-    base.box(150, 257.6, b0, b1, BOT, 3.5, bm)
+    base.box(133, 150, b0, b1, BOT, LOW_Z, bm)
+    base.box(256.6, LOW_X, b0, b1, BOT, LOW_Z, bm)
+    base.box(70.2, 133, b0, b1, BOT, 10.7, bm)
+    base.box(150, 256.6, b0, b1, BOT, 5.0, bm)
+    base.box(205.5, 256.6, b0, b1, 33.0, LOW_Z, bm)
     # rear connectors' frames, tone on tone, and the seams that join them
     frame = m['black']
-    rim = m['rimdark']
+    rim = m['ink']
     def framed(x0, x1, z0, z1, t=0.45):
         for a0, a1, b0_, b1_ in ((x0, x1, z0, z0 + t), (x0, x1, z1 - t, z1), (x0, x0 + t, z0, z1), (x1 - t, x1, z0, z1)):
             base.box(a0, a1, D + 0.2, D + 0.3, b0_, b1_, rim)
-    for x0, x1, z0, z1 in ((39.3, 50, 14.6, 15.0), (61, 70.7, 14.6, 15.0), (70.7, 139, 8.6, 9.0), (134, 134.6, 11.2, LOW_Z)):
+    for x0, x1, z0, z1 in ((38.4, 50.4, 16.2, 16.6), (61.3, 69.7, 16.2, 16.6), (70.7, 139, 10.2, 10.6), (134, 134.6, 10.6, LOW_Z)):
         base.box(x0, x1, D, D + 0.02, z0, z1, m['dark'])
-    # AV multi out
-    framed(14, 39, 8.3, 18.3)
-    base.box(14, 39, D + 0.0, D + 0.25, 8.3, 18.3, frame)
-    base.box(15.4, 37.6, D + 0.22, D + 0.27, 9.7, 16.9, m['dark'])
-    base.box(17.6, 35.4, D + 0.24, D + 0.3, 11.6, 14.6, m['portface'])
+    # AV multi out: a raised frame outlined in black, a slot, the tongue in it
+    base.box(14.7, 38.4, D + 0.0, D + 0.2, 10.7, 19.3, m['block'])
+    framed(14.7, 38.4, 10.7, 19.3)
+    base.box(17.2, 35.6, D + 0.2, D + 0.27, 12.9, 17.1, m['dark'])
+    base.box(19.4, 33.4, D + 0.26, D + 0.3, 14.3, 15.7, m['portface'])
     for i in range(12):
-        base.box(18.4 + i * 1.3, 19.0 + i * 1.3, D + 0.28, D + 0.32, 12.4, 13.8, m['steel'])
-    # the optical port
-    framed(50, 61, 8.3, 20.7)
-    base.box(50, 61, D + 0.0, D + 0.25, 8.3, 20.7, frame)
-    base.box(51.3, 59.7, D + 0.22, D + 0.27, 9.6, 19.4, m['dark'])
-    base.box(53, 58, D + 0.24, D + 0.3, 11.2, 17.8, m['portface'])
-    base.box(54.6, 56.4, D + 0.28, D + 0.33, 12.6, 16.4, m['dark'])
-    base.cyl((43, D, 24.5), 'y', 1.3, 0.2, m['dark'], n=12)
-    for y in (30, D - 7):
-        screw_cap(base, y, 12, m)
+        base.box(19.8 + i * 1.1, 20.3 + i * 1.1, D + 0.29, D + 0.32, 14.5, 15.5, m['portrim'])
+    # the optical port: a flat shutter in a black outline
+    base.box(50.4, 61.3, D + 0.0, D + 0.2, 10.9, 22.3, m['block'])
+    framed(50.4, 61.3, 10.9, 22.3)
+    base.box(53.2, 58.5, D + 0.2, D + 0.23, 13.6, 19.6, m['fin'])
+    rearprint = lambda x, z: plane((x, D + 0.02, z), (-1, 0, 0), (0, 0, 1))
+    base.text('DIGITAL OUT', 'arial.ttf', 1.9, rearprint(55.8, 25.0), m['doorprint'], align='CENTER', depth=0.01)
+    base.text('(OPTICAL)', 'arial.ttf', 1.9, rearprint(55.8, 23.2), m['doorprint'], align='CENTER', depth=0.01)
+    base.text('AV MULTI OUT', 'arial.ttf', 1.9, rearprint(26.5, 20.2), m['doorprint'], align='CENTER', depth=0.01)
+    base.cyl((42.3, D, 26.3), 'y', 1.3, 0.2, m['dark'], n=12)
+    # the recesses in the left side, the lower two here
+    for y in (30.5, 166):
+        side_recess(base, y, 8.5, m)
     # feet
     for x, y in ((12, 34), (262, 34), (12, 170), (262, 170)):
         base.cyl((x, y, 0), 'z', 4.5, BOT, m['rubber'], n=14)
@@ -430,14 +448,14 @@ def build(col, tex):
     usb = Part('usb_board', (-75, -120, -70), 'USB and i.LINK. The ports OPL loads games over, and the ones a lab drives from a file instead of a stick.')
     # the panel, around the real holes its sockets sit in
     u0, u1 = LOW_Y - 0.5, LOW_Y + 2
-    for x0, x1, z0, z1 in ((7, 10.6, 5.8, 25), (24, 30.5, 5.8, 25), (37.5, 43.5, 5.8, 25), (10.6, 24, 5.8, 12.4), (10.6, 24, 18.2, 19.9), (10.6, 24, 24.7, 25), (30.5, 37.5, 5.8, 19.4), (30.5, 37.5, 24.6, 25)):
+    for x0, x1, z0, z1 in ((7, 10.6, 5.9, 28), (24, 30.5, 5.9, 28), (37.5, 43.5, 5.9, 28), (10.6, 24, 5.9, 12.1), (10.6, 24, 18.3, 20.5), (10.6, 24, 26.4, 28), (30.5, 37.5, 5.9, 19.5), (30.5, 37.5, 25.2, 28)):
         usb.box(x0, x1, u0, u1, z0, z1, m['blue'])
-    usb_a(usb, 10.6, 24, 12.4, 18.2, LOW_Y - 0.45, m)
-    usb_a(usb, 10.6, 24, 19.9, 24.7, LOW_Y - 0.45, m)
-    usb_a(usb, 30.5, 37.5, 19.4, 24.6, LOW_Y - 0.45, m, depth=4.0, tongue=False)
+    usb_a(usb, 10.6, 24, 12.1, 18.3, LOW_Y - 0.45, m)
+    usb_a(usb, 10.6, 24, 20.5, 26.4, LOW_Y - 0.45, m)
+    usb_a(usb, 30.5, 37.5, 19.5, 25.2, LOW_Y - 0.45, m, depth=4.0, tongue=False)
     # the print on it reads upwards
-    usb.text('USB', 'arial.ttf', 1.9, plane((27.2, LOW_Y - 0.53, 12.8), (0, 0, 1), (-1, 0, 0)), m['bluetext'])
-    usb.text('S400', 'arial.ttf', 1.9, plane((36.8, LOW_Y - 0.53, 12.8), (0, 0, 1), (-1, 0, 0)), m['bluetext'])
+    usb.text('USB', 'arial.ttf', 1.9, plane((27.2, LOW_Y - 0.53, 13.5), (0, 0, 1), (-1, 0, 0)), m['bluetext'])
+    usb.text('S400', 'arial.ttf', 1.9, plane((36.8, LOW_Y - 0.53, 13.5), (0, 0, 1), (-1, 0, 0)), m['bluetext'])
     usb.box(9, 42, LOW_Y + 2, LOW_Y + 26, 5, 6.4, m['pcb'])
     parts.append(usb)
 
@@ -480,7 +498,7 @@ def build(col, tex):
 
     # ---------------------------------------------------- the main board
     brd = Part('main_board', (-10, 0, 55), 'The main board. The Emotion Engine, the Graphics Synthesizer, the RDRAM and the IOP: everything RIPPCSX2 is emulating and everything a compatibility test exercises.')
-    bz = 31.0
+    bz = 33.6
     brd.box(6, 270, 15, 176, bz - 1.5, bz - 0.02, m['pcb'])
     brd.textured_quad(6, 270, 15, 176, bz, m['board'])
     # the board's own edge print and chips, placed where the real ones sit
@@ -512,11 +530,11 @@ def build(col, tex):
     for x, y in ((138, 72, ), (146, 72)):
         brd.box(x, x + 7, y, y + 7, bz, bz + 3.5, m['ferrite'], bevel=0.3)
     # the bay's edge connector, the connector the network adapter plugs into
-    brd.box(156, 202, D - 12, D - 2, 33, 39, m['black'])
-    brd.box(150.9, 204.6, D - 1.62, D - 1.4, 33.4, 39.8, m['peach'])
-    brd.poly(stadium(177.3, 36.6, 40.6, 4.6), plane((0, D - 1.39, 0), (-1, 0, 0), (0, 0, 1)) @ Matrix.Translation((-354.6, 0, 0)), m['chip'], depth=0)
-    brd.poly(stadium(177.3, 36.6, 38.2, 2.4), plane((0, D - 1.37, 0), (-1, 0, 0), (0, 0, 1)) @ Matrix.Translation((-354.6, 0, 0)), m['portin'], depth=0)
-    brd.box(150.9, 204.6, D - 1.62, D - 1.2, 32.0, 33.2, m['silver'])
+    brd.box(156, 202, D - 12, D - 2, 34.2, 40.6, m['black'])
+    brd.box(151, 205.5, D - 1.62, D - 1.4, 34.9, 41.1, m['peach'])
+    brd.poly(stadium(177.1, 38.1, 40.9, 3.8), plane((0, D - 1.39, 0), (-1, 0, 0), (0, 0, 1)) @ Matrix.Translation((-354.2, 0, 0)), m['chip'], depth=0)
+    brd.poly(stadium(177.1, 38.1, 38.4, 2.2), plane((0, D - 1.37, 0), (-1, 0, 0), (0, 0, 1)) @ Matrix.Translation((-354.2, 0, 0)), m['slot'], depth=0)
+    brd.box(151, 205.5, D - 1.62, D - 1.2, 32.9, 34.8, m['silver'])
     # the flat cable up to the drive
     brd.box(120, 136, 60, 60.3, bz, 43.8, m['flex'])
     parts.append(brd)
@@ -536,21 +554,24 @@ def build(col, tex):
 
     inlet = Part('power_inlet', (-100, 120, 45), 'The rocker and the mains inlet.')
     # the inlet's block and the rocker's, one above the other, as dark frames
-    inlet.box(25, 53.6, D - 0.8, D + 0.1, 38.6, 52.9, m['block'], bevel=0.25)
-    inlet.box(25, 53.6, D - 0.8, D + 0.1, 54.0, 71.9, m['block'], bevel=0.25)
-    for a0, a1, b0_, b1_ in ((25, 53.6, 38.6, 39), (25, 53.6, 52.5, 52.9), (25, 25.4, 38.6, 52.9), (53.2, 53.6, 38.6, 52.9), (25, 53.6, 54, 54.4), (25, 53.6, 71.5, 71.9), (25, 25.4, 54, 71.9), (53.2, 53.6, 54, 71.9)):
-        inlet.box(a0, a1, D + 0.1, D + 0.16, b0_, b1_, m['rimdark'])
+    inlet.box(25.1, 53.6, D - 0.8, D + 0.1, 40, 55, m['block'], bevel=0.25)
+    inlet.box(25.1, 53.6, D - 0.8, D + 0.1, 56, 74, m['block'], bevel=0.25)
+    for a0, a1, b0_, b1_ in ((25.1, 53.6, 40, 40.4), (25.1, 53.6, 54.6, 55), (25.1, 25.5, 40, 55), (53.2, 53.6, 40, 55), (25.1, 53.6, 56, 56.4), (25.1, 53.6, 73.6, 74), (25.1, 25.5, 56, 74), (53.2, 53.6, 56, 74)):
+        inlet.box(a0, a1, D + 0.1, D + 0.16, b0_, b1_, m['ink'])
     # the mouth: two lobes and the bar between them, a prong in each
-    inlet.box(35, 43.6, D - 0.1, D + 0.12, 42.1, 49.9, m['ink'])
-    for x in (35, 43.6):
-        inlet.cyl((x, D + 0.12, 46), 'y', 3.9, -0.2, m['ink'], n=24)
-        inlet.cyl((x, D + 0.12, 46), 'y', 0.95, 0.06, m['silver'], n=12)
-        inlet.cyl((x, D + 0.18, 46), 'y', 0.4, 0.02, m['dark'], n=8)
-    # the rocker, I and O
-    inlet.box(29.8, 48.8, D - 0.82, D + 0.8, 56.4, 68.8, m['rocker'], bevel=0.5)
-    inlet.box(43.3, 43.9, D + 0.78, D + 0.84, 60.2, 63.8, m['white'])
-    inlet.ring((35.0, D + 0.78, 62), 'y', 0.85, 1.3, 0.06, m['white'], n=16)
-    inlet.box(25, 53.6, D - 26, D - 0.8, 40, 71, m['black'])
+    inlet.box(34.7, 43.3, D - 0.1, D + 0.12, 44.7, 50.5, m['ink'])
+    for x in (34.7, 43.3):
+        inlet.cyl((x, D + 0.12, 47.6), 'y', 4.4, -0.2, m['ink'], n=24)
+        inlet.cyl((x, D + 0.12, 47.6), 'y', 0.95, 0.06, m['silver'], n=12)
+        inlet.cyl((x, D + 0.18, 47.6), 'y', 0.4, 0.02, m['dark'], n=8)
+    # the rocker in its second frame, I and O
+    for a0, a1, b0_, b1_ in ((28.6, 49.1, 56.9, 57.3), (28.6, 49.1, 71.3, 71.7), (28.6, 29, 56.9, 71.7), (48.7, 49.1, 56.9, 71.7)):
+        inlet.box(a0, a1, D + 0.1, D + 0.16, b0_, b1_, m['ink'])
+    # the rocker
+    inlet.box(30.4, 47.3, D - 0.82, D + 0.8, 58.3, 70.3, m['rocker'], bevel=0.5)
+    inlet.box(43.3, 43.9, D + 0.78, D + 0.84, 62.6, 66.2, m['white'])
+    inlet.ring((34.7, D + 0.78, 64.4), 'y', 1.15, 1.6, 0.06, m['white'], n=16)
+    inlet.box(25.1, 53.6, D - 26, D - 0.8, 40, 71, m['black'])
     parts.append(inlet)
 
     # ---------------------------------------------------- the fan
@@ -564,26 +585,27 @@ def build(col, tex):
     # no shadows in a web render, so the shade the deep end of the bay stands in is in its materials
     zones = ((D - 20, D - 1, m['bay1']), (D - 45, D - 20, m['bay2']), (D - 75, D - 45, m['bay3']), (60, D - 75, m['bay4']))
     for y0_, y1_, zm in zones:
-        bay.box(150, 257.6, y0_, y1_, 3, 3.6, zm)
-        for x in (150, 257):
-            bay.box(x, x + 0.6, y0_, y1_, 3.6, 31, zm)
-    bay.box(150, 257.6, 60, 60.6, 3.6, 31, m['bay4'])
-    bay.box(150, 257.6, 60, D - 1.2, 30.4, 31.0, m['dark'])
+        bay.box(150, 256.6, y0_, y1_, 4.4, 5.0, zm)
+        for x in (150, 256):
+            bay.box(x, x + 0.6, y0_, y1_, 5.0, 33, zm)
+    bay.box(150, 256.6, 60, 60.6, 5.0, 33, m['bay4'])
+    bay.box(150, 256.6, 60, D - 1.2, 33.0, 33.6, m['dark'])
+    bay.box(150, 256.6, D - 1.25, D - 0.9, 5.0, 5.12, m['tab'])
     # its holes
     for j in range(11):
         for i in range(11):
             x = 155.5 + i * 10 + (j % 2) * 5
-            if x < 254:
-                bay.cyl((x, 72 + j * 9, 3.62), 'z', 2.2, 0.04, m['dark'], n=12, smooth=False)
+            if x < 253:
+                bay.cyl((x, 72 + j * 9, 5.02), 'z', 2.2, 0.04, m['dark'], n=12, smooth=False)
     # the lip at its mouth: two slots and a warning triangle
     for x0, x1 in ((226, 233), (167, 175)):
-        bay.box(x0, x1, 175.5, 176.3, 3.6, 3.68, m['dark'])
-    tri = plane((199.6, 177.5, 3.68), (1, 0, 0), (0, 1, 0))
+        bay.box(x0, x1, 175.5, 176.3, 5.0, 5.08, m['dark'])
+    tri = plane((199.6, 177.5, 5.08), (1, 0, 0), (0, 1, 0))
     bay.poly([(-6, 0), (6, 0), (6, 0.5), (-6, 0.5)], tri, m['dark'], depth=0.02)
     bay.poly([(-6, 0), (-5.3, 0), (0.3, 5.2), (-0.3, 5.2)], tri, m['dark'], depth=0.02)
     bay.poly([(5.3, 0), (6, 0), (0.3, 5.2), (-0.3, 5.2)], tri, m['dark'], depth=0.02)
     # the two bright screw tabs either side of the mouth
-    for x0, x1, z0, z1 in ((257.6, 266.7, 12.4, 29.0), (141.2, 149.5, 11.7, 28.3)):
+    for x0, x1, z0, z1 in ((256.6, 265.8, 14.5, 30.6), (141, 149.4, 13.7, 29.5)):
         bay.box(x0, x1, D - 0.5, D + 0.05, z0, z1, m['tab'])
         bay.cyl(((x0 + x1) / 2, D + 0.06, (z0 + z1) / 2), 'y', 1.5, 0.05, m['dark'], n=12, smooth=False)
     parts.append(bay)
@@ -610,17 +632,15 @@ def parts_fan_body(fan, m):
         c, s = math.cos(a), math.sin(a)
         art = plane((cx, y1 + 0.05, cz), (c, 0, s), (-s, 0, c))
         fan.poly([(8.5, -3), (25, -7), (25, 6), (8.5, 3)], art, m['fan'], depth=0.3)
-    # the grille: seven rows of slots between thick ribs, three thin uprights, the corners filled to an octagon
-    bx0, bx1, bz0, bz1 = 70.2, 134.0, 11.2, 72.6
-    rib = 3.2
-    for i in range(8):
-        z = bz0 + rib / 2 + i * (bz1 - bz0 - rib) / 7
-        fan.box(bx0, bx1, D - 2.4, D + 0.02, z - rib / 2, z + rib / 2, m['fin'])
-    for x, hw in ((bx0 + 0.5, 0.5), (85.7, 1.2), (100.0, 1.2), (116.7, 1.2), (bx1 - 0.5, 0.5)):
-        fan.box(x - hw, x + hw, D - 2.4, D + 0.0, bz0, bz1, m['fin'])
+    # the grille: seven rows of slots 9 mm apart between thick ribs, three thin uprights, the corners filled to an octagon
+    bx0, bx1 = 70.2, 133.0
+    for z0, z1 in ((10.7, 14.3), (20, 23.1), (28.9, 32), (37.7, 40.9), (46.9, 49.7), (56, 58.7), (64.9, 68), (73.3, 74.5)):
+        fan.box(bx0, bx1, D - 2.4, D + 0.02, z0, z1, m['fin'])
+    for x, hw in ((bx0 + 0.5, 0.5), (86.1, 0.85), (100.9, 1.15), (116.8, 0.85), (bx1 - 0.5, 0.5)):
+        fan.box(x - hw, x + hw, D - 2.4, D + 0.0, 10.7, 74.5, m['fin'])
     corner = plane((0, D - 0.4, 0), (-1, 0, 0), (0, 0, 1))
-    for cx0, cz0, dx, dz in ((bx0, bz0, 1, 1), (bx1, bz0, -1, 1), (bx0, bz1, 1, -1), (bx1, bz1, -1, -1)):
-        tri = [(-cx0, cz0), (-(cx0 + dx * 11), cz0), (-cx0, cz0 + dz * 11)]
+    for cx0, cz0, dx, dz in ((bx0, 14.3, 1, 1), (bx1, 14.3, -1, 1), (bx0, 73.3, 1, -1), (bx1, 73.3, -1, -1)):
+        tri = [(-cx0, cz0), (-(cx0 + dx * 8), cz0), (-cx0, cz0 + dz * 8.7)]
         if dx * dz > 0:
             tri = tri[::-1]
         fan.poly(tri, corner, m['fin'], depth=0.2)

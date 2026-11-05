@@ -2,7 +2,7 @@
 import sys
 from PIL import Image, ImageChops, ImageDraw
 name = sys.argv[1]
-ref = {'fat_FL': 'refs/fat_FL.png', 'fat_back': 'refs/fat_back.jpg', 'slim_FL': 'refs/slim_FL.jpg', 'slim_BR': 'refs/slim_BR.jpg'}[name]
+ref = {'fat_FL': 'refs/fat_FL.png', 'fat_FR': 'refs/fat_FR.png', 'fat_back': 'refs/fat_back.jpg', 'slim_FL': 'refs/slim_FL.jpg', 'slim_BR': 'refs/slim_BR.jpg'}[name]
 a = Image.open(ref).convert('RGB')
 b0 = Image.open('r/%s.png' % name).convert('RGBA').resize(a.size)
 b = Image.new('RGBA', a.size, (255, 255, 255, 255))
