@@ -70,6 +70,7 @@ namespace R3000A
 
 	namespace ioman
 	{
+		extern bool programHostDevice;
 		void reset();
 		bool is_host(const std::string_view path);
 		std::string host_path(const std::string_view path, bool allow_open_host_root);

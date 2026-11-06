@@ -416,6 +416,12 @@ namespace R3000A
 
 	namespace ioman
 	{
+		// RIPPCSX2: true while the running program has a device of its own named "host" registered in
+		// ioman, as OPL's imgdrv has for UDNL's "host0:" during an IOP reboot. Its opens go to it, as on a
+		// console. See the AddDrv and DelDrv hooks below, and RegisterLibraryEntries_HLE, which clears this
+		// when an IOP reboot brings up a new ioman with an empty device table.
+		bool programHostDevice = false;
+
 		const int firstfd = 0x100;
 		const int maxfds = 0x100;
 		int openfds = 0;
@@ -528,10 +534,14 @@ namespace R3000A
 					fds[i].close();
 			}
 			handles.clear();
+			programHostDevice = false;
 		}
 
 		bool is_host(const std::string_view path)
 		{
+			if (programHostDevice)
+				return false;
+
 			auto not_number_pos = path.find_first_not_of("0123456789", 4);
 			if (not_number_pos == std::string::npos)
 				return false;
@@ -924,6 +934,30 @@ namespace R3000A
 
 			return 0;
 		}
+
+		// RIPPCSX2: these two only watch. They return 0, so the program's call still reaches the real ioman.
+		int AddDrv_HLE()
+		{
+			// The first word of an iop_device_t points at its name.
+			if (iopMemReadString(iopMemRead32(a0)) == "host")
+			{
+				programHostDevice = true;
+				Console.WriteLn("IopHLE: the program registered its own 'host' device, host: paths go to it");
+			}
+
+			return 0;
+		}
+
+		int DelDrv_HLE()
+		{
+			if (programHostDevice && iopMemReadString(a0) == "host")
+			{
+				programHostDevice = false;
+				Console.WriteLn("IopHLE: the program removed its own 'host' device");
+			}
+
+			return 0;
+		}
 	} // namespace ioman
 
 	namespace sysmem
@@ -1219,6 +1253,10 @@ namespace R3000A
 				CurrentBiosInformation.iopThreadListAddr = GetThreadList(a0, version);
 			}
 
+			// RIPPCSX2: a new ioman starts with no devices, so a program's "host" did not survive the reboot.
+			if (iopMemReadString(a0 + 12, 8) == "ioman")
+				ioman::programHostDevice = false;
+
 			CurrentBiosInformation.iopModListAddr = GetModList(a0);
 			return 0;
 		}
@@ -1383,6 +1421,8 @@ namespace R3000A
 						return getStat_HLE;
 					else
 						return getStatx_HLE;
+					EXPORT_H( 20, AddDrv)
+					EXPORT_H( 21, DelDrv)
 				}
 		}
 		// clang-format on

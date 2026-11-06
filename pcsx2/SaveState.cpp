@@ -295,6 +295,16 @@ bool SaveStateBase::FreezeInternals(Error* error)
 
 	okay = okay && handleFreeze(); //file handles
 
+	// RIPPCSX2: a state taken during an OPL IOP reboot has to keep the program's "host" device (minor 2 and up).
+	if (okay)
+	{
+		if (IsSaving() || (s_loadingSaveVersion & 0xffff) >= 2)
+			Freeze(R3000A::ioman::programHostDevice);
+		else if (IsLoading())
+			R3000A::ioman::programHostDevice = false;
+		okay = IsOkay();
+	}
+
 	return okay;
 }
 
