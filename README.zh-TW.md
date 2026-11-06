@@ -54,6 +54,12 @@ RIPPCSX2 就是 PCSX2 v2.9.96，加上 PS2 homebrew 開發者看見真實效果�
 
 Windows 10 或 11、x64、支援 AVX2 的 CPU。解壓縮到任何位置，執行 `pcsx2-qtx64-avx2.exe`，並指向你自己傾印的 BIOS。zip 在 exe 旁附有一個空的 `portable.txt`，所以 RIPPCSX2 會把所有設定與檔案放在自己的資料夾：你已安裝的 PCSX2 會保留自己的設定，不受影響。發行版永遠是最新組建（[頁面](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)）；下方片段在 [docs/videos](docs/videos)。
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [下載 RIPPCSX2（Linux AppImage）](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64，支援 AVX2 的 CPU。賦予可執行權限後啟動。這是本次發佈新增的，由與 Windows zip 相同的工作流程組建，但尚未在 Linux 機器上執行過：請告訴我們執行情況。用於隱藏執行的工作列按鈕僅限 Windows。
+
 **可執行 `.elf` 程式進行測試：** System > Start File，或 `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`，程式會像在 PS2 上從記憶卡或 USB 隨身碟開機那樣啟動。它**表現得像真實硬體**：啟動另一個 ELF 的 ELF 會把機器交出去然後離開，掛鉤 GS 的遊戲內選單畫在遊戲真實的畫面上，關機則像主機斷電一樣關閉 VM。
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Windows 10 或 11、x64、支援 AVX2 的 CPU。解壓縮到任何位置，執�
 ## 相較原版 PCSX2 v2.9.96 的改進
 
 - **位於 Debug 和 Help 之間的 RIPPCSX2 選單**:Run ELF 和 Run Last ELF、即時 Lab Monitor、Test Steps、Compatibility Report、這個分支的開關,以及所有產物所在的資料夾。
+- **RIPART，** 在同一選單中：OPL Manager 的封面資料庫，共 16,313 款遊戲，按位元組範圍從 archive.org 上的備份讀取。用誘餌遊戲項目在磁碟機上沒有遊戲時也能用真實清單評判主題，用核取方塊清單決定保留或捨棄遊戲的每一件封面素材，掃描磁碟機上沒有封面的遊戲，並把這一切放進 ART 資料夾或 `art.tar`。誘餌會顯示在 OPL 和 RIPPS2 中，但不會啟動；已有檔案絕不會被取代。akilluminati47 曾協助這個資料庫實現 8 位元 PNG 圖片和 128 x 128 光碟圖示。
+- **原版 OPL 能啟動遊戲。** 程式自行註冊的 `host` 裝置現在會收到自己的開啟請求，因此 OPL 的 IOP 重新啟動可以運作。原版會停在 `file 'host0:' can't open`。
+- **EXIT GAME 能回到瀏覽器。** SIO2 中斷在 IOP 重新啟動時遺失，導致 OSDSYS 在黑畫面中一直等待記憶卡。
 - **隱藏執行的工作列按鈕。** 在隱藏桌面上啟動的 PCSX2 會在工作列放一個按鈕,這樣音量混音器或按應用程式調音量的 mod 就能像對待其他程式一樣控制它。
 - **HD 模式顯示正確。** 720p 與 1080i 在 Stretch 以外的所有長寬比設定下都以 16:9 顯示（原版畫成 4:3）。
 - **HD 錄影與截圖。** F11 以 1280 x 720 錄製 720p，以 1920 x 1080（或其放大倍數）錄製 1080i，並標記為 16:9；F8 以相同尺寸儲存截圖。原版給的是 640 x 480 或 640 寬的原始緩衝區。
@@ -96,6 +105,7 @@ Windows 10 或 11、x64、支援 AVX2 的 CPU。解壓縮到任何位置，執�
 - **主題作者**（Open PS2 Loader、RiptOPL、RIPPS2）：依電視顯示的樣子在 720p 與 1080i 下評估主題，並製作實際尺寸的預覽與導覽影片。
 - **homebrew 開發者：** 測試切換視訊模式、掛鉤 GS 或使用 EE 除錯暫存器的 ELF，並在記錄中讀到某個模式設定的確切顯示暫存器。
 - **遊戲內選單與 GS 工具：** OPL 的 GSM、RIPPS2 的遊戲內選單，以及任何以資料寫入中斷點為基礎的東西，都能在模擬器中執行，不只在硬體上。
+- **PS1 遊戲：** 從虛擬磁碟機執行 Ember 及其 PS1 遊戲，以測試啟動和 PS1 清單，磁碟機上需放你自己的 PS1 BIOS。
 - **自動化與 AI 輔助測試：** 在隱藏桌面上執行腳本，附截圖、錄影、即時存檔與 PINE 記憶體讀取，不佔用你的電腦。
 
 <a id="the-end-goal-the-whole-library"></a>

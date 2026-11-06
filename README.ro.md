@@ -54,6 +54,12 @@ RIPPCSX2 este PCSX2 v2.9.96 cu schimbările de care un dezvoltator de homebrew p
 
 Windows 10 sau 11, x64, un procesor cu AVX2. Dezarhivează-l oriunde, pornește `pcsx2-qtx64-avx2.exe` și indică-i propriul dump de BIOS. Zip-ul are un `portable.txt` gol lângă exe, așa că RIPPCSX2 își ține toate setările și fișierele în propriul folder: un PCSX2 pe care îl ai deja instalat își păstrează setările, neatinse. Versiunea conține mereu cel mai nou build ([pagina ei](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); clipurile de mai jos sunt în [docs/videos](docs/videos).
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [Descarcă RIPPCSX2 (AppImage pentru Linux)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, un procesor cu AVX2. Fă fișierul executabil și pornește-l. Este nou în această versiune și construit de același workflow ca arhiva zip pentru Windows, dar încă nu a rulat pe un sistem Linux: spune-ne cum merge. Butonul din bara de activități pentru rulările ascunse există doar pe Windows.
+
 **Rulează programe `.elf` pentru test:** System > Start File, sau `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, iar programul pornește cum ar porni de pe un card de memorie sau un stick USB pe un PS2. **Se comportă ca hardware-ul real**: un ELF care pornește alt ELF îi predă mașina și dispare, un meniu din joc agățat de GS se desenează peste cadrul real al jocului, iar oprirea închide VM-ul ca o consolă care se stinge.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Fiecare clip e o rulare reală în laborator pe acest build, tăiată sub 12 sec
 ## Ce primești față de PCSX2 v2.9.96 simplu
 
 - **Un meniu RIPPCSX2** între Debug și Help: Run ELF și Run Last ELF, un Lab Monitor în timp real, Test Steps, un Compatibility Report, comutatoarele fork-ului și folderele unde ajunge totul.
+- **RIPART,** în acel meniu: baza de date de imagini a OPL Manager, 16.313 jocuri citite pe intervale de octeți din copia sa de rezervă de pe archive.org. Intrări de joc momeală pentru a judeca o temă pe o listă reală fără jocuri pe unitate, o listă cu casete de bifat cu fiecare piesă de imagine a unui joc de păstrat sau de lăsat deoparte, o căutare a jocurilor de pe o unitate fără copertă și un folder ART sau un `art.tar` pentru toate acestea. Momelile apar în OPL și RIPPS2 și nu pornesc; un fișier deja existent nu este niciodată înlocuit. akilluminati47 a ajutat ca acea bază de date să primească imaginile PNG pe 8 biți și pictogramele de disc 128 x 128.
+- **OPL original pornește jocuri.** Un dispozitiv `host` pe care un program îl înregistrează singur primește acum propriile deschideri, deci repornirea IOP din OPL funcționează. Originalul se oprește la `file 'host0:' can't open`.
+- **EXIT GAME ajunge la browser.** O întrerupere SIO2 se pierdea la o repornire a IOP, ceea ce lăsa OSDSYS să aștepte cardul de memorie cu ecranul negru.
 - **Un buton în bara de activități pentru rulările ascunse.** Un PCSX2 pornit pe un desktop ascuns pune un buton în bara ta de activități, astfel încât un mixer de volum sau un mod de volum per aplicație să ajungă la el ca la orice alt program.
 - **Modurile HD arată corect.** 720p și 1080i sunt afișate în 16:9 (originalul le desenează în 4:3), cu orice setare de aspect în afară de Stretch.
 - **Înregistrări și capturi HD.** F11 înregistrează 720p la 1280 x 720 și 1080i la 1920 x 1080 (sau asta înmulțit cu scalarea), marcate 16:9; F8 salvează capturi la aceleași dimensiuni. Originalul dă 640 x 480 sau bufferul brut lat de 640.
@@ -96,6 +105,7 @@ Fiecare clip e o rulare reală în laborator pe acest build, tăiată sub 12 sec
 - **Creatori de teme** (Open PS2 Loader, RiptOPL, RIPPS2): judecă o temă în 720p și 1080i așa cum o arată un televizor, și fă previzualizări la mărime reală și videoclipuri de prezentare.
 - **Dezvoltatori de homebrew:** testează ELF-uri care schimbă modul video, se agață de GS sau folosesc regiștrii de depanare ai EE, și citește în jurnal regiștrii de afișare exacți pe care îi setează un mod.
 - **Meniuri din joc și unelte GS:** GSM din OPL, meniul din joc al RIPPS2 și orice altceva construit pe punctul de întrerupere la scrierea datelor rulează în emulator, nu doar pe hardware.
+- **Jocuri PS1:** rulează Ember și jocurile sale PS1 de pe o unitate virtuală pentru a testa pornirea și listele PS1, cu propriul tău BIOS PS1 pe unitate.
 - **Testare automată și asistată de AI:** rulări scriptate pe un desktop ascuns cu capturi, înregistrări, stări salvate și citiri de memorie prin PINE, fără să-ți acapareze PC-ul.
 
 <a id="the-end-goal-the-whole-library"></a>

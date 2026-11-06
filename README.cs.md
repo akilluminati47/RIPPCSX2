@@ -54,6 +54,12 @@ RIPPCSX2 je PCSX2 v2.9.96 se změnami, které vývojář homebrew pro PS2 potře
 
 Windows 10 nebo 11, x64, procesor s AVX2. Rozbalte ho kamkoli, spusťte `pcsx2-qtx64-avx2.exe` a nasměrujte ho na vlastní výpis BIOS. Zip obsahuje prázdný `portable.txt` vedle exe, takže RIPPCSX2 drží všechna nastavení a soubory ve vlastní složce: již nainstalované PCSX2 si ponechá svá nastavení, nedotčená. Vydání vždy obsahuje nejnovější build ([jeho stránka](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); klipy níže jsou v [docs/videos](docs/videos).
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [Stáhnout RIPPCSX2 (Linux AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, procesor s AVX2. Nastavte soubor jako spustitelný a spusťte ho. Je nový v tomto vydání a sestavuje ho stejný workflow jako zip pro Windows, ale na počítači s Linuxem zatím neběžel: dejte nám prosím vědět, jak to dopadlo. Tlačítko na hlavním panelu pro skryté běhy je jen pro Windows.
+
 **Spouští programy `.elf` k testování:** System > Start File, nebo `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, a program nastartuje, jako by startoval z paměťové karty nebo USB disku na PS2. **Chová se jako skutečný hardware**: ELF, který spustí jiný ELF, mu předá stroj a zmizí, menu ve hře napojené na GS kreslí přes skutečný snímek hry a vypnutí zavře VM jako vypínaná konzole.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Každý klip je skutečný běh v laboratoři na tomto buildu, zkrácený pod 12
 ## Co získáte oproti běžnému PCSX2 v2.9.96
 
 - **Nabídka RIPPCSX2** mezi Debug a Help: Run ELF a Run Last ELF, živý Lab Monitor, Test Steps, Compatibility Report, přepínače forku a složky, kam vše ukládá.
+- **RIPART,** v této nabídce: databáze grafiky OPL Manageru, 16 313 her čtených po rozsazích bajtů z její zálohy na archive.org. Návnadové herní položky, aby šlo posoudit motiv na skutečném seznamu bez her na disku, seznam se zaškrtávacími poli s každým kusem grafiky hry k ponechání nebo vynechání, hledání her na disku bez obalu a složka ART nebo `art.tar`, kam to všechno uložit. Návnady se zobrazují v OPL a RIPPS2 a nespouštějí se; existující soubor se nikdy nenahrazuje. akilluminati47 pomohl této databázi přinést 8bitovou grafiku PNG a ikony disků 128 x 128.
+- **Běžné OPL spouští hry.** Zařízení `host`, které si program zaregistruje sám, teď dostává vlastní otevření, takže restart IOP v OPL funguje. Původní verze se zastaví na `file 'host0:' can't open`.
+- **EXIT GAME se dostane do prohlížeče.** Přerušení SIO2 se při restartu IOP ztrácelo, a OSDSYS tak čekal na paměťovou kartu s černou obrazovkou.
 - **Tlačítko na hlavním panelu pro skryté běhy.** PCSX2 spuštěný na skryté ploše přidá tlačítko na hlavní panel, takže směšovač hlasitosti nebo mod hlasitosti pro aplikace na něj dosáhne jako na jakýkoli jiný program.
 - **HD režimy vypadají správně.** 720p a 1080i se zobrazují v 16:9 (originál je kreslí v 4:3), při každém nastavení poměru stran kromě Stretch.
 - **HD nahrávky a snímky obrazovky.** F11 nahrává 720p v 1280 x 720 a 1080i v 1920 x 1080 (nebo to krát zvětšení), označené jako 16:9; F8 ukládá snímky ve stejných velikostech. Originál dává 640 x 480 nebo surový buffer šířky 640.
@@ -96,6 +105,7 @@ Každý klip je skutečný běh v laboratoři na tomto buildu, zkrácený pod 12
 - **Tvůrci motivů** (Open PS2 Loader, RiptOPL, RIPPS2): posuďte motiv v 720p a 1080i tak, jak ho ukazuje televize, a dělejte náhledy ve skutečné velikosti a prezentační videa.
 - **Vývojáři homebrew:** testujte ELF, které mění video režim, napojují se na GS nebo používají ladicí registry EE, a čtěte v logu přesné registry zobrazení, které režim nastaví.
 - **Menu ve hře a nástroje GS:** GSM z OPL, menu ve hře RIPPS2 a vše ostatní postavené na breakpointu zápisu dat běží v emulátoru, ne jen na hardwaru.
+- **Hry PS1:** spusťte Ember a jeho hry PS1 z virtuálního disku a otestujte spouštění a seznamy PS1, s vlastním BIOSem PS1 na disku.
 - **Automatizované a AI asistované testování:** skriptované běhy na skryté ploše se snímky, nahrávkami, uloženými stavy a čtením paměti přes PINE, aniž by se zmocnily vašeho PC.
 
 <a id="the-end-goal-the-whole-library"></a>

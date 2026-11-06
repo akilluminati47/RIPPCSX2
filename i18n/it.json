@@ -1,206 +1,230 @@
 {
-  "0669618af5ef": {
-    "en": "0669618af5ef",
-    "t": "- **Creatori di temi** (Open PS2 Loader, RiptOPL, RIPPS2): valuta un tema in 720p e 1080i come lo mostra una TV, e crea anteprime a grandezza reale e video dimostrativi."
-  },
-  "0fa344bc7427": {
-    "en": "0fa344bc7427",
-    "t": "Windows 10 o 11, x64, una CPU con AVX2. Estrailo dove vuoi, avvia `pcsx2-qtx64-avx2.exe` e indicagli il tuo dump del BIOS. Lo zip contiene un `portable.txt` vuoto accanto all’exe, quindi RIPPCSX2 tiene tutte le impostazioni e i file nella propria cartella: un PCSX2 già installato conserva le sue impostazioni, intatte. La release contiene sempre la build più recente ([la sua pagina](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); le clip qui sotto sono in [docs/videos](docs/videos)."
-  },
-  "1076d5a2e707": {
-    "en": "1076d5a2e707",
-    "t": "## Dettagli del progetto"
-  },
-  "11e9d19787c2": {
-    "en": "11e9d19787c2",
-    "t": "**Un emulatore PlayStation 2 per testare e sviluppare homebrew, fatto per essere guidato da te o da un agente IA.**"
-  },
-  "2d9f99b52db3": {
-    "en": "2d9f99b52db3",
-    "t": "Il lavoro più grande che resta è testare i giochi PS2 attraverso il percorso di codice di Open PS2 Loader, come li esegue una console, e annotare ciò che serve a ciascuno: ELF, KELF, app homebrew e giochi in una sandbox OPL, provando automaticamente le sue modalità di compatibilità. Qualcuno potrebbe usarlo per far funzionare l'intera libreria un giorno. Questo è l'obiettivo finale di RIPPCSX2."
-  },
-  "32337dc66fa2": {
-    "en": "32337dc66fa2",
-    "t": "PCSX2 è in sviluppo da più di 20 anni. Le versioni passate potevano eseguire solo poche demo di pubblico dominio, mentre le più recenti eseguono la maggior parte dei giochi a piena velocità, compresi titoli popolari come Final Fantasy X e Devil May Cry 3. Visita la [lista di compatibilità di PCSX2](https://pcsx2.net/compat/) per lo stato di compatibilità più recente dei giochi (oltre 2500 titoli testati)."
-  },
-  "3481f97a7b60": {
-    "en": "3481f97a7b60",
-    "t": "Cosa è cambiato e perché, file per file: **[RIPPCSX2.md](RIPPCSX2.md)**. Agenti che lavorano sul codice di questo fork: non aprite mai pull request, issue o commenti sul progetto PCSX2 (il suo `AGENTS.md` vieta i contributi fatti dall’IA); RIPPCSX2 resta un fork."
-  },
-  "35b7a733c862": {
-    "en": "35b7a733c862",
-    "t": "Consulta la [Guida per contribuire](https://pcsx2.net/docs/contributing/) per sapere come contribuire."
-  },
-  "362c6f55a338": {
-    "en": "362c6f55a338",
-    "t": "- La definizione standard resta intatta: gli screenshot a 480i sono identici byte per byte a quelli dell’originale. `HDTVOutput = false` sotto `[EmuCore/GS]` in `inis/PCSX2.ini` riporta il comportamento HD originale per un confronto."
-  },
-  "38f3d642ac04": {
-    "en": "38f3d642ac04",
-    "t": "- **Righe di log della modalità video.** Ogni cambio di modalità registra la temporizzazione di sincronia e i registri di visualizzazione (`RIPPCSX2: video mode ...` in `logs/emulog.txt`)."
-  },
-  "41f07537d676": {
-    "en": "41f07537d676",
-    "t": "4. **Guidalo e osservalo:** F8 screenshot (`snaps/`), F11 registrazione (`videos/`), F1 salvataggio di stato (`sstates/`), PINE (`[EmuCore] EnablePINE`, `PINESlot`) per leggere e scrivere la memoria della PS2 da uno script."
-  },
-  "42a7b75be2fa": {
-    "en": "42a7b75be2fa",
-    "t": "- **Sviluppatori di homebrew:** testa ELF che cambiano modalità video, si agganciano al GS o usano i registri di debug dell’EE, e leggi nel log i registri di visualizzazione esatti che una modalità imposta."
-  },
-  "4d6c8e889c93": {
-    "en": "4d6c8e889c93",
-    "t": "RIPPCSX2 è PCSX2 v2.9.96 con le modifiche che servono a uno sviluppatore di homebrew PS2 per vedere la realtà: modalità video HD mostrate, registrate e catturate come le mostra una TV HD, e il breakpoint hardware sui dati dell’EE, così i menu in gioco e gli strumenti di modalità video che si agganciano ai registri del GS (il GSM di Open PS2 Loader, il menu in gioco di RIPPS2) funzionano come su una console. Tutto il resto è PCSX2 puro. È nato come laboratorio di prova del front end [RIPPS2](https://github.com/akilluminati47/RIPPS2) ed è pensato per chiunque crei homebrew, temi o strumenti per PS2."
-  },
-  "51e43635dead": {
-    "en": "51e43635dead",
-    "t": "- **Breakpoint di scrittura dati dell’EE** (nuovo in rippcsx2.2). Il COP0 `$24` (`MTBPC`, `MTDAB`, `MTDABM` ...) funziona: una scrittura su un indirizzo sorvegliato solleva l’eccezione di debug di livello 2 a `0x80000100` prima di essere eseguita, nell’interprete e nel ricompilatore. Il GSM di OPL e il menu in gioco di RIPPS2 ne hanno bisogno per sapere quale fotogramma mostra un gioco."
-  },
-  "5584f79d9ca6": {
-    "en": "5584f79d9ca6",
-    "t": "2. **BIOS:** l’utente fornisce il dump del BIOS della propria console (non scaricarne mai uno): mettilo nella cartella `bios` accanto all’exe (o punta `[Folders] Bios` in `inis/PCSX2.ini` verso di essa) e sceglilo nella procedura guidata del primo avvio (`[Filenames] BIOS`)."
-  },
-  "58cf40d49047": {
-    "en": "58cf40d49047",
-    "t": "- **Niente offerte dell’aggiornamento automatico.** I tag di release tengono spento l’aggiornamento di PCSX2, così non ti \"aggiorna\" mai di nuovo all’originale."
-  },
-  "58f7807193d9": {
-    "en": "58f7807193d9",
-    "t": "PCSX2 supporta la traduzione in altre lingue tramite [Crowdin](https://crowdin.com/project/pcsx2-emulator)."
-  },
-  "adb266a475f7": {
-    "en": "adb266a475f7",
-    "t": "- **Un menu RIPPCSX2** tra Debug e Help: Run ELF e Run Last ELF, un Lab Monitor in tempo reale, Test Steps, un Compatibility Report, gli interruttori del fork e le cartelle dove finisce tutto."
-  },
-  "5b3af678efb8": {
-    "en": "5b3af678efb8",
-    "t": "Tieni presente che per usare l’emulatore serve un dump del BIOS di una console PS2 posseduta legalmente. Per maggiori informazioni, visita [questa pagina](https://pcsx2.net/docs/setup/bios/)."
-  },
-  "645fb3973f3c": {
-    "en": "645fb3973f3c",
-    "t": "- **Registrazioni e screenshot in HD.** F11 registra il 720p a 1280 x 720 e il 1080i a 1920 x 1080 (o moltiplicato per l’upscale), etichettati 16:9; F8 salva screenshot alle stesse dimensioni. L’originale dà 640 x 480 o il buffer grezzo largo 640."
-  },
-  "679a28a10a91": {
-    "en": "679a28a10a91",
-    "t": "Questo repository è scritto perché un agente possa configurare tutto per un utente partendo dal solo link. Dai al tuo assistente `https://github.com/akilluminati47/RIPPCSX2` e chiedigli di installare RIPPCSX2; tutto ciò che gli serve è qui:"
-  },
-  "73ab93cb322a": {
-    "en": "73ab93cb322a",
-    "t": "- **Un cambio di modalità durante la registrazione** continua in un nuovo file alla nuova dimensione, invece di schiacciarsi nel primo."
-  },
-  "7918f7bd70bb": {
-    "en": "7918f7bd70bb",
-    "t": "Il Compatibility Report è il primo passo: il risultato di un gioco, le modalità OPL usate e lo stato della macchina, salvati in `reports/` come file e come riga in `compatibility.csv`."
-  },
-  "7ebc0e242dae": {
-    "en": "7ebc0e242dae",
-    "t": "- **Il 1080i al posto giusto.** L’originale sposta in alto un’immagine 1080i di 42 righe (tagliata in alto, banda nera sotto); RIPPCSX2 la fa partire dalla riga 40, come fa la temporizzazione della console stessa."
-  },
-  "806fbc56a05d": {
-    "en": "806fbc56a05d",
-    "t": "## Contribuire / Compilare"
-  },
-  "819f05f68db0": {
-    "en": "819f05f68db0",
-    "t": "## Per agenti IA, LLM e i loro utenti"
-  },
-  "8f797e5a632e": {
-    "en": "8f797e5a632e",
-    "t": "- **Le modalità HD si vedono bene.** 720p e 1080i vengono mostrati in 16:9 (l’originale li disegna in 4:3), con ogni impostazione di formato tranne Stretch."
-  },
-  "9eb76be1ef20": {
-    "en": "9eb76be1ef20",
-    "t": "1. **Prendi la build:** `RIPPCSX2-windows-x64-avx2.zip` dalla release continua ([link diretto](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip), oppure `gh release download rolling -R akilluminati47/RIPPCSX2 -p \"*.zip\"`). Estrailo in una cartella tutta sua; il suo `portable.txt` è già accanto all’exe, quindi non tocca mai le impostazioni di un PCSX2 installato."
-  },
-  "9f3e9c694c53": {
-    "en": "9f3e9c694c53",
-    "t": "**Esegue programmi `.elf` per i test:** System > Start File, oppure `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, e il programma si avvia come farebbe da una memory card o da una chiavetta USB su una PS2. **Si comporta come l’hardware reale**: un ELF che avvia un altro ELF gli passa la macchina e sparisce, un menu in gioco che si aggancia al GS disegna sopra il vero fotogramma del gioco, e lo spegnimento chiude la VM come una console che si spegne."
-  },
-  "a3f2e8b36682": {
-    "en": "a3f2e8b36682",
-    "t": "- **Un pulsante sulla barra delle applicazioni per le esecuzioni nascoste.** Un PCSX2 avviato su un desktop nascosto mette un pulsante sulla tua barra delle applicazioni, così un mixer del volume o una mod del volume per app lo raggiunge come qualsiasi altro programma."
-  },
-  "a6e586e875ae": {
-    "en": "a6e586e875ae",
-    "t": "- **Test automatizzati e assistiti dall’IA:** esecuzioni scriptate su un desktop nascosto con screenshot, registrazioni, salvataggi di stato e letture di memoria via PINE, senza prendere il controllo del tuo PC."
-  },
-  "a94fbb820125": {
-    "en": "a94fbb820125",
-    "t": "3. **Esegui qualcosa:** `pcsx2-qtx64-avx2.exe -fastboot -elf <homebrew.elf>`, oppure `-- <game.iso>`. Le impostazioni sono semplici INI in `inis/PCSX2.ini`; i log vanno in `logs/emulog.txt` (`[Logging] EnableEEConsole = true` aggiunge il printf dell’EE)."
-  },
-  "abee0a94d13d": {
-    "en": "abee0a94d13d",
-    "t": "## Guardalo all’opera"
-  },
-  "af21e9655a53": {
-    "en": "af21e9655a53",
-    "t": "**Il menu in gioco, ogni funzione.** L1+L2+R1+R2+SELECT+START durante una partita: ACHIEVEMENTS, RESUME (il gioco continua), di nuovo il menu sopra un fotogramma successivo, poi POWER OFF, che chiude la VM. Il menu sa su quale fotogramma disegnare perché RIPPCSX2 emula il breakpoint di scrittura dati dell’EE."
-  },
-  "b1512611f5fe": {
-    "en": "b1512611f5fe",
-    "t": "**Non affiliato al team di PCSX2.** GPL-3.0 come PCSX2. Segnala i problemi di RIPPCSX2 a RIPPS2 ([issue](https://github.com/akilluminati47/RIPPS2/issues)), mai a PCSX2. Segue il README di PCSX2."
-  },
-  "b1641398a974": {
-    "en": "b1641398a974",
-    "t": "**Un ELF che avvia un ELF, come una vera PS2.** Memory Files di RIPPS2 apre `mc0:/RIPPS2/RIPPS2.ELF` (la build più recente, copiata sulla scheda) e lo esegue. Il RIPPS2 in esecuzione passa il controllo e sparisce; quello nuovo si carica dalla scheda e si avvia sulla sua lista dei giochi."
-  },
-  "b2b89f08b31b": {
-    "en": "b2b89f08b31b",
-    "t": "# PCSX2"
-  },
-  "b35522b36312": {
-    "en": "b35522b36312",
-    "t": "## Requisiti di sistema"
-  },
-  "b44db6b4399f": {
-    "en": "b44db6b4399f",
-    "t": "# RIPPCSX2"
-  },
-  "bb83e0e75436": {
-    "en": "bb83e0e75436",
-    "t": "5. **Testa senza rubare lo schermo:** [`ripps2-lab/`](ripps2-lab/README.md) descrive un’installazione da laboratorio (`install-lab.ps1` mette una build in una cartella portatile e ne conserva schede, impostazioni e registrazioni), e `tools/dev/ps2bg.ps1` del repository di RIPPS2 esegue elenchi di passi (tasti, attese, screenshot, registrazioni) su un desktop nascosto con un pannello nella barra delle applicazioni che l’utente può guardare, fermare o prendere in mano."
-  },
-  "cd140e6effef": {
-    "en": "cd140e6effef",
-    "t": "### [Scarica RIPPCSX2 (zip per Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)"
-  },
-  "ce3dbd517c38": {
-    "en": "ce3dbd517c38",
-    "t": "**[Vedi il sito](https://akilluminati47.github.io/RIPPCSX2/)**: smonta una PS2 o falla esplodere, con tutto su RIPPCSX2 nel suo pannello Info."
-  },
-  "d0cb117e5e4e": {
-    "en": "d0cb117e5e4e",
-    "t": "## L'obiettivo finale: l'intera libreria"
-  },
-  "d4ac16d079e7": {
-    "en": "d4ac16d079e7",
-    "t": "**Un agente IA che testa un ELF.** Registrato dall’angolo in basso a destra dello schermo dell’utente (barra delle applicazioni, parte della sessione di Claude): Claude avvia `RIPPS2.elf` in RIPPCSX2 su un desktop nascosto, lancia Aqua Teen Hunger Force dall’immagine dell’HDD e ci apre sopra il menu in gioco di RIPPS2. Il pannellino è l’unica cosa sullo schermo; l’utente tiene tastiera e mouse."
-  },
-  "d80d578d0636": {
-    "en": "d80d578d0636",
-    "t": "## A cosa serve"
-  },
-  "df17eb4c3191": {
-    "en": "df17eb4c3191",
-    "t": "Installer e binari sia delle build stabili sia delle nightly sono disponibili sul [nostro sito](https://pcsx2.net/downloads/)."
-  },
-  "e6bd0b06e0e4": {
-    "en": "e6bd0b06e0e4",
-    "t": "## Cosa ottieni rispetto a PCSX2 v2.9.96 originale"
-  },
-  "e938ae4740c4": {
-    "en": "e938ae4740c4",
-    "t": "PCSX2 è un emulatore PlayStation 2 (PS2) libero e open source. Il suo scopo è emulare l’hardware della PS2 usando una combinazione di [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>) per CPU MIPS, [Ricompilatori](https://en.wikipedia.org/wiki/Dynamic_recompilation) e una [Macchina virtuale](https://en.wikipedia.org/wiki/Virtual_machine) che gestisce gli stati dell’hardware e la memoria di sistema della PS2. Così puoi giocare ai giochi PS2 sul tuo PC, con molte funzioni e vantaggi aggiuntivi."
-  },
-  "f70f55e121db": {
-    "en": "f70f55e121db",
-    "t": "PCSX2 supporta Windows, Linux e Mac. La nostra [pagina di documentazione sull’installazione](https://pcsx2.net/docs/setup/requirements) contiene altri dettagli sui requisiti software e hardware."
-  },
-  "f845d37a589e": {
-    "en": "f845d37a589e",
-    "t": "- **Menu in gioco e strumenti per il GS:** il GSM di OPL, il menu in gioco di RIPPS2 e tutto ciò che si basa sul breakpoint di scrittura dati girano nell’emulatore invece che solo sull’hardware."
-  },
-  "fcd7c8d4eb16": {
-    "en": "fcd7c8d4eb16",
-    "t": "Ogni clip è una vera esecuzione del laboratorio su questa build, tagliata sotto i 12 secondi."
-  }
+ "0669618af5ef": {
+  "en": "0669618af5ef",
+  "t": "- **Creatori di temi** (Open PS2 Loader, RiptOPL, RIPPS2): valuta un tema in 720p e 1080i come lo mostra una TV, e crea anteprime a grandezza reale e video dimostrativi."
+ },
+ "0fa344bc7427": {
+  "en": "0fa344bc7427",
+  "t": "Windows 10 o 11, x64, una CPU con AVX2. Estrailo dove vuoi, avvia `pcsx2-qtx64-avx2.exe` e indicagli il tuo dump del BIOS. Lo zip contiene un `portable.txt` vuoto accanto all’exe, quindi RIPPCSX2 tiene tutte le impostazioni e i file nella propria cartella: un PCSX2 già installato conserva le sue impostazioni, intatte. La release contiene sempre la build più recente ([la sua pagina](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); le clip qui sotto sono in [docs/videos](docs/videos)."
+ },
+ "1076d5a2e707": {
+  "en": "1076d5a2e707",
+  "t": "## Dettagli del progetto"
+ },
+ "11e9d19787c2": {
+  "en": "11e9d19787c2",
+  "t": "**Un emulatore PlayStation 2 per testare e sviluppare homebrew, fatto per essere guidato da te o da un agente IA.**"
+ },
+ "2d9f99b52db3": {
+  "en": "2d9f99b52db3",
+  "t": "Il lavoro più grande che resta è testare i giochi PS2 attraverso il percorso di codice di Open PS2 Loader, come li esegue una console, e annotare ciò che serve a ciascuno: ELF, KELF, app homebrew e giochi in una sandbox OPL, provando automaticamente le sue modalità di compatibilità. Qualcuno potrebbe usarlo per far funzionare l'intera libreria un giorno. Questo è l'obiettivo finale di RIPPCSX2."
+ },
+ "32337dc66fa2": {
+  "en": "32337dc66fa2",
+  "t": "PCSX2 è in sviluppo da più di 20 anni. Le versioni passate potevano eseguire solo poche demo di pubblico dominio, mentre le più recenti eseguono la maggior parte dei giochi a piena velocità, compresi titoli popolari come Final Fantasy X e Devil May Cry 3. Visita la [lista di compatibilità di PCSX2](https://pcsx2.net/compat/) per lo stato di compatibilità più recente dei giochi (oltre 2500 titoli testati)."
+ },
+ "3481f97a7b60": {
+  "en": "3481f97a7b60",
+  "t": "Cosa è cambiato e perché, file per file: **[RIPPCSX2.md](RIPPCSX2.md)**. Agenti che lavorano sul codice di questo fork: non aprite mai pull request, issue o commenti sul progetto PCSX2 (il suo `AGENTS.md` vieta i contributi fatti dall’IA); RIPPCSX2 resta un fork."
+ },
+ "35b7a733c862": {
+  "en": "35b7a733c862",
+  "t": "Consulta la [Guida per contribuire](https://pcsx2.net/docs/contributing/) per sapere come contribuire."
+ },
+ "362c6f55a338": {
+  "en": "362c6f55a338",
+  "t": "- La definizione standard resta intatta: gli screenshot a 480i sono identici byte per byte a quelli dell’originale. `HDTVOutput = false` sotto `[EmuCore/GS]` in `inis/PCSX2.ini` riporta il comportamento HD originale per un confronto."
+ },
+ "38f3d642ac04": {
+  "en": "38f3d642ac04",
+  "t": "- **Righe di log della modalità video.** Ogni cambio di modalità registra la temporizzazione di sincronia e i registri di visualizzazione (`RIPPCSX2: video mode ...` in `logs/emulog.txt`)."
+ },
+ "41f07537d676": {
+  "en": "41f07537d676",
+  "t": "4. **Guidalo e osservalo:** F8 screenshot (`snaps/`), F11 registrazione (`videos/`), F1 salvataggio di stato (`sstates/`), PINE (`[EmuCore] EnablePINE`, `PINESlot`) per leggere e scrivere la memoria della PS2 da uno script."
+ },
+ "42a7b75be2fa": {
+  "en": "42a7b75be2fa",
+  "t": "- **Sviluppatori di homebrew:** testa ELF che cambiano modalità video, si agganciano al GS o usano i registri di debug dell’EE, e leggi nel log i registri di visualizzazione esatti che una modalità imposta."
+ },
+ "4d6c8e889c93": {
+  "en": "4d6c8e889c93",
+  "t": "RIPPCSX2 è PCSX2 v2.9.96 con le modifiche che servono a uno sviluppatore di homebrew PS2 per vedere la realtà: modalità video HD mostrate, registrate e catturate come le mostra una TV HD, e il breakpoint hardware sui dati dell’EE, così i menu in gioco e gli strumenti di modalità video che si agganciano ai registri del GS (il GSM di Open PS2 Loader, il menu in gioco di RIPPS2) funzionano come su una console. Tutto il resto è PCSX2 puro. È nato come laboratorio di prova del front end [RIPPS2](https://github.com/akilluminati47/RIPPS2) ed è pensato per chiunque crei homebrew, temi o strumenti per PS2."
+ },
+ "51e43635dead": {
+  "en": "51e43635dead",
+  "t": "- **Breakpoint di scrittura dati dell’EE** (nuovo in rippcsx2.2). Il COP0 `$24` (`MTBPC`, `MTDAB`, `MTDABM` ...) funziona: una scrittura su un indirizzo sorvegliato solleva l’eccezione di debug di livello 2 a `0x80000100` prima di essere eseguita, nell’interprete e nel ricompilatore. Il GSM di OPL e il menu in gioco di RIPPS2 ne hanno bisogno per sapere quale fotogramma mostra un gioco."
+ },
+ "5584f79d9ca6": {
+  "en": "5584f79d9ca6",
+  "t": "2. **BIOS:** l’utente fornisce il dump del BIOS della propria console (non scaricarne mai uno): mettilo nella cartella `bios` accanto all’exe (o punta `[Folders] Bios` in `inis/PCSX2.ini` verso di essa) e sceglilo nella procedura guidata del primo avvio (`[Filenames] BIOS`)."
+ },
+ "58cf40d49047": {
+  "en": "58cf40d49047",
+  "t": "- **Niente offerte dell’aggiornamento automatico.** I tag di release tengono spento l’aggiornamento di PCSX2, così non ti \"aggiorna\" mai di nuovo all’originale."
+ },
+ "58f7807193d9": {
+  "en": "58f7807193d9",
+  "t": "PCSX2 supporta la traduzione in altre lingue tramite [Crowdin](https://crowdin.com/project/pcsx2-emulator)."
+ },
+ "adb266a475f7": {
+  "en": "adb266a475f7",
+  "t": "- **Un menu RIPPCSX2** tra Debug e Help: Run ELF e Run Last ELF, un Lab Monitor in tempo reale, Test Steps, un Compatibility Report, gli interruttori del fork e le cartelle dove finisce tutto."
+ },
+ "5b3af678efb8": {
+  "en": "5b3af678efb8",
+  "t": "Tieni presente che per usare l’emulatore serve un dump del BIOS di una console PS2 posseduta legalmente. Per maggiori informazioni, visita [questa pagina](https://pcsx2.net/docs/setup/bios/)."
+ },
+ "645fb3973f3c": {
+  "en": "645fb3973f3c",
+  "t": "- **Registrazioni e screenshot in HD.** F11 registra il 720p a 1280 x 720 e il 1080i a 1920 x 1080 (o moltiplicato per l’upscale), etichettati 16:9; F8 salva screenshot alle stesse dimensioni. L’originale dà 640 x 480 o il buffer grezzo largo 640."
+ },
+ "679a28a10a91": {
+  "en": "679a28a10a91",
+  "t": "Questo repository è scritto perché un agente possa configurare tutto per un utente partendo dal solo link. Dai al tuo assistente `https://github.com/akilluminati47/RIPPCSX2` e chiedigli di installare RIPPCSX2; tutto ciò che gli serve è qui:"
+ },
+ "73ab93cb322a": {
+  "en": "73ab93cb322a",
+  "t": "- **Un cambio di modalità durante la registrazione** continua in un nuovo file alla nuova dimensione, invece di schiacciarsi nel primo."
+ },
+ "7918f7bd70bb": {
+  "en": "7918f7bd70bb",
+  "t": "Il Compatibility Report è il primo passo: il risultato di un gioco, le modalità OPL usate e lo stato della macchina, salvati in `reports/` come file e come riga in `compatibility.csv`."
+ },
+ "7ebc0e242dae": {
+  "en": "7ebc0e242dae",
+  "t": "- **Il 1080i al posto giusto.** L’originale sposta in alto un’immagine 1080i di 42 righe (tagliata in alto, banda nera sotto); RIPPCSX2 la fa partire dalla riga 40, come fa la temporizzazione della console stessa."
+ },
+ "806fbc56a05d": {
+  "en": "806fbc56a05d",
+  "t": "## Contribuire / Compilare"
+ },
+ "819f05f68db0": {
+  "en": "819f05f68db0",
+  "t": "## Per agenti IA, LLM e i loro utenti"
+ },
+ "8f797e5a632e": {
+  "en": "8f797e5a632e",
+  "t": "- **Le modalità HD si vedono bene.** 720p e 1080i vengono mostrati in 16:9 (l’originale li disegna in 4:3), con ogni impostazione di formato tranne Stretch."
+ },
+ "9eb76be1ef20": {
+  "en": "9eb76be1ef20",
+  "t": "1. **Prendi la build:** `RIPPCSX2-windows-x64-avx2.zip` dalla release continua ([link diretto](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip), oppure `gh release download rolling -R akilluminati47/RIPPCSX2 -p \"*.zip\"`). Estrailo in una cartella tutta sua; il suo `portable.txt` è già accanto all’exe, quindi non tocca mai le impostazioni di un PCSX2 installato."
+ },
+ "9f3e9c694c53": {
+  "en": "9f3e9c694c53",
+  "t": "**Esegue programmi `.elf` per i test:** System > Start File, oppure `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, e il programma si avvia come farebbe da una memory card o da una chiavetta USB su una PS2. **Si comporta come l’hardware reale**: un ELF che avvia un altro ELF gli passa la macchina e sparisce, un menu in gioco che si aggancia al GS disegna sopra il vero fotogramma del gioco, e lo spegnimento chiude la VM come una console che si spegne."
+ },
+ "a3f2e8b36682": {
+  "en": "a3f2e8b36682",
+  "t": "- **Un pulsante sulla barra delle applicazioni per le esecuzioni nascoste.** Un PCSX2 avviato su un desktop nascosto mette un pulsante sulla tua barra delle applicazioni, così un mixer del volume o una mod del volume per app lo raggiunge come qualsiasi altro programma."
+ },
+ "a6e586e875ae": {
+  "en": "a6e586e875ae",
+  "t": "- **Test automatizzati e assistiti dall’IA:** esecuzioni scriptate su un desktop nascosto con screenshot, registrazioni, salvataggi di stato e letture di memoria via PINE, senza prendere il controllo del tuo PC."
+ },
+ "a94fbb820125": {
+  "en": "a94fbb820125",
+  "t": "3. **Esegui qualcosa:** `pcsx2-qtx64-avx2.exe -fastboot -elf <homebrew.elf>`, oppure `-- <game.iso>`. Le impostazioni sono semplici INI in `inis/PCSX2.ini`; i log vanno in `logs/emulog.txt` (`[Logging] EnableEEConsole = true` aggiunge il printf dell’EE)."
+ },
+ "abee0a94d13d": {
+  "en": "abee0a94d13d",
+  "t": "## Guardalo all’opera"
+ },
+ "af21e9655a53": {
+  "en": "af21e9655a53",
+  "t": "**Il menu in gioco, ogni funzione.** L1+L2+R1+R2+SELECT+START durante una partita: ACHIEVEMENTS, RESUME (il gioco continua), di nuovo il menu sopra un fotogramma successivo, poi POWER OFF, che chiude la VM. Il menu sa su quale fotogramma disegnare perché RIPPCSX2 emula il breakpoint di scrittura dati dell’EE."
+ },
+ "b1512611f5fe": {
+  "en": "b1512611f5fe",
+  "t": "**Non affiliato al team di PCSX2.** GPL-3.0 come PCSX2. Segnala i problemi di RIPPCSX2 a RIPPS2 ([issue](https://github.com/akilluminati47/RIPPS2/issues)), mai a PCSX2. Segue il README di PCSX2."
+ },
+ "b1641398a974": {
+  "en": "b1641398a974",
+  "t": "**Un ELF che avvia un ELF, come una vera PS2.** Memory Files di RIPPS2 apre `mc0:/RIPPS2/RIPPS2.ELF` (la build più recente, copiata sulla scheda) e lo esegue. Il RIPPS2 in esecuzione passa il controllo e sparisce; quello nuovo si carica dalla scheda e si avvia sulla sua lista dei giochi."
+ },
+ "b2b89f08b31b": {
+  "en": "b2b89f08b31b",
+  "t": "# PCSX2"
+ },
+ "b35522b36312": {
+  "en": "b35522b36312",
+  "t": "## Requisiti di sistema"
+ },
+ "b44db6b4399f": {
+  "en": "b44db6b4399f",
+  "t": "# RIPPCSX2"
+ },
+ "bb83e0e75436": {
+  "en": "bb83e0e75436",
+  "t": "5. **Testa senza rubare lo schermo:** [`ripps2-lab/`](ripps2-lab/README.md) descrive un’installazione da laboratorio (`install-lab.ps1` mette una build in una cartella portatile e ne conserva schede, impostazioni e registrazioni), e `tools/dev/ps2bg.ps1` del repository di RIPPS2 esegue elenchi di passi (tasti, attese, screenshot, registrazioni) su un desktop nascosto con un pannello nella barra delle applicazioni che l’utente può guardare, fermare o prendere in mano."
+ },
+ "cd140e6effef": {
+  "en": "cd140e6effef",
+  "t": "### [Scarica RIPPCSX2 (zip per Windows)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)"
+ },
+ "ce3dbd517c38": {
+  "en": "ce3dbd517c38",
+  "t": "**[Vedi il sito](https://akilluminati47.github.io/RIPPCSX2/)**: smonta una PS2 o falla esplodere, con tutto su RIPPCSX2 nel suo pannello Info."
+ },
+ "d0cb117e5e4e": {
+  "en": "d0cb117e5e4e",
+  "t": "## L'obiettivo finale: l'intera libreria"
+ },
+ "d4ac16d079e7": {
+  "en": "d4ac16d079e7",
+  "t": "**Un agente IA che testa un ELF.** Registrato dall’angolo in basso a destra dello schermo dell’utente (barra delle applicazioni, parte della sessione di Claude): Claude avvia `RIPPS2.elf` in RIPPCSX2 su un desktop nascosto, lancia Aqua Teen Hunger Force dall’immagine dell’HDD e ci apre sopra il menu in gioco di RIPPS2. Il pannellino è l’unica cosa sullo schermo; l’utente tiene tastiera e mouse."
+ },
+ "d80d578d0636": {
+  "en": "d80d578d0636",
+  "t": "## A cosa serve"
+ },
+ "df17eb4c3191": {
+  "en": "df17eb4c3191",
+  "t": "Installer e binari sia delle build stabili sia delle nightly sono disponibili sul [nostro sito](https://pcsx2.net/downloads/)."
+ },
+ "e6bd0b06e0e4": {
+  "en": "e6bd0b06e0e4",
+  "t": "## Cosa ottieni rispetto a PCSX2 v2.9.96 originale"
+ },
+ "e938ae4740c4": {
+  "en": "e938ae4740c4",
+  "t": "PCSX2 è un emulatore PlayStation 2 (PS2) libero e open source. Il suo scopo è emulare l’hardware della PS2 usando una combinazione di [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>) per CPU MIPS, [Ricompilatori](https://en.wikipedia.org/wiki/Dynamic_recompilation) e una [Macchina virtuale](https://en.wikipedia.org/wiki/Virtual_machine) che gestisce gli stati dell’hardware e la memoria di sistema della PS2. Così puoi giocare ai giochi PS2 sul tuo PC, con molte funzioni e vantaggi aggiuntivi."
+ },
+ "f70f55e121db": {
+  "en": "f70f55e121db",
+  "t": "PCSX2 supporta Windows, Linux e Mac. La nostra [pagina di documentazione sull’installazione](https://pcsx2.net/docs/setup/requirements) contiene altri dettagli sui requisiti software e hardware."
+ },
+ "f845d37a589e": {
+  "en": "f845d37a589e",
+  "t": "- **Menu in gioco e strumenti per il GS:** il GSM di OPL, il menu in gioco di RIPPS2 e tutto ciò che si basa sul breakpoint di scrittura dati girano nell’emulatore invece che solo sull’hardware."
+ },
+ "fcd7c8d4eb16": {
+  "en": "fcd7c8d4eb16",
+  "t": "Ogni clip è una vera esecuzione del laboratorio su questa build, tagliata sotto i 12 secondi."
+ },
+ "fa381807068c": {
+  "en": "fa381807068c",
+  "t": "### [Scarica RIPPCSX2 (AppImage per Linux)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)"
+ },
+ "5714bc244259": {
+  "en": "5714bc244259",
+  "t": "x64, una CPU con AVX2. Rendilo eseguibile e avvialo. È nuovo in questa versione ed è compilato dallo stesso workflow dello zip per Windows, ma non è ancora stato eseguito su una macchina Linux: facci sapere come va. Il pulsante della barra delle applicazioni per le esecuzioni nascoste è solo per Windows."
+ },
+ "d2317b75d0f9": {
+  "en": "d2317b75d0f9",
+  "t": "- **RIPART,** in quel menu: il database di grafica di OPL Manager, 16.313 giochi letti per intervalli di byte dal suo backup su archive.org. Voci di gioco esca per giudicare un tema su un elenco reale senza giochi sull'unità, un elenco a caselle con ogni pezzo della grafica di un gioco da tenere o lasciare fuori, una ricerca dei giochi di un'unità senza copertina, e una cartella ART o un `art.tar` in cui mettere tutto. Le esche compaiono in OPL e RIPPS2 e non si avviano; un file già presente non viene mai sostituito. akilluminati47 ha contribuito a portare in quel database la grafica PNG a 8 bit e le icone disco 128 x 128."
+ },
+ "5b1649f69d13": {
+  "en": "5b1649f69d13",
+  "t": "- **OPL originale avvia i giochi.** Un dispositivo `host` che un programma registra da solo ora riceve le proprie aperture, quindi il riavvio dell'IOP di OPL funziona. L'originale si ferma su `file 'host0:' can't open`."
+ },
+ "94049692a3d2": {
+  "en": "94049692a3d2",
+  "t": "- **EXIT GAME raggiunge il browser.** Un interrupt SIO2 andava perso durante un riavvio dell'IOP, lasciando OSDSYS in attesa della memory card con lo schermo nero."
+ },
+ "657486ff245c": {
+  "en": "657486ff245c",
+  "t": "- **Giochi PS1:** esegui Ember e i suoi giochi PS1 da un'unità virtuale per provare l'avvio e gli elenchi PS1, con il tuo BIOS PS1 sull'unità."
+ }
 }

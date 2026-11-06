@@ -54,6 +54,12 @@ RIPPCSX2 は、PS2 homebrew 開発者が本物を見るのに必要な変更を�
 
 Windows 10 または 11、x64、AVX2 対応 CPU。好きな場所に展開して `pcsx2-qtx64-avx2.exe` を起動し、自分の BIOS ダンプを指定します。zip には exe の隣に空の `portable.txt` が入っているので、RIPPCSX2 は設定とファイルをすべて自分のフォルダーに保存します。すでにインストール済みの PCSX2 の設定はそのまま手つかずです。リリースは常に最新ビルドです（[そのページ](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)）。下のクリップは [docs/videos](docs/videos) にあります。
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [RIPPCSX2 をダウンロード（Linux AppImage）](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64、AVX2 対応の CPU。実行可能にして起動します。このリリースで新しく加わったもので、Windows の zip と同じワークフローでビルドしていますが、Linux マシンではまだ動かしていません。結果をぜひ教えてください。非表示実行用のタスクバーボタンは Windows のみです。
+
 **テスト用に `.elf` プログラムを実行できます：** System > Start File、または `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>` で、PS2 のメモリーカードや USB メモリーから起動するのと同じようにプログラムが起動します。**実機と同じように動作します**：別の ELF を起動した ELF はマシンを引き渡して消え、GS にフックするゲーム内メニューはゲームの本物のフレームの上に描かれ、電源オフでは本体の電源を切るように VM が閉じます。
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Windows 10 または 11、x64、AVX2 対応 CPU。好きな場所に展開して
 ## 素の PCSX2 v2.9.96 と比べて得られるもの
 
 - **Debug と Help の間にある RIPPCSX2 メニュー**: Run ELF と Run Last ELF、ライブの Lab Monitor、Test Steps、Compatibility Report、フォークのスイッチ、出力先のフォルダー。
+- **RIPART**（同じメニュー内）: OPL Manager のアートデータベースです。16,313 本のゲームを archive.org のバックアップからバイト範囲で読み取ります。ドライブにゲームがなくても実際のリストでテーマを確認できるダミーのゲーム項目、ゲームのアートを 1 点ずつ残すか外すか選べるチェックボックスのリスト、ドライブ上のカバーがないゲームの検索、そしてすべてを入れる ART フォルダーまたは `art.tar` を備えています。ダミーは OPL と RIPPS2 に表示されますが起動はしません。既存のファイルが置き換えられることはありません。このデータベースの 8 ビット PNG アートと 128 x 128 のディスクアイコンの実現には akilluminati47 も協力しました。
+- **標準の OPL がゲームを起動できます。** プログラムが自分で登録した `host` デバイスが自身のオープンを受け取るようになり、OPL の IOP リブートが動きます。標準版は `file 'host0:' can't open` で止まります。
+- **EXIT GAME がブラウザーに戻ります。** IOP リブートをまたぐと SIO2 割り込みが失われ、OSDSYS が黒い画面のままメモリーカードを待ち続けていました。
 - **隠しデスクトップ実行用のタスクバーボタン。** 隠しデスクトップで起動した PCSX2 はタスクバーにボタンを置くので、音量ミキサーやアプリ別音量の mod から他のプログラムと同じように操作できます。
 - **HD モードが正しく見える。** 720p と 1080i は、Stretch 以外のどのアスペクト設定でも 16:9 で表示されます（素の版は 4:3 で描画）。
 - **HD の録画とスクリーンショット。** F11 は 720p を 1280 x 720、1080i を 1920 x 1080（またはアップスケール倍）で 16:9 として録画し、F8 は同じサイズでスクリーンショットを保存します。素の版は 640 x 480 か、幅 640 の生のバッファです。
@@ -96,6 +105,7 @@ Windows 10 または 11、x64、AVX2 対応 CPU。好きな場所に展開して
 - **テーマ作者**（Open PS2 Loader、RiptOPL、RIPPS2）：テレビに映るとおりに 720p と 1080i でテーマを判断し、実寸のプレビューや紹介動画を作れます。
 - **homebrew 開発者：** ビデオモードを切り替える ELF、GS にフックする ELF、EE のデバッグレジスタを使う ELF をテストし、モードが設定する正確なディスプレイレジスタをログで確認できます。
 - **ゲーム内メニューと GS ツール：** OPL の GSM、RIPPS2 のゲーム内メニュー、データ書き込みブレークポイントに頼るほかのすべてが、実機だけでなくエミュレーターでも動きます。
+- **PS1 ゲーム:** Ember とその PS1 ゲームを仮想ドライブから動かして、起動と PS1 リストをテストできます。ドライブには自分の PS1 BIOS を置いてください。
 - **自動化・AI 支援テスト：** スクリーンショット、録画、ステートセーブ、PINE によるメモリー読み取り付きのスクリプト実行を隠しデスクトップで行い、PC を乗っ取りません。
 
 <a id="the-end-goal-the-whole-library"></a>

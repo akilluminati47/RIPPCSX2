@@ -54,6 +54,12 @@ Ang RIPPCSX2 mao ang PCSX2 v2.9.96 nga adunay mga kausaban nga kinahanglan sa us
 
 Windows 10 o 11, x64, CPU nga adunay AVX2. I-unzip bisan asa, padagana ang `pcsx2-qtx64-avx2.exe`, ug itudlo kini sa imong kaugalingong BIOS dump. Ang zip adunay walay sulod nga `portable.txt` tupad sa exe, mao nga gitipigan sa RIPPCSX2 ang tanan niyang setting ug file sa kaugalingon niyang folder: ang PCSX2 nga na-install na nimo magpabilin sa kaugalingon niyang mga setting, wala matandog. Ang release kanunay ang pinakabag-o nga build ([ang page niini](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); ang mga clip sa ubos naa sa [docs/videos](docs/videos).
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [I-download ang RIPPCSX2 (Linux AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, CPU nga adunay AVX2. Himoa kining executable ug sugdi. Bag-o kini sa kini nga release ug gitukod sa samang workflow sa Windows zip, apan wala pa kini mapadagan sa Linux nga makina: palihug isulti kanamo kung giunsa kini. Ang taskbar button alang sa mga tinago nga run alang ra sa Windows.
+
 **Nagpadagan og mga `.elf` program para sa pag-test:** System > Start File, o `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, ug ang program mo-boot sama sa pag-boot niini gikan sa memory card o USB stick sa PS2. **Molihok kini sama sa tinuod nga hardware**: ang ELF nga molansad og laing ELF motugyan sa makina niini ug mobiya, ang in-game menu nga mokabit sa GS modrowing ibabaw sa tinuod nga frame sa dula, ug ang pag-power off mosira sa VM sama sa console nga gipalong.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Ang matag clip usa ka tinuod nga lab run niini nga build, giputol ngadto sa ubos
 ## Unsa ang imong makuha kumpara sa yanong PCSX2 v2.9.96
 
 - **Usa ka RIPPCSX2 menu** taliwala sa Debug ug Help: Run ELF ug Run Last ELF, live nga Lab Monitor, Test Steps, Compatibility Report, ang mga switch sa fork, ug ang mga folder diin moadto ang tanan.
+- **RIPART,** niana nga menu: ang art database sa OPL Manager, 16,313 ka dula nga gibasa pinaagi sa byte range gikan sa backup niini sa archive.org. Mga paon nga entry sa dula aron masusi ang tema sa tinuod nga lista nga walay dula sa drive, lista sa checkbox nga adunay matag piraso sa art sa dula aron itipig o biyaan, pagpangita sa mga dula sa drive nga walay cover, ug ART folder o `art.tar` nga butangan sa tanan. Ang mga paon makita sa OPL ug RIPPS2 ug dili magsugod; ang file nga anaa na dili gayud pulihan. Mitabang si akilluminati47 sa pagdala sa 8-bit PNG art ug sa 128 x 128 nga disc icon niana nga database.
+- **Ang stock OPL makasugod og mga dula.** Ang `host` device nga ang programa mismo ang nagrehistro makadawat na karon sa kaugalingon niini nga mga open, busa molihok ang IOP reboot sa OPL. Ang orihinal mohunong sa `file 'host0:' can't open`.
+- **Ang EXIT GAME makaabot sa browser.** Nawala ang usa ka SIO2 interrupt sa IOP reboot, mao nga naghulat ang OSDSYS sa memory card nga itom ang screen.
 - **Usa ka taskbar button para sa mga tinago nga run.** Ang PCSX2 nga gisugdan sa tinago nga desktop magbutang og button sa imong taskbar, busa maabot kini sa volume mixer o per-app volume mod sama sa bisan unsang programa.
 - **Husto ang hitsura sa HD modes.** Ang 720p ug 1080i gipakita sa 16:9 (4:3 ang drowing sa orihinal), sa matag aspect setting gawas sa Stretch.
 - **HD nga recording ug screenshot.** Ang F11 mo-record sa 720p sa 1280 x 720 ug sa 1080i sa 1920 x 1080 (o usa ka upscale multiple niini), naka-tag og 16:9; ang F8 mo-save og screenshot sa parehas nga gidak-on. Ang orihinal mohatag og 640 x 480 o sa raw buffer nga 640 ang gilapdon.
@@ -96,6 +105,7 @@ Ang matag clip usa ka tinuod nga lab run niini nga build, giputol ngadto sa ubos
 - **Mga naghimo og theme** (Open PS2 Loader, RiptOPL, RIPPS2): timbanga ang theme sa 720p ug 1080i sama sa pagpakita sa TV, ug paghimo og mga preview nga tinuod ang gidak-on ug mga tour video.
 - **Mga homebrew developer:** i-test ang mga ELF nga moilis og video mode, mokabit sa GS o mogamit sa mga debug register sa EE, ug basaha sa log ang eksaktong display register nga gitakda sa usa ka mode.
 - **Mga in-game menu ug GS tool:** ang GSM sa OPL, ang in-game menu sa RIPPS2 ug bisan unsa nga gitukod sa data write breakpoint modagan sa emulator, dili lang sa hardware.
+- **Mga dula sa PS1:** padagana ang Ember ug ang mga dula niini sa PS1 gikan sa virtual drive aron sulayan ang pag-launch ug mga lista sa PS1, uban ang imong kaugalingong PS1 BIOS sa drive.
 - **Automated ug AI-assisted nga pag-test:** mga scripted run sa tinago nga desktop nga adunay screenshot, recording, save state ug pagbasa sa memory pinaagi sa PINE, nga dili moilog sa imong computer.
 
 <a id="the-end-goal-the-whole-library"></a>

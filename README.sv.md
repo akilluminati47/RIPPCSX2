@@ -54,6 +54,12 @@ RIPPCSX2 är PCSX2 v2.9.96 med de ändringar en PS2-homebrewutvecklare behöver 
 
 Windows 10 eller 11, x64, en processor med AVX2. Packa upp den var som helst, starta `pcsx2-qtx64-avx2.exe` och peka den mot din egen BIOS-dump. Zip-filen har en tom `portable.txt` bredvid exe-filen, så RIPPCSX2 håller alla sina inställningar och filer i sin egen mapp: en PCSX2 du redan har installerad behåller sina egna inställningar, orörda. Utgåvan innehåller alltid det nyaste bygget ([dess sida](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); klippen nedan ligger i [docs/videos](docs/videos).
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [Ladda ner RIPPCSX2 (Linux-AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, en CPU med AVX2. Gör filen körbar och starta den. Ny i den här versionen och byggd av samma arbetsflöde som Windows-zipen, men den har ännu inte körts på en Linux-dator: berätta gärna hur det går. Aktivitetsfältsknappen för dolda körningar finns bara i Windows.
+
 **Den kör `.elf`-program för test:** System > Start File, eller `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, och programmet startar som det skulle från ett minneskort eller ett USB-minne på en PS2. Den **beter sig som riktig hårdvara**: ett ELF som startar ett annat ELF lämnar över maskinen och är borta, en meny i spelet som kopplar in sig på GS ritar ovanpå spelets riktiga bild, och avstängning stänger VM:en som en konsol som stängs av.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Varje klipp är en riktig labbkörning med det här bygget, nerklippt till under
 ## Det du får jämfört med vanliga PCSX2 v2.9.96
 
 - **En RIPPCSX2-meny** mellan Debug och Help: Run ELF och Run Last ELF, en Lab Monitor i realtid, Test Steps, en Compatibility Report, forkens växlar och mapparna där allt hamnar.
+- **RIPART,** i den menyn: OPL Managers art-databas, 16 313 spel lästa via byteintervall från dess säkerhetskopia på archive.org. Lockspelsposter så att ett tema kan bedömas på en riktig lista utan spel på enheten, en kryssrutelista med varje del av ett spels art att behålla eller utelämna, en sökning efter spel på en enhet utan omslag, och en ART-mapp eller en `art.tar` att lägga allt i. Lockposter visas i OPL och RIPPS2 och startar inte; en fil som redan finns ersätts aldrig. akilluminati47 hjälpte till att ge databasen dess 8-bitars PNG-art och skivikoner i 128 x 128.
+- **Original-OPL startar spel.** En `host`-enhet som ett program registrerar själv får nu sina egna öppningar, så OPL:s IOP-omstart fungerar. Originalet stannar vid `file 'host0:' can't open`.
+- **EXIT GAME når webbläsaren.** Ett SIO2-avbrott gick förlorat vid en IOP-omstart, vilket lämnade OSDSYS väntande på minneskortet med svart skärm.
 - **En aktivitetsfältsknapp för dolda körningar.** En PCSX2 som startas på ett dolt skrivbord lägger en knapp i ditt aktivitetsfält, så att en volymmixer eller en volymmod per app når den som vilket annat program som helst.
 - **HD-lägen ser rätt ut.** 720p och 1080i visas i 16:9 (originalet ritar dem i 4:3), med alla inställningar för bildförhållande utom Stretch.
 - **HD-inspelningar och skärmbilder.** F11 spelar in 720p i 1280 x 720 och 1080i i 1920 x 1080 (eller det gånger uppskalningen), märkt 16:9; F8 sparar skärmbilder i samma storlekar. Originalet ger 640 x 480 eller den råa bufferten på 640 i bredd.
@@ -96,6 +105,7 @@ Varje klipp är en riktig labbkörning med det här bygget, nerklippt till under
 - **Temamakare** (Open PS2 Loader, RiptOPL, RIPPS2): bedöm ett tema i 720p och 1080i så som en tv visar det, och gör förhandsvisningar i verklig storlek och genomgångsvideor.
 - **Homebrewutvecklare:** testa ELF:er som byter videoläge, kopplar in sig på GS eller använder EE:s felsökningsregister, och läs i loggen exakt vilka skärmregister ett läge sätter.
 - **Menyer i spelet och GS-verktyg:** OPL:s GSM, RIPPS2:s meny i spelet och allt annat som bygger på brytpunkten för dataskrivning körs i emulatorn i stället för bara på hårdvara.
+- **PS1-spel:** kör Ember och dess PS1-spel från en virtuell enhet för att testa start och PS1-listor, med din egen PS1-BIOS på enheten.
 - **Automatiserad och AI-assisterad testning:** skriptade körningar på ett dolt skrivbord med skärmbilder, inspelningar, sparlägen och PINE-minnesläsningar, utan att ta över din dator.
 
 <a id="the-end-goal-the-whole-library"></a>

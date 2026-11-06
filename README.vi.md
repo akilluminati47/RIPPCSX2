@@ -54,6 +54,12 @@ RIPPCSX2 là PCSX2 v2.9.96 cộng thêm những thay đổi mà nhà phát tri�
 
 Windows 10 hoặc 11, x64, CPU hỗ trợ AVX2. Giải nén ở đâu cũng được, chạy `pcsx2-qtx64-avx2.exe` và chỉ nó tới bản dump BIOS của chính bạn. File zip có một `portable.txt` trống cạnh exe, nên RIPPCSX2 giữ mọi cài đặt và tập tin trong thư mục riêng của nó: PCSX2 bạn đã cài vẫn giữ nguyên cài đặt, không bị đụng tới. Bản phát hành luôn là bản build mới nhất ([trang của nó](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); các clip bên dưới nằm trong [docs/videos](docs/videos).
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [Tải RIPPCSX2 (Linux AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, CPU có AVX2. Đặt quyền thực thi rồi khởi chạy. Đây là bản mới trong lần phát hành này, được dựng bằng cùng quy trình với file zip Windows, nhưng chưa từng chạy trên máy Linux: hãy cho chúng tôi biết kết quả. Nút trên thanh tác vụ cho các lần chạy ẩn chỉ có trên Windows.
+
 **Chạy chương trình `.elf` để thử nghiệm:** System > Start File, hoặc `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, và chương trình khởi động như khi khởi động từ thẻ nhớ hoặc USB trên PS2. Nó **hoạt động như phần cứng thật**: một ELF khởi chạy ELF khác sẽ trao máy cho nó rồi biến mất, menu trong game móc vào GS được vẽ lên khung hình thật của game, và tắt nguồn sẽ đóng VM như một máy console tắt điện.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Mỗi clip là một lần chạy thật trong phòng thử nghiệm trên bản
 ## Bạn được gì so với PCSX2 v2.9.96 nguyên bản
 
 - **Một menu RIPPCSX2** giữa Debug và Help: Run ELF và Run Last ELF, Lab Monitor trực tiếp, Test Steps, Compatibility Report, các công tắc của bản fork và các thư mục chứa mọi thứ.
+- **RIPART,** trong menu đó: cơ sở dữ liệu ảnh của OPL Manager, 16.313 trò chơi được đọc theo dải byte từ bản sao lưu trên archive.org. Các mục trò chơi mồi để đánh giá một giao diện trên danh sách thật mà không cần trò chơi trên ổ, danh sách ô chọn với từng mảnh ảnh của trò chơi để giữ hoặc bỏ, bộ quét tìm trò chơi không có bìa trên ổ, và thư mục ART hoặc một `art.tar` để chứa tất cả. Mục mồi hiện trong OPL và RIPPS2 và không khởi chạy; tệp đã có không bao giờ bị thay thế. akilluminati47 đã giúp đưa ảnh PNG 8-bit và biểu tượng đĩa 128 x 128 vào cơ sở dữ liệu đó.
+- **OPL gốc khởi chạy được trò chơi.** Thiết bị `host` do chương trình tự đăng ký giờ nhận các lệnh mở của chính nó, nên việc khởi động lại IOP của OPL hoạt động. Bản gốc dừng ở `file 'host0:' can't open`.
+- **EXIT GAME về được trình duyệt.** Một ngắt SIO2 bị mất khi IOP khởi động lại, khiến OSDSYS chờ thẻ nhớ với màn hình đen.
 - **Một nút trên thanh tác vụ cho các lần chạy ẩn.** PCSX2 khởi động trên màn hình ẩn sẽ đặt một nút lên thanh tác vụ, nhờ đó bộ trộn âm lượng hoặc mod âm lượng theo ứng dụng có thể tác động như với mọi chương trình khác.
 - **Chế độ HD hiển thị đúng.** 720p và 1080i hiển thị 16:9 (bản gốc vẽ chúng 4:3), ở mọi cài đặt tỉ lệ khung hình trừ Stretch.
 - **Quay video và chụp màn hình HD.** F11 quay 720p ở 1280 x 720 và 1080i ở 1920 x 1080 (hoặc bội số khi nâng độ phân giải), gắn nhãn 16:9; F8 lưu ảnh chụp ở cùng kích thước. Bản gốc cho ra 640 x 480 hoặc bộ đệm thô rộng 640.
@@ -96,6 +105,7 @@ Mỗi clip là một lần chạy thật trong phòng thử nghiệm trên bản
 - **Người làm theme** (Open PS2 Loader, RiptOPL, RIPPS2): đánh giá theme ở 720p và 1080i như TV hiển thị, và làm ảnh xem trước đúng kích thước thật cùng video giới thiệu.
 - **Nhà phát triển homebrew:** thử các ELF đổi chế độ video, móc vào GS hoặc dùng thanh ghi gỡ lỗi của EE, và đọc trong log chính xác các thanh ghi hiển thị mà một chế độ đặt.
 - **Menu trong game và công cụ GS:** GSM của OPL, menu trong game của RIPPS2 và mọi thứ khác dựa trên điểm dừng ghi dữ liệu đều chạy được trong trình giả lập, không chỉ trên phần cứng.
+- **Trò chơi PS1:** chạy Ember và các trò chơi PS1 của nó từ ổ ảo để thử khởi chạy và danh sách PS1, với BIOS PS1 của riêng bạn trên ổ.
 - **Thử nghiệm tự động và có AI hỗ trợ:** chạy bằng script trên một màn hình ẩn với ảnh chụp, video, trạng thái lưu và đọc bộ nhớ qua PINE, mà không chiếm máy tính của bạn.
 
 <a id="the-end-goal-the-whole-library"></a>

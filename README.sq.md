@@ -54,6 +54,12 @@ RIPPCSX2 është PCSX2 v2.9.96 me ndryshimet që i duhen një zhvilluesi homebre
 
 Windows 10 ose 11, x64, një procesor me AVX2. Shpaketoje kudo, nis `pcsx2-qtx64-avx2.exe` dhe drejtoje te dump-i yt i BIOS-it. Zip-i ka një `portable.txt` bosh pranë exe-së, ndaj RIPPCSX2 i mban të gjitha cilësimet dhe skedarët në dosjen e vet: një PCSX2 që e ke tashmë të instaluar i ruan cilësimet e veta, të paprekura. Botimi mban gjithmonë build-in më të ri ([faqja e tij](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); klipet më poshtë janë te [docs/videos](docs/videos).
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [Shkarko RIPPCSX2 (Linux AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, një CPU me AVX2. Bëje të ekzekutueshëm dhe nise. Është i ri në këtë version dhe ndërtohet nga i njëjti workflow si zip-i i Windows, por ende nuk është nisur në një makinë Linux: na trego si shkon. Butoni i shiritit të detyrave për nisjet e fshehura është vetëm për Windows.
+
 **Ekzekuton programe `.elf` për testim:** System > Start File, ose `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, dhe programi niset ashtu si do të nisej nga një kartë memorieje ose USB në një PS2. **Sillet si harduer i vërtetë**: një ELF që nis një ELF tjetër i dorëzon makinën dhe zhduket, një meny brenda lojës që kapet pas GS-së vizatohet mbi kuadrin e vërtetë të lojës, dhe fikja mbyll VM-në si një konsolë që fiket.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Windows 10 ose 11, x64, një procesor me AVX2. Shpaketoje kudo, nis `pcsx2-qtx64
 ## Çfarë fiton krahasuar me PCSX2 v2.9.96 të zakonshëm
 
 - **Një menu RIPPCSX2** midis Debug dhe Help: Run ELF dhe Run Last ELF, një Lab Monitor i drejtpërdrejtë, Test Steps, një Compatibility Report, çelësat e fork-ut dhe dosjet ku përfundon gjithçka.
+- **RIPART,** në atë meny: baza e të dhënave të artit të OPL Manager, 16.313 lojëra të lexuara me rende bajtesh nga kopja e saj rezervë në archive.org. Hyrje lojërash karrem për të gjykuar një temë në një listë të vërtetë pa lojëra në disk, një listë me kuti zgjedhjeje me çdo pjesë të artit të një loje për ta mbajtur ose për ta lënë jashtë, një kërkim për lojërat në një disk pa kopertinë, dhe një dosje ART ose një `art.tar` për të vënë gjithçka. Karremat shfaqen në OPL dhe RIPPS2 dhe nuk nisen; një skedar që ekziston nuk zëvendësohet kurrë. akilluminati47 ndihmoi që kjo bazë të dhënash të marrë artin PNG 8-bit dhe ikonat e diskut 128 x 128.
+- **OPL-i origjinal nis lojëra.** Një pajisje `host` që një program e regjistron vetë tani merr hapjet e veta, kështu që rinisja e IOP-it të OPL funksionon. Origjinali ndalon te `file 'host0:' can't open`.
+- **EXIT GAME arrin te shfletuesi.** Një ndërprerje SIO2 humbiste gjatë një rinisjeje të IOP-it, gjë që e linte OSDSYS të priste kartën e kujtesës me ekran të zi.
 - **Një buton në shiritin e detyrave për ekzekutimet e fshehura.** Një PCSX2 i nisur në një desktop të fshehur vendos një buton në shiritin tënd të detyrave, kështu që një përzierës volumi ose një mod volumi për aplikacion e arrin si çdo program tjetër.
 - **Mënyrat HD duken si duhet.** 720p dhe 1080i shfaqen në 16:9 (origjinali i vizaton në 4:3), me çdo cilësim proporcioni përveç Stretch.
 - **Regjistrime dhe pamje ekrani HD.** F11 regjistron 720p në 1280 x 720 dhe 1080i në 1920 x 1080 (ose kjo herë shkallëzimin), të shënuara 16:9; F8 ruan pamje ekrani në të njëjtat madhësi. Origjinali jep 640 x 480 ose buffer-in e papërpunuar 640 të gjerë.
@@ -96,6 +105,7 @@ Windows 10 ose 11, x64, një procesor me AVX2. Shpaketoje kudo, nis `pcsx2-qtx64
 - **Krijuesit e temave** (Open PS2 Loader, RiptOPL, RIPPS2): gjyko një temë në 720p dhe 1080i ashtu si e tregon një televizor, dhe bëj parapamje në madhësi reale dhe video prezantuese.
 - **Zhvilluesit e homebrew-ve:** testo ELF që ndërrojnë mënyrën video, kapen pas GS-së ose përdorin regjistrat e korrigjimit të EE-së, dhe lexo në regjistër regjistrat e saktë të ekranit që vendos një mënyrë.
 - **Menytë brenda lojës dhe mjetet e GS-së:** GSM e OPL, menyja brenda lojës e RIPPS2 dhe gjithçka tjetër e ndërtuar mbi pikën e ndërprerjes për shkrimin e të dhënave punojnë në emulator dhe jo vetëm në harduer.
+- **Lojëra PS1:** nis Ember dhe lojërat e tij PS1 nga një disk virtual për të testuar nisjen dhe listat PS1, me BIOS-in tënd PS1 në disk.
 - **Testim i automatizuar dhe i ndihmuar nga IA:** ekzekutime me skript në një desktop të fshehur me pamje ekrani, regjistrime, gjendje të ruajtura dhe lexime memorieje përmes PINE, pa ta marrë kompjuterin.
 
 <a id="the-end-goal-the-whole-library"></a>

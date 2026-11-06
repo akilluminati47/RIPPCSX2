@@ -54,6 +54,12 @@ RIPPCSX2 adalah PCSX2 v2.9.96 dengan perubahan yang dibutuhkan pengembang homebr
 
 Windows 10 atau 11, x64, CPU dengan AVX2. Ekstrak di mana saja, jalankan `pcsx2-qtx64-avx2.exe`, dan arahkan ke dump BIOS milik Anda sendiri. Zip ini membawa `portable.txt` kosong di samping exe, jadi RIPPCSX2 menyimpan semua pengaturan dan file di foldernya sendiri: PCSX2 yang sudah Anda pasang tetap memakai pengaturannya, tidak tersentuh. Rilisnya selalu build terbaru ([halamannya](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); klip di bawah ada di [docs/videos](docs/videos).
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [Unduh RIPPCSX2 (AppImage Linux)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, CPU dengan AVX2. Jadikan berkas itu dapat dieksekusi lalu jalankan. Ini baru di rilis ini dan dibangun oleh alur kerja yang sama dengan zip Windows, tetapi belum pernah dijalankan di mesin Linux: tolong beri tahu kami hasilnya. Tombol bilah tugas untuk jalannya yang tersembunyi hanya ada di Windows.
+
 **Menjalankan program `.elf` untuk pengujian:** System > Start File, atau `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, dan program akan boot seperti dari kartu memori atau flashdisk USB di PS2. Ia **berperilaku seperti perangkat keras asli**: ELF yang menjalankan ELF lain menyerahkan mesin kepadanya lalu pergi, menu dalam game yang mengait ke GS menggambar di atas frame asli game, dan mematikan daya menutup VM seperti konsol yang dimatikan.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Setiap klip adalah jalannya lab sungguhan pada build ini, dipangkas hingga kuran
 ## Apa yang Anda dapat dibanding PCSX2 v2.9.96 biasa
 
 - **Menu RIPPCSX2** di antara Debug dan Help: Run ELF dan Run Last ELF, Lab Monitor langsung, Test Steps, Compatibility Report, sakelar fork, dan folder tempat semuanya tersimpan.
+- **RIPART,** di menu itu: basis data gambar OPL Manager, 16.313 game yang dibaca per rentang byte dari cadangannya di archive.org. Entri game umpan agar tema bisa dinilai pada daftar nyata tanpa game di drive, daftar kotak centang dengan setiap potongan gambar game untuk disimpan atau dilewati, pemindaian game tanpa sampul di drive, dan folder ART atau `art.tar` untuk menampung semuanya. Umpan tampil di OPL dan RIPPS2 dan tidak bisa dijalankan; berkas yang sudah ada tidak pernah diganti. akilluminati47 membantu membawa gambar PNG 8-bit dan ikon cakram 128 x 128 ke basis data itu.
+- **OPL asli menjalankan game.** Perangkat `host` yang didaftarkan sendiri oleh program kini menerima pembukaannya sendiri, jadi reboot IOP milik OPL berfungsi. Versi asli berhenti di `file 'host0:' can't open`.
+- **EXIT GAME sampai ke peramban.** Interupsi SIO2 hilang saat reboot IOP, sehingga OSDSYS menunggu kartu memori dengan layar hitam.
 - **Tombol bilah tugas untuk jalankan tersembunyi.** PCSX2 yang dimulai di desktop tersembunyi menaruh satu tombol di bilah tugas, sehingga mixer volume atau mod volume per aplikasi menjangkaunya seperti program lain.
 - **Mode HD tampil benar.** 720p dan 1080i tampil 16:9 (aslinya menggambarnya 4:3), pada setiap pengaturan rasio aspek kecuali Stretch.
 - **Rekaman dan screenshot HD.** F11 merekam 720p pada 1280 x 720 dan 1080i pada 1920 x 1080 (atau kelipatan upscale-nya), bertanda 16:9; F8 menyimpan screenshot dengan ukuran yang sama. Aslinya memberi 640 x 480 atau buffer mentah selebar 640.
@@ -96,6 +105,7 @@ Setiap klip adalah jalannya lab sungguhan pada build ini, dipangkas hingga kuran
 - **Pembuat tema** (Open PS2 Loader, RiptOPL, RIPPS2): nilai tema di 720p dan 1080i seperti tampilan TV, dan buat pratinjau ukuran asli serta video tur.
 - **Pengembang homebrew:** uji ELF yang mengganti mode video, mengait ke GS, atau memakai register debug EE, dan baca di log register tampilan persis yang diatur sebuah mode.
 - **Menu dalam game dan alat GS:** GSM milik OPL, menu dalam game RIPPS2, dan apa pun yang dibangun di atas breakpoint penulisan data berjalan di emulator, bukan hanya di perangkat keras.
+- **Game PS1:** jalankan Ember dan game PS1-nya dari drive virtual untuk menguji peluncuran dan daftar PS1, dengan BIOS PS1 milik Anda di drive.
 - **Pengujian otomatis dan berbantuan AI:** jalankan skrip di desktop tersembunyi dengan screenshot, rekaman, save state, dan pembacaan memori lewat PINE, tanpa mengambil alih komputer Anda.
 
 <a id="the-end-goal-the-whole-library"></a>

@@ -54,6 +54,12 @@ RIPPCSX2, bir PS2 homebrew geliştiricisinin gerçeği görmek için ihtiyaç du
 
 Windows 10 veya 11, x64, AVX2 destekli bir işlemci. İstediğiniz yere açın, `pcsx2-qtx64-avx2.exe` dosyasını başlatın ve kendi BIOS dökümünüzü gösterin. Zip, exe’nin yanında boş bir `portable.txt` taşır, bu yüzden RIPPCSX2 tüm ayarlarını ve dosyalarını kendi klasöründe tutar: zaten kurulu bir PCSX2 kendi ayarlarını korur, el değmeden. Sürüm her zaman en yeni derlemeyi içerir ([sayfası](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); aşağıdaki klipler [docs/videos](docs/videos) içinde.
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [RIPPCSX2 indir (Linux AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, AVX2 destekli bir işlemci. Dosyayı çalıştırılabilir yapıp başlatın. Bu sürümde yeni ve Windows zip dosyasıyla aynı iş akışıyla derleniyor, ancak henüz bir Linux makinede çalıştırılmadı: nasıl gittiğini lütfen bize bildirin. Gizli çalıştırmalar için görev çubuğu düğmesi yalnızca Windows içindir.
+
 **Test için `.elf` programları çalıştırır:** System > Start File ya da `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`; program, bir PS2’de hafıza kartından veya USB bellekten açılacağı gibi açılır. **Gerçek donanım gibi davranır**: başka bir ELF başlatan ELF makineyi ona devreder ve gider, GS’ye kanca atan bir oyun içi menü oyunun gerçek karesinin üstüne çizer, kapatmak da VM’yi kapanan bir konsol gibi kapatır.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Her klip, bu derlemede gerçek bir laboratuvar çalışmasıdır, 12 saniyenin a
 ## Düz PCSX2 v2.9.96’ya göre ne kazanırsınız
 
 - **Debug ile Help arasında bir RIPPCSX2 menüsü**: Run ELF ve Run Last ELF, canlı Lab Monitor, Test Steps, Compatibility Report, fork'un anahtarları ve her şeyin gittiği klasörler.
+- **RIPART,** bu menüde: OPL Manager'ın görsel veritabanı, archive.org'daki yedeğinden bayt aralıklarıyla okunan 16.313 oyun. Sürücüde oyun olmadan bir temayı gerçek bir listede değerlendirmek için sahte oyun girdileri, bir oyunun her görsel parçasını tutmak ya da dışarıda bırakmak için onay kutulu bir liste, sürücüde kapağı olmayan oyunları bulan bir tarama ve hepsini koymak için bir ART klasörü ya da `art.tar`. Sahte girdiler OPL ve RIPPS2'de görünür ve başlamaz; var olan bir dosya asla değiştirilmez. akilluminati47 bu veritabanına 8 bit PNG görsellerini ve 128 x 128 disk simgelerini kazandırmaya yardım etti.
+- **Orijinal OPL oyunları başlatır.** Bir programın kendisinin kaydettiği `host` aygıtı artık kendi açmalarını alıyor, bu yüzden OPL'in IOP yeniden başlatması çalışıyor. Orijinal sürüm `file 'host0:' can't open` hatasında durur.
+- **EXIT GAME tarayıcıya ulaşır.** Bir SIO2 kesmesi IOP yeniden başlatmasında kayboluyordu ve OSDSYS siyah ekranda hafıza kartını bekliyordu.
 - **Gizli çalıştırmalar için bir görev çubuğu düğmesi.** Gizli bir masaüstünde başlatılan PCSX2 görev çubuğuna bir düğme koyar, böylece ses karıştırıcı ya da uygulama başına ses modu ona diğer programlar gibi ulaşır.
 - **HD modlar doğru görünür.** 720p ve 1080i, Stretch dışındaki her en-boy ayarında 16:9 gösterilir (orijinal onları 4:3 çizer).
 - **HD kayıtlar ve ekran görüntüleri.** F11, 720p’yi 1280 x 720’de, 1080i’yi 1920 x 1080’de (ya da bunun ölçek katında) 16:9 etiketiyle kaydeder; F8 aynı boyutlarda ekran görüntüsü kaydeder. Orijinal 640 x 480 ya da 640 genişliğindeki ham arabelleği verir.
@@ -96,6 +105,7 @@ Her klip, bu derlemede gerçek bir laboratuvar çalışmasıdır, 12 saniyenin a
 - **Tema yapanlar** (Open PS2 Loader, RiptOPL, RIPPS2): bir temayı 720p ve 1080i’de bir televizyonun gösterdiği gibi değerlendirin, gerçek boyutlu önizlemeler ve tanıtım videoları yapın.
 - **Homebrew geliştiricileri:** video modu değiştiren, GS’ye kanca atan ya da EE’nin hata ayıklama yazmaçlarını kullanan ELF’leri test edin ve bir modun ayarladığı ekran yazmaçlarını günlükte tam olarak okuyun.
 - **Oyun içi menüler ve GS araçları:** OPL GSM’i, RIPPS2’nin oyun içi menüsü ve veri yazma kesme noktası üzerine kurulu her şey yalnızca donanımda değil emülatörde de çalışır.
+- **PS1 oyunları:** başlatmayı ve PS1 listelerini denemek için Ember ve PS1 oyunlarını sanal sürücüden çalıştırın, sürücüde kendi PS1 BIOS dosyanız olsun.
 - **Otomatik ve yapay zekâ destekli test:** gizli bir masaüstünde ekran görüntüleri, kayıtlar, kayıt durumları ve PINE bellek okumalarıyla betikli çalıştırmalar, bilgisayarınızı ele geçirmeden.
 
 <a id="the-end-goal-the-whole-library"></a>

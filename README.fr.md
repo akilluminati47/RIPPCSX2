@@ -54,6 +54,12 @@ RIPPCSX2, c’est PCSX2 v2.9.96 avec les changements dont un développeur de hom
 
 Windows 10 ou 11, x64, un processeur avec AVX2. Décompressez-le n’importe où, lancez `pcsx2-qtx64-avx2.exe` et indiquez-lui votre propre dump de BIOS. Le zip contient un `portable.txt` vide à côté de l’exe, donc RIPPCSX2 garde tous ses réglages et fichiers dans son propre dossier : un PCSX2 déjà installé conserve ses réglages, intacts. La version contient toujours la build la plus récente ([sa page](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)) ; les clips ci-dessous sont dans [docs/videos](docs/videos).
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [Télécharger RIPPCSX2 (AppImage Linux)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, un processeur avec AVX2. Rendez-le exécutable et lancez-le. Il est nouveau dans cette version et construit par le même workflow que le zip Windows, mais il n'a pas encore été lancé sur une machine Linux : dites-nous comment ça se passe. Le bouton de la barre des tâches pour les exécutions cachées existe uniquement sous Windows.
+
 **Il lance des programmes `.elf` pour les tester :** System > Start File, ou `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, et le programme démarre comme il le ferait depuis une carte mémoire ou une clé USB sur une PS2. Il **se comporte comme le vrai matériel** : un ELF qui lance un autre ELF lui passe la main et disparaît, un menu en jeu qui intercepte le GS se dessine par-dessus la vraie image du jeu, et éteindre ferme la VM comme une console qu’on éteint.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Chaque clip est une vraie session du labo sur cette build, coupée à moins de 1
 ## Ce que vous gagnez par rapport à PCSX2 v2.9.96 d’origine
 
 - **Un menu RIPPCSX2** entre Debug et Help : Run ELF et Run Last ELF, un Lab Monitor en direct, Test Steps, un Compatibility Report, les interrupteurs du fork et les dossiers où tout atterrit.
+- **RIPART,** dans ce menu : la base de données d'art d'OPL Manager, 16 313 jeux lus par plages d'octets depuis sa sauvegarde sur archive.org. Des entrées de jeu factices pour juger un thème sur une vraie liste sans aucun jeu sur le lecteur, une liste à cocher avec chaque pièce de l'art d'un jeu à garder ou à laisser, une recherche des jeux d'un lecteur sans jaquette, et un dossier ART ou un `art.tar` pour tout ranger. Les entrées factices s'affichent dans OPL et RIPPS2 et ne démarrent pas ; un fichier déjà présent n'est jamais remplacé. akilluminati47 a aidé à apporter à cette base de données son art PNG 8 bits et ses icônes de disque 128 x 128.
+- **OPL d'origine lance les jeux.** Un périphérique `host` qu'un programme enregistre lui-même reçoit désormais ses propres ouvertures, donc le redémarrage de l'IOP d'OPL fonctionne. L'original s'arrête sur `file 'host0:' can't open`.
+- **EXIT GAME atteint le navigateur.** Une interruption SIO2 se perdait lors d'un redémarrage de l'IOP, ce qui laissait OSDSYS attendre la carte mémoire sur un écran noir.
 - **Un bouton de barre des tâches pour les exécutions cachées.** Un PCSX2 lancé sur un bureau caché place un bouton dans votre barre des tâches, afin qu'un mélangeur de volume ou un mod de volume par application l'atteigne comme n'importe quel autre programme.
 - **Les modes HD s’affichent correctement.** Le 720p et le 1080i sont affichés en 16:9 (l’original les dessine en 4:3), avec tous les réglages de format sauf Stretch.
 - **Enregistrements et captures en HD.** F11 enregistre le 720p en 1280 x 720 et le 1080i en 1920 x 1080 (ou multiplié par la mise à l’échelle), étiquetés 16:9 ; F8 enregistre des captures aux mêmes tailles. L’original donne du 640 x 480 ou le tampon brut de 640 de large.
@@ -96,6 +105,7 @@ Chaque clip est une vraie session du labo sur cette build, coupée à moins de 1
 - **Créateurs de thèmes** (Open PS2 Loader, RiptOPL, RIPPS2) : jugez un thème en 720p et 1080i comme une TV l’affiche, et faites des aperçus en taille réelle et des vidéos de présentation.
 - **Développeurs de homebrew :** testez des ELF qui changent de mode vidéo, interceptent le GS ou utilisent les registres de débogage de l’EE, et lisez dans le journal les valeurs d’affichage exactes qu’un mode définit.
 - **Menus en jeu et outils GS :** le GSM d’OPL, le menu en jeu de RIPPS2 et tout ce qui repose sur le point d’arrêt d’écriture de données tournent dans l’émulateur et plus seulement sur le matériel.
+- **Jeux PS1 :** lancez Ember et ses jeux PS1 depuis un lecteur virtuel pour tester le démarrage et les listes PS1, avec votre propre BIOS PS1 sur le lecteur.
 - **Tests automatisés et assistés par IA :** des sessions scriptées sur un bureau caché avec captures, enregistrements, états de sauvegarde et lectures mémoire via PINE, sans prendre le contrôle de votre PC.
 
 <a id="the-end-goal-the-whole-library"></a>

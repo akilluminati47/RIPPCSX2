@@ -54,6 +54,12 @@ Ang RIPPCSX2 ay PCSX2 v2.9.96 na may mga pagbabagong kailangan ng isang PS2 home
 
 Windows 10 o 11, x64, CPU na may AVX2. I-unzip kahit saan, patakbuhin ang `pcsx2-qtx64-avx2.exe`, at ituro ito sa sarili mong BIOS dump. May walang lamang `portable.txt` ang zip sa tabi ng exe, kaya iniimbak ng RIPPCSX2 ang lahat ng setting at file nito sa sarili nitong folder: ang PCSX2 na naka-install na ay mananatili sa sarili nitong mga setting, hindi nagagalaw. Ang release ay laging ang pinakabagong build ([ang page nito](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); nasa [docs/videos](docs/videos) ang mga clip sa ibaba.
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [I-download ang RIPPCSX2 (Linux AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, CPU na may AVX2. Gawin itong executable at patakbuhin. Bago ito sa release na ito at binubuo ng parehong workflow ng Windows zip, pero hindi pa ito napapatakbo sa Linux machine: pakisabi sa amin kung kumusta. Ang taskbar button para sa mga nakatagong run ay para sa Windows lang.
+
 **Nagpapatakbo ng mga `.elf` program para sa pag-test:** System > Start File, o `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, at magbo-boot ang program gaya ng pag-boot nito mula sa memory card o USB stick sa PS2. **Kumikilos ito gaya ng tunay na hardware**: ang ELF na naglulunsad ng ibang ELF ay ipinapasa ang makina rito at umaalis, ang in-game menu na kumakabit sa GS ay gumuguhit sa ibabaw ng tunay na frame ng laro, at ang pag-power off ay nagsasara sa VM gaya ng console na pinatay.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Bawat clip ay tunay na lab run sa build na ito, pinaikli sa ilalim ng 12 segundo
 ## Ano ang makukuha mo kumpara sa karaniwang PCSX2 v2.9.96
 
 - **Isang RIPPCSX2 menu** sa pagitan ng Debug at Help: Run ELF at Run Last ELF, live na Lab Monitor, Test Steps, Compatibility Report, ang mga switch ng fork, at ang mga folder kung saan napupunta ang lahat.
+- **RIPART,** sa menu na iyon: ang art database ng OPL Manager, 16,313 laro na binabasa ayon sa byte range mula sa backup nito sa archive.org. Mga pain na entry ng laro para masuri ang isang tema sa totoong listahan nang walang laro sa drive, listahan ng checkbox na may bawat piraso ng art ng laro na itatabi o iiwan, paghahanap ng mga laro sa drive na walang cover, at ART folder o `art.tar` na paglalagyan ng lahat. Lumalabas ang mga pain sa OPL at RIPPS2 at hindi nagsisimula; hindi kailanman pinapalitan ang file na naroon na. Tumulong si akilluminati47 na madala sa database na iyon ang 8-bit PNG art at ang 128 x 128 na disc icon nito.
+- **Nagsisimula ng laro ang stock OPL.** Natatanggap na ngayon ng `host` device na ini-register mismo ng programa ang sarili nitong mga open, kaya gumagana ang IOP reboot ng OPL. Humihinto ang orihinal sa `file 'host0:' can't open`.
+- **Umaabot sa browser ang EXIT GAME.** Nawawala ang isang SIO2 interrupt sa IOP reboot, kaya naghihintay ang OSDSYS sa memory card na itim ang screen.
 - **Isang taskbar button para sa mga nakatagong run.** Ang PCSX2 na sinimulan sa nakatagong desktop ay naglalagay ng button sa taskbar mo, kaya naaabot ito ng volume mixer o per-app volume mod tulad ng ibang programa.
 - **Tama ang itsura ng HD modes.** Ang 720p at 1080i ay ipinapakita sa 16:9 (4:3 ang guhit ng orihinal), sa bawat aspect setting maliban sa Stretch.
 - **HD na recording at screenshot.** Nire-record ng F11 ang 720p sa 1280 x 720 at ang 1080i sa 1920 x 1080 (o isang upscale multiple nito), naka-tag na 16:9; nagse-save ang F8 ng screenshot sa parehong laki. Ang orihinal ay nagbibigay ng 640 x 480 o ng raw buffer na 640 ang lapad.
@@ -96,6 +105,7 @@ Bawat clip ay tunay na lab run sa build na ito, pinaikli sa ilalim ng 12 segundo
 - **Mga gumagawa ng theme** (Open PS2 Loader, RiptOPL, RIPPS2): suriin ang theme sa 720p at 1080i gaya ng pagpapakita ng TV, at gumawa ng mga preview na tunay ang laki at mga tour video.
 - **Mga homebrew developer:** i-test ang mga ELF na nagpapalit ng video mode, kumakabit sa GS o gumagamit ng mga debug register ng EE, at basahin sa log ang eksaktong display register na itinatakda ng isang mode.
 - **Mga in-game menu at GS tool:** tumatakbo sa emulator ang GSM ng OPL, ang in-game menu ng RIPPS2 at anumang nakabatay sa data write breakpoint, hindi lang sa hardware.
+- **Mga larong PS1:** patakbuhin ang Ember at ang mga larong PS1 nito mula sa virtual drive para subukan ang pag-launch at mga listahan ng PS1, gamit ang sarili mong PS1 BIOS sa drive.
 - **Automated at AI-assisted na pag-test:** mga scripted run sa nakatagong desktop na may screenshot, recording, save state at pagbasa ng memory sa pamamagitan ng PINE, nang hindi inaagaw ang iyong computer.
 
 <a id="the-end-goal-the-whole-library"></a>

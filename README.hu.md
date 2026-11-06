@@ -54,6 +54,12 @@ A RIPPCSX2 a PCSX2 v2.9.96 azokkal a változtatásokkal, amelyekre egy PS2-homeb
 
 Windows 10 vagy 11, x64, AVX2-t támogató processzor. Csomagold ki bárhová, indítsd el a `pcsx2-qtx64-avx2.exe` fájlt, és add meg neki a saját BIOS-dumpodat. A zipben egy üres `portable.txt` van az exe mellett, így a RIPPCSX2 minden beállítását és fájlját a saját mappájában tartja: egy már telepített PCSX2 megtartja a saját beállításait, érintetlenül. A kiadás mindig a legújabb buildet tartalmazza ([az oldala](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); a lenti klipek a [docs/videos](docs/videos) mappában vannak.
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [RIPPCSX2 letöltése (Linux AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, AVX2-es processzor. Tedd futtathatóvá, és indítsd el. Új ebben a kiadásban, és ugyanaz a munkafolyamat készíti, mint a Windows zipet, de Linuxos gépen még nem futott: kérjük, jelezd, hogyan sikerült. A rejtett futtatások tálcagombja csak Windowson van.
+
 **`.elf` programokat futtat tesztelésre:** System > Start File, vagy `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, és a program úgy indul, ahogy egy PS2-n memóriakártyáról vagy pendrive-ról indulna. **Úgy viselkedik, mint a valódi hardver**: egy ELF, amely egy másik ELF-et indít, átadja neki a gépet és eltűnik, egy GS-re akaszkodó játékon belüli menü a játék valódi képkockájára rajzol, a kikapcsolás pedig úgy zárja be a VM-et, mint egy kikapcsolt konzol.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Minden klip valódi laborfuttatás ezen a buildön, 12 másodperc alá vágva.
 ## Amit a sima PCSX2 v2.9.96-hoz képest kapsz
 
 - **Egy RIPPCSX2 menü** a Debug és a Help között: Run ELF és Run Last ELF, élő Lab Monitor, Test Steps, Compatibility Report, a fork kapcsolói és a mappák, ahová minden kerül.
+- **RIPART,** ebben a menüben: az OPL Manager képadatbázisa, 16 313 játék, bájttartományonként olvasva az archive.org-on lévő biztonsági mentéséből. Csali játékbejegyzések, hogy egy témát valódi listán lehessen megítélni játékok nélkül a meghajtón, jelölőnégyzetes lista egy játék minden képelemével, amit meg lehet tartani vagy ki lehet hagyni, keresés a borító nélküli játékokra egy meghajtón, és egy ART mappa vagy egy `art.tar` mindehhez. A csalik megjelennek az OPL-ben és a RIPPS2-ben, de nem indulnak el; a már meglévő fájlt soha nem cseréli le. akilluminati47 segített eljuttatni ehhez az adatbázishoz a 8 bites PNG-képeket és a 128 x 128-as lemezikonokat.
+- **A gyári OPL elindítja a játékokat.** Egy `host` eszköz, amelyet egy program maga regisztrál, most a saját megnyitásait kapja, így működik az OPL IOP-újraindítása. Az eredeti itt megáll: `file 'host0:' can't open`.
+- **Az EXIT GAME eljut a böngészőig.** Egy SIO2-megszakítás elveszett az IOP újraindításakor, így az OSDSYS fekete képernyővel várta a memóriakártyát.
 - **Tálcagomb a rejtett futtatásokhoz.** A rejtett asztalon indított PCSX2 egy gombot tesz a tálcádra, így a hangerőkeverő vagy egy alkalmazásonkénti hangerő-mod ugyanúgy eléri, mint bármely más programot.
 - **A HD módok jól néznek ki.** A 720p és az 1080i 16:9-ben jelenik meg (az eredeti 4:3-ban rajzolja őket), minden képarány-beállításnál a Stretch kivételével.
 - **HD felvételek és képernyőképek.** Az F11 a 720p-t 1280 x 720-ban, az 1080i-t 1920 x 1080-ban rögzíti (vagy ennek felskálázott többszörösében), 16:9-ként jelölve; az F8 ugyanekkora képernyőképeket ment. Az eredeti 640 x 480-at vagy a nyers, 640 széles puffert adja.
@@ -96,6 +105,7 @@ Minden klip valódi laborfuttatás ezen a buildön, 12 másodperc alá vágva.
 - **Témakészítők** (Open PS2 Loader, RiptOPL, RIPPS2): ítéld meg a témát 720p-ben és 1080i-ben úgy, ahogy egy tévé mutatja, és készíts valós méretű előnézeteket és bemutató videókat.
 - **Homebrew-fejlesztők:** tesztelj olyan ELF-eket, amelyek videómódot váltanak, a GS-re akaszkodnak vagy az EE hibakereső regisztereit használják, és olvasd ki a naplóból, pontosan mely kijelzőregisztereket állít be egy mód.
 - **Játékon belüli menük és GS-eszközök:** az OPL GSM-je, a RIPPS2 játékon belüli menüje és minden más, ami az adatírási töréspontra épül, az emulátorban fut, nem csak hardveren.
+- **PS1-játékok:** futtasd az Embert és a PS1-játékait virtuális meghajtóról az indítás és a PS1-listák teszteléséhez, a saját PS1 BIOS-oddal a meghajtón.
 - **Automatizált és MI-támogatott tesztelés:** szkriptelt futtatások rejtett asztalon képernyőképekkel, felvételekkel, mentett állapotokkal és PINE-memóriaolvasással, anélkül hogy átvennék a PC-det.
 
 <a id="the-end-goal-the-whole-library"></a>

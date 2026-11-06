@@ -54,6 +54,12 @@ RIPPCSX2 je PCSX2 v2.9.96 sa izmenama koje su razvijaocu homebrewa za PS2 potreb
 
 Windows 10 ili 11, x64, procesor sa AVX2. Raspakujte ga bilo gde, pokrenite `pcsx2-qtx64-avx2.exe` i usmerite ga na sopstveni dump BIOS-a. Zip sadrži prazan `portable.txt` pored exe datoteke, pa RIPPCSX2 drži sva podešavanja i datoteke u sopstvenoj fascikli: već instalirani PCSX2 zadržava svoja podešavanja, netaknuta. Izdanje uvek sadrži najnoviji build ([njegova stranica](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); snimci ispod su u [docs/videos](docs/videos).
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [Preuzmi RIPPCSX2 (Linux AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, procesor sa AVX2. Učinite datoteku izvršnom i pokrenite je. Novo je u ovom izdanju i gradi se istim tokom rada kao Windows zip, ali još nije pokrenuto na Linux računaru: javite nam kako ide. Dugme na traci zadataka za skrivena pokretanja postoji samo na Windowsu.
+
 **Pokreće `.elf` programe za testiranje:** System > Start File, ili `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, i program se pokreće kao što bi sa memorijske kartice ili USB fleša na PS2. **Ponaša se kao pravi hardver**: ELF koji pokrene drugi ELF predaje mu mašinu i nestaje, meni u igri koji se kači na GS crta preko pravog kadra igre, a gašenje zatvara VM kao konzola koja se gasi.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Svaki snimak je pravo pokretanje u laboratoriji na ovom buildu, skraćeno ispod 
 ## Šta dobijate u odnosu na obični PCSX2 v2.9.96
 
 - **Meni RIPPCSX2** između Debug i Help: Run ELF i Run Last ELF, Lab Monitor uživo, Test Steps, Compatibility Report, prekidači forka i fascikle u koje sve stiže.
+- **RIPART,** u tom meniju: baza grafike OPL Managera, 16.313 igara čitanih po opsezima bajtova iz njene rezervne kopije na archive.org. Mamac-unosi igara da se tema proceni na stvarnoj listi bez igara na disku, lista sa poljima za potvrdu sa svakim komadom grafike igre za zadržavanje ili izostavljanje, pretraga igara na disku bez omota i fascikla ART ili `art.tar` za sve to. Mamci se prikazuju u OPL-u i RIPPS2 i ne pokreću se; postojeća datoteka se nikad ne zamenjuje. akilluminati47 je pomogao toj bazi da dobije 8-bitnu PNG grafiku i ikone diskova 128 x 128.
+- **Izvorni OPL pokreće igre.** Uređaj `host` koji program sam registruje sada dobija sopstvena otvaranja, pa ponovno pokretanje IOP-a u OPL-u radi. Izvorna verzija staje na `file 'host0:' can't open`.
+- **EXIT GAME stiže do pregledača.** Prekid SIO2 se gubio pri ponovnom pokretanju IOP-a, zbog čega je OSDSYS čekao memorijsku karticu sa crnim ekranom.
 - **Dugme na traci zadataka za skrivena pokretanja.** PCSX2 pokrenut na skrivenoj radnoj površini stavlja dugme na tvoju traku zadataka, pa ga mikser jačine zvuka ili mod jačine zvuka po aplikaciji dosegne kao i svaki drugi program.
 - **HD režimi izgledaju ispravno.** 720p i 1080i prikazuju se u 16:9 (original ih crta u 4:3), uz svako podešavanje odnosa osim Stretch.
 - **HD snimci i snimci ekrana.** F11 snima 720p u 1280 x 720 i 1080i u 1920 x 1080 (ili to puta uvećanje), označeno kao 16:9; F8 čuva snimke ekrana u istim veličinama. Original daje 640 x 480 ili sirovi bafer širine 640.
@@ -96,6 +105,7 @@ Svaki snimak je pravo pokretanje u laboratoriji na ovom buildu, skraćeno ispod 
 - **Autori tema** (Open PS2 Loader, RiptOPL, RIPPS2): procenite temu u 720p i 1080i onako kako je prikazuje televizor, i napravite preglede u stvarnoj veličini i video obilaske.
 - **Razvijaoci homebrewa:** testirajte ELF-ove koji menjaju video režim, kače se na GS ili koriste registre za otklanjanje grešaka EE-a, i čitajte u dnevniku tačne registre prikaza koje režim postavlja.
 - **Meniji u igri i GS alati:** GSM iz OPL-a, meni u igri RIPPS2 i sve ostalo zasnovano na tački prekida za upis podataka radi u emulatoru, a ne samo na hardveru.
+- **PS1 igre:** pokrenite Ember i njegove PS1 igre sa virtuelnog diska da biste testirali pokretanje i PS1 liste, sa sopstvenim PS1 BIOS-om na disku.
 - **Automatizovano i AI potpomognuto testiranje:** skriptovana pokretanja na skrivenoj radnoj površini sa snimcima ekrana, snimcima, sačuvanim stanjima i čitanjem memorije preko PINE-a, bez preuzimanja vašeg računara.
 
 <a id="the-end-goal-the-whole-library"></a>

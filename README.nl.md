@@ -54,6 +54,12 @@ RIPPCSX2 is PCSX2 v2.9.96 met de wijzigingen die een PS2-homebrewontwikkelaar no
 
 Windows 10 of 11, x64, een CPU met AVX2. Pak het ergens uit, start `pcsx2-qtx64-avx2.exe` en wijs het je eigen BIOS-dump aan. De zip bevat een lege `portable.txt` naast de exe, dus RIPPCSX2 bewaart al zijn instellingen en bestanden in zijn eigen map: een PCSX2 dat je al hebt geïnstalleerd houdt zijn eigen instellingen, onaangeroerd. De release bevat altijd de nieuwste build ([de pagina ervan](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); de clips hieronder staan in [docs/videos](docs/videos).
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [RIPPCSX2 downloaden (Linux-AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, een CPU met AVX2. Maak het uitvoerbaar en start het. Nieuw in deze release en gebouwd door dezelfde workflow als de Windows-zip, maar nog niet op een Linux-machine gedraaid: laat ons weten hoe het gaat. De taakbalkknop voor verborgen runs is alleen voor Windows.
+
 **Het draait `.elf`-programma’s om te testen:** System > Start File, of `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, en het programma start zoals het op een PS2 vanaf een geheugenkaart of USB-stick zou starten. Het **gedraagt zich als echte hardware**: een ELF dat een ander ELF start, geeft de machine door en is weg, een in-game menu dat op de GS inhaakt tekent over het echte beeld van het spel, en uitschakelen sluit de VM zoals een console die uitgaat.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Elke clip is een echte labrun op deze build, ingekort tot onder de 12 seconden.
 ## Wat je krijgt ten opzichte van gewone PCSX2 v2.9.96
 
 - **Een RIPPCSX2-menu** tussen Debug en Help: Run ELF en Run Last ELF, een live Lab Monitor, Test Steps, een Compatibility Report, de schakelaars van de fork en de mappen waar alles terechtkomt.
+- **RIPART,** in dat menu: de art-database van OPL Manager, 16.313 games, per bytebereik gelezen uit de back-up op archive.org. Lokgame-items om een thema te beoordelen op een echte lijst zonder games op de schijf, een lijst met selectievakjes met elk stuk art van een game om te houden of weg te laten, een zoektocht naar games op een schijf zonder hoes, en een ART-map of een `art.tar` om alles in te zetten. Lokitems verschijnen in OPL en RIPPS2 en starten niet; een bestaand bestand wordt nooit vervangen. akilluminati47 hielp die database aan zijn 8-bit PNG-art en discpictogrammen van 128 x 128.
+- **Standaard OPL start games.** Een `host`-apparaat dat een programma zelf registreert, krijgt nu zijn eigen opens, dus de IOP-herstart van OPL werkt. Het origineel stopt bij `file 'host0:' can't open`.
+- **EXIT GAME bereikt de browser.** Een SIO2-interrupt ging verloren bij een IOP-herstart, waardoor OSDSYS met een zwart scherm op de geheugenkaart bleef wachten.
 - **Een taakbalkknop voor verborgen runs.** Een PCSX2 die op een verborgen bureaublad start, zet een knop op je taakbalk, zodat een volumemixer of een volumemod per app hem bereikt zoals elk ander programma.
 - **HD-modi zien er goed uit.** 720p en 1080i worden in 16:9 getoond (het origineel tekent ze in 4:3), bij elke beeldverhouding-instelling behalve Stretch.
 - **HD-opnames en schermafbeeldingen.** F11 neemt 720p op in 1280 x 720 en 1080i in 1920 x 1080 (of dat maal de opschaling), gemarkeerd als 16:9; F8 bewaart schermafbeeldingen in dezelfde formaten. Het origineel geeft 640 x 480 of de ruwe buffer van 640 breed.
@@ -96,6 +105,7 @@ Elke clip is een echte labrun op deze build, ingekort tot onder de 12 seconden.
 - **Themamakers** (Open PS2 Loader, RiptOPL, RIPPS2): beoordeel een thema in 720p en 1080i zoals een tv het toont, en maak voorbeelden op ware grootte en rondleidingsvideo’s.
 - **Homebrewontwikkelaars:** test ELF’s die van videomodus wisselen, op de GS inhaken of de debugregisters van de EE gebruiken, en lees in het log de exacte beeldregisters die een modus instelt.
 - **In-game menu’s en GS-hulpmiddelen:** het GSM van OPL, het in-game menu van RIPPS2 en alles wat op het data-schrijfbreekpunt is gebouwd, draaien in de emulator in plaats van alleen op hardware.
+- **PS1-games:** draai Ember en zijn PS1-games vanaf een virtuele schijf om het starten en de PS1-lijsten te testen, met je eigen PS1-BIOS op de schijf.
 - **Geautomatiseerd en AI-ondersteund testen:** gescripte runs op een verborgen bureaublad met schermafbeeldingen, opnames, save states en PINE-geheugenlezingen, zonder je pc over te nemen.
 
 <a id="the-end-goal-the-whole-library"></a>

@@ -54,6 +54,12 @@ RIPPCSX2는 PS2 homebrew 개발자가 실제 모습을 보는 데 필요한 변�
 
 Windows 10 또는 11, x64, AVX2를 지원하는 CPU. 원하는 곳에 압축을 풀고 `pcsx2-qtx64-avx2.exe`를 실행한 뒤 직접 덤프한 BIOS를 지정하세요. zip에는 exe 옆에 빈 `portable.txt`가 들어 있어 RIPPCSX2는 모든 설정과 파일을 자기 폴더에 보관합니다. 이미 설치한 PCSX2의 설정은 손대지 않고 그대로 남습니다. 릴리스는 항상 최신 빌드입니다([해당 페이지](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)). 아래 클립은 [docs/videos](docs/videos)에 있습니다.
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [RIPPCSX2 다운로드 (Linux AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, AVX2를 지원하는 CPU. 실행 권한을 주고 시작하세요. 이번 릴리스에 새로 추가되었고 Windows zip과 같은 워크플로로 빌드하지만 아직 Linux 컴퓨터에서 실행해 보지 않았습니다. 결과를 알려 주세요. 숨겨진 실행용 작업 표시줄 버튼은 Windows 전용입니다.
+
 **테스트용 `.elf` 프로그램을 실행합니다:** System > Start File 또는 `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`로, PS2의 메모리 카드나 USB 메모리에서 부팅하듯이 프로그램이 부팅됩니다. **실제 하드웨어처럼 동작합니다**: 다른 ELF를 실행한 ELF는 기기를 넘겨주고 사라지고, GS에 후킹하는 게임 내 메뉴는 게임의 실제 프레임 위에 그려지며, 전원 끄기는 콘솔 전원을 끄듯 VM을 닫습니다.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Windows 10 또는 11, x64, AVX2를 지원하는 CPU. 원하는 곳에 압축을 
 ## 순정 PCSX2 v2.9.96보다 나은 점
 
 - **Debug와 Help 사이의 RIPPCSX2 메뉴**: Run ELF와 Run Last ELF, 실시간 Lab Monitor, Test Steps, Compatibility Report, 포크의 스위치, 결과물이 저장되는 폴더.
+- **RIPART,** 같은 메뉴에 있습니다: OPL Manager의 아트 데이터베이스로, 16,313개 게임을 archive.org의 백업에서 바이트 범위로 읽습니다. 드라이브에 게임이 없어도 실제 목록에서 테마를 판단할 수 있는 미끼 게임 항목, 게임 아트를 조각별로 남기거나 뺄 수 있는 체크박스 목록, 드라이브에서 커버가 없는 게임 찾기, 그리고 모두 담을 ART 폴더 또는 `art.tar`를 제공합니다. 미끼는 OPL과 RIPPS2에 표시되지만 시작되지 않으며, 이미 있는 파일은 절대 교체하지 않습니다. akilluminati47은 이 데이터베이스에 8비트 PNG 아트와 128 x 128 디스크 아이콘이 들어오도록 도왔습니다.
+- **기본 OPL이 게임을 시작합니다.** 프로그램이 직접 등록한 `host` 장치가 이제 자기 열기 요청을 받으므로 OPL의 IOP 재부팅이 동작합니다. 원본은 `file 'host0:' can't open`에서 멈춥니다.
+- **EXIT GAME이 브라우저까지 갑니다.** IOP 재부팅 중 SIO2 인터럽트가 사라져 OSDSYS가 검은 화면으로 메모리 카드를 기다렸습니다.
 - **숨김 실행용 작업 표시줄 버튼.** 숨겨진 바탕 화면에서 시작한 PCSX2는 작업 표시줄에 버튼을 하나 놓으므로, 볼륨 믹서나 앱별 볼륨 모드가 다른 프로그램처럼 접근할 수 있습니다.
 - **HD 모드가 제대로 보입니다.** 720p와 1080i는 Stretch를 제외한 모든 화면비 설정에서 16:9로 표시됩니다(순정판은 4:3으로 그립니다).
 - **HD 녹화와 스크린샷.** F11은 720p를 1280 x 720, 1080i를 1920 x 1080(또는 업스케일 배수)으로 16:9 태그를 붙여 녹화하고, F8은 같은 크기로 스크린샷을 저장합니다. 순정판은 640 x 480 또는 폭 640의 원시 버퍼를 줍니다.
@@ -96,6 +105,7 @@ Windows 10 또는 11, x64, AVX2를 지원하는 CPU. 원하는 곳에 압축을 
 - **테마 제작자**(Open PS2 Loader, RiptOPL, RIPPS2): TV에 보이는 그대로 720p와 1080i에서 테마를 판단하고, 실제 크기의 미리보기와 소개 영상을 만드세요.
 - **homebrew 개발자:** 비디오 모드를 바꾸거나 GS에 후킹하거나 EE 디버그 레지스터를 쓰는 ELF를 테스트하고, 모드가 설정하는 정확한 디스플레이 레지스터를 로그에서 읽으세요.
 - **게임 내 메뉴와 GS 도구:** OPL의 GSM, RIPPS2의 게임 내 메뉴, 그리고 데이터 쓰기 브레이크포인트를 쓰는 모든 것이 실기뿐 아니라 에뮬레이터에서도 돌아갑니다.
+- **PS1 게임:** 가상 드라이브에서 Ember와 PS1 게임을 실행해 시작과 PS1 목록을 테스트합니다. 드라이브에는 본인의 PS1 BIOS를 두세요.
 - **자동화 및 AI 지원 테스트:** 숨겨진 데스크톱에서 스크린샷, 녹화, 상태 저장, PINE 메모리 읽기를 곁들인 스크립트 실행을, PC를 점령하지 않고 할 수 있습니다.
 
 <a id="the-end-goal-the-whole-library"></a>

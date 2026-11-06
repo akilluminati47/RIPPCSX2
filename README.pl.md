@@ -54,6 +54,12 @@ RIPPCSX2 to PCSX2 v2.9.96 ze zmianami, których twórca homebrew na PS2 potrzebu
 
 Windows 10 lub 11, x64, procesor z AVX2. Rozpakuj go gdziekolwiek, uruchom `pcsx2-qtx64-avx2.exe` i wskaż własny zrzut BIOS-u. Zip zawiera pusty `portable.txt` obok pliku exe, więc RIPPCSX2 trzyma wszystkie ustawienia i pliki we własnym folderze: zainstalowany już PCSX2 zachowuje swoje ustawienia, nietknięte. Wydanie zawsze zawiera najnowszą kompilację ([jego strona](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); klipy poniżej są w [docs/videos](docs/videos).
 
+<a id="download-rippcsx2-linux-appimagehttpsgithubcomakilluminati47rippcsx2releaseslatestdownloadrippcsx2-linux-x64appimage"></a>
+
+### [Pobierz RIPPCSX2 (AppImage dla Linuksa)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, procesor z AVX2. Nadaj plikowi prawo wykonywania i uruchom go. To nowość w tym wydaniu, budowana tym samym workflow co zip dla Windows, ale jeszcze nie uruchamiana na maszynie z Linuksem: daj znać, jak poszło. Przycisk na pasku zadań dla ukrytych uruchomień działa tylko w Windows.
+
 **Uruchamia programy `.elf` do testów:** System > Start File albo `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`, a program startuje tak, jak z karty pamięci lub pendrive’a na PS2. **Zachowuje się jak prawdziwy sprzęt**: ELF, który uruchamia inny ELF, oddaje mu maszynę i znika, menu w grze podpięte pod GS rysuje się na prawdziwej klatce gry, a wyłączenie zamyka VM jak wyłączana konsola.
 
 <a id="see-it-work"></a>
@@ -79,6 +85,9 @@ Każdy klip to prawdziwy przebieg w laboratorium na tej kompilacji, przycięty p
 ## Co zyskujesz względem zwykłego PCSX2 v2.9.96
 
 - **Menu RIPPCSX2** między Debug a Help: Run ELF i Run Last ELF, Lab Monitor na żywo, Test Steps, Compatibility Report, przełączniki forka i foldery, do których wszystko trafia.
+- **RIPART,** w tym menu: baza grafik OPL Managera, 16 313 gier odczytywanych zakresami bajtów z jej kopii na archive.org. Wpisy gier-wabików, by ocenić motyw na prawdziwej liście bez gier na dysku, lista z polami wyboru z każdym elementem grafiki gry do zachowania lub pominięcia, wyszukiwanie gier na dysku bez okładki oraz folder ART lub `art.tar` na całość. Wabiki widać w OPL i RIPPS2 i nie uruchamiają się; istniejący plik nigdy nie jest zastępowany. akilluminati47 pomógł wprowadzić do tej bazy 8-bitową grafikę PNG i ikony płyt 128 x 128.
+- **Zwykły OPL uruchamia gry.** Urządzenie `host`, które program rejestruje sam, dostaje teraz własne otwarcia, więc restart IOP w OPL działa. Oryginał zatrzymuje się na `file 'host0:' can't open`.
+- **EXIT GAME dociera do przeglądarki.** Przerwanie SIO2 ginęło przy restarcie IOP, przez co OSDSYS czekał na kartę pamięci przy czarnym ekranie.
 - **Przycisk na pasku zadań dla ukrytych uruchomień.** PCSX2 uruchomiony na ukrytym pulpicie umieszcza przycisk na pasku zadań, dzięki czemu mikser głośności lub mod głośności dla aplikacji dociera do niego jak do każdego innego programu.
 - **Tryby HD wyglądają jak należy.** 720p i 1080i są pokazywane w 16:9 (oryginał rysuje je w 4:3), przy każdym ustawieniu proporcji oprócz Stretch.
 - **Nagrania i zrzuty w HD.** F11 nagrywa 720p w 1280 x 720 i 1080i w 1920 x 1080 (albo razy skalowanie), oznaczone jako 16:9; F8 zapisuje zrzuty w tych samych rozmiarach. Oryginał daje 640 x 480 albo surowy bufor o szerokości 640.
@@ -96,6 +105,7 @@ Każdy klip to prawdziwy przebieg w laboratorium na tej kompilacji, przycięty p
 - **Twórcy motywów** (Open PS2 Loader, RiptOPL, RIPPS2): oceniaj motyw w 720p i 1080i tak, jak pokazuje go telewizor, i rób podglądy w rzeczywistym rozmiarze oraz filmy z prezentacją.
 - **Twórcy homebrew:** testuj ELF-y, które zmieniają tryb wideo, podpinają się pod GS lub używają rejestrów debugowania EE, i czytaj w logu dokładne rejestry wyświetlania, które ustawia dany tryb.
 - **Menu w grze i narzędzia GS:** GSM z OPL, menu w grze RIPPS2 i wszystko inne oparte na punkcie przerwania zapisu danych działa w emulatorze, a nie tylko na sprzęcie.
+- **Gry PS1:** uruchom Ember i jego gry PS1 z wirtualnego dysku, by przetestować start i listy PS1, z własnym BIOS-em PS1 na dysku.
 - **Testy automatyczne i wspomagane AI:** skryptowane przebiegi na ukrytym pulpicie ze zrzutami, nagraniami, stanami zapisu i odczytami pamięci przez PINE, bez przejmowania twojego komputera.
 
 <a id="the-end-goal-the-whole-library"></a>
