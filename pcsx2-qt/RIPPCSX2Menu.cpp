@@ -3,6 +3,7 @@
 
 #include "RIPPCSX2Menu.h"
 
+#include "RIPART.h"
 #include "MainWindow.h"
 #include "QtHost.h"
 #include "QtUtils.h"
@@ -586,6 +587,7 @@ void RIPPCSX2Menu::Install(MainWindow* window, QMenuBar* bar, QMenu* before)
 	QObject::connect(item(menu, "chip-line", QStringLiteral("Lab &Monitor..."), QStringLiteral("The video mode and display registers, and the EE data write breakpoint's state, live.")), &QAction::triggered, window, [window]() { showMonitor(window); });
 	QObject::connect(item(menu, "keyboard-line", QStringLiteral("Test &Steps..."), QStringLiteral("Plays a list of waits, button presses, screenshots and recordings into what is running. The same steps the lab's hidden-desktop driver runs.")), &QAction::triggered, window, [window]() { showSteps(window); });
 	QObject::connect(item(menu, "list-check", QStringLiteral("&Compatibility Report..."), QStringLiteral("One game's result, the OPL modes used and the machine's state, as a file and a row in compatibility.csv.")), &QAction::triggered, window, [window]() { showReport(window); });
+	QObject::connect(item(menu, "image-line", QStringLiteral("RIP&ART..."), QStringLiteral("OPL Manager's art database: decoy game entries for themers, every game's art to choose from, and art for the games on a drive.")), &QAction::triggered, window, [window]() { RIPART::Open(window); });
 	menu->addSeparator();
 
 	// ---- what it adds to PCSX2 ----

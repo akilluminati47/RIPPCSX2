@@ -29,6 +29,8 @@ target_sources(pcsx2-qt PRIVATE
 	MainWindow.h
 	MainWindow.ui
 	PrecompiledHeader.cpp
+	RIPART.cpp
+	RIPART.h
 	RIPPCSX2Menu.cpp
 	RIPPCSX2Menu.h
 	PrecompiledHeader.h
