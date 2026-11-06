@@ -4,6 +4,7 @@
 #include "Common.h"
 #include "Host.h"
 #include "IopDma.h"
+#include "IopHw.h"
 #include "Recording/InputRecording.h"
 #include "SIO/Memcard/MemoryCardProtocol.h"
 #include "SIO/Multitap/MultitapProtocol.h"
@@ -100,7 +101,9 @@ void Sio2::SoftReset()
 
 void Sio2::Interrupt()
 {
-	if (!iStat)
+	// RIPPCSX2: iStat outlives an IOP reboot, so one left set by a transfer the reboot cut off swallowed
+	// the next IRQ for good: mcserv in OSDSYS waited forever after EXIT GAME. Skip only an IRQ still pending.
+	if (!iStat || !(psxHu32(HW_ISTAT) & (1 << 17)))
 		iopIntcIrq(17);
 	else
 		DevCon.Warning("Nearly sent double SIO2 IRQ");
