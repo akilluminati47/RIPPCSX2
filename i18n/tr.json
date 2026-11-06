@@ -1,230 +1,230 @@
 {
- "0669618af5ef": {
-  "en": "0669618af5ef",
-  "t": "- **Tema yapanlar** (Open PS2 Loader, RiptOPL, RIPPS2): bir temayı 720p ve 1080i’de bir televizyonun gösterdiği gibi değerlendirin, gerçek boyutlu önizlemeler ve tanıtım videoları yapın."
- },
- "0fa344bc7427": {
-  "en": "0fa344bc7427",
-  "t": "Windows 10 veya 11, x64, AVX2 destekli bir işlemci. İstediğiniz yere açın, `pcsx2-qtx64-avx2.exe` dosyasını başlatın ve kendi BIOS dökümünüzü gösterin. Zip, exe’nin yanında boş bir `portable.txt` taşır, bu yüzden RIPPCSX2 tüm ayarlarını ve dosyalarını kendi klasöründe tutar: zaten kurulu bir PCSX2 kendi ayarlarını korur, el değmeden. Sürüm her zaman en yeni derlemeyi içerir ([sayfası](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); aşağıdaki klipler [docs/videos](docs/videos) içinde."
- },
- "1076d5a2e707": {
-  "en": "1076d5a2e707",
-  "t": "## Proje ayrıntıları"
- },
- "11e9d19787c2": {
-  "en": "11e9d19787c2",
-  "t": "**Homebrew test etmek ve geliştirmek için, sizin ya da bir yapay zekâ ajanının sürmesi için yapılmış bir PlayStation 2 emülatörü.**"
- },
- "2d9f99b52db3": {
-  "en": "2d9f99b52db3",
-  "t": "Önümüzdeki en büyük iş, PS2 oyunlarını Open PS2 Loader'ın kendi kod yolundan, bir konsolun çalıştırdığı gibi test etmek ve her birinin neye ihtiyaç duyduğunu yazmaktır: bir OPL korumalı alanında ELF'ler, KELF'ler, homebrew uygulamaları ve oyunlar, uyumluluk modları otomatik olarak denenerek. Biri bir gün bunu kullanarak tüm kütüphaneyi çalıştırabilir. RIPPCSX2'nin nihai hedefi budur."
- },
- "32337dc66fa2": {
-  "en": "32337dc66fa2",
-  "t": "PCSX2 20 yılı aşkın süredir geliştiriliyor. Eski sürümler yalnızca birkaç kamu malı oyun demosunu çalıştırabiliyordu, yeni sürümler ise Final Fantasy X ve Devil May Cry 3 gibi popüler oyunlar dahil çoğu oyunu tam hızda çalıştırabiliyor. Oyunların en güncel uyumluluk durumu için [PCSX2 uyumluluk listesini](https://pcsx2.net/compat/) ziyaret edin (2500’den fazla oyun test edildi)."
- },
- "3481f97a7b60": {
-  "en": "3481f97a7b60",
-  "t": "Neyin değiştiği ve neden, dosya dosya: **[RIPPCSX2.md](RIPPCSX2.md)**. Bu fork’un kodu üzerinde çalışan ajanlar: PCSX2 projesinde asla pull request, issue ya da yorum açmayın (onun `AGENTS.md` dosyası yapay zekâ yapımı katkıları yasaklar); RIPPCSX2 bir fork olarak kalır."
- },
- "35b7a733c862": {
-  "en": "35b7a733c862",
-  "t": "Nasıl katkıda bulunacağınızı öğrenmek için [Katkı Kılavuzu](https://pcsx2.net/docs/contributing/)’na bakın."
- },
- "362c6f55a338": {
-  "en": "362c6f55a338",
-  "t": "- Standart çözünürlüğe dokunulmaz: 480i ekran görüntüleri orijinalinkilerle bayt bayt aynıdır. `inis/PCSX2.ini` içinde `[EmuCore/GS]` altındaki `HDTVOutput = false`, karşılaştırma için orijinal HD davranışını geri getirir."
- },
- "38f3d642ac04": {
-  "en": "38f3d642ac04",
-  "t": "- **Video modu günlük satırları.** Her mod değişimi senkron zamanlamasını ve ekran yazmaçlarını günlüğe yazar (`logs/emulog.txt` içinde `RIPPCSX2: video mode ...`)."
- },
- "41f07537d676": {
-  "en": "41f07537d676",
-  "t": "4. **Sürün ve gözlemleyin:** F8 ekran görüntüsü (`snaps/`), F11 kayıt (`videos/`), F1 kayıt durumu (`sstates/`), bir betikten PS2 belleğini okuyup yazmak için PINE (`[EmuCore] EnablePINE`, `PINESlot`)."
- },
- "42a7b75be2fa": {
-  "en": "42a7b75be2fa",
-  "t": "- **Homebrew geliştiricileri:** video modu değiştiren, GS’ye kanca atan ya da EE’nin hata ayıklama yazmaçlarını kullanan ELF’leri test edin ve bir modun ayarladığı ekran yazmaçlarını günlükte tam olarak okuyun."
- },
- "4d6c8e889c93": {
-  "en": "4d6c8e889c93",
-  "t": "RIPPCSX2, bir PS2 homebrew geliştiricisinin gerçeği görmek için ihtiyaç duyduğu değişikliklerle PCSX2 v2.9.96’dır: HD video modları bir HD televizyonun gösterdiği gibi gösterilir, kaydedilir ve ekran görüntüsü alınır, ayrıca EE’nin donanımsal veri kesme noktası vardır; böylece oyun içi menüler ve GS yazmaçlarına kanca atan video modu araçları (Open PS2 Loader’ın GSM’i, RIPPS2’nin oyun içi menüsü) bir konsoldaki gibi çalışır. Geri kalan her şey düz PCSX2’dir. [RIPPS2](https://github.com/akilluminati47/RIPPS2) ön ucunun test laboratuvarı olarak başladı ve PS2 için homebrew, tema ya da araç yapan herkes içindir."
- },
- "51e43635dead": {
-  "en": "51e43635dead",
-  "t": "- **EE veri yazma kesme noktası** (rippcsx2.2’de yeni). COP0 `$24` (`MTBPC`, `MTDAB`, `MTDABM` ...) çalışır: izlenen bir adrese yapılan yazma, yürütülmeden önce `0x80000100` adresinde 2. düzey hata ayıklama istisnasını tetikler, hem yorumlayıcıda hem yeniden derleyicide. OPL GSM’i ve RIPPS2’nin oyun içi menüsü, bir oyunun hangi kareyi gösterdiğini öğrenmek için buna ihtiyaç duyar."
- },
- "5584f79d9ca6": {
-  "en": "5584f79d9ca6",
-  "t": "2. **BIOS:** kullanıcı kendi konsolunun BIOS dökümünü sağlar (asla indirmeyin): exe’nin yanındaki `bios` klasörüne koyun (ya da `inis/PCSX2.ini` içindeki `[Folders] Bios` ayarını oraya yöneltin) ve ilk çalıştırma sihirbazında seçin (`[Filenames] BIOS`)."
- },
- "58cf40d49047": {
-  "en": "58cf40d49047",
-  "t": "- **Otomatik güncelleyici teklifi yok.** Sürüm etiketleri PCSX2’nin güncelleyicisini kapalı tutar, böylece sizi asla orijinale geri \"güncellemez\"."
- },
- "58f7807193d9": {
-  "en": "58f7807193d9",
-  "t": "PCSX2, [Crowdin](https://crowdin.com/project/pcsx2-emulator) üzerinden diğer dillere çevrilebilir."
- },
- "adb266a475f7": {
-  "en": "adb266a475f7",
-  "t": "- **Debug ile Help arasında bir RIPPCSX2 menüsü**: Run ELF ve Run Last ELF, canlı Lab Monitor, Test Steps, Compatibility Report, fork'un anahtarları ve her şeyin gittiği klasörler."
- },
- "5b3af678efb8": {
-  "en": "5b3af678efb8",
-  "t": "Emülatörü kullanmak için yasal olarak sahip olunan bir PS2 konsolundan alınmış BIOS dökümünün gerektiğini unutmayın. Daha fazla bilgi için [bu sayfayı](https://pcsx2.net/docs/setup/bios/) ziyaret edin."
- },
- "645fb3973f3c": {
-  "en": "645fb3973f3c",
-  "t": "- **HD kayıtlar ve ekran görüntüleri.** F11, 720p’yi 1280 x 720’de, 1080i’yi 1920 x 1080’de (ya da bunun ölçek katında) 16:9 etiketiyle kaydeder; F8 aynı boyutlarda ekran görüntüsü kaydeder. Orijinal 640 x 480 ya da 640 genişliğindeki ham arabelleği verir."
- },
- "679a28a10a91": {
-  "en": "679a28a10a91",
-  "t": "Bu depo, bir ajanın yalnızca bağlantıdan yola çıkarak bir kullanıcının kurulumunu yapabileceği şekilde yazıldı. Asistanınıza `https://github.com/akilluminati47/RIPPCSX2` adresini verin ve RIPPCSX2’yi kurmasını isteyin; ihtiyaç duyduğu her şey burada:"
- },
- "73ab93cb322a": {
-  "en": "73ab93cb322a",
-  "t": "- **Kayıt ortasında mod değişimi** ilk dosyaya sıkışmak yerine yeni boyutta yeni bir dosyada sürer."
- },
- "7918f7bd70bb": {
-  "en": "7918f7bd70bb",
-  "t": "Compatibility Report ilk adımdır: bir oyunun sonucu, kullanılan OPL modları ve makinenin durumu, `reports/` içine bir dosya ve `compatibility.csv` içine bir satır olarak kaydedilir."
- },
- "7ebc0e242dae": {
-  "en": "7ebc0e242dae",
-  "t": "- **1080i doğru yerde.** Orijinal bir 1080i görüntüyü 42 satır yukarı kaydırır (üst kesik, altta siyah şerit); RIPPCSX2 onu konsolun kendi zamanlamasının yaptığı gibi 40. satırdan başlatır."
- },
- "806fbc56a05d": {
-  "en": "806fbc56a05d",
-  "t": "## Katkı / Derleme"
- },
- "819f05f68db0": {
-  "en": "819f05f68db0",
-  "t": "## Yapay zekâ ajanları, LLM’ler ve kullanıcıları için"
- },
- "8f797e5a632e": {
-  "en": "8f797e5a632e",
-  "t": "- **HD modlar doğru görünür.** 720p ve 1080i, Stretch dışındaki her en-boy ayarında 16:9 gösterilir (orijinal onları 4:3 çizer)."
- },
- "9eb76be1ef20": {
-  "en": "9eb76be1ef20",
-  "t": "1. **Derlemeyi alın:** sürekli sürümden `RIPPCSX2-windows-x64-avx2.zip` ([doğrudan bağlantı](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip) ya da `gh release download rolling -R akilluminati47/RIPPCSX2 -p \"*.zip\"`). Kendine ait bir klasöre açın; `portable.txt` zaten exe’nin yanında, böylece kurulu bir PCSX2’nin ayarlarına asla dokunmaz."
- },
- "9f3e9c694c53": {
-  "en": "9f3e9c694c53",
-  "t": "**Test için `.elf` programları çalıştırır:** System > Start File ya da `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`; program, bir PS2’de hafıza kartından veya USB bellekten açılacağı gibi açılır. **Gerçek donanım gibi davranır**: başka bir ELF başlatan ELF makineyi ona devreder ve gider, GS’ye kanca atan bir oyun içi menü oyunun gerçek karesinin üstüne çizer, kapatmak da VM’yi kapanan bir konsol gibi kapatır."
- },
- "a3f2e8b36682": {
-  "en": "a3f2e8b36682",
-  "t": "- **Gizli çalıştırmalar için bir görev çubuğu düğmesi.** Gizli bir masaüstünde başlatılan PCSX2 görev çubuğuna bir düğme koyar, böylece ses karıştırıcı ya da uygulama başına ses modu ona diğer programlar gibi ulaşır."
- },
- "a6e586e875ae": {
-  "en": "a6e586e875ae",
-  "t": "- **Otomatik ve yapay zekâ destekli test:** gizli bir masaüstünde ekran görüntüleri, kayıtlar, kayıt durumları ve PINE bellek okumalarıyla betikli çalıştırmalar, bilgisayarınızı ele geçirmeden."
- },
- "a94fbb820125": {
-  "en": "a94fbb820125",
-  "t": "3. **Bir şey çalıştırın:** `pcsx2-qtx64-avx2.exe -fastboot -elf <homebrew.elf>` ya da `-- <game.iso>`. Ayarlar `inis/PCSX2.ini` içinde düz INI’dir; günlükler `logs/emulog.txt` dosyasına gider (`[Logging] EnableEEConsole = true` EE’nin printf’ini ekler)."
- },
- "abee0a94d13d": {
-  "en": "abee0a94d13d",
-  "t": "## Çalışırken görün"
- },
- "af21e9655a53": {
-  "en": "af21e9655a53",
-  "t": "**Oyun içi menü, her işleviyle.** Çalışan bir oyunun üzerinde L1+L2+R1+R2+SELECT+START: ACHIEVEMENTS, RESUME (oyun sürer), daha sonraki bir karenin üstünde yine menü, ardından VM’yi kapatan POWER OFF. Menü hangi karenin üstüne çizeceğini bilir, çünkü RIPPCSX2 EE’nin veri yazma kesme noktasını öykünür."
- },
- "b1512611f5fe": {
-  "en": "b1512611f5fe",
-  "t": "**PCSX2 ekibiyle bağlantısı yoktur.** PCSX2 gibi GPL-3.0. RIPPCSX2 sorunlarını PCSX2’ye değil, RIPPS2’ye bildirin ([issues](https://github.com/akilluminati47/RIPPS2/issues)). Ardından PCSX2’nin kendi README’si gelir."
- },
- "b1641398a974": {
-  "en": "b1641398a974",
-  "t": "**ELF başlatan bir ELF, gerçek bir PS2 gibi.** RIPPS2’nin Memory Files’ı `mc0:/RIPPS2/RIPPS2.ELF` dosyasını (karta kopyalanmış en yeni derleme) açar ve çalıştırır. Çalışan RIPPS2 devreder ve gider; yenisi karttan yüklenir ve oyun listesine kadar açılır."
- },
- "b2b89f08b31b": {
-  "en": "b2b89f08b31b",
-  "t": "# PCSX2"
- },
- "b35522b36312": {
-  "en": "b35522b36312",
-  "t": "## Sistem gereksinimleri"
- },
- "b44db6b4399f": {
-  "en": "b44db6b4399f",
-  "t": "# RIPPCSX2"
- },
- "bb83e0e75436": {
-  "en": "bb83e0e75436",
-  "t": "5. **Ekranı çalmadan test edin:** [`ripps2-lab/`](ripps2-lab/README.md) bir laboratuvar kurulumunu anlatır (`install-lab.ps1` bir derlemeyi taşınabilir bir klasöre koyar ve kartlarını, ayarlarını ve kayıtlarını tutar), RIPPS2 deposundaki `tools/dev/ps2bg.ps1` de adım listelerini (tuşlar, beklemeler, ekran görüntüleri, kayıtlar) gizli bir masaüstünde, kullanıcının izleyebileceği, durdurabileceği ya da devralabileceği bir görev çubuğu paneliyle çalıştırır."
- },
- "cd140e6effef": {
-  "en": "cd140e6effef",
-  "t": "### [RIPPCSX2’yi indir (Windows zip)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)"
- },
- "ce3dbd517c38": {
-  "en": "ce3dbd517c38",
-  "t": "**[Web sitesine bak](https://akilluminati47.github.io/RIPPCSX2/)**: bir PS2'yi sök ya da havaya uçur, RIPPCSX2 hakkındaki her şey Info panelinde."
- },
- "d0cb117e5e4e": {
-  "en": "d0cb117e5e4e",
-  "t": "## Nihai hedef: tüm kütüphane"
- },
- "d4ac16d079e7": {
-  "en": "d4ac16d079e7",
-  "t": "**Bir yapay zekâ ajanı bir ELF’i test ediyor.** Kullanıcının ekranının sağ alt köşesinden kaydedildi (görev çubuğu, Claude oturumunun bir parçası): Claude gizli bir masaüstünde RIPPCSX2 içinde `RIPPS2.elf` dosyasını başlatır, HDD görüntüsünden Aqua Teen Hunger Force’u açar ve üzerine RIPPS2’nin oyun içi menüsünü açar. Küçük panel ekrandaki tek şeydir; klavye ve fare kullanıcıda kalır."
- },
- "d80d578d0636": {
-  "en": "d80d578d0636",
-  "t": "## Ne işe yarar"
- },
- "df17eb4c3191": {
-  "en": "df17eb4c3191",
-  "t": "Kararlı ve nightly derlemelerin kurulum dosyaları ve ikili dosyaları [web sitemizde](https://pcsx2.net/downloads/) bulunur."
- },
- "e6bd0b06e0e4": {
-  "en": "e6bd0b06e0e4",
-  "t": "## Düz PCSX2 v2.9.96’ya göre ne kazanırsınız"
- },
- "e938ae4740c4": {
-  "en": "e938ae4740c4",
-  "t": "PCSX2, ücretsiz ve açık kaynaklı bir PlayStation 2 (PS2) emülatörüdür. Amacı, MIPS işlemci [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>), [Yeniden derleyiciler](https://en.wikipedia.org/wiki/Dynamic_recompilation) ve donanım durumlarını ve PS2 sistem belleğini yöneten bir [Sanal makine](https://en.wikipedia.org/wiki/Virtual_machine) birleşimiyle PS2’nin donanımını öykünmektir. Bu sayede PS2 oyunlarını bilgisayarınızda, pek çok ek özellik ve avantajla oynayabilirsiniz."
- },
- "f70f55e121db": {
-  "en": "f70f55e121db",
-  "t": "PCSX2 Windows, Linux ve Mac’i destekler. [Kurulum belgeleri sayfamız](https://pcsx2.net/docs/setup/requirements) yazılım ve donanım gereksinimleriyle ilgili ek ayrıntılar içerir."
- },
- "f845d37a589e": {
-  "en": "f845d37a589e",
-  "t": "- **Oyun içi menüler ve GS araçları:** OPL GSM’i, RIPPS2’nin oyun içi menüsü ve veri yazma kesme noktası üzerine kurulu her şey yalnızca donanımda değil emülatörde de çalışır."
- },
- "fcd7c8d4eb16": {
-  "en": "fcd7c8d4eb16",
-  "t": "Her klip, bu derlemede gerçek bir laboratuvar çalışmasıdır, 12 saniyenin altına kırpılmıştır."
- },
- "fa381807068c": {
-  "en": "fa381807068c",
-  "t": "### [RIPPCSX2 indir (Linux AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)"
- },
- "5714bc244259": {
-  "en": "5714bc244259",
-  "t": "x64, AVX2 destekli bir işlemci. Dosyayı çalıştırılabilir yapıp başlatın. Bu sürümde yeni ve Windows zip dosyasıyla aynı iş akışıyla derleniyor, ancak henüz bir Linux makinede çalıştırılmadı: nasıl gittiğini lütfen bize bildirin. Gizli çalıştırmalar için görev çubuğu düğmesi yalnızca Windows içindir."
- },
- "d2317b75d0f9": {
-  "en": "d2317b75d0f9",
-  "t": "- **RIPART,** bu menüde: OPL Manager'ın görsel veritabanı, archive.org'daki yedeğinden bayt aralıklarıyla okunan 16.313 oyun. Sürücüde oyun olmadan bir temayı gerçek bir listede değerlendirmek için sahte oyun girdileri, bir oyunun her görsel parçasını tutmak ya da dışarıda bırakmak için onay kutulu bir liste, sürücüde kapağı olmayan oyunları bulan bir tarama ve hepsini koymak için bir ART klasörü ya da `art.tar`. Sahte girdiler OPL ve RIPPS2'de görünür ve başlamaz; var olan bir dosya asla değiştirilmez. akilluminati47 bu veritabanına 8 bit PNG görsellerini ve 128 x 128 disk simgelerini kazandırmaya yardım etti."
- },
- "5b1649f69d13": {
-  "en": "5b1649f69d13",
-  "t": "- **Orijinal OPL oyunları başlatır.** Bir programın kendisinin kaydettiği `host` aygıtı artık kendi açmalarını alıyor, bu yüzden OPL'in IOP yeniden başlatması çalışıyor. Orijinal sürüm `file 'host0:' can't open` hatasında durur."
- },
- "94049692a3d2": {
-  "en": "94049692a3d2",
-  "t": "- **EXIT GAME tarayıcıya ulaşır.** Bir SIO2 kesmesi IOP yeniden başlatmasında kayboluyordu ve OSDSYS siyah ekranda hafıza kartını bekliyordu."
- },
- "657486ff245c": {
-  "en": "657486ff245c",
-  "t": "- **PS1 oyunları:** başlatmayı ve PS1 listelerini denemek için Ember ve PS1 oyunlarını sanal sürücüden çalıştırın, sürücüde kendi PS1 BIOS dosyanız olsun."
- }
+  "0669618af5ef": {
+    "en": "0669618af5ef",
+    "t": "- **Tema yapanlar** (Open PS2 Loader, RiptOPL, RIPPS2): bir temayı 720p ve 1080i’de bir televizyonun gösterdiği gibi değerlendirin, gerçek boyutlu önizlemeler ve tanıtım videoları yapın."
+  },
+  "0fa344bc7427": {
+    "en": "0fa344bc7427",
+    "t": "Windows 10 veya 11, x64, AVX2 destekli bir işlemci. İstediğiniz yere açın, `pcsx2-qtx64-avx2.exe` dosyasını başlatın ve kendi BIOS dökümünüzü gösterin. Zip, exe’nin yanında boş bir `portable.txt` taşır, bu yüzden RIPPCSX2 tüm ayarlarını ve dosyalarını kendi klasöründe tutar: zaten kurulu bir PCSX2 kendi ayarlarını korur, el değmeden. Sürüm her zaman en yeni derlemeyi içerir ([sayfası](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); aşağıdaki klipler [docs/videos](docs/videos) içinde."
+  },
+  "1076d5a2e707": {
+    "en": "1076d5a2e707",
+    "t": "## Proje ayrıntıları"
+  },
+  "11e9d19787c2": {
+    "en": "11e9d19787c2",
+    "t": "**Homebrew test etmek ve geliştirmek için, sizin ya da bir yapay zekâ ajanının sürmesi için yapılmış bir PlayStation 2 emülatörü.**"
+  },
+  "2d9f99b52db3": {
+    "en": "2d9f99b52db3",
+    "t": "Önümüzdeki en büyük iş, PS2 oyunlarını Open PS2 Loader'ın kendi kod yolundan, bir konsolun çalıştırdığı gibi test etmek ve her birinin neye ihtiyaç duyduğunu yazmaktır: bir OPL korumalı alanında ELF'ler, KELF'ler, homebrew uygulamaları ve oyunlar, uyumluluk modları otomatik olarak denenerek. Biri bir gün bunu kullanarak tüm kütüphaneyi çalıştırabilir. RIPPCSX2'nin nihai hedefi budur."
+  },
+  "32337dc66fa2": {
+    "en": "32337dc66fa2",
+    "t": "PCSX2 20 yılı aşkın süredir geliştiriliyor. Eski sürümler yalnızca birkaç kamu malı oyun demosunu çalıştırabiliyordu, yeni sürümler ise Final Fantasy X ve Devil May Cry 3 gibi popüler oyunlar dahil çoğu oyunu tam hızda çalıştırabiliyor. Oyunların en güncel uyumluluk durumu için [PCSX2 uyumluluk listesini](https://pcsx2.net/compat/) ziyaret edin (2500’den fazla oyun test edildi)."
+  },
+  "3481f97a7b60": {
+    "en": "3481f97a7b60",
+    "t": "Neyin değiştiği ve neden, dosya dosya: **[RIPPCSX2.md](RIPPCSX2.md)**. Bu fork’un kodu üzerinde çalışan ajanlar: PCSX2 projesinde asla pull request, issue ya da yorum açmayın (onun `AGENTS.md` dosyası yapay zekâ yapımı katkıları yasaklar); RIPPCSX2 bir fork olarak kalır."
+  },
+  "35b7a733c862": {
+    "en": "35b7a733c862",
+    "t": "Nasıl katkıda bulunacağınızı öğrenmek için [Katkı Kılavuzu](https://pcsx2.net/docs/contributing/)’na bakın."
+  },
+  "362c6f55a338": {
+    "en": "362c6f55a338",
+    "t": "- Standart çözünürlüğe dokunulmaz: 480i ekran görüntüleri orijinalinkilerle bayt bayt aynıdır. `inis/PCSX2.ini` içinde `[EmuCore/GS]` altındaki `HDTVOutput = false`, karşılaştırma için orijinal HD davranışını geri getirir."
+  },
+  "38f3d642ac04": {
+    "en": "38f3d642ac04",
+    "t": "- **Video modu günlük satırları.** Her mod değişimi senkron zamanlamasını ve ekran yazmaçlarını günlüğe yazar (`logs/emulog.txt` içinde `RIPPCSX2: video mode ...`)."
+  },
+  "41f07537d676": {
+    "en": "41f07537d676",
+    "t": "4. **Sürün ve gözlemleyin:** F8 ekran görüntüsü (`snaps/`), F11 kayıt (`videos/`), F1 kayıt durumu (`sstates/`), bir betikten PS2 belleğini okuyup yazmak için PINE (`[EmuCore] EnablePINE`, `PINESlot`)."
+  },
+  "42a7b75be2fa": {
+    "en": "42a7b75be2fa",
+    "t": "- **Homebrew geliştiricileri:** video modu değiştiren, GS’ye kanca atan ya da EE’nin hata ayıklama yazmaçlarını kullanan ELF’leri test edin ve bir modun ayarladığı ekran yazmaçlarını günlükte tam olarak okuyun."
+  },
+  "4d6c8e889c93": {
+    "en": "4d6c8e889c93",
+    "t": "RIPPCSX2, bir PS2 homebrew geliştiricisinin gerçeği görmek için ihtiyaç duyduğu değişikliklerle PCSX2 v2.9.96’dır: HD video modları bir HD televizyonun gösterdiği gibi gösterilir, kaydedilir ve ekran görüntüsü alınır, ayrıca EE’nin donanımsal veri kesme noktası vardır; böylece oyun içi menüler ve GS yazmaçlarına kanca atan video modu araçları (Open PS2 Loader’ın GSM’i, RIPPS2’nin oyun içi menüsü) bir konsoldaki gibi çalışır. Geri kalan her şey düz PCSX2’dir. [RIPPS2](https://github.com/akilluminati47/RIPPS2) ön ucunun test laboratuvarı olarak başladı ve PS2 için homebrew, tema ya da araç yapan herkes içindir."
+  },
+  "51e43635dead": {
+    "en": "51e43635dead",
+    "t": "- **EE veri yazma kesme noktası** (rippcsx2.2’de yeni). COP0 `$24` (`MTBPC`, `MTDAB`, `MTDABM` ...) çalışır: izlenen bir adrese yapılan yazma, yürütülmeden önce `0x80000100` adresinde 2. düzey hata ayıklama istisnasını tetikler, hem yorumlayıcıda hem yeniden derleyicide. OPL GSM’i ve RIPPS2’nin oyun içi menüsü, bir oyunun hangi kareyi gösterdiğini öğrenmek için buna ihtiyaç duyar."
+  },
+  "5584f79d9ca6": {
+    "en": "5584f79d9ca6",
+    "t": "2. **BIOS:** kullanıcı kendi konsolunun BIOS dökümünü sağlar (asla indirmeyin): exe’nin yanındaki `bios` klasörüne koyun (ya da `inis/PCSX2.ini` içindeki `[Folders] Bios` ayarını oraya yöneltin) ve ilk çalıştırma sihirbazında seçin (`[Filenames] BIOS`)."
+  },
+  "5714bc244259": {
+    "en": "5714bc244259",
+    "t": "x64, AVX2 destekli bir işlemci. Dosyayı çalıştırılabilir yapıp başlatın. Bu sürümde yeni ve Windows zip dosyasıyla aynı iş akışıyla derleniyor, ancak henüz bir Linux makinede çalıştırılmadı: nasıl gittiğini lütfen bize bildirin. Gizli çalıştırmalar için görev çubuğu düğmesi yalnızca Windows içindir."
+  },
+  "58cf40d49047": {
+    "en": "58cf40d49047",
+    "t": "- **Otomatik güncelleyici teklifi yok.** Sürüm etiketleri PCSX2’nin güncelleyicisini kapalı tutar, böylece sizi asla orijinale geri \"güncellemez\"."
+  },
+  "58f7807193d9": {
+    "en": "58f7807193d9",
+    "t": "PCSX2, [Crowdin](https://crowdin.com/project/pcsx2-emulator) üzerinden diğer dillere çevrilebilir."
+  },
+  "5b1649f69d13": {
+    "en": "5b1649f69d13",
+    "t": "- **Orijinal OPL oyunları başlatır.** Bir programın kendisinin kaydettiği `host` aygıtı artık kendi açmalarını alıyor, bu yüzden OPL'in IOP yeniden başlatması çalışıyor. Orijinal sürüm `file 'host0:' can't open` hatasında durur."
+  },
+  "5b3af678efb8": {
+    "en": "5b3af678efb8",
+    "t": "Emülatörü kullanmak için yasal olarak sahip olunan bir PS2 konsolundan alınmış BIOS dökümünün gerektiğini unutmayın. Daha fazla bilgi için [bu sayfayı](https://pcsx2.net/docs/setup/bios/) ziyaret edin."
+  },
+  "645fb3973f3c": {
+    "en": "645fb3973f3c",
+    "t": "- **HD kayıtlar ve ekran görüntüleri.** F11, 720p’yi 1280 x 720’de, 1080i’yi 1920 x 1080’de (ya da bunun ölçek katında) 16:9 etiketiyle kaydeder; F8 aynı boyutlarda ekran görüntüsü kaydeder. Orijinal 640 x 480 ya da 640 genişliğindeki ham arabelleği verir."
+  },
+  "657486ff245c": {
+    "en": "657486ff245c",
+    "t": "- **PS1 oyunları:** başlatmayı ve PS1 listelerini denemek için Ember ve PS1 oyunlarını sanal sürücüden çalıştırın, sürücüde kendi PS1 BIOS dosyanız olsun."
+  },
+  "679a28a10a91": {
+    "en": "679a28a10a91",
+    "t": "Bu depo, bir ajanın yalnızca bağlantıdan yola çıkarak bir kullanıcının kurulumunu yapabileceği şekilde yazıldı. Asistanınıza `https://github.com/akilluminati47/RIPPCSX2` adresini verin ve RIPPCSX2’yi kurmasını isteyin; ihtiyaç duyduğu her şey burada:"
+  },
+  "73ab93cb322a": {
+    "en": "73ab93cb322a",
+    "t": "- **Kayıt ortasında mod değişimi** ilk dosyaya sıkışmak yerine yeni boyutta yeni bir dosyada sürer."
+  },
+  "7918f7bd70bb": {
+    "en": "7918f7bd70bb",
+    "t": "Compatibility Report ilk adımdır: bir oyunun sonucu, kullanılan OPL modları ve makinenin durumu, `reports/` içine bir dosya ve `compatibility.csv` içine bir satır olarak kaydedilir."
+  },
+  "7ebc0e242dae": {
+    "en": "7ebc0e242dae",
+    "t": "- **1080i doğru yerde.** Orijinal bir 1080i görüntüyü 42 satır yukarı kaydırır (üst kesik, altta siyah şerit); RIPPCSX2 onu konsolun kendi zamanlamasının yaptığı gibi 40. satırdan başlatır."
+  },
+  "806fbc56a05d": {
+    "en": "806fbc56a05d",
+    "t": "## Katkı / Derleme"
+  },
+  "819f05f68db0": {
+    "en": "819f05f68db0",
+    "t": "## Yapay zekâ ajanları, LLM’ler ve kullanıcıları için"
+  },
+  "8f797e5a632e": {
+    "en": "8f797e5a632e",
+    "t": "- **HD modlar doğru görünür.** 720p ve 1080i, Stretch dışındaki her en-boy ayarında 16:9 gösterilir (orijinal onları 4:3 çizer)."
+  },
+  "94049692a3d2": {
+    "en": "94049692a3d2",
+    "t": "- **EXIT GAME tarayıcıya ulaşır.** Bir SIO2 kesmesi IOP yeniden başlatmasında kayboluyordu ve OSDSYS siyah ekranda hafıza kartını bekliyordu."
+  },
+  "9eb76be1ef20": {
+    "en": "9eb76be1ef20",
+    "t": "1. **Derlemeyi alın:** sürekli sürümden `RIPPCSX2-windows-x64-avx2.zip` ([doğrudan bağlantı](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip) ya da `gh release download rolling -R akilluminati47/RIPPCSX2 -p \"*.zip\"`). Kendine ait bir klasöre açın; `portable.txt` zaten exe’nin yanında, böylece kurulu bir PCSX2’nin ayarlarına asla dokunmaz."
+  },
+  "9f3e9c694c53": {
+    "en": "9f3e9c694c53",
+    "t": "**Test için `.elf` programları çalıştırır:** System > Start File ya da `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`; program, bir PS2’de hafıza kartından veya USB bellekten açılacağı gibi açılır. **Gerçek donanım gibi davranır**: başka bir ELF başlatan ELF makineyi ona devreder ve gider, GS’ye kanca atan bir oyun içi menü oyunun gerçek karesinin üstüne çizer, kapatmak da VM’yi kapanan bir konsol gibi kapatır."
+  },
+  "a3f2e8b36682": {
+    "en": "a3f2e8b36682",
+    "t": "- **Gizli çalıştırmalar için bir görev çubuğu düğmesi.** Gizli bir masaüstünde başlatılan PCSX2 görev çubuğuna bir düğme koyar, böylece ses karıştırıcı ya da uygulama başına ses modu ona diğer programlar gibi ulaşır."
+  },
+  "a6e586e875ae": {
+    "en": "a6e586e875ae",
+    "t": "- **Otomatik ve yapay zekâ destekli test:** gizli bir masaüstünde ekran görüntüleri, kayıtlar, kayıt durumları ve PINE bellek okumalarıyla betikli çalıştırmalar, bilgisayarınızı ele geçirmeden."
+  },
+  "a94fbb820125": {
+    "en": "a94fbb820125",
+    "t": "3. **Bir şey çalıştırın:** `pcsx2-qtx64-avx2.exe -fastboot -elf <homebrew.elf>` ya da `-- <game.iso>`. Ayarlar `inis/PCSX2.ini` içinde düz INI’dir; günlükler `logs/emulog.txt` dosyasına gider (`[Logging] EnableEEConsole = true` EE’nin printf’ini ekler)."
+  },
+  "abee0a94d13d": {
+    "en": "abee0a94d13d",
+    "t": "## Çalışırken görün"
+  },
+  "adb266a475f7": {
+    "en": "adb266a475f7",
+    "t": "- **Debug ile Help arasında bir RIPPCSX2 menüsü**: Run ELF ve Run Last ELF, canlı Lab Monitor, Test Steps, Compatibility Report, fork'un anahtarları ve her şeyin gittiği klasörler."
+  },
+  "af21e9655a53": {
+    "en": "af21e9655a53",
+    "t": "**Oyun içi menü, her işleviyle.** Çalışan bir oyunun üzerinde L1+L2+R1+R2+SELECT+START: ACHIEVEMENTS, RESUME (oyun sürer), daha sonraki bir karenin üstünde yine menü, ardından VM’yi kapatan POWER OFF. Menü hangi karenin üstüne çizeceğini bilir, çünkü RIPPCSX2 EE’nin veri yazma kesme noktasını öykünür."
+  },
+  "b1512611f5fe": {
+    "en": "b1512611f5fe",
+    "t": "**PCSX2 ekibiyle bağlantısı yoktur.** PCSX2 gibi GPL-3.0. RIPPCSX2 sorunlarını PCSX2’ye değil, RIPPS2’ye bildirin ([issues](https://github.com/akilluminati47/RIPPS2/issues)). Ardından PCSX2’nin kendi README’si gelir."
+  },
+  "b1641398a974": {
+    "en": "b1641398a974",
+    "t": "**ELF başlatan bir ELF, gerçek bir PS2 gibi.** RIPPS2’nin Memory Files’ı `mc0:/RIPPS2/RIPPS2.ELF` dosyasını (karta kopyalanmış en yeni derleme) açar ve çalıştırır. Çalışan RIPPS2 devreder ve gider; yenisi karttan yüklenir ve oyun listesine kadar açılır."
+  },
+  "b2b89f08b31b": {
+    "en": "b2b89f08b31b",
+    "t": "# PCSX2"
+  },
+  "b35522b36312": {
+    "en": "b35522b36312",
+    "t": "## Sistem gereksinimleri"
+  },
+  "b44db6b4399f": {
+    "en": "b44db6b4399f",
+    "t": "# RIPPCSX2"
+  },
+  "bb83e0e75436": {
+    "en": "bb83e0e75436",
+    "t": "5. **Ekranı çalmadan test edin:** [`ripps2-lab/`](ripps2-lab/README.md) bir laboratuvar kurulumunu anlatır (`install-lab.ps1` bir derlemeyi taşınabilir bir klasöre koyar ve kartlarını, ayarlarını ve kayıtlarını tutar), RIPPS2 deposundaki `tools/dev/ps2bg.ps1` de adım listelerini (tuşlar, beklemeler, ekran görüntüleri, kayıtlar) gizli bir masaüstünde, kullanıcının izleyebileceği, durdurabileceği ya da devralabileceği bir görev çubuğu paneliyle çalıştırır."
+  },
+  "cd140e6effef": {
+    "en": "cd140e6effef",
+    "t": "### [RIPPCSX2’yi indir (Windows zip)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)"
+  },
+  "ce3dbd517c38": {
+    "en": "ce3dbd517c38",
+    "t": "**[Web sitesine bak](https://akilluminati47.github.io/RIPPCSX2/)**: bir PS2'yi sök ya da havaya uçur, RIPPCSX2 hakkındaki her şey Info panelinde."
+  },
+  "d0cb117e5e4e": {
+    "en": "d0cb117e5e4e",
+    "t": "## Nihai hedef: tüm kütüphane"
+  },
+  "d2317b75d0f9": {
+    "en": "d2317b75d0f9",
+    "t": "- **RIPART,** bu menüde: OPL Manager'ın görsel veritabanı, archive.org'daki yedeğinden bayt aralıklarıyla okunan 16.313 oyun. Sürücüde oyun olmadan bir temayı gerçek bir listede değerlendirmek için sahte oyun girdileri, bir oyunun her görsel parçasını tutmak ya da dışarıda bırakmak için onay kutulu bir liste, sürücüde kapağı olmayan oyunları bulan bir tarama ve hepsini koymak için bir ART klasörü ya da `art.tar`. Sahte girdiler OPL ve RIPPS2'de görünür ve başlamaz; var olan bir dosya asla değiştirilmez. akilluminati47 bu veritabanına 8 bit PNG görsellerini ve 128 x 128 disk simgelerini kazandırmaya yardım etti."
+  },
+  "d4ac16d079e7": {
+    "en": "d4ac16d079e7",
+    "t": "**Bir yapay zekâ ajanı bir ELF’i test ediyor.** Kullanıcının ekranının sağ alt köşesinden kaydedildi (görev çubuğu, Claude oturumunun bir parçası): Claude gizli bir masaüstünde RIPPCSX2 içinde `RIPPS2.elf` dosyasını başlatır, HDD görüntüsünden Aqua Teen Hunger Force’u açar ve üzerine RIPPS2’nin oyun içi menüsünü açar. Küçük panel ekrandaki tek şeydir; klavye ve fare kullanıcıda kalır."
+  },
+  "d80d578d0636": {
+    "en": "d80d578d0636",
+    "t": "## Ne işe yarar"
+  },
+  "df17eb4c3191": {
+    "en": "df17eb4c3191",
+    "t": "Kararlı ve nightly derlemelerin kurulum dosyaları ve ikili dosyaları [web sitemizde](https://pcsx2.net/downloads/) bulunur."
+  },
+  "e6bd0b06e0e4": {
+    "en": "e6bd0b06e0e4",
+    "t": "## Düz PCSX2 v2.9.96’ya göre ne kazanırsınız"
+  },
+  "e938ae4740c4": {
+    "en": "e938ae4740c4",
+    "t": "PCSX2, ücretsiz ve açık kaynaklı bir PlayStation 2 (PS2) emülatörüdür. Amacı, MIPS işlemci [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>), [Yeniden derleyiciler](https://en.wikipedia.org/wiki/Dynamic_recompilation) ve donanım durumlarını ve PS2 sistem belleğini yöneten bir [Sanal makine](https://en.wikipedia.org/wiki/Virtual_machine) birleşimiyle PS2’nin donanımını öykünmektir. Bu sayede PS2 oyunlarını bilgisayarınızda, pek çok ek özellik ve avantajla oynayabilirsiniz."
+  },
+  "f70f55e121db": {
+    "en": "f70f55e121db",
+    "t": "PCSX2 Windows, Linux ve Mac’i destekler. [Kurulum belgeleri sayfamız](https://pcsx2.net/docs/setup/requirements) yazılım ve donanım gereksinimleriyle ilgili ek ayrıntılar içerir."
+  },
+  "f845d37a589e": {
+    "en": "f845d37a589e",
+    "t": "- **Oyun içi menüler ve GS araçları:** OPL GSM’i, RIPPS2’nin oyun içi menüsü ve veri yazma kesme noktası üzerine kurulu her şey yalnızca donanımda değil emülatörde de çalışır."
+  },
+  "fa381807068c": {
+    "en": "fa381807068c",
+    "t": "### [RIPPCSX2 indir (Linux AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)"
+  },
+  "fcd7c8d4eb16": {
+    "en": "fcd7c8d4eb16",
+    "t": "Her klip, bu derlemede gerçek bir laboratuvar çalışmasıdır, 12 saniyenin altına kırpılmıştır."
+  }
 }

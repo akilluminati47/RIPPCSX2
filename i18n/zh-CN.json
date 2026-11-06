@@ -1,230 +1,230 @@
 {
- "0669618af5ef": {
-  "en": "0669618af5ef",
-  "t": "- **主题作者**（Open PS2 Loader、RiptOPL、RIPPS2）：按电视显示的样子在 720p 和 1080i 下评估主题，并制作真实尺寸的预览和介绍视频。"
- },
- "0fa344bc7427": {
-  "en": "0fa344bc7427",
-  "t": "Windows 10 或 11，x64，支持 AVX2 的 CPU。解压到任意位置，运行 `pcsx2-qtx64-avx2.exe`，并指向你自己转储的 BIOS。zip 在 exe 旁带有一个空的 `portable.txt`，因此 RIPPCSX2 把所有设置和文件都放在自己的文件夹里：你已安装的 PCSX2 会保留自己的设置，不受影响。发布页总是最新构建（[页面](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)）；下面的片段在 [docs/videos](docs/videos)。"
- },
- "1076d5a2e707": {
-  "en": "1076d5a2e707",
-  "t": "## 项目详情"
- },
- "11e9d19787c2": {
-  "en": "11e9d19787c2",
-  "t": "**一款用于测试和开发 homebrew 的 PlayStation 2 模拟器，可由你或 AI 智能体来操作。**"
- },
- "2d9f99b52db3": {
-  "en": "2d9f99b52db3",
-  "t": "接下来最大的工作,是通过 Open PS2 Loader 自身的代码路径测试 PS2 游戏,就像主机运行它们那样,并记录每款游戏需要什么:在 OPL 沙盒中运行 ELF、KELF、自制应用和游戏,并自动尝试它的兼容模式。总有一天,有人可以借此让整个游戏库都运行起来。这就是 RIPPCSX2 的最终目标。"
- },
- "32337dc66fa2": {
-  "en": "32337dc66fa2",
-  "t": "PCSX2 已开发超过 20 年。早期版本只能运行少数公有领域的游戏演示，而新版本可以全速运行大多数游戏，包括 Final Fantasy X 和 Devil May Cry 3 等热门作品。访问 [PCSX2 兼容性列表](https://pcsx2.net/compat/) 了解游戏的最新兼容状态（已测试超过 2500 款）。"
- },
- "3481f97a7b60": {
-  "en": "3481f97a7b60",
-  "t": "逐个文件说明改了什么、为什么改：**[RIPPCSX2.md](RIPPCSX2.md)**。在这个分支代码上工作的智能体：永远不要在 PCSX2 项目中发起 pull request、issue 或评论（它的 `AGENTS.md` 禁止 AI 生成的贡献）；RIPPCSX2 始终是一个分支。"
- },
- "35b7a733c862": {
-  "en": "35b7a733c862",
-  "t": "如何参与贡献，请参阅 [贡献指南](https://pcsx2.net/docs/contributing/)。"
- },
- "362c6f55a338": {
-  "en": "362c6f55a338",
-  "t": "- 标准分辨率不变：480i 截图与原版逐字节相同。在 `inis/PCSX2.ini` 的 `[EmuCore/GS]` 下设 `HDTVOutput = false` 可恢复原版 HD 行为，便于并排比较。"
- },
- "38f3d642ac04": {
-  "en": "38f3d642ac04",
-  "t": "- **视频模式日志行。** 每次模式切换都会记录同步时序和显示寄存器（`logs/emulog.txt` 中的 `RIPPCSX2: video mode ...`）。"
- },
- "41f07537d676": {
-  "en": "41f07537d676",
-  "t": "4. **操作并观察：** F8 截图（`snaps/`），F11 录制（`videos/`），F1 即时存档（`sstates/`），以及用 PINE（`[EmuCore] EnablePINE`、`PINESlot`）从脚本读写 PS2 内存。"
- },
- "42a7b75be2fa": {
-  "en": "42a7b75be2fa",
-  "t": "- **homebrew 开发者：** 测试切换视频模式、挂钩 GS 或使用 EE 调试寄存器的 ELF，并在日志中读到某个模式设置的确切显示寄存器。"
- },
- "4d6c8e889c93": {
-  "en": "4d6c8e889c93",
-  "t": "RIPPCSX2 就是 PCSX2 v2.9.96，加上 PS2 homebrew 开发者看到真实效果所需的改动：HD 视频模式按 HD 电视的显示方式显示、录制和截图，并提供 EE 的硬件数据断点，让挂钩 GS 寄存器的游戏内菜单和视频模式工具（Open PS2 Loader 的 GSM、RIPPS2 的游戏内菜单）像在主机上一样工作。其余一切都是原版 PCSX2。它最初是前端 [RIPPS2](https://github.com/akilluminati47/RIPPS2) 的测试实验室，面向所有为 PS2 制作 homebrew、主题或工具的人。"
- },
- "51e43635dead": {
-  "en": "51e43635dead",
-  "t": "- **EE 数据写入断点**（rippcsx2.2 新增）。COP0 `$24`（`MTBPC`、`MTDAB`、`MTDABM` ...）可用：写入被监视的地址会在执行前于 `0x80000100` 触发 2 级调试异常，解释器和重编译器中都是如此。OPL 的 GSM 和 RIPPS2 的游戏内菜单需要它来得知游戏正在显示哪一帧。"
- },
- "5584f79d9ca6": {
-  "en": "5584f79d9ca6",
-  "t": "2. **BIOS：** 由用户提供自己主机的 BIOS 转储（切勿下载）：放到 exe 旁的 `bios` 文件夹中（或在 `inis/PCSX2.ini` 中把 `[Folders] Bios` 指向它），并在首次运行向导中选择（`[Filenames] BIOS`）。"
- },
- "58cf40d49047": {
-  "en": "58cf40d49047",
-  "t": "- **没有自动更新提示。** 发布标签让 PCSX2 的更新器保持关闭，因此它永远不会把你\"更新\"回原版。"
- },
- "58f7807193d9": {
-  "en": "58f7807193d9",
-  "t": "PCSX2 可通过 [Crowdin](https://crowdin.com/project/pcsx2-emulator) 翻译成其他语言。"
- },
- "adb266a475f7": {
-  "en": "adb266a475f7",
-  "t": "- **位于 Debug 和 Help 之间的 RIPPCSX2 菜单**:Run ELF 和 Run Last ELF、实时 Lab Monitor、Test Steps、Compatibility Report、这个分支的开关,以及所有产物所在的文件夹。"
- },
- "5b3af678efb8": {
-  "en": "5b3af678efb8",
-  "t": "请注意，使用模拟器需要从合法拥有的 PS2 主机转储的 BIOS。更多信息请访问 [此页面](https://pcsx2.net/docs/setup/bios/)。"
- },
- "645fb3973f3c": {
-  "en": "645fb3973f3c",
-  "t": "- **HD 录制和截图。** F11 以 1280 x 720 录制 720p，以 1920 x 1080（或其放大倍数）录制 1080i，并标记为 16:9；F8 以相同尺寸保存截图。原版给出 640 x 480 或 640 宽的原始缓冲。"
- },
- "679a28a10a91": {
-  "en": "679a28a10a91",
-  "t": "本仓库的写法让智能体只凭链接就能为用户完成配置。把 `https://github.com/akilluminati47/RIPPCSX2` 交给你的助手并让它安装 RIPPCSX2；它需要的一切都在这里："
- },
- "73ab93cb322a": {
-  "en": "73ab93cb322a",
-  "t": "- **录制中途切换模式**会以新尺寸在新文件中继续，而不是挤进第一个文件。"
- },
- "7918f7bd70bb": {
-  "en": "7918f7bd70bb",
-  "t": "Compatibility Report 是第一步:一款游戏的结果、使用的 OPL 模式和机器状态,保存在 `reports/` 中的文件和 `compatibility.csv` 的一行里。"
- },
- "7ebc0e242dae": {
-  "en": "7ebc0e242dae",
-  "t": "- **1080i 位置正确。** 原版把 1080i 画面上移 42 行（顶部被裁，底部黑边）；RIPPCSX2 像主机自身的时序那样从第 40 行开始。"
- },
- "806fbc56a05d": {
-  "en": "806fbc56a05d",
-  "t": "## 贡献 / 构建"
- },
- "819f05f68db0": {
-  "en": "819f05f68db0",
-  "t": "## 给 AI 智能体、LLM 及其用户"
- },
- "8f797e5a632e": {
-  "en": "8f797e5a632e",
-  "t": "- **HD 模式显示正确。** 720p 和 1080i 在除 Stretch 以外的所有宽高比设置下都以 16:9 显示（原版画成 4:3）。"
- },
- "9eb76be1ef20": {
-  "en": "9eb76be1ef20",
-  "t": "1. **获取构建：** 滚动发布中的 `RIPPCSX2-windows-x64-avx2.zip`（[直接链接](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)，或 `gh release download rolling -R akilluminati47/RIPPCSX2 -p \"*.zip\"`）。解压到它专用的文件夹；`portable.txt` 已在 exe 旁边，因此绝不会触碰已安装的 PCSX2 的设置。"
- },
- "9f3e9c694c53": {
-  "en": "9f3e9c694c53",
-  "t": "**可运行 `.elf` 程序进行测试：** System > Start File，或 `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`，程序会像在 PS2 上从记忆卡或 U 盘启动那样启动。它**表现得像真实硬件**：启动另一个 ELF 的 ELF 会把机器交出去然后退出，挂钩 GS 的游戏内菜单绘制在游戏真实的画面帧上，关机会像主机断电一样关闭 VM。"
- },
- "a3f2e8b36682": {
-  "en": "a3f2e8b36682",
-  "t": "- **隐藏运行的任务栏按钮。** 在隐藏桌面上启动的 PCSX2 会在任务栏放一个按钮,这样音量合成器或按应用调音量的 mod 就能像对待其他程序一样控制它。"
- },
- "a6e586e875ae": {
-  "en": "a6e586e875ae",
-  "t": "- **自动化和 AI 辅助测试：** 在隐藏桌面上运行脚本，带截图、录制、即时存档和 PINE 内存读取，不占用你的电脑。"
- },
- "a94fbb820125": {
-  "en": "a94fbb820125",
-  "t": "3. **运行点什么：** `pcsx2-qtx64-avx2.exe -fastboot -elf <homebrew.elf>`，或 `-- <game.iso>`。设置是 `inis/PCSX2.ini` 中的普通 INI；日志写到 `logs/emulog.txt`（`[Logging] EnableEEConsole = true` 会加入 EE 的 printf）。"
- },
- "abee0a94d13d": {
-  "en": "abee0a94d13d",
-  "t": "## 实际运行效果"
- },
- "af21e9655a53": {
-  "en": "af21e9655a53",
-  "t": "**游戏内菜单，全部功能。** 在运行中的游戏上按 L1+L2+R1+R2+SELECT+START：ACHIEVEMENTS、RESUME（游戏继续）、在稍后的画面帧上再次打开菜单，然后用 POWER OFF 关闭 VM。菜单知道该画在哪一帧上，因为 RIPPCSX2 模拟了 EE 的数据写入断点。"
- },
- "b1512611f5fe": {
-  "en": "b1512611f5fe",
-  "t": "**与 PCSX2 团队无关。** 与 PCSX2 一样采用 GPL-3.0。RIPPCSX2 的问题请报告给 RIPPS2（[issues](https://github.com/akilluminati47/RIPPS2/issues)），切勿报告给 PCSX2。以下是 PCSX2 自己的 README。"
- },
- "b1641398a974": {
-  "en": "b1641398a974",
-  "t": "**ELF 启动 ELF，就像真正的 PS2。** RIPPS2 的 Memory Files 打开并运行 `mc0:/RIPPS2/RIPPS2.ELF`（最新构建，已复制到记忆卡）。正在运行的 RIPPS2 交出控制并退出；新的版本从记忆卡加载，启动到游戏列表。"
- },
- "b2b89f08b31b": {
-  "en": "b2b89f08b31b",
-  "t": "# PCSX2"
- },
- "b35522b36312": {
-  "en": "b35522b36312",
-  "t": "## 系统要求"
- },
- "b44db6b4399f": {
-  "en": "b44db6b4399f",
-  "t": "# RIPPCSX2"
- },
- "bb83e0e75436": {
-  "en": "bb83e0e75436",
-  "t": "5. **测试时不抢屏幕：** [`ripps2-lab/`](ripps2-lab/README.md) 介绍实验室安装（`install-lab.ps1` 把构建放进便携文件夹，并保存它的记忆卡、设置和录制），RIPPS2 仓库里的 `tools/dev/ps2bg.ps1` 在隐藏桌面上运行步骤列表（按键、等待、截图、录制），并提供一个任务栏面板，用户可以观看、停止或接管。"
- },
- "cd140e6effef": {
-  "en": "cd140e6effef",
-  "t": "### [下载 RIPPCSX2（Windows zip）](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)"
- },
- "ce3dbd517c38": {
-  "en": "ce3dbd517c38",
-  "t": "**[查看网站](https://akilluminati47.github.io/RIPPCSX2/)**:拆开一台 PS2,或者把它炸掉,关于 RIPPCSX2 的一切都在 Info 面板里。"
- },
- "d0cb117e5e4e": {
-  "en": "d0cb117e5e4e",
-  "t": "## 最终目标:整个游戏库"
- },
- "d4ac16d079e7": {
-  "en": "d4ac16d079e7",
-  "t": "**AI 智能体测试 ELF。** 录自用户屏幕右下角（任务栏，Claude 会话的一部分）：Claude 在隐藏桌面上的 RIPPCSX2 中启动 `RIPPS2.elf`，从 HDD 镜像启动 Aqua Teen Hunger Force，并在其上打开 RIPPS2 的游戏内菜单。屏幕上只有那个小面板；键盘和鼠标始终归用户使用。"
- },
- "d80d578d0636": {
-  "en": "d80d578d0636",
-  "t": "## 适合做什么"
- },
- "df17eb4c3191": {
-  "en": "df17eb4c3191",
-  "t": "稳定版和每夜构建的安装程序和二进制文件可在 [我们的网站](https://pcsx2.net/downloads/) 获取。"
- },
- "e6bd0b06e0e4": {
-  "en": "e6bd0b06e0e4",
-  "t": "## 相比原版 PCSX2 v2.9.96 的改进"
- },
- "e938ae4740c4": {
-  "en": "e938ae4740c4",
-  "t": "PCSX2 是一款免费开源的 PlayStation 2（PS2）模拟器。它的目的是结合 MIPS CPU 的 [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>)、[重编译器](https://en.wikipedia.org/wiki/Dynamic_recompilation) 以及管理硬件状态和 PS2 系统内存的 [虚拟机](https://en.wikipedia.org/wiki/Virtual_machine)，来模拟 PS2 的硬件。这让你可以在电脑上玩 PS2 游戏，并享有许多额外功能和好处。"
- },
- "f70f55e121db": {
-  "en": "f70f55e121db",
-  "t": "PCSX2 支持 Windows、Linux 和 Mac。[安装文档页面](https://pcsx2.net/docs/setup/requirements) 有软件和硬件要求的更多细节。"
- },
- "f845d37a589e": {
-  "en": "f845d37a589e",
-  "t": "- **游戏内菜单和 GS 工具：** OPL 的 GSM、RIPPS2 的游戏内菜单，以及任何基于数据写入断点的东西，都能在模拟器中运行，而不只是在硬件上。"
- },
- "fcd7c8d4eb16": {
-  "en": "fcd7c8d4eb16",
-  "t": "每个片段都是在此构建上真实的实验室运行，剪到 12 秒以内。"
- },
- "fa381807068c": {
-  "en": "fa381807068c",
-  "t": "### [下载 RIPPCSX2（Linux AppImage）](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)"
- },
- "5714bc244259": {
-  "en": "5714bc244259",
-  "t": "x64，支持 AVX2 的 CPU。赋予可执行权限后启动。这是本次发布新增的，由与 Windows zip 相同的工作流构建，但尚未在 Linux 机器上运行过：请告诉我们运行情况。用于隐藏运行的任务栏按钮仅限 Windows。"
- },
- "d2317b75d0f9": {
-  "en": "d2317b75d0f9",
-  "t": "- **RIPART，** 在同一菜单中：OPL Manager 的封面数据库，共 16,313 款游戏，按字节范围从 archive.org 上的备份读取。用诱饵游戏条目在驱动器上没有游戏时也能用真实列表评判主题，用复选框列表决定保留或舍弃游戏的每一件封面素材，扫描驱动器上没有封面的游戏，并把这一切放进 ART 文件夹或 `art.tar`。诱饵会显示在 OPL 和 RIPPS2 中，但不会启动；已有文件绝不会被替换。akilluminati47 曾协助这个数据库实现 8 位 PNG 图片和 128 x 128 光盘图标。"
- },
- "5b1649f69d13": {
-  "en": "5b1649f69d13",
-  "t": "- **原版 OPL 能启动游戏。** 程序自行注册的 `host` 设备现在会收到自己的打开请求，因此 OPL 的 IOP 重启可以工作。原版会停在 `file 'host0:' can't open`。"
- },
- "94049692a3d2": {
-  "en": "94049692a3d2",
-  "t": "- **EXIT GAME 能回到浏览器。** SIO2 中断在 IOP 重启时丢失，导致 OSDSYS 在黑屏中一直等待记忆卡。"
- },
- "657486ff245c": {
-  "en": "657486ff245c",
-  "t": "- **PS1 游戏：** 从虚拟驱动器运行 Ember 及其 PS1 游戏，以测试启动和 PS1 列表，驱动器上需放你自己的 PS1 BIOS。"
- }
+  "0669618af5ef": {
+    "en": "0669618af5ef",
+    "t": "- **主题作者**（Open PS2 Loader、RiptOPL、RIPPS2）：按电视显示的样子在 720p 和 1080i 下评估主题，并制作真实尺寸的预览和介绍视频。"
+  },
+  "0fa344bc7427": {
+    "en": "0fa344bc7427",
+    "t": "Windows 10 或 11，x64，支持 AVX2 的 CPU。解压到任意位置，运行 `pcsx2-qtx64-avx2.exe`，并指向你自己转储的 BIOS。zip 在 exe 旁带有一个空的 `portable.txt`，因此 RIPPCSX2 把所有设置和文件都放在自己的文件夹里：你已安装的 PCSX2 会保留自己的设置，不受影响。发布页总是最新构建（[页面](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)）；下面的片段在 [docs/videos](docs/videos)。"
+  },
+  "1076d5a2e707": {
+    "en": "1076d5a2e707",
+    "t": "## 项目详情"
+  },
+  "11e9d19787c2": {
+    "en": "11e9d19787c2",
+    "t": "**一款用于测试和开发 homebrew 的 PlayStation 2 模拟器，可由你或 AI 智能体来操作。**"
+  },
+  "2d9f99b52db3": {
+    "en": "2d9f99b52db3",
+    "t": "接下来最大的工作,是通过 Open PS2 Loader 自身的代码路径测试 PS2 游戏,就像主机运行它们那样,并记录每款游戏需要什么:在 OPL 沙盒中运行 ELF、KELF、自制应用和游戏,并自动尝试它的兼容模式。总有一天,有人可以借此让整个游戏库都运行起来。这就是 RIPPCSX2 的最终目标。"
+  },
+  "32337dc66fa2": {
+    "en": "32337dc66fa2",
+    "t": "PCSX2 已开发超过 20 年。早期版本只能运行少数公有领域的游戏演示，而新版本可以全速运行大多数游戏，包括 Final Fantasy X 和 Devil May Cry 3 等热门作品。访问 [PCSX2 兼容性列表](https://pcsx2.net/compat/) 了解游戏的最新兼容状态（已测试超过 2500 款）。"
+  },
+  "3481f97a7b60": {
+    "en": "3481f97a7b60",
+    "t": "逐个文件说明改了什么、为什么改：**[RIPPCSX2.md](RIPPCSX2.md)**。在这个分支代码上工作的智能体：永远不要在 PCSX2 项目中发起 pull request、issue 或评论（它的 `AGENTS.md` 禁止 AI 生成的贡献）；RIPPCSX2 始终是一个分支。"
+  },
+  "35b7a733c862": {
+    "en": "35b7a733c862",
+    "t": "如何参与贡献，请参阅 [贡献指南](https://pcsx2.net/docs/contributing/)。"
+  },
+  "362c6f55a338": {
+    "en": "362c6f55a338",
+    "t": "- 标准分辨率不变：480i 截图与原版逐字节相同。在 `inis/PCSX2.ini` 的 `[EmuCore/GS]` 下设 `HDTVOutput = false` 可恢复原版 HD 行为，便于并排比较。"
+  },
+  "38f3d642ac04": {
+    "en": "38f3d642ac04",
+    "t": "- **视频模式日志行。** 每次模式切换都会记录同步时序和显示寄存器（`logs/emulog.txt` 中的 `RIPPCSX2: video mode ...`）。"
+  },
+  "41f07537d676": {
+    "en": "41f07537d676",
+    "t": "4. **操作并观察：** F8 截图（`snaps/`），F11 录制（`videos/`），F1 即时存档（`sstates/`），以及用 PINE（`[EmuCore] EnablePINE`、`PINESlot`）从脚本读写 PS2 内存。"
+  },
+  "42a7b75be2fa": {
+    "en": "42a7b75be2fa",
+    "t": "- **homebrew 开发者：** 测试切换视频模式、挂钩 GS 或使用 EE 调试寄存器的 ELF，并在日志中读到某个模式设置的确切显示寄存器。"
+  },
+  "4d6c8e889c93": {
+    "en": "4d6c8e889c93",
+    "t": "RIPPCSX2 就是 PCSX2 v2.9.96，加上 PS2 homebrew 开发者看到真实效果所需的改动：HD 视频模式按 HD 电视的显示方式显示、录制和截图，并提供 EE 的硬件数据断点，让挂钩 GS 寄存器的游戏内菜单和视频模式工具（Open PS2 Loader 的 GSM、RIPPS2 的游戏内菜单）像在主机上一样工作。其余一切都是原版 PCSX2。它最初是前端 [RIPPS2](https://github.com/akilluminati47/RIPPS2) 的测试实验室，面向所有为 PS2 制作 homebrew、主题或工具的人。"
+  },
+  "51e43635dead": {
+    "en": "51e43635dead",
+    "t": "- **EE 数据写入断点**（rippcsx2.2 新增）。COP0 `$24`（`MTBPC`、`MTDAB`、`MTDABM` ...）可用：写入被监视的地址会在执行前于 `0x80000100` 触发 2 级调试异常，解释器和重编译器中都是如此。OPL 的 GSM 和 RIPPS2 的游戏内菜单需要它来得知游戏正在显示哪一帧。"
+  },
+  "5584f79d9ca6": {
+    "en": "5584f79d9ca6",
+    "t": "2. **BIOS：** 由用户提供自己主机的 BIOS 转储（切勿下载）：放到 exe 旁的 `bios` 文件夹中（或在 `inis/PCSX2.ini` 中把 `[Folders] Bios` 指向它），并在首次运行向导中选择（`[Filenames] BIOS`）。"
+  },
+  "5714bc244259": {
+    "en": "5714bc244259",
+    "t": "x64，支持 AVX2 的 CPU。赋予可执行权限后启动。这是本次发布新增的，由与 Windows zip 相同的工作流构建，但尚未在 Linux 机器上运行过：请告诉我们运行情况。用于隐藏运行的任务栏按钮仅限 Windows。"
+  },
+  "58cf40d49047": {
+    "en": "58cf40d49047",
+    "t": "- **没有自动更新提示。** 发布标签让 PCSX2 的更新器保持关闭，因此它永远不会把你\"更新\"回原版。"
+  },
+  "58f7807193d9": {
+    "en": "58f7807193d9",
+    "t": "PCSX2 可通过 [Crowdin](https://crowdin.com/project/pcsx2-emulator) 翻译成其他语言。"
+  },
+  "5b1649f69d13": {
+    "en": "5b1649f69d13",
+    "t": "- **原版 OPL 能启动游戏。** 程序自行注册的 `host` 设备现在会收到自己的打开请求，因此 OPL 的 IOP 重启可以工作。原版会停在 `file 'host0:' can't open`。"
+  },
+  "5b3af678efb8": {
+    "en": "5b3af678efb8",
+    "t": "请注意，使用模拟器需要从合法拥有的 PS2 主机转储的 BIOS。更多信息请访问 [此页面](https://pcsx2.net/docs/setup/bios/)。"
+  },
+  "645fb3973f3c": {
+    "en": "645fb3973f3c",
+    "t": "- **HD 录制和截图。** F11 以 1280 x 720 录制 720p，以 1920 x 1080（或其放大倍数）录制 1080i，并标记为 16:9；F8 以相同尺寸保存截图。原版给出 640 x 480 或 640 宽的原始缓冲。"
+  },
+  "657486ff245c": {
+    "en": "657486ff245c",
+    "t": "- **PS1 游戏：** 从虚拟驱动器运行 Ember 及其 PS1 游戏，以测试启动和 PS1 列表，驱动器上需放你自己的 PS1 BIOS。"
+  },
+  "679a28a10a91": {
+    "en": "679a28a10a91",
+    "t": "本仓库的写法让智能体只凭链接就能为用户完成配置。把 `https://github.com/akilluminati47/RIPPCSX2` 交给你的助手并让它安装 RIPPCSX2；它需要的一切都在这里："
+  },
+  "73ab93cb322a": {
+    "en": "73ab93cb322a",
+    "t": "- **录制中途切换模式**会以新尺寸在新文件中继续，而不是挤进第一个文件。"
+  },
+  "7918f7bd70bb": {
+    "en": "7918f7bd70bb",
+    "t": "Compatibility Report 是第一步:一款游戏的结果、使用的 OPL 模式和机器状态,保存在 `reports/` 中的文件和 `compatibility.csv` 的一行里。"
+  },
+  "7ebc0e242dae": {
+    "en": "7ebc0e242dae",
+    "t": "- **1080i 位置正确。** 原版把 1080i 画面上移 42 行（顶部被裁，底部黑边）；RIPPCSX2 像主机自身的时序那样从第 40 行开始。"
+  },
+  "806fbc56a05d": {
+    "en": "806fbc56a05d",
+    "t": "## 贡献 / 构建"
+  },
+  "819f05f68db0": {
+    "en": "819f05f68db0",
+    "t": "## 给 AI 智能体、LLM 及其用户"
+  },
+  "8f797e5a632e": {
+    "en": "8f797e5a632e",
+    "t": "- **HD 模式显示正确。** 720p 和 1080i 在除 Stretch 以外的所有宽高比设置下都以 16:9 显示（原版画成 4:3）。"
+  },
+  "94049692a3d2": {
+    "en": "94049692a3d2",
+    "t": "- **EXIT GAME 能回到浏览器。** SIO2 中断在 IOP 重启时丢失，导致 OSDSYS 在黑屏中一直等待记忆卡。"
+  },
+  "9eb76be1ef20": {
+    "en": "9eb76be1ef20",
+    "t": "1. **获取构建：** 滚动发布中的 `RIPPCSX2-windows-x64-avx2.zip`（[直接链接](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)，或 `gh release download rolling -R akilluminati47/RIPPCSX2 -p \"*.zip\"`）。解压到它专用的文件夹；`portable.txt` 已在 exe 旁边，因此绝不会触碰已安装的 PCSX2 的设置。"
+  },
+  "9f3e9c694c53": {
+    "en": "9f3e9c694c53",
+    "t": "**可运行 `.elf` 程序进行测试：** System > Start File，或 `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`，程序会像在 PS2 上从记忆卡或 U 盘启动那样启动。它**表现得像真实硬件**：启动另一个 ELF 的 ELF 会把机器交出去然后退出，挂钩 GS 的游戏内菜单绘制在游戏真实的画面帧上，关机会像主机断电一样关闭 VM。"
+  },
+  "a3f2e8b36682": {
+    "en": "a3f2e8b36682",
+    "t": "- **隐藏运行的任务栏按钮。** 在隐藏桌面上启动的 PCSX2 会在任务栏放一个按钮,这样音量合成器或按应用调音量的 mod 就能像对待其他程序一样控制它。"
+  },
+  "a6e586e875ae": {
+    "en": "a6e586e875ae",
+    "t": "- **自动化和 AI 辅助测试：** 在隐藏桌面上运行脚本，带截图、录制、即时存档和 PINE 内存读取，不占用你的电脑。"
+  },
+  "a94fbb820125": {
+    "en": "a94fbb820125",
+    "t": "3. **运行点什么：** `pcsx2-qtx64-avx2.exe -fastboot -elf <homebrew.elf>`，或 `-- <game.iso>`。设置是 `inis/PCSX2.ini` 中的普通 INI；日志写到 `logs/emulog.txt`（`[Logging] EnableEEConsole = true` 会加入 EE 的 printf）。"
+  },
+  "abee0a94d13d": {
+    "en": "abee0a94d13d",
+    "t": "## 实际运行效果"
+  },
+  "adb266a475f7": {
+    "en": "adb266a475f7",
+    "t": "- **位于 Debug 和 Help 之间的 RIPPCSX2 菜单**:Run ELF 和 Run Last ELF、实时 Lab Monitor、Test Steps、Compatibility Report、这个分支的开关,以及所有产物所在的文件夹。"
+  },
+  "af21e9655a53": {
+    "en": "af21e9655a53",
+    "t": "**游戏内菜单，全部功能。** 在运行中的游戏上按 L1+L2+R1+R2+SELECT+START：ACHIEVEMENTS、RESUME（游戏继续）、在稍后的画面帧上再次打开菜单，然后用 POWER OFF 关闭 VM。菜单知道该画在哪一帧上，因为 RIPPCSX2 模拟了 EE 的数据写入断点。"
+  },
+  "b1512611f5fe": {
+    "en": "b1512611f5fe",
+    "t": "**与 PCSX2 团队无关。** 与 PCSX2 一样采用 GPL-3.0。RIPPCSX2 的问题请报告给 RIPPS2（[issues](https://github.com/akilluminati47/RIPPS2/issues)），切勿报告给 PCSX2。以下是 PCSX2 自己的 README。"
+  },
+  "b1641398a974": {
+    "en": "b1641398a974",
+    "t": "**ELF 启动 ELF，就像真正的 PS2。** RIPPS2 的 Memory Files 打开并运行 `mc0:/RIPPS2/RIPPS2.ELF`（最新构建，已复制到记忆卡）。正在运行的 RIPPS2 交出控制并退出；新的版本从记忆卡加载，启动到游戏列表。"
+  },
+  "b2b89f08b31b": {
+    "en": "b2b89f08b31b",
+    "t": "# PCSX2"
+  },
+  "b35522b36312": {
+    "en": "b35522b36312",
+    "t": "## 系统要求"
+  },
+  "b44db6b4399f": {
+    "en": "b44db6b4399f",
+    "t": "# RIPPCSX2"
+  },
+  "bb83e0e75436": {
+    "en": "bb83e0e75436",
+    "t": "5. **测试时不抢屏幕：** [`ripps2-lab/`](ripps2-lab/README.md) 介绍实验室安装（`install-lab.ps1` 把构建放进便携文件夹，并保存它的记忆卡、设置和录制），RIPPS2 仓库里的 `tools/dev/ps2bg.ps1` 在隐藏桌面上运行步骤列表（按键、等待、截图、录制），并提供一个任务栏面板，用户可以观看、停止或接管。"
+  },
+  "cd140e6effef": {
+    "en": "cd140e6effef",
+    "t": "### [下载 RIPPCSX2（Windows zip）](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip)"
+  },
+  "ce3dbd517c38": {
+    "en": "ce3dbd517c38",
+    "t": "**[查看网站](https://akilluminati47.github.io/RIPPCSX2/)**:拆开一台 PS2,或者把它炸掉,关于 RIPPCSX2 的一切都在 Info 面板里。"
+  },
+  "d0cb117e5e4e": {
+    "en": "d0cb117e5e4e",
+    "t": "## 最终目标:整个游戏库"
+  },
+  "d2317b75d0f9": {
+    "en": "d2317b75d0f9",
+    "t": "- **RIPART，** 在同一菜单中：OPL Manager 的封面数据库，共 16,313 款游戏，按字节范围从 archive.org 上的备份读取。用诱饵游戏条目在驱动器上没有游戏时也能用真实列表评判主题，用复选框列表决定保留或舍弃游戏的每一件封面素材，扫描驱动器上没有封面的游戏，并把这一切放进 ART 文件夹或 `art.tar`。诱饵会显示在 OPL 和 RIPPS2 中，但不会启动；已有文件绝不会被替换。akilluminati47 曾协助这个数据库实现 8 位 PNG 图片和 128 x 128 光盘图标。"
+  },
+  "d4ac16d079e7": {
+    "en": "d4ac16d079e7",
+    "t": "**AI 智能体测试 ELF。** 录自用户屏幕右下角（任务栏，Claude 会话的一部分）：Claude 在隐藏桌面上的 RIPPCSX2 中启动 `RIPPS2.elf`，从 HDD 镜像启动 Aqua Teen Hunger Force，并在其上打开 RIPPS2 的游戏内菜单。屏幕上只有那个小面板；键盘和鼠标始终归用户使用。"
+  },
+  "d80d578d0636": {
+    "en": "d80d578d0636",
+    "t": "## 适合做什么"
+  },
+  "df17eb4c3191": {
+    "en": "df17eb4c3191",
+    "t": "稳定版和每夜构建的安装程序和二进制文件可在 [我们的网站](https://pcsx2.net/downloads/) 获取。"
+  },
+  "e6bd0b06e0e4": {
+    "en": "e6bd0b06e0e4",
+    "t": "## 相比原版 PCSX2 v2.9.96 的改进"
+  },
+  "e938ae4740c4": {
+    "en": "e938ae4740c4",
+    "t": "PCSX2 是一款免费开源的 PlayStation 2（PS2）模拟器。它的目的是结合 MIPS CPU 的 [Interpreters](<https://en.wikipedia.org/wiki/Interpreter_(computing)>)、[重编译器](https://en.wikipedia.org/wiki/Dynamic_recompilation) 以及管理硬件状态和 PS2 系统内存的 [虚拟机](https://en.wikipedia.org/wiki/Virtual_machine)，来模拟 PS2 的硬件。这让你可以在电脑上玩 PS2 游戏，并享有许多额外功能和好处。"
+  },
+  "f70f55e121db": {
+    "en": "f70f55e121db",
+    "t": "PCSX2 支持 Windows、Linux 和 Mac。[安装文档页面](https://pcsx2.net/docs/setup/requirements) 有软件和硬件要求的更多细节。"
+  },
+  "f845d37a589e": {
+    "en": "f845d37a589e",
+    "t": "- **游戏内菜单和 GS 工具：** OPL 的 GSM、RIPPS2 的游戏内菜单，以及任何基于数据写入断点的东西，都能在模拟器中运行，而不只是在硬件上。"
+  },
+  "fa381807068c": {
+    "en": "fa381807068c",
+    "t": "### [下载 RIPPCSX2（Linux AppImage）](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)"
+  },
+  "fcd7c8d4eb16": {
+    "en": "fcd7c8d4eb16",
+    "t": "每个片段都是在此构建上真实的实验室运行，剪到 12 秒以内。"
+  }
 }
