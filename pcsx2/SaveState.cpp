@@ -14,6 +14,7 @@
 #include "GS.h"
 #include "GS/GS.h"
 #include "Host.h"
+#include "IopBios.h"
 #include "MTGS.h"
 #include "MTVU.h"
 #include "Patch.h"
