@@ -106,6 +106,7 @@ Każdy klip to prawdziwy przebieg w laboratorium na tej kompilacji, przycięty p
 - **Twórcy homebrew:** testuj ELF-y, które zmieniają tryb wideo, podpinają się pod GS lub używają rejestrów debugowania EE, i czytaj w logu dokładne rejestry wyświetlania, które ustawia dany tryb.
 - **Menu w grze i narzędzia GS:** GSM z OPL, menu w grze RIPPS2 i wszystko inne oparte na punkcie przerwania zapisu danych działa w emulatorze, a nie tylko na sprzęcie.
 - **Gry PS1:** uruchom Ember i jego gry PS1 z wirtualnego dysku, by przetestować start i listy PS1, z własnym BIOS-em PS1 na dysku.
+- **Neutrino i POPStarter:** Neutrino uruchamia gry z pełną prędkością przez RIPPS2. POPStarter startuje gry PS1 tylko przy wyłączonym rekompilatorze EE, na razie z mniej więcej połową prędkości i uszkodzoną grafiką; z rekompilatorem zostaje na czarnym ekranie.
 - **Testy automatyczne i wspomagane AI:** skryptowane przebiegi na ukrytym pulpicie ze zrzutami, nagraniami, stanami zapisu i odczytami pamięci przez PINE, bez przejmowania twojego komputera.
 
 <a id="the-end-goal-the-whole-library"></a>

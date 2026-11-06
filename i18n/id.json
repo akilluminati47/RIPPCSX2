@@ -15,6 +15,10 @@
     "en": "11e9d19787c2",
     "t": "**Emulator PlayStation 2 untuk menguji dan mengembangkan homebrew, dibuat agar bisa dikendalikan oleh Anda atau agen AI.**"
   },
+  "1eab7ef16121": {
+    "en": "1eab7ef16121",
+    "t": "- **Neutrino dan POPStarter:** Neutrino menjalankan game dengan kecepatan penuh melalui RIPPS2. POPStarter hanya memulai game PS1 dengan rekompiler EE dimatikan, untuk saat ini sekitar setengah kecepatan dan grafisnya rusak; dengan rekompiler layarnya tetap hitam."
+  },
   "2d9f99b52db3": {
     "en": "2d9f99b52db3",
     "t": "Pekerjaan terbesar ke depan adalah menguji game PS2 melalui jalur kode Open PS2 Loader sendiri, seperti yang dijalankan konsol, dan mencatat apa yang dibutuhkan tiap game: ELF, KELF, aplikasi homebrew, dan game dalam sandbox OPL, dengan mode kompatibilitasnya dicoba otomatis. Suatu hari seseorang bisa memakainya untuk membuat seluruh pustaka berjalan. Itulah tujuan akhir RIPPCSX2."

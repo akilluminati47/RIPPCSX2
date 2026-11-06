@@ -124,6 +124,7 @@ and boots to its game list.
 - **In-game menus and GS tools:** OPL GSM, RIPPS2's in-game menu and anything else built on the data write
   breakpoint run in the emulator instead of only on hardware.
 - **PS1 games:** run Ember and its PS1 games from a virtual drive to test launching and PS1 lists, with your own PS1 BIOS on the drive.
+- **Neutrino and POPStarter:** Neutrino runs games at full speed through RIPPS2. POPStarter starts PS1 games only with the EE recompiler turned off, at about half speed and with damaged graphics for now; on the recompiler it stays on a black screen.
 - **Automated and AI-assisted testing:** scripted runs on a hidden desktop with screenshots, captures, save states
   and PINE memory reads, without taking over your PC.
 

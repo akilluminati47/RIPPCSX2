@@ -106,6 +106,7 @@ Svaki snimak je pravo pokretanje u laboratoriji na ovom buildu, skraćeno ispod 
 - **Razvijaoci homebrewa:** testirajte ELF-ove koji menjaju video režim, kače se na GS ili koriste registre za otklanjanje grešaka EE-a, i čitajte u dnevniku tačne registre prikaza koje režim postavlja.
 - **Meniji u igri i GS alati:** GSM iz OPL-a, meni u igri RIPPS2 i sve ostalo zasnovano na tački prekida za upis podataka radi u emulatoru, a ne samo na hardveru.
 - **PS1 igre:** pokrenite Ember i njegove PS1 igre sa virtuelnog diska da biste testirali pokretanje i PS1 liste, sa sopstvenim PS1 BIOS-om na disku.
+- **Neutrino i POPStarter:** Neutrino pokreće igre punom brzinom kroz RIPPS2. POPStarter pokreće PS1 igre samo sa isključenim EE rekompilatorom, zasad otprilike upola brzine i sa oštećenom grafikom; sa rekompilatorom ostaje na crnom ekranu.
 - **Automatizovano i AI potpomognuto testiranje:** skriptovana pokretanja na skrivenoj radnoj površini sa snimcima ekrana, snimcima, sačuvanim stanjima i čitanjem memorije preko PINE-a, bez preuzimanja vašeg računara.
 
 <a id="the-end-goal-the-whole-library"></a>

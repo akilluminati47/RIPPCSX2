@@ -106,6 +106,7 @@ Každý klip je skutečný běh v laboratoři na tomto buildu, zkrácený pod 12
 - **Vývojáři homebrew:** testujte ELF, které mění video režim, napojují se na GS nebo používají ladicí registry EE, a čtěte v logu přesné registry zobrazení, které režim nastaví.
 - **Menu ve hře a nástroje GS:** GSM z OPL, menu ve hře RIPPS2 a vše ostatní postavené na breakpointu zápisu dat běží v emulátoru, ne jen na hardwaru.
 - **Hry PS1:** spusťte Ember a jeho hry PS1 z virtuálního disku a otestujte spouštění a seznamy PS1, s vlastním BIOSem PS1 na disku.
+- **Neutrino a POPStarter:** Neutrino spouští hry přes RIPPS2 v plné rychlosti. POPStarter spouští hry PS1 jen s vypnutým rekompilátorem EE, zatím asi v poloviční rychlosti a s poškozenou grafikou; s rekompilátorem zůstane na černé obrazovce.
 - **Automatizované a AI asistované testování:** skriptované běhy na skryté ploše se snímky, nahrávkami, uloženými stavy a čtením paměti přes PINE, aniž by se zmocnily vašeho PC.
 
 <a id="the-end-goal-the-whole-library"></a>

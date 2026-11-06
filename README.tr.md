@@ -106,6 +106,7 @@ Her klip, bu derlemede gerçek bir laboratuvar çalışmasıdır, 12 saniyenin a
 - **Homebrew geliştiricileri:** video modu değiştiren, GS’ye kanca atan ya da EE’nin hata ayıklama yazmaçlarını kullanan ELF’leri test edin ve bir modun ayarladığı ekran yazmaçlarını günlükte tam olarak okuyun.
 - **Oyun içi menüler ve GS araçları:** OPL GSM’i, RIPPS2’nin oyun içi menüsü ve veri yazma kesme noktası üzerine kurulu her şey yalnızca donanımda değil emülatörde de çalışır.
 - **PS1 oyunları:** başlatmayı ve PS1 listelerini denemek için Ember ve PS1 oyunlarını sanal sürücüden çalıştırın, sürücüde kendi PS1 BIOS dosyanız olsun.
+- **Neutrino ve POPStarter:** Neutrino oyunları RIPPS2 üzerinden tam hızda çalıştırır. POPStarter PS1 oyunlarını yalnızca EE yeniden derleyicisi kapalıyken başlatır, şimdilik yaklaşık yarı hızda ve bozuk grafiklerle; yeniden derleyici açıkken siyah ekranda kalır.
 - **Otomatik ve yapay zekâ destekli test:** gizli bir masaüstünde ekran görüntüleri, kayıtlar, kayıt durumları ve PINE bellek okumalarıyla betikli çalıştırmalar, bilgisayarınızı ele geçirmeden.
 
 <a id="the-end-goal-the-whole-library"></a>

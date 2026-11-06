@@ -20,8 +20,8 @@
 [CENTER][IMG]https://raw.githubusercontent.com/akilluminati47/RIPPCSX2/rippcsx2/docs/release/exit-game-browser.jpg[/IMG]
 [SIZE=2]EXIT GAME from RIPPS2's in-game menu, landing in the console's own browser[/SIZE]
 
-[IMG]https://raw.githubusercontent.com/akilluminati47/RIPPCSX2/rippcsx2/site/assets/rippcsx2-1080i.gif[/IMG]
-[SIZE=2]Setting 1080i in RIPPS2: the full 4:3 frame drops to a 16:9 picture as the mode lands[/SIZE][/CENTER]
+[IMG]https://raw.githubusercontent.com/akilluminati47/RIPPCSX2/rippcsx2/site/assets/rippcsx2-1080i-v2.gif[/IMG]
+[SIZE=2]Setting 1080i in RIPPS2 at real speed: walk down to the mode, OK, and the full 4:3 frame drops to a 16:9 picture as the mode lands, then the countdown and the hold to keep it[/SIZE][/CENTER]
 
 [SIZE=5][B]RIPART: art and decoys for themers[/B][/SIZE]
 A new tool in the RIPPCSX2 menu, built on OPL Manager's art database: 16,313 games, read straight from danielb7390's backup on archive.org without downloading the whole 5.2 GB.
@@ -52,12 +52,20 @@ A new tool in the RIPPCSX2 menu, built on OPL Manager's art database: 16,313 gam
 It runs your own BIOS dump, so the region, the ROM version and every step from power on are the real ones.
 [LIST]
 [*][LEFT][B]ROM 1.60 (SCPH-39001, USA)[/B] is the one most tested. [B]ROM 2.20 (SCPH-77001, USA)[/B] boots to the console's menu and card browser. ROM 2.30 and later have not been tested.[/LEFT]
-[*][LEFT][B]A virtual internal hard drive, exFAT,[/B] is the strongest path: RIPPS2 and stock OPL both list games from it and start them.[/LEFT]
+[*][LEFT][B]A virtual internal hard drive, exFAT,[/B] is the strongest path: RIPPS2, stock OPL and Neutrino all start games from it.[/LEFT]
 [*][LEFT][B]Memory cards as files,[/B] disc images, and an ELF's own folder through host:.[/LEFT]
 [*][LEFT][B]PS1 games through Ember.[/B] Digimon World's intro runs here through RIPPS2 and Ember, with your own PS1 BIOS on the drive.[/LEFT]
 [/LIST]
 [SIZE=2]Not there yet: USB drives, MMCE, SMB and an APA hard drive have not been run here. MX4SIO and i.LINK stop a run, so turn them off for now.[/SIZE]
 [CENTER][IMG]https://raw.githubusercontent.com/akilluminati47/RIPPCSX2/rippcsx2/docs/release/ember-ps1.jpg[/IMG][/CENTER]
+
+[SIZE=5][B]Neutrino and POPStarter[/B][/SIZE]
+Both were run here through RIPPS2, from the virtual exFAT drive, on ROM 1.60.
+[LIST]
+[*][LEFT][B]Neutrino runs games at full speed.[/B] Burnout 3 and Ratchet & Clank reach their attract demos and Katamari Damacy its first prompt, all at 100%.[/LEFT]
+[*][LEFT][B]POPStarter is compatible in part, and early.[/B] POPS runs the PS1's hardware on TLB miss exceptions, and PCSX2's EE recompiler only logs those, so on the recompiler a PS1 game stays on a black screen. Turn the EE recompiler off in Advanced settings and POPS runs, at about half speed and with damaged graphics: Klonoa reaches its title and a 3D demo with scrambled textures, Ape Escape's opening text is clean, and Digimon World's intro movie is scrambled. It is good for testing launches and PS1 lists, not for playing yet.[/LEFT]
+[*][LEFT][B]POPStarter on a virtual exFAT drive[/B] needs your own POPS files and BDMAssault's ATA pair, usbd.irx.ata and usbhdfsd.irx.ata, in the POPS folder. RIPPS2 copies them to the memory card before it starts a game. Without them POPStarter cannot see the drive and drops to the browser.[/LEFT]
+[/LIST]
 
 [SIZE=5][B]Linux[/B][/SIZE]
 New with this release: an x64 AppImage, built by the same workflow as the Windows zip. It builds, but we have not run it on a Linux machine yet, so if you try it, please tell us what happens. The taskbar button for hidden runs is Windows only.

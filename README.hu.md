@@ -106,6 +106,7 @@ Minden klip valódi laborfuttatás ezen a buildön, 12 másodperc alá vágva.
 - **Homebrew-fejlesztők:** tesztelj olyan ELF-eket, amelyek videómódot váltanak, a GS-re akaszkodnak vagy az EE hibakereső regisztereit használják, és olvasd ki a naplóból, pontosan mely kijelzőregisztereket állít be egy mód.
 - **Játékon belüli menük és GS-eszközök:** az OPL GSM-je, a RIPPS2 játékon belüli menüje és minden más, ami az adatírási töréspontra épül, az emulátorban fut, nem csak hardveren.
 - **PS1-játékok:** futtasd az Embert és a PS1-játékait virtuális meghajtóról az indítás és a PS1-listák teszteléséhez, a saját PS1 BIOS-oddal a meghajtón.
+- **Neutrino és POPStarter:** a Neutrino teljes sebességgel futtatja a játékokat a RIPPS2-n keresztül. A POPStarter csak kikapcsolt EE-rekompilátorral indít PS1-játékokat, egyelőre nagyjából fél sebességgel és sérült grafikával; a rekompilátorral fekete képernyőn marad.
 - **Automatizált és MI-támogatott tesztelés:** szkriptelt futtatások rejtett asztalon képernyőképekkel, felvételekkel, mentett állapotokkal és PINE-memóriaolvasással, anélkül hogy átvennék a PC-det.
 
 <a id="the-end-goal-the-whole-library"></a>

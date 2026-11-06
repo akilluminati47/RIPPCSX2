@@ -106,6 +106,7 @@ Hvert klip er en ægte laboratoriekørsel på dette build, klippet ned til under
 - **Homebrewudviklere:** test ELF’er, der skifter videotilstand, kobler sig på GS eller bruger EE’ens fejlsøgningsregistre, og læs i loggen de præcise skærmregistre, en tilstand sætter.
 - **Menuer i spillet og GS-værktøjer:** OPLs GSM, RIPPS2s menu i spillet og alt andet, der bygger på breakpointet for dataskrivning, kører i emulatoren i stedet for kun på hardware.
 - **PS1-spil:** kør Ember og dets PS1-spil fra et virtuelt drev for at teste opstart og PS1-lister, med din egen PS1-BIOS på drevet.
+- **Neutrino og POPStarter:** Neutrino kører spil med fuld hastighed gennem RIPPS2. POPStarter starter kun PS1-spil med EE-recompileren slået fra, indtil videre med cirka halv hastighed og beskadiget grafik; med recompileren forbliver skærmen sort.
 - **Automatiseret og AI-assisteret test:** scriptede kørsler på et skjult skrivebord med skærmbilleder, optagelser, gemte tilstande og PINE-hukommelseslæsninger, uden at overtage din pc.
 
 <a id="the-end-goal-the-whole-library"></a>

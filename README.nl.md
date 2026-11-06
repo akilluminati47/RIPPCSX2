@@ -106,6 +106,7 @@ Elke clip is een echte labrun op deze build, ingekort tot onder de 12 seconden.
 - **Homebrewontwikkelaars:** test ELF’s die van videomodus wisselen, op de GS inhaken of de debugregisters van de EE gebruiken, en lees in het log de exacte beeldregisters die een modus instelt.
 - **In-game menu’s en GS-hulpmiddelen:** het GSM van OPL, het in-game menu van RIPPS2 en alles wat op het data-schrijfbreekpunt is gebouwd, draaien in de emulator in plaats van alleen op hardware.
 - **PS1-games:** draai Ember en zijn PS1-games vanaf een virtuele schijf om het starten en de PS1-lijsten te testen, met je eigen PS1-BIOS op de schijf.
+- **Neutrino en POPStarter:** Neutrino draait games op volle snelheid via RIPPS2. POPStarter start PS1-games alleen met de EE-recompiler uit, voorlopig op ongeveer halve snelheid en met beschadigde beelden; met de recompiler blijft het scherm zwart.
 - **Geautomatiseerd en AI-ondersteund testen:** gescripte runs op een verborgen bureaublad met schermafbeeldingen, opnames, save states en PINE-geheugenlezingen, zonder je pc over te nemen.
 
 <a id="the-end-goal-the-whole-library"></a>

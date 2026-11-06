@@ -86,8 +86,8 @@
         <figcaption><b>An in-game menu over a real game.</b> The menu hooks the GS registers through the EE's hardware breakpoint to learn which frame the game is showing. Stock PCSX2 has no such breakpoint, so the menu has nothing to draw over.</figcaption>
       </figure>
       <figure>
-        <a href="https://github.com/akilluminati47/RIPPCSX2/blob/rippcsx2/docs/videos/rippcsx2-1080i.mp4"><img loading="lazy" src="assets/rippcsx2-1080i.gif" width="480" height="363" alt="RIPPS2 set to 1080i: the menu drops from a 4:3 frame to a 16:9 picture"></a>
-        <figcaption><b>Setting 1080i in RIPPS2.</b> A real run: Video Mode set to HDTV 1920x1080i, and the window goes from a full 4:3 frame to a 16:9 picture as the mode lands, the way an HDTV shows it. Stock PCSX2 keeps it 4:3.</figcaption>
+        <a href="https://github.com/akilluminati47/RIPPCSX2/blob/rippcsx2/docs/videos/rippcsx2-1080i.mp4"><img loading="lazy" src="assets/rippcsx2-1080i-v2.gif" width="640" height="484" alt="RIPPS2 set to 1080i: the menu drops from a 4:3 frame to a 16:9 picture, with its countdown and hold to keep"></a>
+        <figcaption><b>Setting 1080i in RIPPS2.</b> A real run at real speed: Video Mode walked down to HDTV 1920x1080i, OK, and the picture drops from a full 4:3 frame to 16:9 as the mode lands, the way an HDTV shows it, then the countdown and the hold to keep it. Stock PCSX2 keeps it 4:3.</figcaption>
       </figure>
       <figure>
         <a href="https://github.com/akilluminati47/RIPPCSX2/blob/rippcsx2/docs/videos/rippcsx2-ai-test.mp4"><img loading="lazy" src="assets/rippcsx2-ai-test.gif" width="640" height="480" alt="An AI agent running a test with only a small panel showing"></a>
@@ -121,11 +121,13 @@
         <dt>ROM 2.30 and later</dt><dd>Not tested yet.</dd>
       </dl>
       <ul class="ticks">
-        <li><b>A virtual internal hard drive, exFAT.</b> The strongest path: RIPPS2 and stock OPL both list games from it and start them.</li>
+        <li><b>A virtual internal hard drive, exFAT.</b> The strongest path: RIPPS2, stock OPL and Neutrino all start games from it.</li>
         <li><b>Memory cards as files.</b> Read, written, compared and swapped between runs, up to the console's real card browser.</li>
         <li><b>Disc images,</b> in the virtual drive, read like the disc they came from.</li>
         <li><b>An ELF's own folder,</b> through <code>host:</code>, while a program that brings its own <code>host</code> device keeps it.</li>
         <li><b>PS1 games through Ember,</b> on the same virtual drive.</li>
+        <li><b>Neutrino, at full speed.</b> Burnout 3 and Ratchet &amp; Clank reach their attract demos through RIPPS2, and Katamari Damacy its first prompt.</li>
+        <li><b>POPStarter, in part.</b> POPS relies on TLB miss exceptions the EE recompiler only logs, so it stays on a black screen. With the recompiler off it runs at about half speed with damaged graphics: Klonoa reaches a 3D demo with scrambled textures. Good for testing launches, not for playing yet.</li>
       </ul>
       <p class="note fine">Not there yet: USB drives, MMCE and SMB have not been run here, and neither has an APA hard drive. MX4SIO and i.LINK stop a run, so turn them off for now.</p>
     </section>

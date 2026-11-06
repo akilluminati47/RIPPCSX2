@@ -106,6 +106,7 @@ Cada clip é unha execución real do laboratorio con esta compilación, recortad
 - **Desenvolvedores de homebrew:** proba ELF que cambian de modo de vídeo, enganchan o GS ou usan os rexistros de depuración do EE, e le no rexistro os valores exactos de pantalla que fixa un modo.
 - **Menús dentro do xogo e ferramentas do GS:** o GSM de OPL, o menú dentro do xogo de RIPPS2 e calquera outra cousa baseada no punto de interrupción de escritura de datos funcionan no emulador e non só no hardware.
 - **Xogos de PS1:** executa Ember e os seus xogos de PS1 desde unha unidade virtual para probar o arranque e as listas de PS1, coa túa propia BIOS de PS1 na unidade.
+- **Neutrino e POPStarter:** Neutrino executa xogos a toda velocidade a través de RIPPS2. POPStarter só inicia xogos de PS1 co recompilador do EE desactivado, de momento a preto da metade da velocidade e con gráficos danados; co recompilador queda nunha pantalla negra.
 - **Probas automatizadas e asistidas por IA:** execucións con guión nun escritorio oculto con capturas, gravacións, estados gardados e lecturas de memoria por PINE, sen apropiarse do teu PC.
 
 <a id="the-end-goal-the-whole-library"></a>

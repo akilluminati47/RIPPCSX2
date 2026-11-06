@@ -106,6 +106,7 @@ Fiecare clip e o rulare reală în laborator pe acest build, tăiată sub 12 sec
 - **Dezvoltatori de homebrew:** testează ELF-uri care schimbă modul video, se agață de GS sau folosesc regiștrii de depanare ai EE, și citește în jurnal regiștrii de afișare exacți pe care îi setează un mod.
 - **Meniuri din joc și unelte GS:** GSM din OPL, meniul din joc al RIPPS2 și orice altceva construit pe punctul de întrerupere la scrierea datelor rulează în emulator, nu doar pe hardware.
 - **Jocuri PS1:** rulează Ember și jocurile sale PS1 de pe o unitate virtuală pentru a testa pornirea și listele PS1, cu propriul tău BIOS PS1 pe unitate.
+- **Neutrino și POPStarter:** Neutrino rulează jocurile la viteză maximă prin RIPPS2. POPStarter pornește jocuri PS1 doar cu recompilatorul EE oprit, deocamdată la aproximativ jumătate de viteză și cu grafică deteriorată; cu recompilatorul rămâne pe un ecran negru.
 - **Testare automată și asistată de AI:** rulări scriptate pe un desktop ascuns cu capturi, înregistrări, stări salvate și citiri de memorie prin PINE, fără să-ți acapareze PC-ul.
 
 <a id="the-end-goal-the-whole-library"></a>

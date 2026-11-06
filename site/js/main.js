@@ -154,8 +154,8 @@ function prepare(kind, gltf) {
         const p = new THREE.MeshPhysicalMaterial({ map: m.map, metalness: 1, roughness: 0.16, iridescence: 1, iridescenceIOR: 1.6, iridescenceThicknessRange: [180, 620], name: m.name });
         m = p;
       } else m = m.clone();
-      if (m.name.startsWith('bay_')) {
-        // the bay's light is painted on from a photo (a web render has no shadows): no shine, which would show the room's light
+      if (/^(bay_|plug_(well|shaft|pin))/.test(m.name)) {
+        // the bay's light is painted on from a photo, and the inlet's well is dark (a web render has no shadows): no shine, which would show the room's light
         // at a low angle and wash it out, and the lights only add a touch to it
         m = new THREE.MeshLambertMaterial({
           name: m.name, map: m.map, emissiveMap: m.map, side: THREE.DoubleSide,

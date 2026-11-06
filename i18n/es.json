@@ -15,6 +15,10 @@
     "en": "11e9d19787c2",
     "t": "**Un emulador de PlayStation 2 para probar y desarrollar homebrew, hecho para que lo manejes tú o un agente de IA.**"
   },
+  "1eab7ef16121": {
+    "en": "1eab7ef16121",
+    "t": "- **Neutrino y POPStarter:** Neutrino ejecuta juegos a toda velocidad a través de RIPPS2. POPStarter solo inicia juegos de PS1 con el recompilador del EE desactivado, a cerca de la mitad de velocidad y con gráficos dañados por ahora; con el recompilador se queda en una pantalla negra."
+  },
   "2d9f99b52db3": {
     "en": "2d9f99b52db3",
     "t": "El mayor trabajo pendiente es probar juegos de PS2 por el propio camino de código de Open PS2 Loader, como los ejecuta una consola, y anotar lo que necesita cada uno: ELF, KELF, aplicaciones homebrew y juegos en un entorno aislado de OPL, probando sus modos de compatibilidad automáticamente. Alguien podría usar esto para hacer funcionar toda la biblioteca algún día. Ese es el objetivo final de RIPPCSX2."

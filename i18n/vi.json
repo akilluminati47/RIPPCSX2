@@ -15,6 +15,10 @@
     "en": "11e9d19787c2",
     "t": "**Trình giả lập PlayStation 2 để thử nghiệm và phát triển homebrew, làm ra để bạn hoặc một tác tử AI điều khiển.**"
   },
+  "1eab7ef16121": {
+    "en": "1eab7ef16121",
+    "t": "- **Neutrino và POPStarter:** Neutrino chạy trò chơi ở tốc độ tối đa qua RIPPS2. POPStarter chỉ khởi chạy trò chơi PS1 khi tắt trình biên dịch lại EE, hiện ở khoảng một nửa tốc độ và đồ họa bị hỏng; khi dùng trình biên dịch lại, nó dừng ở màn hình đen."
+  },
   "2d9f99b52db3": {
     "en": "2d9f99b52db3",
     "t": "Công việc lớn nhất phía trước là kiểm thử game PS2 qua chính đường mã của Open PS2 Loader, như cách máy chạy chúng, và ghi lại những gì mỗi game cần: ELF, KELF, ứng dụng homebrew và game trong một sandbox OPL, tự động thử các chế độ tương thích. Một ngày nào đó có người có thể dùng nó để khiến toàn bộ thư viện chạy được. Đó là mục tiêu cuối cùng của RIPPCSX2."

@@ -50,6 +50,10 @@ def materials(tex):
         doorprint=mat('fat_door_print', '#7f8187', rough=0.6),
         rocker=mat('rocker', '#17181b', rough=0.4, spec=0.4),
         block=mat('rear_block', '#0e0f11', rough=0.5),
+        plug_plate=mat('plug_plate', '#1d1d20', rough=0.55),
+        plug_well=mat('plug_well', '#121214', rough=0.75),
+        plug_pin=mat('plug_pin', '#e4e4df', rough=0.3, metal=0.25),
+        plug_shaft=mat('plug_shaft', '#17171a', rough=0.5),
         scoop=mat('side_scoop', '#101114', rough=0.6),
         rimdark=mat('rim_dark', '#303136', rough=0.5),
         edge_hi=mat('edge_hi', '#a5a6ac', rough=0.3),
@@ -441,7 +445,9 @@ def build(col, tex):
     lid.box(0.5, FIN_SIDE, 0, LEFT_FIN, PLATES[0][0] - 0.02, PLATES[0][0] + 0.01, m['dark'])
     lid.box(FIN_SIDE, FIN_SIDE + 1, FIN, LEFT_FIN, LOW_Z, PLATES[0][0], m['dark'])
     # the back above the lower block is flat, round the connector's opening
-    lid.box(1.6, 70.2, D - 1.6, D, LOW_Z, PLATES[0][0], m['fin'])
+    lid.box(1.6, 25.1, D - 1.6, D, LOW_Z, PLATES[0][0], m['fin'])
+    lid.box(53.6, 70.2, D - 1.6, D, LOW_Z, PLATES[0][0], m['fin'])
+    lid.box(25.1, 53.6, D - 1.6, D, LOW_Z, 40, m['fin'])
     lid.box(133, W - FIN_SIDE, D - 1.6, D, 41.3, PLATES[0][0], m['fin'])
     lid.box(133, 151, D - 1.6, D, LOW_Z, 41.3, m['fin'])
     lid.box(205.5, W - FIN_SIDE, D - 1.6, D, LOW_Z, 41.3, m['fin'])
@@ -762,11 +768,6 @@ def build(col, tex):
     parts.append(psu)
 
     inlet = Part('power_inlet', (-100, 120, 45), 'The rocker and the mains inlet.')
-    # the inlet's block and the rocker's, one above the other, as dark frames
-    inlet.box(25.1, 53.6, D - 0.8, D + 0.1, 40, 55, m['block'], bevel=0.25)
-    inlet.box(25.1, 53.6, D - 0.8, D + 0.1, 56, 74, m['block'], bevel=0.25)
-    for a0, a1, b0_, b1_ in ((25.1, 53.6, 40, 40.4), (25.1, 53.6, 54.6, 55), (25.1, 25.5, 40, 55), (53.2, 53.6, 40, 55), (25.1, 53.6, 56, 56.4), (25.1, 53.6, 73.6, 74), (25.1, 25.5, 56, 74), (53.2, 53.6, 56, 74)):
-        inlet.box(a0, a1, D + 0.1, D + 0.16, b0_, b1_, m['ink'])
     # Measured from a photo of the back, squared up at about 23 px a mm. Art on the back runs u = -x, so its normal points out of the back.
     import math
     back = lambda y: plane((0, y, 0), (-1, 0, 0), (0, 0, 1))
@@ -780,22 +781,37 @@ def build(col, tex):
     def circle(cu, cv, r, n=28):
         return [(cu + r * math.cos(2 * math.pi * i / n), cv + r * math.sin(2 * math.pi * i / n)) for i in range(n)]
 
-    # the mouth, the polarised figure 8: a square lobe toward the middle of the back, a round one toward the end, a waist between them
-    arc = [(35.0 + 4.1 * math.cos(math.radians(t)), 48.3 + 4.1 * math.sin(math.radians(t))) for t in range(100, 270, 10)]
-    mouth = ([(48.0, 52.2), (47.4, 52.8), (43.4, 52.8), (42.9, 51.6), (41.6, 51.6), (41.1, 52.4), (35.0, 52.4)] + arc +
-             [(35.0, 44.2), (41.1, 44.2), (41.6, 45.4), (42.9, 45.4), (43.4, 44.6), (47.4, 44.6), (48.0, 45.2)])
-    inlet.poly(outline(mouth), back(D + 0.12), m['ink'], depth=0)
-    # its two pins, metal, each tip split three ways
-    for x in (43.5, 35.0):
-        inlet.cyl((x, D + 0.13, 48.5), 'y', 1.12, 0.01, m['dark'], n=20, smooth=False)
-        inlet.cyl((x, D + 0.14, 48.5), 'y', 0.98, 0.12, m['silver'], n=20, bevel=0.3)
+    # Two plates in the case's own tone sit in a black recess, a real gap round them. The inlet's is cut through, and behind the cut is a well
+    # 13 mm deep with two thick pins standing in it, their split tips 2 mm down. Traced from the photo, through the unit's four corners.
+    # The mouth: a square lobe toward the middle of the back, a round one toward the end, a deep tooth down from the top and a shallow one up from the bottom.
+    arc = [(34.85 + 4.17 * math.cos(math.radians(t)), 47.85 + 4.17 * math.sin(math.radians(t))) for t in range(-66, -293, -8)]
+    mouth = outline([(47.2, 51.55), (47.2, 44.15), (47.1, 43.9), (46.85, 43.8), (40.6, 43.8), (40.1, 44.25), (39.5, 45.0), (39.15, 45.55), (38.75, 45.85),
+                     (38.4, 45.75), (37.8, 44.86), (37.2, 44.07)] + arc +
+                    [(37.4, 51.75), (37.85, 50.9), (38.18, 49.9), (38.49, 49.15), (38.65, 49.02), (38.8, 49.06), (39.04, 49.42), (39.57, 50.38), (40.24, 51.33),
+                     (40.88, 51.85), (46.85, 51.9), (47.1, 51.8)])
+    inlet.curve([rrect(-39.35, 57.0, 28.5, 34.0, 0.4, n=3), mouth], 1.0, back(D - 0.75), m['ink'], 0.7)
+    inlet.curve([rrect(-39.15, 47.98, 26.75, 14.15, 0.7, n=4), mouth], 1.0, back(D - 0.35), m['plug_plate'], 0.9, bevel=0.14)
+    inlet.box(25.65, 53.05, D - 0.8, D + 0.1, 55.75, 73.55, m['plug_plate'], bevel=0.14)
+    # the well, and what closes the unit round it
+    inlet.curve([rrect(-39.35, 48.0, 22.0, 12.5, 0.6, n=3), mouth], 1.0, back(D - 7.4), m['plug_well'], 12.6)
+    inlet.poly(rrect(-39.35, 48.0, 22.0, 12.5, 0.6, n=3), back(D - 13.6), m['ink'], depth=0)
+    inlet.box(25.1, 53.6, D - 13.7, D - 1.1, 54.25, 71, m['black'])
+    inlet.box(25.1, 53.6, D - 13.7, D - 1.1, 40, 41.75, m['black'])
+    inlet.box(25.1, 28.35, D - 13.7, D - 1.1, 41.75, 54.25, m['black'])
+    inlet.box(50.35, 53.6, D - 13.7, D - 1.1, 41.75, 54.25, m['black'])
+    # the case's lit lip under the unit
+    inlet.box(24.8, 53.9, D, D + 0.05, 39.5, 39.8, m['raise_lit'])
+    # the pins, each tip split three ways
+    for x in (42.63, 34.34):
+        inlet.cyl((x, D - 13.6, 48.13), 'y', 1.05, 11.7, m['plug_shaft'], n=24, bevel=0.1)
+        inlet.poly(circle(-x, 48.13, 0.98), back(D - 1.895), m['plug_pin'], depth=0)
         for a in (90, 210, 330):
-            c, s = math.cos(math.radians(a)), math.sin(math.radians(a))
-            bar = [(-x + 0.47 * c * k - 0.07 * s * j, 48.5 + 0.47 * s * k + 0.07 * c * j) for k, j in ((0.15, -1), (1.7, -1), (1.7, 1), (0.15, 1))]
-            inlet.poly(bar, back(D + 0.27), m['dark'], depth=0)
+            c, s_ = math.cos(math.radians(a)), math.sin(math.radians(a))
+            bar = [(-x + 0.5 * c * k - 0.075 * s_ * j, 48.13 + 0.5 * s_ * k + 0.075 * c * j) for k, j in ((0.1, -1), (1.65, -1), (1.65, 1), (0.1, 1))]
+            inlet.poly(bar, back(D - 1.88), m['ink'], depth=0)
 
     # the rocker's bezel: a raised frame round the opening, its well dark
-    inlet.curve([rrect(-39.6, 64.7, 23.6, 16.4, 0.9, n=4), rrect(-39.6, 64.85, 18.2, 12.7, 0.4, n=3)], 1.0, back(D + 0.35), m['block'], 0.6, bevel=0.2)
+    inlet.curve([rrect(-39.6, 64.7, 23.6, 16.4, 0.9, n=4), rrect(-39.6, 64.85, 18.2, 12.7, 0.4, n=3)], 1.0, back(D + 0.35), m['plug_plate'], 0.6, bevel=0.2)
     inlet.poly(outline([(30.5, 58.5), (48.7, 58.5), (48.7, 71.2), (30.5, 71.2)]), back(D + 0.13), m['ink'], depth=0)
     # the rocker: rounded edges, rocked over a few degrees with the I side in, as a photo has it
     tilt = math.radians(4.0)
@@ -806,7 +822,7 @@ def build(col, tex):
     face = plane(tuple(o[i] + N[i] * 1.012 for i in range(3)), U, V)
     inlet.poly([(-4.65, -1.95), (-4.15, -1.95), (-4.15, 0.95), (-4.65, 0.95)], face, m['white'], depth=0)
     inlet.curve([circle(4.25, -0.65, 1.6), circle(4.25, -0.65, 1.12)], 1.0, face, m['white'], 0.02)
-    inlet.box(25.1, 53.6, D - 26, D - 0.8, 40, 71, m['black'])
+    inlet.box(25.1, 53.6, D - 26, D - 13.7, 40, 71, m['black'])
     parts.append(inlet)
 
     # ---------------------------------------------------- the fan

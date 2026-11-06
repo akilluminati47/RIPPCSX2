@@ -15,6 +15,10 @@
     "en": "11e9d19787c2",
     "t": "**Usa ka PlayStation 2 emulator para sa pag-test ug paghimo og homebrew, gihimo aron ikaw o usa ka AI agent ang modagan niini.**"
   },
+  "1eab7ef16121": {
+    "en": "1eab7ef16121",
+    "t": "- **Neutrino ug POPStarter:** Ang Neutrino nagpadagan og mga dula sa bug-os nga katulin pinaagi sa RIPPS2. Ang POPStarter makasugod lang og mga dula sa PS1 kung gipalong ang EE recompiler, sa pagkakaron mga tunga sa katulin ug guba ang graphics; kung gamiton ang recompiler, magpabilin kini sa itom nga screen."
+  },
   "2d9f99b52db3": {
     "en": "2d9f99b52db3",
     "t": "Ang pinakadakong buluhaton sa unahan mao ang pagsulay sa mga dula sa PS2 pinaagi sa kaugalingong code path sa Open PS2 Loader, sama sa pagpadagan sa console, ug ang pagsulat kung unsa ang gikinahanglan sa matag usa: mga ELF, KELF, homebrew app ug dula sa usa ka OPL sandbox, nga awtomatikong sulayan ang mga compatibility mode niini. Usa ka adlaw, magamit kini sa usa ka tawo aron mapadagan ang tibuok library. Mao kana ang kataposang tumong sa RIPPCSX2."

@@ -106,6 +106,7 @@ Ang matag clip usa ka tinuod nga lab run niini nga build, giputol ngadto sa ubos
 - **Mga homebrew developer:** i-test ang mga ELF nga moilis og video mode, mokabit sa GS o mogamit sa mga debug register sa EE, ug basaha sa log ang eksaktong display register nga gitakda sa usa ka mode.
 - **Mga in-game menu ug GS tool:** ang GSM sa OPL, ang in-game menu sa RIPPS2 ug bisan unsa nga gitukod sa data write breakpoint modagan sa emulator, dili lang sa hardware.
 - **Mga dula sa PS1:** padagana ang Ember ug ang mga dula niini sa PS1 gikan sa virtual drive aron sulayan ang pag-launch ug mga lista sa PS1, uban ang imong kaugalingong PS1 BIOS sa drive.
+- **Neutrino ug POPStarter:** Ang Neutrino nagpadagan og mga dula sa bug-os nga katulin pinaagi sa RIPPS2. Ang POPStarter makasugod lang og mga dula sa PS1 kung gipalong ang EE recompiler, sa pagkakaron mga tunga sa katulin ug guba ang graphics; kung gamiton ang recompiler, magpabilin kini sa itom nga screen.
 - **Automated ug AI-assisted nga pag-test:** mga scripted run sa tinago nga desktop nga adunay screenshot, recording, save state ug pagbasa sa memory pinaagi sa PINE, nga dili moilog sa imong computer.
 
 <a id="the-end-goal-the-whole-library"></a>

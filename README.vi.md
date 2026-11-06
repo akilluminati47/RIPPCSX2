@@ -106,6 +106,7 @@ Mỗi clip là một lần chạy thật trong phòng thử nghiệm trên bản
 - **Nhà phát triển homebrew:** thử các ELF đổi chế độ video, móc vào GS hoặc dùng thanh ghi gỡ lỗi của EE, và đọc trong log chính xác các thanh ghi hiển thị mà một chế độ đặt.
 - **Menu trong game và công cụ GS:** GSM của OPL, menu trong game của RIPPS2 và mọi thứ khác dựa trên điểm dừng ghi dữ liệu đều chạy được trong trình giả lập, không chỉ trên phần cứng.
 - **Trò chơi PS1:** chạy Ember và các trò chơi PS1 của nó từ ổ ảo để thử khởi chạy và danh sách PS1, với BIOS PS1 của riêng bạn trên ổ.
+- **Neutrino và POPStarter:** Neutrino chạy trò chơi ở tốc độ tối đa qua RIPPS2. POPStarter chỉ khởi chạy trò chơi PS1 khi tắt trình biên dịch lại EE, hiện ở khoảng một nửa tốc độ và đồ họa bị hỏng; khi dùng trình biên dịch lại, nó dừng ở màn hình đen.
 - **Thử nghiệm tự động và có AI hỗ trợ:** chạy bằng script trên một màn hình ẩn với ảnh chụp, video, trạng thái lưu và đọc bộ nhớ qua PINE, mà không chiếm máy tính của bạn.
 
 <a id="the-end-goal-the-whole-library"></a>

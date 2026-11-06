@@ -106,6 +106,7 @@ Jeder Clip ist ein echter Laborlauf mit diesem Build, auf unter 12 Sekunden gek�
 - **Homebrew-Entwickler:** teste ELFs, die Videomodi wechseln, sich in den GS einklinken oder die Debug-Register der EE nutzen, und lies im Log die genauen Anzeigeregister, die ein Modus setzt.
 - **In-Game-Men체s und GS-Werkzeuge:** das GSM von OPL, das In-Game-Men체 von RIPPS2 und alles andere, was auf dem Daten-Schreib-Breakpoint aufbaut, laufen im Emulator statt nur auf Hardware.
 - **PS1-Spiele:** Starte Ember und seine PS1-Spiele von einem virtuellen Laufwerk, um das Starten und die PS1-Listen zu testen, mit deinem eigenen PS1-BIOS auf dem Laufwerk.
+- **Neutrino und POPStarter:** Neutrino f체hrt Spiele 체ber RIPPS2 mit voller Geschwindigkeit aus. POPStarter startet PS1-Spiele nur mit ausgeschaltetem EE-Recompiler, vorerst mit etwa halber Geschwindigkeit und besch채digter Grafik; mit dem Recompiler bleibt das Bild schwarz.
 - **Automatisierte und KI-gest체tzte Tests:** geskriptete L채ufe auf einem versteckten Desktop mit Screenshots, Aufnahmen, Speicherst채nden und PINE-Speicherlesungen, ohne deinen PC zu 체bernehmen.
 
 <a id="the-end-goal-the-whole-library"></a>

@@ -106,6 +106,7 @@ Setiap klip adalah jalannya lab sungguhan pada build ini, dipangkas hingga kuran
 - **Pengembang homebrew:** uji ELF yang mengganti mode video, mengait ke GS, atau memakai register debug EE, dan baca di log register tampilan persis yang diatur sebuah mode.
 - **Menu dalam game dan alat GS:** GSM milik OPL, menu dalam game RIPPS2, dan apa pun yang dibangun di atas breakpoint penulisan data berjalan di emulator, bukan hanya di perangkat keras.
 - **Game PS1:** jalankan Ember dan game PS1-nya dari drive virtual untuk menguji peluncuran dan daftar PS1, dengan BIOS PS1 milik Anda di drive.
+- **Neutrino dan POPStarter:** Neutrino menjalankan game dengan kecepatan penuh melalui RIPPS2. POPStarter hanya memulai game PS1 dengan rekompiler EE dimatikan, untuk saat ini sekitar setengah kecepatan dan grafisnya rusak; dengan rekompiler layarnya tetap hitam.
 - **Pengujian otomatis dan berbantuan AI:** jalankan skrip di desktop tersembunyi dengan screenshot, rekaman, save state, dan pembacaan memori lewat PINE, tanpa mengambil alih komputer Anda.
 
 <a id="the-end-goal-the-whole-library"></a>

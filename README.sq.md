@@ -106,6 +106,7 @@ x64, një CPU me AVX2. Bëje të ekzekutueshëm dhe nise. Është i ri në kët�
 - **Zhvilluesit e homebrew-ve:** testo ELF që ndërrojnë mënyrën video, kapen pas GS-së ose përdorin regjistrat e korrigjimit të EE-së, dhe lexo në regjistër regjistrat e saktë të ekranit që vendos një mënyrë.
 - **Menytë brenda lojës dhe mjetet e GS-së:** GSM e OPL, menyja brenda lojës e RIPPS2 dhe gjithçka tjetër e ndërtuar mbi pikën e ndërprerjes për shkrimin e të dhënave punojnë në emulator dhe jo vetëm në harduer.
 - **Lojëra PS1:** nis Ember dhe lojërat e tij PS1 nga një disk virtual për të testuar nisjen dhe listat PS1, me BIOS-in tënd PS1 në disk.
+- **Neutrino dhe POPStarter:** Neutrino i ekzekuton lojërat me shpejtësi të plotë përmes RIPPS2. POPStarter i nis lojërat PS1 vetëm me rikompiluesin EE të fikur, tani për tani rreth gjysmë shpejtësie dhe me grafikë të dëmtuar; me rikompiluesin mbetet në ekran të zi.
 - **Testim i automatizuar dhe i ndihmuar nga IA:** ekzekutime me skript në një desktop të fshehur me pamje ekrani, regjistrime, gjendje të ruajtura dhe lexime memorieje përmes PINE, pa ta marrë kompjuterin.
 
 <a id="the-end-goal-the-whole-library"></a>

@@ -106,6 +106,7 @@ Bawat clip ay tunay na lab run sa build na ito, pinaikli sa ilalim ng 12 segundo
 - **Mga homebrew developer:** i-test ang mga ELF na nagpapalit ng video mode, kumakabit sa GS o gumagamit ng mga debug register ng EE, at basahin sa log ang eksaktong display register na itinatakda ng isang mode.
 - **Mga in-game menu at GS tool:** tumatakbo sa emulator ang GSM ng OPL, ang in-game menu ng RIPPS2 at anumang nakabatay sa data write breakpoint, hindi lang sa hardware.
 - **Mga larong PS1:** patakbuhin ang Ember at ang mga larong PS1 nito mula sa virtual drive para subukan ang pag-launch at mga listahan ng PS1, gamit ang sarili mong PS1 BIOS sa drive.
+- **Neutrino at POPStarter:** Tumatakbo sa buong bilis ang mga laro sa Neutrino sa pamamagitan ng RIPPS2. Nagsisimula lang ang POPStarter ng mga larong PS1 kapag naka-off ang EE recompiler, sa ngayon nasa kalahating bilis at sira ang graphics; kapag naka-on ang recompiler, nananatili ito sa itim na screen.
 - **Automated at AI-assisted na pag-test:** mga scripted run sa nakatagong desktop na may screenshot, recording, save state at pagbasa ng memory sa pamamagitan ng PINE, nang hindi inaagaw ang iyong computer.
 
 <a id="the-end-goal-the-whole-library"></a>

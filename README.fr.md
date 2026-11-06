@@ -106,6 +106,7 @@ Chaque clip est une vraie session du labo sur cette build, coupée à moins de 1
 - **Développeurs de homebrew :** testez des ELF qui changent de mode vidéo, interceptent le GS ou utilisent les registres de débogage de l’EE, et lisez dans le journal les valeurs d’affichage exactes qu’un mode définit.
 - **Menus en jeu et outils GS :** le GSM d’OPL, le menu en jeu de RIPPS2 et tout ce qui repose sur le point d’arrêt d’écriture de données tournent dans l’émulateur et plus seulement sur le matériel.
 - **Jeux PS1 :** lancez Ember et ses jeux PS1 depuis un lecteur virtuel pour tester le démarrage et les listes PS1, avec votre propre BIOS PS1 sur le lecteur.
+- **Neutrino et POPStarter :** Neutrino lance les jeux à pleine vitesse via RIPPS2. POPStarter ne démarre les jeux PS1 qu'avec le recompilateur EE désactivé, à environ la moitié de la vitesse et avec des graphismes abîmés pour l'instant ; avec le recompilateur, il reste sur un écran noir.
 - **Tests automatisés et assistés par IA :** des sessions scriptées sur un bureau caché avec captures, enregistrements, états de sauvegarde et lectures mémoire via PINE, sans prendre le contrôle de votre PC.
 
 <a id="the-end-goal-the-whole-library"></a>
