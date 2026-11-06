@@ -1,7 +1,7 @@
 name: RIPPCSX2 lab build
 
-# The RIPPS2 lab's PCSX2: one Windows x64 AVX2 build of the rippcsx2 branch (PCSX2 v2.9.96 plus the lab's
-# changes, see RIPPCSX2.md). Upstream's Windows, Linux and macOS matrices skip this branch.
+# RIPPCSX2: a Windows x64 AVX2 build and a Linux x64 AppImage of the rippcsx2 branch (PCSX2 v2.9.96 plus the
+# fork's changes, see RIPPCSX2.md). Upstream's Windows, Linux and macOS matrices skip this branch.
 
 on:
   push:
@@ -29,5 +29,17 @@ jobs:
       jobName: "RIPPCSX2 MSVC AVX2"
       artifactPrefixName: "RIPPCSX2-windows-x64-avx2"
       configuration: Release AVX2
+      fetchTags: true
+    secrets: inherit
+
+  build_linux:
+    name: "Linux x64"
+    uses: ./.github/workflows/linux_build_qt.yml
+    with:
+      jobName: "RIPPCSX2 AppImage"
+      artifactPrefixName: "RIPPCSX2-linux-x64-appimage"
+      compiler: clang
+      cmakeflags: ""
+      buildAppImage: true
       fetchTags: true
     secrets: inherit

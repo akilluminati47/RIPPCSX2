@@ -316,6 +316,11 @@ if(UNIX AND NOT APPLE)
 	target_link_libraries(pcsx2-qt PRIVATE Fontconfig::Fontconfig)
 endif()
 
+# RIPART reads OPL Manager's art backup by byte range
+if(NOT WIN32)
+	target_link_libraries(pcsx2-qt PRIVATE CURL::libcurl)
+endif()
+
 # Our Qt builds may have exceptions on, so force them off.
 target_compile_definitions(pcsx2-qt PRIVATE QT_NO_EXCEPTIONS)
 

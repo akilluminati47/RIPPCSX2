@@ -6,7 +6,9 @@
 #include "pcsx2/Config.h"
 
 #include "common/Path.h"
+#ifdef _WIN32
 #include "common/RedtapeWindows.h"
+#endif
 
 #include <QtCore/QDir>
 #include <QtCore/QFile>
@@ -41,6 +43,7 @@
 
 #include <algorithm>
 #include <atomic>
+#include <chrono>
 #include <condition_variable>
 #include <cstring>
 #include <cwchar>
@@ -54,16 +57,23 @@
 #include <utility>
 #include <vector>
 
+#ifdef _WIN32
 #include <winhttp.h>
-
 #pragma comment(lib, "winhttp.lib")
+#else
+#include <curl/curl.h>
+#endif
 
 namespace
 {
 	// danielb7390's monthly backup of OPL Manager's database, on archive.org: one uncompressed zip, so any piece of art is a
 	// byte range, and the zip's directory (8.6 MB) is the whole list. The numbers are this backup's, read from its end record.
+#ifdef _WIN32
 	const wchar_t* const BACKUP_HOST = L"archive.org";
 	const wchar_t* const BACKUP_PATH = L"/download/OPLM_ART_2024_09/OPLM_ART_2024_09.zip";
+#else
+	const char* const BACKUP_URL = "https://archive.org/download/OPLM_ART_2024_09/OPLM_ART_2024_09.zip";
+#endif
 	constexpr u64 BACKUP_DIR_OFFSET = 5530939920ull;
 	constexpr u64 BACKUP_DIR_SIZE = 8623924ull;
 	const char* const CACHE_DIR = "ripart";
@@ -71,6 +81,7 @@ namespace
 
 	constexpr int DECOY_BYTES = 2048;
 
+#ifdef _WIN32
 	/// One connection to the backup, on the thread that made it. Asks for one range at a time.
 	class Net
 	{
@@ -106,7 +117,7 @@ namespace
 					return true;
 				useBase(); // the storage node may be what failed: ask for a new one
 				for (int waited = 0; waited < 1000 + attempt * 1500 && !m_cancel->load(); waited += 100)
-					Sleep(100);
+					std::this_thread::sleep_for(std::chrono::milliseconds(100));
 			}
 			return false;
 		}
@@ -203,6 +214,107 @@ namespace
 		std::wstring m_host;
 		std::wstring m_path;
 	};
+#else
+	/// The same on libcurl: one handle kept open, so the connection and the storage node it landed on are reused.
+	class Net
+	{
+	public:
+		explicit Net(std::atomic<bool>* cancel)
+			: m_cancel(cancel)
+			, m_curl(curl_easy_init())
+			, m_url(BACKUP_URL)
+		{
+			if (!m_curl)
+				return;
+			curl_easy_setopt(m_curl, CURLOPT_USERAGENT, "RIPART/1.0");
+			curl_easy_setopt(m_curl, CURLOPT_FOLLOWLOCATION, 1L);
+			curl_easy_setopt(m_curl, CURLOPT_MAXREDIRS, 5L);
+			curl_easy_setopt(m_curl, CURLOPT_REDIR_PROTOCOLS, static_cast<long>(CURLPROTO_HTTPS));
+			curl_easy_setopt(m_curl, CURLOPT_CONNECTTIMEOUT, 15L);
+			curl_easy_setopt(m_curl, CURLOPT_LOW_SPEED_LIMIT, 1L);
+			curl_easy_setopt(m_curl, CURLOPT_LOW_SPEED_TIME, 20L);
+			curl_easy_setopt(m_curl, CURLOPT_NOSIGNAL, 1L);
+			curl_easy_setopt(m_curl, CURLOPT_WRITEFUNCTION, &Net::receive);
+		}
+
+		~Net()
+		{
+			if (m_curl)
+				curl_easy_cleanup(m_curl);
+		}
+
+		Net(const Net&) = delete;
+		Net& operator=(const Net&) = delete;
+
+		/// The bytes from `from` to `to`, inclusive. Tries again on a server's error: archive.org's nodes answer 500 now and then.
+		bool range(u64 from, u64 to, QByteArray* out)
+		{
+			for (int attempt = 0; attempt < 6; attempt++)
+			{
+				if (m_cancel->load())
+					return false;
+				if (rangeOnce(from, to, out))
+					return true;
+				m_url = BACKUP_URL; // the storage node may be what failed: ask for a new one
+				for (int waited = 0; waited < 1000 + attempt * 1500 && !m_cancel->load(); waited += 100)
+					std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			}
+			return false;
+		}
+
+	private:
+		struct Sink
+		{
+			QByteArray* out;
+			std::atomic<bool>* cancel;
+		};
+
+		static size_t receive(char* data, size_t size, size_t count, void* user)
+		{
+			Sink* sink = static_cast<Sink*>(user);
+			if (sink->cancel->load())
+				return 0; // ends the transfer
+			sink->out->append(data, static_cast<qsizetype>(size * count));
+			return size * count;
+		}
+
+		bool rangeOnce(u64 from, u64 to, QByteArray* out)
+		{
+			if (!m_curl)
+				return false;
+			out->clear();
+			out->reserve(static_cast<qsizetype>(to - from + 1));
+			Sink sink{out, m_cancel};
+			const std::string bytes = std::to_string(from) + "-" + std::to_string(to);
+			curl_easy_setopt(m_curl, CURLOPT_URL, m_url.c_str());
+			curl_easy_setopt(m_curl, CURLOPT_RANGE, bytes.c_str());
+			curl_easy_setopt(m_curl, CURLOPT_WRITEDATA, &sink);
+			long status = 0;
+			const bool ok = curl_easy_perform(m_curl) == CURLE_OK &&
+							curl_easy_getinfo(m_curl, CURLINFO_RESPONSE_CODE, &status) == CURLE_OK && status == 206 &&
+							static_cast<u64>(out->size()) == to - from + 1;
+			if (ok)
+			{
+				// where the redirect landed, so the next range goes straight there. Only ever one of archive.org's own hosts
+				char* landed = nullptr;
+				if (curl_easy_getinfo(m_curl, CURLINFO_EFFECTIVE_URL, &landed) == CURLE_OK && landed != nullptr)
+				{
+					const std::string url(landed);
+					const std::string scheme("https://");
+					const size_t hostEnd = url.find('/', scheme.size());
+					if (url.rfind(scheme, 0) == 0 && hostEnd != std::string::npos && hostEnd > scheme.size() + 12 &&
+						url.compare(hostEnd - 12, 12, ".archive.org") == 0)
+						m_url = url;
+				}
+			}
+			return ok;
+		}
+
+		std::atomic<bool>* m_cancel;
+		CURL* m_curl;
+		std::string m_url;
+	};
+#endif
 
 	struct Piece
 	{
