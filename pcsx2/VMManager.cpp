@@ -5,6 +5,7 @@
 #include "BuildVersion.h"
 #include "CDVD/CDVD.h"
 #include "CDVD/IsoReader.h"
+#include "COP0.h"
 #include "Counters.h"
 #include "DEV9/DEV9.h"
 #include "DebugTools/DebugInterface.h"
@@ -2996,6 +2997,9 @@ void VMManager::Internal::PollInputOnCPUThread()
 
 void VMManager::CheckForCPUConfigChanges(const Pcsx2Config& old_config)
 {
+	if (EmuConfig.DataWriteBreakpoint != old_config.DataWriteBreakpoint)
+		eeDataWriteBpSettingChanged();
+
 	if (EmuConfig.Cpu == old_config.Cpu && EmuConfig.Gamefixes == old_config.Gamefixes &&
 		EmuConfig.Speedhacks == old_config.Speedhacks && EmuConfig.Profiler == old_config.Profiler)
 	{

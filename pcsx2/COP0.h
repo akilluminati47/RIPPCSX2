@@ -34,6 +34,7 @@ extern void eeDebugRegsUpdate();
 extern void eeDebugRegsReset();
 extern u32 ReadCP0Debug(u32 sel);
 extern void WriteCP0Debug(u32 sel, u32 value);
+extern void eeDataWriteBpSettingChanged();
 extern void eeDataWriteBpException(u32 storepc, u32 bd);
 extern u32 eeDataWriteBpHits();
 extern u32 eeDataWriteBpLastPC();

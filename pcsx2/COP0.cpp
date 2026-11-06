@@ -150,6 +150,17 @@ void WriteCP0Debug(u32 sel, u32 value)
 	}
 }
 
+// The menu's switch, on the CPU thread: the store mask is only worked out when the game writes the debug
+// registers, and code compiled on the other side of the switch has the wrong store checks.
+void eeDataWriteBpSettingChanged()
+{
+	eeDebugRegsUpdate();
+	Console.WriteLn("RIPPCSX2: EE data write breakpoint emulation %s (armed: %s)",
+		EmuConfig.DataWriteBreakpoint ? "on" : "off", eeDataWriteBpArmed() ? "yes" : "no");
+	if (Cpu == &recCpu)
+		Cpu->Reset();
+}
+
 void eeDataWriteBpException(u32 storepc, u32 bd)
 {
 	if (s_dataWriteBpHits < 8)
