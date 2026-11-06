@@ -123,6 +123,10 @@ class Label:
         self.im.paste(fill, (int(x), int(y)), outline(name, w, h, h - 1))
 
 
+BAY_FLOOR_GAIN = 1.0   # what the site's lights do to those faces, taken back out
+BAY_WALL_GAIN = 1.0
+
+
 def rating():
     w, h = int((RIGHT - LEFT) * T), int((BOTTOM - TOP) * T)
     k = Label((w, h))
@@ -240,8 +244,36 @@ def connector():
     Image.fromarray(np.uint8(np.clip(base, 0, 255))).save(OUT / 'conn_shell.jpg', quality=88)
 
 
+def bay():
+    """The light falling off into the expansion bay, read from a photo of one: a web render has no shadows, so it is painted on."""
+    # the floor's brightness in the photo, a row every 10 mm from the mouth in, a column every 15 mm across from the low x wall
+    floor = np.array((
+        (78, 78, 78, 78, 76, 75, 75),
+        (58, 62, 59, 54, 54, 54, 48),
+        (39, 40, 37, 33, 30, 30, 27),
+        (32, 30, 28, 24, 19, 18, 16),
+        (26, 24, 24, 21, 16, 11, 11),
+        (24, 23, 21, 15, 12, 8, 8),
+        (23, 22, 21, 19, 9, 6, 7),
+        (22, 22, 21, 20, 14, 6, 6),
+        (23, 23, 23, 23, 15, 5, 6),
+        (24, 24, 24, 22, 18, 6, 6),
+        (14, 14, 14, 14, 11, 5, 5),
+        (7, 7, 7, 7, 6, 4, 4),
+    ), dtype=np.float32) * BAY_FLOOR_GAIN
+    im = Image.fromarray(np.uint8(np.clip(floor, 0, 255))).resize((256, 256), Image.BICUBIC)
+    a = np.asarray(im, dtype=np.float32)[..., None] * np.array((0.96, 1.0, 1.05))
+    Image.fromarray(np.uint8(np.clip(a, 0, 255))).save(OUT / 'bay_floor.jpg', quality=90)
+    # a wall: bright by the fold, then gone within a few cm, a little brighter low down. Runs from the mouth (left) in, with the floor along the bottom
+    d, z = np.meshgrid(np.linspace(0, 120.8, 256), np.linspace(1, 0, 64))
+    v = (9 + 47 * np.exp(-d / 9)) * (0.78 + 0.32 * (1 - z)) * (1 - 0.5 * np.clip((d - 40) / 80, 0, 1)) * BAY_WALL_GAIN
+    a = v[..., None] * np.array((0.97, 1.0, 1.04))
+    Image.fromarray(np.uint8(np.clip(a, 0, 255))).save(OUT / 'bay_wall.jpg', quality=90)
+
+
 def main():
     OUT.mkdir(exist_ok=True)
+    bay()
     rating()
     seal()
     serial()

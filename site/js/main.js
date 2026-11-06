@@ -124,7 +124,7 @@ const NAMES = {
   lid: 'The lid', tray: 'The disc tray', disc: 'A DVD', controller_board: 'Controller ports and memory cards', buttons: 'Reset and eject', base: 'The lower shell', usb_board: 'USB and i.LINK',
   dvd_drive: 'The DVD drive', top_shield: 'The top shield', bottom_shield: 'The bottom shield', main_board: 'The main board', power_board: 'The power board', power_inlet: 'The mains inlet', fan: 'The fan',
   expansion_bay: 'The expansion bay', isolation_sheet: 'The insulating sheet', band: 'The band', shell: 'The top plates', card_doors: 'The memory card slots', badge: 'The PlayStation badge', rear_ports: 'The rear ports',
-  top_plate: 'The top plate', bottom_plate: 'The bottom plate', battery: 'The clock battery', bios: 'The BIOS',
+  top_plate: 'The top plate', bottom_plate: 'The bottom plate', battery: 'The clock battery', bios: 'The BIOS', network_adapter: 'The network adapter',
 };
 const BIOS_CAPTION = 'The BIOS. A ROM on the main board holding the EE and IOP kernels, the browser and the rom0: drivers. RIPPCSX2 runs your own dump, so the region, ROMVER and every step from power on to a game are the real ones. The orb sits on the Toshiba chip beside the IOP, which looks to be it on this board; on the slim it only marks the board.';
 const BIOS_ORB = { fat: [60, 50, 40], slim: [120, 112, 13] };
@@ -154,6 +154,14 @@ function prepare(kind, gltf) {
         const p = new THREE.MeshPhysicalMaterial({ map: m.map, metalness: 1, roughness: 0.16, iridescence: 1, iridescenceIOR: 1.6, iridescenceThicknessRange: [180, 620], name: m.name });
         m = p;
       } else m = m.clone();
+      if (m.name.startsWith('bay_')) {
+        // the bay's light is painted on from a photo (a web render has no shadows): no shine, which would show the room's light
+        // at a low angle and wash it out, and the lights only add a touch to it
+        m = new THREE.MeshLambertMaterial({
+          name: m.name, map: m.map, emissiveMap: m.map, side: THREE.DoubleSide,
+          color: m.color.clone().multiplyScalar(0.15), emissive: m.color.clone().multiplyScalar(0.85),
+        });
+      }
       if (m.map) m.map.anisotropy = 8;
       o.material = m;
       part.mats.push({ m, em: m.emissive ? m.emissive.clone() : null, ei: m.emissiveIntensity });
@@ -195,7 +203,9 @@ function prepare(kind, gltf) {
   const lift = Math.max(0, -b.min.y) + 0.01;
   b.min.y += lift;
   b.max.y += lift;
-  consoles[kind] = { kind, root, parts, spec, apartBox: b, lift, biosOrb };
+  const adapter = parts.find((p) => p.name === 'network_adapter');
+  if (adapter) adapter.node.visible = false;
+  consoles[kind] = { kind, root, parts, spec, apartBox: b, lift, biosOrb, adapter };
 }
 
 // ---- the state ----
@@ -392,6 +402,7 @@ function updateConsole(dt) {
   const now = performance.now(), c = cur();
   const baseY = -c.root.position.y;
   if (state.mode === 'blown') {
+    if (c.adapter) c.adapter.node.visible = false;
     for (const p of c.parts) {
       const n = p.node;
       if (!p.landed) {
@@ -437,6 +448,7 @@ function updateConsole(dt) {
     }
     c.root.visible = now >= state.blinkUntil || reduced || Math.floor(now / 70) % 2 === 0;
     if (c.biosOrb) c.biosOrb.visible = k > 0.6;
+    if (c.adapter) c.adapter.node.visible = state.mode === 'apart' || k > 0.03; // it slides out of the bay as the console comes apart
   }
   state.bounce *= Math.exp(-dt * 7);
   const b = state.bounce;
@@ -516,7 +528,8 @@ function under(e) {
   ray.setFromCamera(ndc, camera);
   const c = cur();
   if (!c.root.visible) return null;
-  const hits = ray.intersectObject(c.root, true).filter((h) => h.object.visible && h.object.userData.part);
+  const shown = (o) => { for (; o; o = o.parent) if (!o.visible) return false; return true; };
+  const hits = ray.intersectObject(c.root, true).filter((h) => shown(h.object) && h.object.userData.part);
   return hits.find((h) => h.object === c.biosOrb) || hits[0] || null; // drawn on top, so it is pointed at on top
 }
 let pending, pendingAt = 0; // undefined: nothing waiting. null: on its way off every part

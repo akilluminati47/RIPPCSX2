@@ -59,6 +59,12 @@ own folder: a PCSX2 you already have installed keeps its own settings, untouched
 build ([its page](https://github.com/akilluminati47/RIPPCSX2/releases/tag/rolling)); the clips below are in
 [docs/videos](docs/videos).
 
+### [Download RIPPCSX2 (Linux AppImage)](https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage)
+
+x64, a CPU with AVX2. Make it executable and start it. New with this release and built by the same workflow as the
+Windows zip, but it has not been run on a Linux machine yet: please report how it goes. The taskbar button for hidden
+runs is Windows only.
+
 **It runs `.elf` programs for testing:** System > Start File, or `pcsx2-qtx64-avx2.exe -fastboot -elf <your.elf>`,
 and the program boots as it would from a memory card or USB stick on a PS2. It **behaves like real hardware**: an ELF
 that launches another ELF hands the machine over and is gone, an in-game menu that hooks the GS draws over the
@@ -89,6 +95,9 @@ and boots to its game list.
 ## What you get over vanilla PCSX2 v2.9.96
 
 - **A RIPPCSX2 menu** between Debug and Help: Run ELF and Run Last ELF, a live Lab Monitor, Test Steps, a Compatibility Report, the fork's switches and the folders where things land.
+- **RIPART,** in that menu: OPL Manager's art database, 16,313 games read by byte range from its backup on archive.org. Decoy game entries so a theme can be judged on a real list with no games on the drive, a checkbox list with each piece of a game's art to keep or leave out, a scan for games on a drive with no cover, and an ART folder or `art.tar` to put it all in. Decoys show in OPL and RIPPS2 and do not start; a file already there is never replaced. akilluminati47 helped bring that database its 8-bit PNG art and 128 x 128 disc icons.
+- **Stock OPL starts games.** A `host` device a program registers itself now gets its own opens, so OPL's IOP reboot works. Stock stops at `file 'host0:' can't open`.
+- **EXIT GAME reaches the browser.** A SIO2 interrupt was lost over an IOP reboot, which left OSDSYS waiting on the memory card with a black screen.
 - **A taskbar button for hidden runs.** A PCSX2 started on a hidden desktop puts one button on your taskbar, so a volume mixer or a per-app volume mod reaches it like any other program.
 - **HD modes look right.** 720p and 1080i are shown 16:9 (stock draws them 4:3), in every aspect setting except
   Stretch.
@@ -114,6 +123,7 @@ and boots to its game list.
   the log for the exact display registers a mode sets.
 - **In-game menus and GS tools:** OPL GSM, RIPPS2's in-game menu and anything else built on the data write
   breakpoint run in the emulator instead of only on hardware.
+- **PS1 games:** run Ember and its PS1 games from a virtual drive to test launching and PS1 lists, with your own PS1 BIOS on the drive.
 - **Automated and AI-assisted testing:** scripted runs on a hidden desktop with screenshots, captures, save states
   and PINE memory reads, without taking over your PC.
 

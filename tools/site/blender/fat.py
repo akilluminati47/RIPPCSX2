@@ -55,10 +55,14 @@ def materials(tex):
         edge_hi=mat('edge_hi', '#a5a6ac', rough=0.3),
         edge_hi2=mat('edge_hi2', '#4a4b50', rough=0.3),
         blackgloss=mat('black_gloss', '#0a0a0c', rough=0.16),
-        tab=mat('bay_tab', '#dfe1e2', rough=0.5, metal=0.2),
-        bay1=mat('bay_lit', '#55585a', rough=0.8),
-        bay2=mat('bay_mid', '#38393b', rough=0.8),
-        bay3=mat('bay_dim', '#212224', rough=0.85),
+        tab=mat('bay_tab', '#8f8d8c', rough=0.5, metal=0.15),
+        bay_floor=mat('bay_floor', tex=tex + 'bay_floor.jpg', rough=0.8),
+        bay_wall=mat('bay_wall', tex=tex + 'bay_wall.jpg', rough=0.8),
+        bay_rim1=mat('bay_rim_lit', '#3b3c3f', rough=0.6),
+        bay_rim2=mat('bay_rim_mid', '#1c1c1e', rough=0.7),
+        bay_rim3=mat('bay_rim_deep', '#0c0c0d', rough=0.8),
+        bay_press=mat('bay_press', '#050506', rough=0.8),
+        bay_edge=mat('bay_edge', '#6a6b6f', rough=0.5),
         bay4=mat('bay_deep', '#111213', rough=0.9),
         white=mat('print_white', '#dcdde2', rough=0.5),
         grey=mat('sticker_grey', '#d8d8d8', rough=0.7),
@@ -98,6 +102,11 @@ def materials(tex):
         rating=mat('rear_rating', tex=tex + 'rating.jpg', rough=0.3),
         serial=mat('rear_serial', tex=tex + 'serial.jpg', rough=0.5),
         foot=mat('fat_foot', '#232326', rough=0.52),
+        raise_top=mat('fat_raise_top', '#1c1d20', rough=0.62),
+        raise_lit=mat('fat_raise_lit', '#3d3f46', rough=0.45),
+        raise_shade=mat('fat_raise_shade', '#030304', rough=0.9, spec=0.0),
+        net_screw=mat('net_screw', '#44464c', rough=0.24, metal=0.75),
+        net_well=mat('net_well', '#26272b', rough=0.6),
         conn=mat('hdd_conn_shell', tex=tex + 'conn_shell.jpg', rough=0.55),
         conn_rim=mat('hdd_conn_rim', '#dcd2c0', rough=0.3, metal=0.5),
         conn_mouth=mat('hdd_conn_mouth', '#050506', rough=0.7),
@@ -176,6 +185,34 @@ def stadium(cx, cz, w, h, n=8):
     return pts
 
 
+def capsule(a, b, r0, r1=None, n=5):
+    """A rounded bar's outline from a to b, tapering from r0 to r1."""
+    import math
+    r1 = r0 if r1 is None else r1
+    t = math.atan2(b[1] - a[1], b[0] - a[0])
+    pts = []
+    for c, r, t0 in ((a, r0, t + math.pi / 2), (b, r1, t - math.pi / 2)):
+        for i in range(n + 1):
+            f = t0 + math.pi * i / n
+            pts.append((c[0] + r * math.cos(f), c[1] + r * math.sin(f)))
+    return pts
+
+
+def tab_outline(fold, out, z0, z1, r, n=4):
+    """A screw tab's outline as (-x, z): square along the fold, rounded at its two free corners."""
+    import math
+    s = 1 if out > fold else -1
+    pts = [(fold, z0)]
+    for i in range(n + 1):
+        a = math.pi / 2 * i / n
+        pts.append((out - s * r + s * r * math.sin(a), z0 + r - r * math.cos(a)))
+    for i in range(n + 1):
+        a = math.pi / 2 * i / n
+        pts.append((out - s * r + s * r * math.cos(a), z1 - r + r * math.sin(a)))
+    pts.append((fold, z1))
+    return [(-x, z) for x, z in pts]
+
+
 def rrect(cx, cz, w, h, r, n=5):
     """A rounded rectangle's outline, counter-clockwise."""
     import math
@@ -221,15 +258,125 @@ def usb_a(p, x0, x1, z0, z1, y, m, depth=8.0, shell=None, tongue=True):
             p.box(xx - 0.45, xx + 0.45, y + 1.37, y + 1.42, cz + 0.35, cz + 1.05, m['white'])
 
 
-def side_foot(p, y, z, m):
-    """A rubber foot on the left end, which the console stands on upright: a bar 18 mm long along the side and 8.5 mm tall, D-shaped in section,
-    full height at its top edge and curving down to nothing at the bottom, a flat cap at each end, and a thin lip over a groove along the top."""
-    bar = 18.0
-    p.poly(rrect(0, 0.2, 19.6, 11.0, 2.4), plane((-0.03, y, z), (0, -1, 0), (0, 0, 1)), m['dark'], depth=0)  # where it meets the side: a web render has no shadows
-    section = [(4.1, -0.3), (4.1, 2.35)] + [(4.1 - 8.5 * t, 2.35 * (1 - t ** 2.2)) for t in (i / 16 for i in range(1, 17))] + [(-4.4, -0.3)]
-    across = plane((0, y, z), (0, 0, 1), (-1, 0, 0))
-    p.curve([section], 1.0, across, m['foot'], bar, bevel=0.2)
-    p.curve([[(4.5, -0.3), (4.5, 1.9), (5.0, 1.9), (5.0, -0.3)]], 1.0, across, m['foot'], bar + 1.2, bevel=0.1)
+def raised(p, draw, m):
+    """Moulded print standing proud, as on the back: lit along its top, a shadow along its bottom. draw(dx, dz, dy, material) makes one copy."""
+    draw(-0.13, -0.13, 0.004, m['raise_shade'])
+    draw(0.06, 0.06, 0.008, m['raise_lit'])
+    draw(0, 0, 0.014, m['raise_top'])
+
+
+def sunk(p, draw, m):
+    """Print pressed in, as on the lid and the network adapter: shade under its top edge, light along its bottom one."""
+    draw(-0.06, -0.08, 0.004, m['lid_lip'])
+    draw(0.08, 0.1, 0.008, m['lid_shade'])
+    draw(0, 0, 0.014, m['lid_floor'])
+
+
+def rear_mark(p, name, width, x, z, y, m, style, squash=1.0):
+    def draw(dx, dz, dy, material):
+        mark(p, name, width, plane((x + dx, y + dy, z + dz), (-1, 0, 0), (0, 0, 1)) @ Matrix.Diagonal((1, squash, 1, 1)), material, 0.012)
+    style(p, draw, m)
+
+
+def rear_text(p, body, size, x, z, y, m, style=raised, font='arial.ttf', **kw):
+    def draw(dx, dz, dy, material):
+        p.text(body, font, size, plane((x + dx, y + dy, z + dz), (-1, 0, 0), (0, 0, 1)), material, align='CENTER', depth=0.012, **kw)
+    style(p, draw, m)
+
+
+def network_adapter(m):
+    """The network adapter, measured from a photo of one on an SCPH-30001: a block as wide as the bay and its posts, nearly the height of the console,
+    standing proud of the back with three bars along the top, thumbscrews into the bay's tabs and its print pressed in. ix and iy are pixels in that photo."""
+    net = Part('network_adapter', (95, 255, -6), "The network adapter, Sony's Ethernet and hard drive add-on. "
+               'Mod it to SATA and the Ethernet port stays. Nobody runs the stock IDE drive now: SSDs and big aftermarket drives read faster and hold '
+               'libraries it never could, and RIPPS2 reads them as exFAT.', spin=1.2)
+    F = D + 16
+    X0, X1 = 138.2, 271.2
+    X = lambda ix, iy=197: 145.2 + (ix + (iy - 197) * 0.12 - 180) * 0.08044
+    Z = lambda iy: 22.5 + (iy - 197) * (0.0818 if iy > 197 else 0.095)
+    J = lambda ix: X(ix, 530)
+    # the part that goes into the bay, and the plug on the bay's connector
+    net.box(151.2, 255.4, D - 100, D + 0.1, 5.6, 32.4, m['shell'])
+    net.box(159.5, 197.0, D - 2, D + 0.1, 35.8, 40.2, m['block'])
+    # the block and its bars
+    net.box(X0, X1, D + 0.1, F, Z(20), Z(690), m['case'], bevel=0.5)
+    net.box(X0 + 0.8, X1 - 0.8, D + 0.1, F - 3.2, Z(690), Z(845), m['dark'])
+    for a, b in ((690, 722), (755, 785), (815, 845)):
+        net.box(X0, X1, D + 0.1, F - 0.4, Z(a), Z(b), m['fin'], bevel=0.24)
+    # the thumbscrews: a dark seat, a domed metal head, a slot across it
+    for ix in (180, 1622):
+        cx, cz = X(ix), Z(197)
+        net.cyl((cx, F, cz), 'y', 5.4, 0.03, m['dark'], n=36)
+        net.cyl((cx, F, cz), 'y', 4.5, 0.55, m['net_screw'], n=36, bevel=0.3)
+        net.box(cx - 3.9, cx + 3.9, F + 0.5, F + 0.58, cz - 0.42, cz + 0.42, m['dark'])
+    net.cyl((X(560), F, Z(193)), 'y', 1.0, 0.03, m['dark'], n=16)
+
+    # its print, pressed in
+    rear_mark(net, 'wm_ps2', 26.5, X(830, 272), Z(272), F + 0.02, m, sunk)
+    rear_mark(net, 'ps2_lines', 53.4, X(890, 389), Z(389), F + 0.02, m, sunk, squash=0.78)
+    rear_mark(net, 'sony', 23.3, X(1470, 630), Z(630), F + 0.02, m, sunk)
+
+    def ps(dx, dz, dy, material):
+        at = plane((X(1115, 272) + dx, F + 0.02 + dy, Z(272) + dz), (-1, 0, 0), (0, 0, 1))
+        for outlines in ps_mark.COLOURS.values():
+            net.curve(outlines, 8.2, at, material, 0.012)
+    sunk(net, ps, m)
+    rear_text(net, 'NETWORK', 1.7, J(305), Z(642), F + 0.02, m, style=sunk, stretch=1.35)
+    rear_text(net, 'LINE', 1.7, J(480), Z(642), F + 0.02, m, style=sunk, stretch=1.35)
+
+    # the jacks in their window, and over each a little mark
+    net.box(J(222), J(590), F - 0.02, F + 0.02, Z(462), Z(582), m['dark'])
+    net.box(J(232), J(580), F + 0.02, F + 0.03, Z(470), Z(576), m['net_well'])
+    for x0, x1, pins in ((245, 398, 8), (432, 562, 4)):
+        net.box(J(x0), J(x1), F + 0.03, F + 0.04, Z(478), Z(540), m['conn_mouth'])
+        net.box(J(x0 + 34), J(x1 - 34), F + 0.03, F + 0.04, Z(540), Z(575), m['conn_mouth'])
+        mid = (x0 + x1) / 2
+        for i in range(pins):
+            px = mid + (i - (pins - 1) / 2) * 11
+            net.box(J(px - 3), J(px + 3), F + 0.04, F + 0.05, Z(492), Z(568), m['conn_pin'])
+    for ix in (296, 310, 324):
+        net.box(J(ix - 5), J(ix + 5), F + 0.02, F + 0.03, Z(596), Z(604), m['lid_shade'])
+    net.box(J(468), J(500), F + 0.02, F + 0.03, Z(596), Z(612), m['lid_shade'])
+    net.box(J(473), J(495), F + 0.03, F + 0.04, Z(598), Z(610), m['case'])
+    return net
+
+
+def side_foot(p, y, z0, m):
+    """A rubber foot on the left end, which the console stands on upright, centred at y with its bottom at z0. Measured from two photos
+    taken from opposite ends of the side, whose parallax tells what stands proud from what lies on the wall: 12.6 mm long, 8.3 mm tall and
+    only 1.6 mm proud, on a thin base strip 14.4 mm long. One section runs its whole length, so the same arc shows at both ends. From the
+    bottom it is a long shallow curve, then a slope back in to the wall with two fine grooves along it."""
+    import math
+    length, tall, proud, mid, n = 12.6, 8.3, 1.6, 4.4, 2.2
+    strip = 14.4
+    # where the slope takes over from the curve, and where it reaches the wall
+    k0, k1 = (7.15, 1.3), (8.15, 0.2)
+    arc = []
+    for i in range(1, 33):
+        h = 7.15 * i / 32
+        arc.append((h, proud * (1 - abs((h - mid) / mid) ** n) ** (1 / n)))
+    body = [(0.0, -0.3), (0.0, 0.0)] + arc + [k1, (tall, 0.0), (tall, -0.3)]
+    across = plane((0, y, z0), (0, 0, 1), (-1, 0, 0))
+    # where it meets the side: a web render has no shadows
+    p.poly(rrect(0, tall / 2 + 0.1, length + 0.3, tall + 0.2, 1.2), plane((-0.03, y, z0), (0, -1, 0), (0, 0, 1)), m['dark'], depth=0)
+    # the base strip: its top edge runs past the body at both ends, and a hair of it shows below each lower corner
+    p.curve([[(7.85, -0.2), (7.85, 0.32), (8.4, 0.2), (8.45, 0.0), (8.45, -0.2)]], 1.0, across, m['foot'], strip, bevel=0.06)
+    for e in (-1, 1):
+        p.box(-0.14, -0.02, y + e * 7.0 - 0.1, y + e * 7.0 + 0.1, z0 - 0.7, z0 + 0.3, m['rubber'])
+    p.curve([body], 1.0, across, m['foot'], length, bevel=0.2)
+    # both ends are the same cut, and read darker than the face
+    cut = [(0.3, 0.0)] + [(h, s0 * 0.86) for h, s0 in arc[2:]] + [(8.0, 0.2), (8.0, 0.0)]
+    for e in (-1, 1):
+        p.poly(cut, plane((0, y + e * (length / 2 + 0.003), z0), (0, 0, 1), (-1, 0, 0)), m['rubber'], depth=0)
+    # the two grooves along the slope
+    tz, tp = k1[0] - k0[0], k1[1] - k0[1]
+    n0 = math.hypot(tz, tp)
+    tz, tp = tz / n0, tp / n0
+    nz, np_ = -tp, tz
+    for f in (0.32, 0.68):
+        cz, cp = k0[0] + (k1[0] - k0[0]) * f, k0[1] + (k1[1] - k0[1]) * f
+        q = [(cz + nz * a + tz * b, cp + np_ * a + tp * b) for a, b in ((-0.08, -0.09), (0.04, -0.09), (0.04, 0.09), (-0.08, 0.09))]
+        p.curve([q], 1.0, across, m['rubber'], length - 0.6)
 
 
 def mark(p, name, width, at, m, depth=0.02):
@@ -343,14 +490,17 @@ def build(col, tex):
         across = 3.4 / (MARKS['sony_' + letter]['h'] * length)
         at = plane((294.2, -0.12, z), (0, 0, -1), (1, 0, 0)) @ Matrix.Diagonal((1, across, 1, 1))
         mark(lid, 'sony_' + letter, length, at, m['sony_hi'], 0.24)
-    lid.text('MAIN', 'arial.ttf', 1.9, plane((12.6, D + 0.04, 62.4), (-1, 0, 0), (0, 0, 1)), m['rear_tone'], align='CENTER', depth=0.01)
-    lid.text('POWER', 'arial.ttf', 1.9, plane((12.6, D + 0.04, 60.2), (-1, 0, 0), (0, 0, 1)), m['rear_tone'], align='CENTER', depth=0.01)
+    # the plug side's words are moulded, standing proud, the case's own black: as big as a photo has them (AV MULTI OUT nearly its port's width)
+    rear_text(lid, 'MAIN', 2.6, 12.6, 62.9, D + 0.03, m)
+    rear_text(lid, 'POWER', 2.6, 12.6, 59.9, D + 0.03, m)
+    rear_text(lid, 'AC IN', 2.6, 12.6, 49.4, D + 0.03, m)
+    rear_text(lid, '~', 3.4, 12.6, 46.2, D + 0.03, m)
     lid.text('1', 'arialbd.ttf', 3.9, plane((41, -0.02, 66.2), (1, 0, 0), (0, 0, 1)), m['label'], align='CENTER')
     lid.text('2', 'arialbd.ttf', 3.9, plane((93, -0.02, 66.2), (1, 0, 0), (0, 0, 1)), m['label'], align='CENTER')
     mark(lid, 'magicgate', 19.0, plane((66.5, -0.02, 67.35), (1, 0, 0), (0, 0, 1)), m['label'])
-    # the rubber feet on the left side, the upper two here
-    for y in (30.5, 166):
-        side_foot(lid, y, 68.3, m)
+    # the rubber feet on the left side, the upper two here: centres and bottoms from the two photos
+    for y in (30.3, 168.9):
+        side_foot(lid, y, 66.1, m)
     parts.append(lid)
 
     # ---------------------------------------------------- the back of the upper shell, printed
@@ -451,8 +601,12 @@ def build(col, tex):
     # the back: the fan's opening and the bay's stay open, the rest is solid
     b0, b1 = D - 1.6, D
     base.box(0, 70.2, b0, b1, BOT, LOW_Z, bm)
-    base.box(133, 150, b0, b1, BOT, LOW_Z, bm)
-    base.box(256.6, LOW_X, b0, b1, BOT, LOW_Z, bm)
+    base.box(133, 141, b0, b1, BOT, LOW_Z, bm)
+    base.box(141, 150, b0, b1, BOT, 13.7, bm)
+    base.box(141, 150, b0, b1, 29.5, LOW_Z, bm)
+    base.box(265.8, LOW_X, b0, b1, BOT, LOW_Z, bm)
+    base.box(256.6, 265.8, b0, b1, BOT, 14.5, bm)
+    base.box(256.6, 265.8, b0, b1, 30.6, LOW_Z, bm)
     base.box(70.2, 133, b0, b1, BOT, 10.7, bm)
     base.box(150, 256.6, b0, b1, BOT, 5.0, bm)
     base.box(205.5, 256.6, b0, b1, 33.0, LOW_Z, bm)
@@ -476,13 +630,13 @@ def build(col, tex):
     framed(50.4, 61.3, 10.9, 22.3)
     base.box(53.2, 58.5, D + 0.2, D + 0.23, 13.6, 19.6, m['fin'])
     rearprint = lambda x, z: plane((x, D + 0.02, z), (-1, 0, 0), (0, 0, 1))
-    base.text('DIGITAL OUT', 'arial.ttf', 1.9, rearprint(55.8, 25.0), m['rear_tone'], align='CENTER', depth=0.01)
-    base.text('(OPTICAL)', 'arial.ttf', 1.9, rearprint(55.8, 23.2), m['rear_tone'], align='CENTER', depth=0.01)
-    base.text('AV MULTI OUT', 'arial.ttf', 1.9, rearprint(26.5, 20.2), m['rear_tone'], align='CENTER', depth=0.01)
+    rear_text(base, 'DIGITAL OUT', 2.9, 55.8, 26.6, D + 0.01, m)
+    rear_text(base, '(OPTICAL)', 2.9, 55.8, 23.9, D + 0.01, m)
+    rear_text(base, 'AV MULTI OUT', 2.9, 26.5, 21.0, D + 0.01, m, stretch=1.1)
     base.cyl((42.3, D, 26.3), 'y', 1.3, 0.2, m['dark'], n=12)
     # the rubber feet on the left side, the lower two here
-    for y in (30.5, 166):
-        side_foot(base, y, 8.5, m)
+    for y in (30.3, 168.9):
+        side_foot(base, y, 5.1, m)
     # feet
     for x, y in ((12, 34), (262, 34), (12, 170), (262, 170)):
         base.cyl((x, y, 0), 'z', 4.5, BOT, m['rubber'], n=14)
@@ -587,7 +741,7 @@ def build(col, tex):
     brd.box(159.6, 197.0, D - 1.36, D - 1.34, 36.2, 38.95, m['conn_tongue'])
     for i in range(100):
         brd.box(159.8 + i * 0.37, 160.0 + i * 0.37, D - 1.36, D - 1.34, 39.0, 39.95, m['conn_pin'])
-    brd.box(151, 205.5, D - 1.62, D - 1.2, 32.9, 34.8, m['silver'])
+    brd.box(151, 205.5, D - 1.62, D - 1.2, 32.9, 34.8, m['tab'])
     for x0, x1 in ((196.6, 200.7), (180.1, 192.7), (163.9, 176.2), (155.9, 159.8)):
         brd.box(x0, x1, D - 1.24, D - 1.18, 34.62, 34.98, m['block'])
     # the flat cable up to the drive
@@ -613,19 +767,45 @@ def build(col, tex):
     inlet.box(25.1, 53.6, D - 0.8, D + 0.1, 56, 74, m['block'], bevel=0.25)
     for a0, a1, b0_, b1_ in ((25.1, 53.6, 40, 40.4), (25.1, 53.6, 54.6, 55), (25.1, 25.5, 40, 55), (53.2, 53.6, 40, 55), (25.1, 53.6, 56, 56.4), (25.1, 53.6, 73.6, 74), (25.1, 25.5, 56, 74), (53.2, 53.6, 56, 74)):
         inlet.box(a0, a1, D + 0.1, D + 0.16, b0_, b1_, m['ink'])
-    # the mouth: two lobes and the bar between them, a prong in each
-    inlet.box(34.7, 43.3, D - 0.1, D + 0.12, 44.7, 50.5, m['ink'])
-    for x in (34.7, 43.3):
-        inlet.cyl((x, D + 0.12, 47.6), 'y', 4.4, -0.2, m['ink'], n=24)
-        inlet.cyl((x, D + 0.12, 47.6), 'y', 0.95, 0.06, m['silver'], n=12)
-        inlet.cyl((x, D + 0.18, 47.6), 'y', 0.4, 0.02, m['dark'], n=8)
-    # the rocker in its second frame, I and O
-    for a0, a1, b0_, b1_ in ((28.6, 49.1, 56.9, 57.3), (28.6, 49.1, 71.3, 71.7), (28.6, 29, 56.9, 71.7), (48.7, 49.1, 56.9, 71.7)):
-        inlet.box(a0, a1, D + 0.1, D + 0.16, b0_, b1_, m['ink'])
-    # the rocker
-    inlet.box(30.4, 47.3, D - 0.82, D + 0.8, 58.3, 70.3, m['rocker'], bevel=0.5)
-    inlet.box(43.3, 43.9, D + 0.78, D + 0.84, 62.6, 66.2, m['white'])
-    inlet.ring((34.7, D + 0.78, 64.4), 'y', 1.15, 1.6, 0.06, m['white'], n=16)
+    # Measured from a photo of the back, squared up at about 23 px a mm. Art on the back runs u = -x, so its normal points out of the back.
+    import math
+    back = lambda y: plane((0, y, 0), (-1, 0, 0), (0, 0, 1))
+
+    def outline(xz):
+        """(x, z) points as (u, v) on the back, counter-clockwise so the face looks out."""
+        uv = [(-x, z) for x, z in xz]
+        area = sum(u0 * v1 - u1 * v0 for (u0, v0), (u1, v1) in zip(uv, uv[1:] + uv[:1]))
+        return uv if area > 0 else uv[::-1]
+
+    def circle(cu, cv, r, n=28):
+        return [(cu + r * math.cos(2 * math.pi * i / n), cv + r * math.sin(2 * math.pi * i / n)) for i in range(n)]
+
+    # the mouth, the polarised figure 8: a square lobe toward the middle of the back, a round one toward the end, a waist between them
+    arc = [(35.0 + 4.1 * math.cos(math.radians(t)), 48.3 + 4.1 * math.sin(math.radians(t))) for t in range(100, 270, 10)]
+    mouth = ([(48.0, 52.2), (47.4, 52.8), (43.4, 52.8), (42.9, 51.6), (41.6, 51.6), (41.1, 52.4), (35.0, 52.4)] + arc +
+             [(35.0, 44.2), (41.1, 44.2), (41.6, 45.4), (42.9, 45.4), (43.4, 44.6), (47.4, 44.6), (48.0, 45.2)])
+    inlet.poly(outline(mouth), back(D + 0.12), m['ink'], depth=0)
+    # its two pins, metal, each tip split three ways
+    for x in (43.5, 35.0):
+        inlet.cyl((x, D + 0.13, 48.5), 'y', 1.12, 0.01, m['dark'], n=20, smooth=False)
+        inlet.cyl((x, D + 0.14, 48.5), 'y', 0.98, 0.12, m['silver'], n=20, bevel=0.3)
+        for a in (90, 210, 330):
+            c, s = math.cos(math.radians(a)), math.sin(math.radians(a))
+            bar = [(-x + 0.47 * c * k - 0.07 * s * j, 48.5 + 0.47 * s * k + 0.07 * c * j) for k, j in ((0.15, -1), (1.7, -1), (1.7, 1), (0.15, 1))]
+            inlet.poly(bar, back(D + 0.27), m['dark'], depth=0)
+
+    # the rocker's bezel: a raised frame round the opening, its well dark
+    inlet.curve([rrect(-39.6, 64.7, 23.6, 16.4, 0.9, n=4), rrect(-39.6, 64.85, 18.2, 12.7, 0.4, n=3)], 1.0, back(D + 0.35), m['block'], 0.6, bevel=0.2)
+    inlet.poly(outline([(30.5, 58.5), (48.7, 58.5), (48.7, 71.2), (30.5, 71.2)]), back(D + 0.13), m['ink'], depth=0)
+    # the rocker: rounded edges, rocked over a few degrees with the I side in, as a photo has it
+    tilt = math.radians(4.0)
+    U, V = (-math.cos(tilt), math.sin(tilt), 0), (0, 0, 1)
+    N = (math.sin(tilt), math.cos(tilt), 0)
+    o = (39.35, D + 0.05, 64.65)
+    inlet.curve([rrect(0, 0, 16.9, 11.7, 0.6, n=4)], 1.0, plane(o, U, V), m['rocker'], 2.0, bevel=0.35)
+    face = plane(tuple(o[i] + N[i] * 1.012 for i in range(3)), U, V)
+    inlet.poly([(-4.65, -1.95), (-4.15, -1.95), (-4.15, 0.95), (-4.65, 0.95)], face, m['white'], depth=0)
+    inlet.curve([circle(4.25, -0.65, 1.6), circle(4.25, -0.65, 1.12)], 1.0, face, m['white'], 0.02)
     inlet.box(25.1, 53.6, D - 26, D - 0.8, 40, 71, m['black'])
     parts.append(inlet)
 
@@ -637,33 +817,69 @@ def build(col, tex):
 
     # ---------------------------------------------------- the expansion bay
     bay = Part('expansion_bay', (120, 130, -40), 'The expansion bay, the home of the network adapter and a hard drive. OPL in RIPPCSX2 reads its games from a virtual one.')
-    # no shadows in a web render, so the shade the deep end of the bay stands in is in its materials
-    zones = ((D - 20, D - 1, m['bay1']), (D - 45, D - 20, m['bay2']), (D - 75, D - 45, m['bay3']), (60, D - 75, m['bay4']))
-    for y0_, y1_, zm in zones:
-        bay.box(150, 256.6, y0_, y1_, 4.4, 5.0, zm)
-        for x in (150, 256):
-            bay.box(x, x + 0.6, y0_, y1_, 5.0, 33, zm)
-    bay.box(150, 256.6, 60, 60.6, 5.0, 33, m['bay4'])
-    bay.box(150, 256.6, 60, D - 1.2, 33.0, 33.6, m['dark'])
-    bay.box(150, 256.6, D - 1.25, D - 0.9, 5.0, 5.12, m['tab'])
-    # its holes
-    for j in range(11):
-        for i in range(11):
-            x = 155.5 + i * 10 + (j % 2) * 5
-            if x < 253:
-                bay.cyl((x, 72 + j * 9, 5.02), 'z', 2.2, 0.04, m['dark'], n=12, smooth=False)
-    # the lip at its mouth: two slots and a warning triangle
-    for x0, x1 in ((226, 233), (167, 175)):
-        bay.box(x0, x1, 175.5, 176.3, 5.0, 5.08, m['dark'])
-    tri = plane((199.6, 177.5, 5.08), (1, 0, 0), (0, 1, 0))
-    bay.poly([(-6, 0), (6, 0), (6, 0.5), (-6, 0.5)], tri, m['dark'], depth=0.02)
-    bay.poly([(-6, 0), (-5.3, 0), (0.3, 5.2), (-0.3, 5.2)], tri, m['dark'], depth=0.02)
-    bay.poly([(5.3, 0), (6, 0), (0.3, 5.2), (-0.3, 5.2)], tri, m['dark'], depth=0.02)
-    # the two bright screw tabs either side of the mouth
-    for x0, x1, z0, z1 in ((256.6, 265.8, 14.5, 30.6), (141, 149.4, 13.7, 29.5)):
-        bay.box(x0, x1, D - 0.5, D + 0.05, z0, z1, m['tab'])
-        bay.cyl(((x0 + x1) / 2, D + 0.06, (z0 + z1) / 2), 'y', 1.5, 0.05, m['dark'], n=12, smooth=False)
+    # One sheet of metal, measured from a photo squared up to the floor's plane: the tabs at the mouth fold in to be the side walls, and the walls the floor.
+    # There are no shadows in a web render, so the light falling off into it is painted on.
+    MOUTH = D - 1.2
+    FLOOR = 5.0
+    bay.textured_quad(150, 256.6, 60, MOUTH, FLOOR, m['bay_floor'])
+    bay.box(150, 256.6, 60, MOUTH, 4.4, FLOOR - 0.02, m['bay4'])
+    bay.box(150, 256.6, 60, 60.6, FLOOR, 33, m['bay4'])
+    bay.box(150, 256.6, 60, MOUTH, 33.0, 33.6, m['dark'])
+    bay.box(150, 256.6, MOUTH - 0.5, MOUTH + 0.05, FLOOR, FLOOR + 0.1, m['bay_edge'])
+    for x in (150, 256):
+        bay.box(x, x + 0.6, 60, MOUTH - 0.4, FLOOR, 33, m['bay4'])
+        bay.box(x, x + 0.6, MOUTH - 0.4, MOUTH + 0.05, FLOOR, 33, m['tab'])
+    bay.quad_on(plane((255.98, MOUTH, FLOOR), (0, -1, 0), (0, 0, 1)), MOUTH - 60, 28, m['bay_wall'])
+    bay.quad_on(plane((150.62, 60, FLOOR), (0, 1, 0), (0, 0, 1)), MOUTH - 60, 28, m['bay_wall'], flip_u=True)
+    # the long slots in the walls, and the two little reliefs on the fold
+    for wall in (255.96, 150.64):
+        at = plane((wall, MOUTH, FLOOR), (0, -1, 0), (0, 0, 1))
+        for z in (18, 26):
+            for d in (32, 59.5, 87):
+                bay.poly(stadium(d, z - FLOOR, 21, 4.1, n=6), at, m['dark'], depth=0)
+        bay.poly([(0, 16), (1.1, 16), (1.1, 21), (0, 21)], at, m['dark'], depth=0)
+        bay.poly([(0, 7), (0.8, 7), (0.8, 8.5), (0, 8.5)], at, m['dark'], depth=0)
+
+    # the floor's holes and marks, each with the far wall of its cut catching the light
+    import math
+
+    def on_floor(lift):
+        return plane((0, 0, FLOOR + lift), (1, 0, 0), (0, 1, 0))
+
+    def rim(y):
+        return m['bay_rim1'] if y > 150 else m['bay_rim2'] if y > 112 else m['bay_rim3']
+
+    def punched(outline, y, inside=None):
+        bay.poly([(u, v - 0.3) for u, v in outline], on_floor(0.012), rim(y), depth=0)
+        bay.poly(outline, on_floor(0.02), inside or m['dark'], depth=0)
+
+    for r in range(9):
+        y = 159.5 - r * 10.7
+        x0 = 209.7 if r % 2 else 203.85
+        for k in range(-5, 5):
+            x = x0 + k * 11.85
+            if not 160 < x < 248 or (r == 0 and abs(x - 203.85) < 3) or math.hypot(x - 200.75, y - 125) < 12.5:
+                continue
+            punched(rrect(x, y, 5.7, 5.7, 2.85, n=4), y)
+    punched(rrect(200.75, 125, 14.2, 14.2, 7.1, n=10), 125)
+    # two pressed bars, and the warning triangle: three bars that stop short of the corners, and the ! inside, its point toward the mouth
+    press = m['bay_press']
+    for x in (174.7, 233.1):
+        punched(rrect(x, 166.8, 9.8, 3.4, 0.7, n=3), 166, press)
+    punched(capsule((193.75, 174.5), (202.5, 158.1), 0.55), 166, press)
+    punched(capsule((213.75, 173.75), (205.0, 158.5), 0.55), 166, press)
+    punched(capsule((195.0, 177.2), (212.0, 177.2), 0.5), 166, press)
+    punched(capsule((203.7, 171.4), (203.7, 162.2), 0.55, 1.15), 166, press)
+    punched(rrect(203.7, 174.2, 2.1, 2.1, 1.05, n=3), 166, press)
+
+    # the screw tabs: the same sheet coming round the fold, in windows set back from the back's face
+    for fold, out, z0, z1, hx, hz in ((256.0, 265.8, 14.5, 30.6, 261.2, 23.0), (150.6, 141.0, 13.7, 29.5, 145.2, 22.0)):
+        bay.poly(tab_outline(fold, out, z0, z1, 1.0), plane((0, MOUTH, 0), (-1, 0, 0), (0, 0, 1)), m['tab'], depth=0.5)
+        bay.cyl((hx, MOUTH + 0.01, hz), 'y', 1.6, 0.01, m['dark'], n=20, smooth=False)
+        bay.cyl((hx, MOUTH + 0.02, hz), 'y', 1.25, 0.01, m['silver'], n=20, smooth=False)
+        bay.cyl((hx, MOUTH + 0.03, hz), 'y', 0.75, 0.01, m['dark'], n=16, smooth=False)
     parts.append(bay)
+    parts.append(network_adapter(m))
 
     # the sheet between the power board and the shield
     sheet = Part('isolation_sheet', (-115, 40, 42), 'The clear insulating sheet.', spin=0.4)

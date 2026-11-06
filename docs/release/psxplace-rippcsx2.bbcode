@@ -1,0 +1,68 @@
+[CENTER][IMG]https://raw.githubusercontent.com/akilluminati47/RIPPCSX2/rippcsx2/docs/release/stock-opl-game.jpg[/IMG]
+[SIZE=2]Unmodified OPL starting a game from a virtual drive, through its own IOP reboot. That is the one stock PCSX2 cannot do.[/SIZE]
+
+
+[SIZE=7][B]RIPPCSX2[/B][/SIZE]
+[I]A PlayStation 2 emulator built for testing, made to be driven by you or by an AI agent.[/I]
+
+[URL='https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip'][B]Download for Windows[/B][/URL]  |  [URL='https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage'][B]Download for Linux[/B][/URL]  |  [URL='https://akilluminati47.github.io/RIPPCSX2/'][B]Website[/B][/URL]  |  [URL='https://github.com/akilluminati47/RIPPCSX2'][B]GitHub[/B][/URL]
+[SIZE=2]One rolling release that is never stale. Bring your own BIOS dump. Unzip it anywhere: it keeps its settings in its own folder and leaves any PCSX2 you already have alone.[/SIZE][/CENTER]
+
+[SIZE=3]RIPPCSX2 is PCSX2 v2.9.96 with what a PS2 homebrew developer needs to see the real thing. It began as the test lab for [URL='https://akilluminati47.github.io/RIPPS2/']RIPPS2[/URL], and it is for anyone building PS2 homebrew, themes, tools or game fixes. It is an unofficial fork, not affiliated with the PCSX2 team. Please report problems to the RIPPS2 project, never to PCSX2.[/SIZE]
+
+[SIZE=5][B]It behaves like a PS2 where stock does not[/B][/SIZE]
+[LIST]
+[*][LEFT][B]Stock OPL starts games.[/B] OPL reboots the IOP through a device it registers itself, named host. PCSX2 grabbed every host: open for itself, so OPL stopped at "file 'host0:' can't open". A program's own host device now gets its own opens.[/LEFT]
+[*][LEFT][B]In-game menus over real frames.[/B] The EE's data write breakpoint works, in the interpreter and the recompiler, so OPL's GSM and RIPPS2's in-game menu can hook the GS registers as on a console.[/LEFT]
+[*][LEFT][B]EXIT GAME reaches the browser.[/B] A SIO2 interrupt was being lost over an IOP reboot, which left OSDSYS waiting on the memory card with a black screen.[/LEFT]
+[*][LEFT][B]True 720p and 1080i.[/B] Shown 16:9, captured at 1280 x 720 and 1920 x 1080, screenshots the same. Stock draws them 4:3, and moves 1080i up 42 lines.[/LEFT]
+[/LIST]
+[CENTER][IMG]https://raw.githubusercontent.com/akilluminati47/RIPPCSX2/rippcsx2/docs/release/exit-game-browser.jpg[/IMG]
+[SIZE=2]EXIT GAME from RIPPS2's in-game menu, landing in the console's own browser[/SIZE]
+
+[IMG]https://raw.githubusercontent.com/akilluminati47/RIPPCSX2/rippcsx2/site/assets/rippcsx2-1080i.gif[/IMG]
+[SIZE=2]Setting 1080i in RIPPS2: the full 4:3 frame drops to a 16:9 picture as the mode lands[/SIZE][/CENTER]
+
+[SIZE=5][B]RIPART: art and decoys for themers[/B][/SIZE]
+A new tool in the RIPPCSX2 menu, built on OPL Manager's art database: 16,313 games, read straight from danielb7390's backup on archive.org without downloading the whole 5.2 GB.
+[LIST]
+[*][LEFT][B]Decoys.[/B] Pick a drive, press one button: a dozen random full sets appear as game entries in OPL or RIPPS2 straight away, so you can judge a theme on a real list with no games on the drive. A decoy is a 2 KB entry for art only and does not start. One button takes them away again.[/LEFT]
+[*][LEFT][B]Every game on a checkbox list.[/B] Search it, tick what you want, and choose the art types. Pick a game to see each piece of its art: the full set is ticked to start, so untick what you don't want.[/LEFT]
+[*][LEFT][B]Find Games With No Art.[/B] It reads a drive's DVD, CD and POPS folders and ticks the games that have no cover.[/LEFT]
+[*][LEFT][B]ART folder or art.tar.[/B] Write loose files for OPL and RIPPS2, or add to one art.tar for RIPPS2's ART Pack. It never replaces a file that is already there.[/LEFT]
+[/LIST]
+[SIZE=2]akilluminati47 helped bring OPL Manager its 8-bit PNG art and its 128 x 128 disc icons, so RIPART reads a database that already suits the PS2. Thanks to danielb7390 for OPL Manager and for keeping those backups public.[/SIZE]
+[CENTER][IMG]https://raw.githubusercontent.com/akilluminati47/RIPPCSX2/rippcsx2/docs/release/ripart-library.jpg[/IMG]
+[SIZE=2]The Library: every piece of a game's art, ticked to start[/SIZE]
+
+[IMG]https://raw.githubusercontent.com/akilluminati47/RIPPCSX2/rippcsx2/docs/release/decoys-in-ripps2.jpg[/IMG]  [IMG]https://raw.githubusercontent.com/akilluminati47/RIPPCSX2/rippcsx2/docs/release/decoys-in-stock-opl.jpg[/IMG]
+[SIZE=2]The same 2 KB decoys in RIPPS2 and in stock OPL, with its art option on[/SIZE][/CENTER]
+
+[SIZE=5][B]The RIPPCSX2 menu[/B][/SIZE]
+[LIST]
+[*][LEFT][B]Run ELF, Run Last ELF:[/B] rebuild, press, look.[/LEFT]
+[*][LEFT][B]Lab Monitor:[/B] the video mode, PMODE, SMODE, DISPFB and DISPLAY, and the breakpoint's state and hits, live.[/LEFT]
+[*][LEFT][B]Test Steps:[/B] a list of waits, button presses, screenshots and recordings, played into what is running.[/LEFT]
+[*][LEFT][B]Compatibility Report:[/B] the game, what started it, the result, the OPL modes and the machine's state, as a file and a row in a CSV.[/LEFT]
+[*][LEFT][B]HDTV Output, EE Data Write Breakpoint:[/B] the fork's two big changes, each one click from stock behaviour, and the breakpoint now switches while a game runs.[/LEFT]
+[*][LEFT][B]Lab Switches, Lab Folders, Open Log:[/B] everything a test run needs in one place.[/LEFT]
+[/LIST]
+
+[SIZE=5][B]BIOS and storage: where it is strong[/B][/SIZE]
+It runs your own BIOS dump, so the region, the ROM version and every step from power on are the real ones.
+[LIST]
+[*][LEFT][B]ROM 1.60 (SCPH-39001, USA)[/B] is the one most tested. [B]ROM 2.20 (SCPH-77001, USA)[/B] boots to the console's menu and card browser. ROM 2.30 and later have not been tested.[/LEFT]
+[*][LEFT][B]A virtual internal hard drive, exFAT,[/B] is the strongest path: RIPPS2 and stock OPL both list games from it and start them.[/LEFT]
+[*][LEFT][B]Memory cards as files,[/B] disc images, and an ELF's own folder through host:.[/LEFT]
+[*][LEFT][B]PS1 games through Ember.[/B] Digimon World's intro runs here through RIPPS2 and Ember, with your own PS1 BIOS on the drive.[/LEFT]
+[/LIST]
+[SIZE=2]Not there yet: USB drives, MMCE, SMB and an APA hard drive have not been run here. MX4SIO and i.LINK stop a run, so turn them off for now.[/SIZE]
+[CENTER][IMG]https://raw.githubusercontent.com/akilluminati47/RIPPCSX2/rippcsx2/docs/release/ember-ps1.jpg[/IMG][/CENTER]
+
+[SIZE=5][B]Linux[/B][/SIZE]
+New with this release: an x64 AppImage, built by the same workflow as the Windows zip. It builds, but we have not run it on a Linux machine yet, so if you try it, please tell us what happens. The taskbar button for hidden runs is Windows only.
+
+[SIZE=5][B]The goal: the whole library[/B][/SIZE]
+The biggest job for RIPPCSX2 is one nobody has finished: testing PS2 games through Open PS2 Loader's own code path, and writing down what each one needs. OPL does not run a game the way a disc does. It patches the kernel, swaps the IOP's drivers and answers for the drive, and some games need one of its compatibility modes to survive that. Stock OPL starting a game unmodified was the first step. Mode patching, KELFs and a shared list of every game are next.
+
+[CENTER][URL='https://akilluminati47.github.io/RIPPCSX2/'][B]Blow up a PS2 on the website[/B][/URL][/CENTER]

@@ -274,14 +274,14 @@ class Part:
         self.fixed_uv.add(f)
         return self
 
-    def quad_on(self, plane_at, w, h, m):
+    def quad_on(self, plane_at, w, h, m, flip_u=False):
         """A w x h rectangle on a plane with its own 0..1 UVs (a printed label)."""
         bm = self.bm
         vs = [bm.verts.new(plane_at @ Vector(v)) for v in ((0, 0, 0), (w, 0, 0), (w, h, 0), (0, h, 0))]
         f = bm.faces.new(vs)
         f.material_index = self._mi(m)
-        for lo, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))):
-            lo[self.uv].uv = uv
+        for lo, (u, v) in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))):
+            lo[self.uv].uv = ((1 - u) if flip_u else u, v)
         self.fixed_uv.add(f)
         return self
 
