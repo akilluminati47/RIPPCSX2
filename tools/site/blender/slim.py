@@ -201,7 +201,7 @@ def build(col, tex):
     # ---------------------------------------------------- the PS badge on the rail
     badge = Part('badge', (60, -115, 80), 'The little PlayStation mark that turns for a vertical stand.', spin=2.0)
     badge.poly(rrect(162.2, 20.9, 10.0, 6.6, 3.0), plane((0, 0.4, 0), (1, 0, 0), (0, 0, 1)), m['blackgloss'], depth=2.5)
-    ps_badge(badge, 162.0, 0.37, 20.9, 1.15, m)
+    ps_badge(badge, 162.0, 0.37, 20.9, 6.4, m, body=False)
     parts.append(badge)
 
     # ---------------------------------------------------- the lower block

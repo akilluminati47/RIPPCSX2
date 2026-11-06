@@ -133,73 +133,6 @@ def drive():
     for i, t in enumerate(('LASER RADIATION WHEN OPEN.', 'DO NOT STARE INTO BEAM.', 'CLASS 3R LASER PRODUCT', 'AVOID DIRECT EYE EXPOSURE')):
         d.text((14, 42 + i * 18), t, font=f2, fill=(20, 20, 20))
     im.save(OUT / 'laser.jpg', quality=88)
-    # the rating print on the back of the fat: 131 x 30 mm at 9 px/mm, on the fin colour, no serial
-    w, h = 1179, 270
-    bg = (20, 21, 24)
-    ink = (156, 162, 178)
-    soft = (124, 130, 144)
-    band = (86, 106, 168)
-    im = Image.new('RGB', (w, h), bg)
-    d = ImageDraw.Draw(im)
-    serif = ImageFont.truetype('C:/Windows/Fonts/georgiab.ttf', 34)
-    big = ImageFont.truetype(FONT, 22)
-    mid = ImageFont.truetype(FONT, 15)
-    small = ImageFont.truetype(FONT, 11)
-    d.text((6, 6), 'SONY', font=serif, fill=ink)
-    d.text((116, 18), 'MODEL NO.', font=small, fill=soft)
-    d.text((186, 12), 'SCPH-30001', font=mid, fill=ink)
-    d.text((6, 48), 'PlayStation 2', font=big, fill=ink)
-    d.rectangle([166, 50, 196, 72], fill=band)
-    d.text((170, 53), 'NTSC', font=small, fill=bg)
-    d.rectangle([202, 50, 232, 72], fill=band)
-    d.text((209, 53), 'U/C', font=small, fill=bg)
-    d.text((6, 84), 'Sony Computer Entertainment Inc.', font=mid, fill=soft)
-    d.text((6, 108), 'AC 120V  60Hz  39W', font=mid, fill=ink)
-    d.rectangle([6, 132, 340, 152], fill=band)
-    d.text((12, 135), 'NOT FOR SALE: A MODEL OF THE REAL ONE', font=small, fill=bg)
-    for i, t in enumerate(('This class B digital device complies with', 'Canadian ICES-003. To reduce the risk of', 'fire or electric shock, do not expose this', 'apparatus to rain or moisture. CLASS 1', 'LASER PRODUCT.')):
-        d.text((6, 160 + i * 18), t, font=small, fill=soft)
-    # the regulatory marks
-    d.text((372, 8), 'FC', font=big, fill=ink)
-    d.ellipse([376, 46, 416, 86], outline=ink, width=3)
-    d.text((386, 56), 'UL', font=mid, fill=ink)
-    for i, t in enumerate(('Tested to comply', 'with FCC standards', 'FOR HOME OR', 'OFFICE USE')):
-        d.text((424, 10 + i * 16), t, font=small, fill=soft)
-    # the long paragraph under the sticker
-    para = ('This device complies with part 15 of the FCC rules. Operation is subject to the following two conditions: (1) this device may not cause harmful '
-            'interference, and (2) this device must accept any interference received, including interference that may cause undesired operation. '
-            'CAUTION: use of controls or adjustments or performance of procedures other than those specified herein may result in hazardous radiation exposure. '
-            'Do not open the cabinet. Refer servicing to qualified personnel only. Connect the AC power cord to a grounded outlet only. To disconnect, pull the plug.')
-    words = para.split()
-    words = words * 2
-    y = 130
-    line = ''
-    while words and y < h - 14:
-        while words and d.textlength(line + ' ' + words[0], font=small) < 800:
-            line = (line + ' ' + words.pop(0)).strip()
-        d.text((372, y), line, font=small, fill=soft)
-        line = ''
-        y += 19
-    # the sticker's own space stays clear: the geometry sits on it
-    im.save(OUT / 'rating.jpg', quality=93)
-    # the column of print on the left of the back: 60 x 11 mm, reading upwards
-    w, h = 720, 132
-    im = Image.new('RGB', (w, h), bg)
-    d = ImageDraw.Draw(im)
-    low = (74, 76, 84)
-    small = ImageFont.truetype(FONT, 10)
-    para = ('WARNING: to prevent fire or shock hazard, do not expose this apparatus to rain or moisture. Do not open the cabinet: dangerous high voltage is present inside. '
-            'This product is licensed for home use on a compatible television. Unauthorised copying, reproduction or public performance is prohibited. ') * 3
-    words = para.split()
-    y = 4
-    line = ''
-    while words and y < h - 11:
-        while words and d.textlength(line + ' ' + words[0], font=small) < w - 8:
-            line = (line + ' ' + words.pop(0)).strip()
-        d.text((4, y), line, font=small, fill=low)
-        line = ''
-        y += 14
-    im.save(OUT / 'rating_side.jpg', quality=90)
 
 
 def disc():
@@ -225,4 +158,6 @@ if __name__ == '__main__':
     psu()
     drive()
     disc()
+    import gen_labels  # the back's label, seal and connector shell
+    gen_labels.main()
     print('textures in', OUT)

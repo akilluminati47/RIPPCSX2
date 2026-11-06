@@ -3,6 +3,8 @@
 # shields, main board, power board, fan, expansion bay, the controller board, the USB board and the button flex.
 from mathutils import Matrix, Vector
 from ps2kit import Part, mat, plane, export_glb
+import ps_mark
+from marks import MARKS
 
 W, D, H = 301, 182, 78
 LOW_X = 274.5          # the lower block stops short of the right end
@@ -62,6 +64,12 @@ def materials(tex):
         grey=mat('sticker_grey', '#d8d8d8', rough=0.7),
         black=mat('plastic_black', '#0c0c0e', rough=0.45),
         rubber=mat('rubber', '#0a0a0b', rough=0.9),
+        lid_floor=mat('fat_scoop_floor', '#1e1e20', rough=0.68),
+        lid_lip=mat('fat_scoop_lip', '#6a6c74', rough=0.4),
+        sony_hi=mat('fat_sony', '#b6b8bc', rough=0.38),
+        rear_tone=mat('fat_rear_tone', '#2e2f34', rough=0.55),
+        usb_print=mat('fat_usb_print', '#99a3bf', rough=0.55),
+        lid_shade=mat('fat_scoop_shade', '#000000', rough=0.9, spec=0.0),
         teal=mat('reset_teal', '#051c1b', rough=0.22),
         tealglow=mat('reset_glow', '#37e6d2', rough=0.4, emit='#37e6d2', emit_power=0.35),
         bluebtn=mat('eject_dark', '#090e1c', rough=0.22),
@@ -87,7 +95,14 @@ def materials(tex):
         copper=mat('copper', '#b87333', rough=0.4, metal=1.0),
         peach=mat('copper_pale', '#c9a184', rough=0.42, metal=0.5),
         laser=mat('sticker_laser', tex=tex + 'laser.jpg', rough=0.6),
-        rating=mat('rear_rating', tex=tex + 'rating.jpg', rough=0.24),
+        rating=mat('rear_rating', tex=tex + 'rating.jpg', rough=0.3),
+        serial=mat('rear_serial', tex=tex + 'serial.jpg', rough=0.5),
+        foot=mat('fat_foot', '#232326', rough=0.52),
+        conn=mat('hdd_conn_shell', tex=tex + 'conn_shell.jpg', rough=0.55),
+        conn_rim=mat('hdd_conn_rim', '#dcd2c0', rough=0.3, metal=0.5),
+        conn_mouth=mat('hdd_conn_mouth', '#050506', rough=0.7),
+        conn_tongue=mat('hdd_conn_tongue', '#2a2a31', rough=0.42),
+        conn_pin=mat('hdd_conn_pin', '#b58c4e', rough=0.35, metal=0.7),
         rating_side=mat('rear_rating_side', tex=tex + 'rating_side.jpg', rough=0.24),
         disc=mat('disc_silver', tex=tex + 'disc.jpg', rough=0.14, metal=1.0),
         drive=mat('drive_black', '#101012', rough=0.55),
@@ -117,16 +132,20 @@ def ps2_logo(p, plane_at, s0, u0, unit, width, ms):
     p.stroke(art([(125, 21), (87.5, 21)]), width, plane_at, hi)
 
 
-def ps_badge(p, cx, y, cz, s, m):
-    """The small coloured PlayStation mark: 6.9 x 5.2 at s=1, centred on (cx, cz). The P stands, the S lies flat in front of it."""
-    art = plane((cx, y, cz), (1, 0, 0), (0, 0, 1))
-    def at(points):
-        return [(a * s, b * s) for a, b in points]
-    p.poly(at([(-0.85, -1.3), (0.25, -1.75), (0.25, 1.75), (0.75, 1.85), (1.05, 1.55), (1.05, 0.7), (0.7, 0.35), (0.7, -0.25), (1.35, -0.1), (1.85, 0.55), (1.85, 1.75), (1.2, 2.45), (-0.85, 2.6)]), art, m['ps_red'], depth=0.1)
-    art2 = plane((cx, y - 0.1, cz), (1, 0, 0), (0, 0, 1))
-    p.poly(at([(-3.45, -1.25), (-1.9, -0.85), (0.2, -0.45), (0.2, -0.95), (-1.2, -1.1), (-2.2, -1.25), (-1.8, -1.45), (-0.5, -1.75), (-1.6, -2.0), (-3.2, -1.7)]), art2, m['ps_yel'], depth=0.1)
-    p.poly(at([(0.35, -0.95), (1.2, -1.1), (2.1, -1.15), (1.5, -1.45), (0.35, -1.75), (0.35, -2.3), (1.2, -2.1), (2.9, -1.55), (3.45, -1.05), (3.0, -0.7), (1.8, -0.75)]), art2, m['ps_blu'], depth=0.1)
-    p.poly(at([(-0.5, -1.75), (0.35, -1.75), (0.35, -2.3), (-0.25, -2.6), (-1.0, -2.3)]), art2, m['ps_grn'], depth=0.1)
+def ps_badge(p, cx, y, cz, width, m, body=True):
+    """The PlayStation mark, `width` mm wide, centred on (cx, cz), its back at y. On the fat it is an object, not print: a black emblem
+    die-cut to the mark's silhouette, standing proud across the fins, the four colours laid on it and the P a step above them. The outlines
+    are the mark's own curves (ps_mark.py). With body=False the colours sit straight on whatever is behind them."""
+    gloss = dict(rough=0.2)
+    inks = {'#f3c202': mat('ps_yellow_gloss', '#f7c312', **gloss), '#00aa9e': mat('ps_teal', '#10b8a6', **gloss),
+            '#326db3': mat('ps_blue_gloss', '#3a7fe0', **gloss), '#de0029': mat('ps_red_gloss', '#e4002b', **gloss)}
+    face = y - (1.7 if body else 0.0)
+    if body:
+        p.curve([ps_mark.BODY], width, plane((cx, y - 0.85, cz), (1, 0, 0), (0, 0, 1)), m['blackgloss'], 1.7, bevel=0.26)
+    for fill, outlines in ps_mark.COLOURS.items():
+        red = fill == '#de0029'
+        # the S lies on the emblem, the P a step proud of it
+        p.curve(outlines, width, plane((cx, face - (0.17 if red else 0.05), cz), (1, 0, 0), (0, 0, 1)), inks[fill], 0.32 if red else 0.1)
 
 
 def ladder(p, x0, x1, z0, z1, y0, y1, slots, cols, bar, m, dark):
@@ -202,13 +221,20 @@ def usb_a(p, x0, x1, z0, z1, y, m, depth=8.0, shell=None, tongue=True):
             p.box(xx - 0.45, xx + 0.45, y + 1.37, y + 1.42, cz + 0.35, cz + 1.05, m['white'])
 
 
-def side_recess(p, y, z, m):
-    """One of the four oblong recesses in the left side, for the vertical stand: long and shallow, deepest at its rear end, its lower lip catching the light."""
-    art = plane((-0.02, y, z), (0, -1, 0), (0, 0, 1))
-    p.poly(stadium(0, 0, 21, 7), art, m['scoop'], depth=0)
-    deep = plane((-0.04, y, z), (0, -1, 0), (0, 0, 1))
-    p.poly(stadium(-5.2, 0.2, 10.4, 6.4), deep, m['dark'], depth=0)
-    p.box(-0.05, 0.1, y - 7, y + 9, z - 3.6, z - 2.9, m['edge_hi'])
+def side_foot(p, y, z, m):
+    """A rubber foot on the left end, which the console stands on upright: a bar 18 mm long along the side and 8.5 mm tall, D-shaped in section,
+    full height at its top edge and curving down to nothing at the bottom, a flat cap at each end, and a thin lip over a groove along the top."""
+    bar = 18.0
+    p.poly(rrect(0, 0.2, 19.6, 11.0, 2.4), plane((-0.03, y, z), (0, -1, 0), (0, 0, 1)), m['dark'], depth=0)  # where it meets the side: a web render has no shadows
+    section = [(4.1, -0.3), (4.1, 2.35)] + [(4.1 - 8.5 * t, 2.35 * (1 - t ** 2.2)) for t in (i / 16 for i in range(1, 17))] + [(-4.4, -0.3)]
+    across = plane((0, y, z), (0, 0, 1), (-1, 0, 0))
+    p.curve([section], 1.0, across, m['foot'], bar, bevel=0.2)
+    p.curve([[(4.5, -0.3), (4.5, 1.9), (5.0, 1.9), (5.0, -0.3)]], 1.0, across, m['foot'], bar + 1.2, bevel=0.1)
+
+
+def mark(p, name, width, at, m, depth=0.02):
+    """A printed logo, its own outline, `width` mm wide, centred on the plane's origin."""
+    p.curve(MARKS[name]['loops'], width, at, m, depth)
 
 
 def build(col, tex):
@@ -226,17 +252,28 @@ def build(col, tex):
     # the logo and its name on the lid, measured: reading rear to front, 'up' towards the right end
     art = plane((0, D, H + 0.01), (0, -1, 0), (1, 0, 0))
     ps2_logo(lid, art, 28, 162, 1.0, 1.1, (m['logo_lo'], m['logo_mid'], m['logo_hi']))
-    lid.text('PlayStation 2', 'segoeui.ttf', 14.0, plane((145.8, D - 90.8, H + 0.01), (0, -1, 0), (1, 0, 0)), m['ink'], align='CENTER', depth=0.03)
-    # the disc logos, tone on tone, at the front right
-    tone = mat('fat_tone', '#3f4045', rough=0.22)
-    lid.text('PlayStation', 'segoeuib.ttf', 2.8, plane((211, 4.6, H + 0.01), (1, 0, 0), (0, 1, 0)), tone)
-    lid.text('DVD', 'arialbd.ttf', 6.2, plane((230, 4.8, H + 0.01), (1, 0, 0), (0, 1, 0)), tone, stretch=1.25)
-    lid.text('VIDEO', 'arialbd.ttf', 1.9, plane((231, 2.6, H + 0.01), (1, 0, 0), (0, 1, 0)), tone, stretch=1.2)
-    lid.box(250, 261, 5, 11, H, H + 0.03, tone)
-    lid.text('COMPACT', 'arialbd.ttf', 1.5, plane((250, 2.2, H + 0.01), (1, 0, 0), (0, 1, 0)), tone)
-    lid.text('DVD', 'arialbd.ttf', 6.2, plane((265, 4.8, H + 0.01), (1, 0, 0), (0, 1, 0)), tone, stretch=1.25)
-    lid.text('ROM', 'arialbd.ttf', 1.9, plane((267, 2.6, H + 0.01), (1, 0, 0), (0, 1, 0)), tone, stretch=1.2)
-
+    # engraved, measured off a photo: a floor the lid's own colour, the wall facing away from the light in shade and a thin lit wall
+    # across from it. A web render has no shadows, and the real step is under a pixel, so it is drawn the way light finds it
+    word = lambda dy, dx, z: plane((151.4 + dx, 89.8 + dy, H + z), (0, -1, 0), (1, 0, 0))
+    mark(lid, 'wm_ps2', 62.8, word(-0.13, -0.11, 0.006), m['lid_lip'], 0.01)
+    mark(lid, 'wm_ps2', 62.8, word(0.2, 0.17, 0.010), m['lid_shade'], 0.01)
+    mark(lid, 'wm_ps2', 62.8, word(0, 0, 0.016), m['lid_floor'], 0.01)
+    # the disc and sound logos along the front right, pressed into the lid as the word is: their own outlines, each placed by solving the
+    # lid's perspective in a photo of an SCPH-30001. The step is shallower than the word's, so the walls are narrower
+    def pressed(name, width, x, y):
+        at = lambda dx, dy, z: plane((x + dx, y + dy, H + z), (1, 0, 0), (0, 1, 0))
+        mark(lid, name, width, at(-0.07, -0.08, 0.006), m['lid_lip'], 0.01)
+        mark(lid, name, width, at(0.1, 0.11, 0.010), m['lid_shade'], 0.01)
+        mark(lid, name, width, at(0, 0, 0.016), m['lid_floor'], 0.01)
+    pressed('cd_word', 15.0, 222.9, 8.9)
+    pressed('dolby', 17.8, 241.8, 7.9)
+    pressed('dts', 11.2, 258.0, 9.9)
+    lid.box(252.33, 263.53, 5.42, 7.02, H + 0.002, H + 0.012, m['lid_lip'])
+    lid.box(252.5, 263.7, 5.61, 7.21, H + 0.003, H + 0.015, m['lid_shade'])
+    lid.box(252.4, 263.6, 5.5, 7.1, H + 0.004, H + 0.021, m['lid_floor'])
+    lid.text('DIGITAL OUT', 'arialbd.ttf', 1.1, plane((258.0, 5.9, H + 0.03), (1, 0, 0), (0, 1, 0)), m['case'], align='CENTER', depth=0.01, stretch=1.2)
+    pressed('dvd_video', 10.5, 272.0, 9.2)
+    pressed('dvd_rom', 10.2, 286.3, 10.2)
     # the fins round the right end, front to back (the front rows are laid out below)
     for z0, z1 in PLATES[1:]:
         lid.box(W - FIN_SIDE, W, 0, D, z0, z1, m['fin'], bevel=0.42, seg=2)
@@ -301,21 +338,26 @@ def build(col, tex):
     # the nose carries SONY, reading top to bottom; the slits narrow as they cross it
     for z0, z1 in ((63.3, 69.7), (57.5, 62.1), (50.3, 55.8), (42.7, 48.5)):
         lid.box(NOSE, W, -0.01, fy, z0, z1, m['fin'], bevel=0.42, seg=2)
-    lid.text('SONY', 'georgiab.ttf', 7.1, plane((292.6, -0.03, 67.9), (0, 0, -1), (1, 0, 0)), m['white'], depth=0.02, stretch=1.36)
-    # front labels on row 1, tone on tone
-    lid.text('1', 'arial.ttf', 3.9, plane((41, -0.02, 66.2), (1, 0, 0), (0, 0, 1)), m['label'], align='CENTER')
-    lid.text('2', 'arial.ttf', 3.9, plane((93, -0.02, 66.2), (1, 0, 0), (0, 0, 1)), m['label'], align='CENTER')
-    lid.text('MAGICGATE', 'georgiab.ttf', 2.9, plane((66.5, -0.02, 66.45), (1, 0, 0), (0, 0, 1)), m['label'], align='CENTER', stretch=0.98)
-    # the recesses in the left side, the upper two here
+    # SONY reads down the fins, one raised letter to a fin at the fins' own 7.55 mm pitch, 5.4 mm long and 3.4 across, as a photo has them
+    for letter, z, length in (('S', 67.6, 5.2), ('O', 60.0, 5.4), ('N', 52.5, 5.6), ('Y', 44.9, 5.6)):
+        across = 3.4 / (MARKS['sony_' + letter]['h'] * length)
+        at = plane((294.2, -0.12, z), (0, 0, -1), (1, 0, 0)) @ Matrix.Diagonal((1, across, 1, 1))
+        mark(lid, 'sony_' + letter, length, at, m['sony_hi'], 0.24)
+    lid.text('MAIN', 'arial.ttf', 1.9, plane((12.6, D + 0.04, 62.4), (-1, 0, 0), (0, 0, 1)), m['rear_tone'], align='CENTER', depth=0.01)
+    lid.text('POWER', 'arial.ttf', 1.9, plane((12.6, D + 0.04, 60.2), (-1, 0, 0), (0, 0, 1)), m['rear_tone'], align='CENTER', depth=0.01)
+    lid.text('1', 'arialbd.ttf', 3.9, plane((41, -0.02, 66.2), (1, 0, 0), (0, 0, 1)), m['label'], align='CENTER')
+    lid.text('2', 'arialbd.ttf', 3.9, plane((93, -0.02, 66.2), (1, 0, 0), (0, 0, 1)), m['label'], align='CENTER')
+    mark(lid, 'magicgate', 19.0, plane((66.5, -0.02, 67.35), (1, 0, 0), (0, 0, 1)), m['label'])
+    # the rubber feet on the left side, the upper two here
     for y in (30.5, 166):
-        side_recess(lid, y, 68.5, m)
+        side_foot(lid, y, 68.3, m)
     parts.append(lid)
 
     # ---------------------------------------------------- the back of the upper shell, printed
     rear = lid
     # the rating print and its small print: one picture, the case's own colour behind it
-    rear.quad_on(plane((281, D + 0.03, 41.2), (-1, 0, 0), (0, 0, 1)), 131, 30, m['rating'])
-    rear.box(154.8, 202.5, D, D + 0.05, 58.8, 70, m['grey'])
+    rear.quad_on(plane((274.35, D + 0.03, 40.7), (-1, 0, 0), (0, 0, 1)), 119.93, 31.75, m['rating'])
+    rear.quad_on(plane((202.5, D + 0.05, 58.8), (-1, 0, 0), (0, 0, 1)), 47.7, 11.2, m['serial'])
     # the column of print down the left end of the back, reading upwards
     rear.quad_on(plane((1.4, D + 0.03, 3), (0, 0, 1), (1, 0, 0)), 60, 12.6, m['rating_side'])
     rear.cyl((284, D, 58), 'y', 1.7, 0.06, m['dark'], n=14, smooth=False)
@@ -334,10 +376,12 @@ def build(col, tex):
     tray.ring((209, 85, deck_z), 'z', 60.5, 66, 0.9, m['drive'], n=72)
     tray.cyl((209, 85, deck_z), 'z', 60, 0.3, m['black'], n=72)
     tray.box(195, 223, 110, 150, deck_z, deck_z + 0.2, m['dark'])
-    # the PS mark on its tile, on the tray's face
-    tray.poly(rrect(213, 54.5, 12.6, 8.4, 3.6), plane((0, -0.02, 0), (1, 0, 0), (0, 0, 1)), m['blackgloss'], depth=0.6)
-    ps_badge(tray, 213, -0.05, 54.45, 1.55, m)
     parts.append(tray)
+
+    # the PS mark on its tile, on the tray's face: a part of its own, because it turns
+    badge = Part('badge', (70, -135, 118), 'The PlayStation badge. On a real console it turns a quarter for a vertical stand, and it does here too.', spin=2.0)
+    ps_badge(badge, 213, 0.1, 54.45, 10.6, m)
+    parts.append(badge)
 
     # a game: the disc itself comes out with the tray
     disc = Part('disc', (40, -120, 205), 'A DVD. Most of the PS2 library is one disc image away, and the end goal of RIPPCSX2 is the whole library running through OPL\'s own code path.', spin=2.0)
@@ -352,7 +396,7 @@ def build(col, tex):
         ctrl.box(c[0] + 0.2, c[1] - 0.2, 0.2, fy, PLATES[2][0], 62.0, m['blackgloss'], bevel=0.25)
         ctrl.box(c[0] + 0.6, c[1] - 0.6, 0.17, 0.3, 61.3, 61.8, m['edge_hi'])
         ctrl.box(c[0] + 0.2, c[1] - 0.2, 0.2, fy, 56.4, 57.5, m['blackgloss'])
-        ctrl.text('MEMORY CARD', 'arial.ttf', 4.0, plane((c[0] + 20.1, 0.16, 58.05), (1, 0, 0), (0, 0, 1)), m['doorprint'], align='CENTER')
+        ctrl.text('MEMORY CARD', 'segoeuil.ttf', 3.9, plane((c[0] + 20.1, 0.16, 58.05), (1, 0, 0), (0, 0, 1)), m['doorprint'], align='CENTER', stretch=1.05, spacing=1.06)
     for c in (PORT1, PORT2):
         controller_port(ctrl, c[0], c[1], PORT_Z[0], PORT_Z[1], 0.8, m, lobe_h=4.4, cz=45.5)
     ctrl.box(10, 125, fy + 2, 34, 36.4, 37.0, m['pcb'])
@@ -368,7 +412,7 @@ def build(col, tex):
     # the power mark and RESET
     btn.ring((284.5, 0.46, 69.4), 'y', 1.6, 1.9, 0.05, m['tealglow'], n=24)
     btn.box(284.36, 284.64, 0.42, 0.5, 69.4, 71.7, m['tealglow'])
-    btn.text('RESET', 'arial.ttf', 1.9, plane((284.5, 0.44, 63.7), (1, 0, 0), (0, 0, 1)), m['tealglow'], align='CENTER')
+    btn.text('RESET', 'arial.ttf', 1.95, plane((284.5, 0.44, 63.7), (1, 0, 0), (0, 0, 1)), m['tealglow'], align='CENTER', stretch=1.16, spacing=1.05)
     btn.box(BTN[0], BTN[1], 0.5, fy, 42.7, 47.3, m['bluebtn'], bevel=0.3)
     ej = plane((284.5, 0.46, 44.0), (1, 0, 0), (0, 0, 1))
     # the eject mark in outline: a triangle's two rising sides and its base, the bar under it
@@ -432,13 +476,13 @@ def build(col, tex):
     framed(50.4, 61.3, 10.9, 22.3)
     base.box(53.2, 58.5, D + 0.2, D + 0.23, 13.6, 19.6, m['fin'])
     rearprint = lambda x, z: plane((x, D + 0.02, z), (-1, 0, 0), (0, 0, 1))
-    base.text('DIGITAL OUT', 'arial.ttf', 1.9, rearprint(55.8, 25.0), m['doorprint'], align='CENTER', depth=0.01)
-    base.text('(OPTICAL)', 'arial.ttf', 1.9, rearprint(55.8, 23.2), m['doorprint'], align='CENTER', depth=0.01)
-    base.text('AV MULTI OUT', 'arial.ttf', 1.9, rearprint(26.5, 20.2), m['doorprint'], align='CENTER', depth=0.01)
+    base.text('DIGITAL OUT', 'arial.ttf', 1.9, rearprint(55.8, 25.0), m['rear_tone'], align='CENTER', depth=0.01)
+    base.text('(OPTICAL)', 'arial.ttf', 1.9, rearprint(55.8, 23.2), m['rear_tone'], align='CENTER', depth=0.01)
+    base.text('AV MULTI OUT', 'arial.ttf', 1.9, rearprint(26.5, 20.2), m['rear_tone'], align='CENTER', depth=0.01)
     base.cyl((42.3, D, 26.3), 'y', 1.3, 0.2, m['dark'], n=12)
-    # the recesses in the left side, the lower two here
+    # the rubber feet on the left side, the lower two here
     for y in (30.5, 166):
-        side_recess(base, y, 8.5, m)
+        side_foot(base, y, 8.5, m)
     # feet
     for x, y in ((12, 34), (262, 34), (12, 170), (262, 170)):
         base.cyl((x, y, 0), 'z', 4.5, BOT, m['rubber'], n=14)
@@ -453,9 +497,12 @@ def build(col, tex):
     usb_a(usb, 10.6, 24, 12.1, 18.3, LOW_Y - 0.45, m)
     usb_a(usb, 10.6, 24, 20.5, 26.4, LOW_Y - 0.45, m)
     usb_a(usb, 30.5, 37.5, 19.5, 25.2, LOW_Y - 0.45, m, depth=4.0, tongue=False)
-    # the print on it reads upwards
-    usb.text('USB', 'arial.ttf', 1.9, plane((27.2, LOW_Y - 0.53, 13.5), (0, 0, 1), (-1, 0, 0)), m['bluetext'])
-    usb.text('S400', 'arial.ttf', 1.9, plane((36.8, LOW_Y - 0.53, 13.5), (0, 0, 1), (-1, 0, 0)), m['bluetext'])
+    # its print is two symbols: the USB trident, pointing up, and the i.LINK mark under its socket
+    mark(usb, 'usb', 5.8, plane((27.4, LOW_Y - 0.53, 17.6), (0, 0, 1), (-1, 0, 0)), m['usb_print'])
+    ilink = plane((36.0, LOW_Y - 0.53, 16.5), (1, 0, 0), (0, 0, 1))
+    usb.cyl((36.0, LOW_Y - 0.53, 18.0), 'y', 0.58, 0.02, m['usb_print'], n=20)
+    usb.poly(rrect(0, -0.5, 1.5, 2.3, 0.42), ilink, m['usb_print'], depth=0.02)
+    usb.cyl((36.95, LOW_Y - 0.53, 15.75), 'y', 0.42, 0.02, m['usb_print'], n=16)
     usb.box(9, 42, LOW_Y + 2, LOW_Y + 26, 5, 6.4, m['pcb'])
     parts.append(usb)
 
@@ -532,9 +579,17 @@ def build(col, tex):
     # the bay's edge connector, the connector the network adapter plugs into
     brd.box(156, 202, D - 12, D - 2, 34.2, 40.6, m['black'])
     brd.box(151, 205.5, D - 1.62, D - 1.4, 34.9, 41.1, m['peach'])
-    brd.poly(stadium(177.1, 38.1, 40.9, 3.8), plane((0, D - 1.39, 0), (-1, 0, 0), (0, 0, 1)) @ Matrix.Translation((-354.2, 0, 0)), m['chip'], depth=0)
-    brd.poly(stadium(177.1, 38.1, 38.4, 2.2), plane((0, D - 1.37, 0), (-1, 0, 0), (0, 0, 1)) @ Matrix.Translation((-354.2, 0, 0)), m['slot'], depth=0)
+    # a plated tan shell with a stadium mouth, a bright rim round it, a black tongue, its pins along the top, and a silver lip with four black clips
+    brd.quad_on(plane((205.5, D - 1.395, 34.9), (-1, 0, 0), (0, 0, 1)), 54.5, 6.2, m['conn'])
+    face = lambda dy: plane((0, D - 1.39 + dy, 0), (-1, 0, 0), (0, 0, 1)) @ Matrix.Translation((-356.6, 0, 0))
+    brd.poly(stadium(178.3, 38.0, 43.4, 5.6, n=14), face(0.01), m['conn_rim'], depth=0)
+    brd.poly(stadium(178.3, 38.0, 42.7, 4.95, n=14), face(0.02), m['conn_mouth'], depth=0)
+    brd.box(159.6, 197.0, D - 1.36, D - 1.34, 36.2, 38.95, m['conn_tongue'])
+    for i in range(100):
+        brd.box(159.8 + i * 0.37, 160.0 + i * 0.37, D - 1.36, D - 1.34, 39.0, 39.95, m['conn_pin'])
     brd.box(151, 205.5, D - 1.62, D - 1.2, 32.9, 34.8, m['silver'])
+    for x0, x1 in ((196.6, 200.7), (180.1, 192.7), (163.9, 176.2), (155.9, 159.8)):
+        brd.box(x0, x1, D - 1.24, D - 1.18, 34.62, 34.98, m['block'])
     # the flat cable up to the drive
     brd.box(120, 136, 60, 60.3, bz, 43.8, m['flex'])
     parts.append(brd)

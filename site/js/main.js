@@ -124,8 +124,10 @@ const NAMES = {
   lid: 'The lid', tray: 'The disc tray', disc: 'A DVD', controller_board: 'Controller ports and memory cards', buttons: 'Reset and eject', base: 'The lower shell', usb_board: 'USB and i.LINK',
   dvd_drive: 'The DVD drive', top_shield: 'The top shield', bottom_shield: 'The bottom shield', main_board: 'The main board', power_board: 'The power board', power_inlet: 'The mains inlet', fan: 'The fan',
   expansion_bay: 'The expansion bay', isolation_sheet: 'The insulating sheet', band: 'The band', shell: 'The top plates', card_doors: 'The memory card slots', badge: 'The PlayStation badge', rear_ports: 'The rear ports',
-  top_plate: 'The top plate', bottom_plate: 'The bottom plate', battery: 'The clock battery',
+  top_plate: 'The top plate', bottom_plate: 'The bottom plate', battery: 'The clock battery', bios: 'The BIOS',
 };
+const BIOS_CAPTION = 'The BIOS. A ROM on the main board holding the EE and IOP kernels, the browser and the rom0: drivers. RIPPCSX2 runs your own dump, so the region, ROMVER and every step from power on to a game are the real ones. The orb sits on the Toshiba chip beside the IOP, which looks to be it on this board; on the slim it only marks the board.';
+const BIOS_ORB = { fat: [60, 50, 40], slim: [120, 112, 13] };
 const consoles = {};
 const rig = new THREE.Group();
 rig.scale.setScalar(SCALE);
@@ -141,7 +143,7 @@ function prepare(kind, gltf) {
     const part = {
       name: node.name, node, caption: u.caption || '', spin: u.spin || 1,
       home: node.position.clone(), homeQ: node.quaternion.clone(), apart: new THREE.Vector3(e[0], e[2], -e[1]),
-      v: new THREE.Vector3(), w: new THREE.Vector3(), mats: [], k: 0, delay: 0, landed: false, thin: 0.01, flatQ: new THREE.Quaternion(),
+      v: new THREE.Vector3(), w: new THREE.Vector3(), mats: [], k: 0, lift: 0, turn: 0, delay: 0, landed: false, thin: 0.01, flatQ: new THREE.Quaternion(),
     };
     node.traverse((o) => {
       if (!o.isMesh) return;
@@ -167,6 +169,18 @@ function prepare(kind, gltf) {
     else if (thinAxis === 'z') part.flatQ.setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI / 2);
     parts.push(part);
   }
+  // the BIOS: an orb over the board, shown when the console is apart. It rides with the board
+  const board = parts.find((p) => p.name === 'main_board');
+  let biosOrb = null;
+  if (board) {
+    const [x, y, z] = BIOS_ORB[kind];
+    biosOrb = new THREE.Mesh(new THREE.SphereGeometry(0.0056, 20, 14), new THREE.MeshBasicMaterial({ color: 0x7fc4ff, toneMapped: false, depthTest: false, transparent: true, opacity: 0.92 }));
+    biosOrb.renderOrder = 10; // the board sits under the rest of the stack: drawn through it
+    biosOrb.position.set(x / 1000, z / 1000, -y / 1000).sub(board.home);
+    biosOrb.userData.part = { name: 'bios', caption: BIOS_CAPTION, mats: [], lift: 0 };
+    biosOrb.visible = false;
+    board.node.add(biosOrb);
+  }
   root.visible = false;
   rig.add(root);
   // the spread-out view's extent, for the camera
@@ -181,7 +195,7 @@ function prepare(kind, gltf) {
   const lift = Math.max(0, -b.min.y) + 0.01;
   b.min.y += lift;
   b.max.y += lift;
-  consoles[kind] = { kind, root, parts, spec, apartBox: b, lift };
+  consoles[kind] = { kind, root, parts, spec, apartBox: b, lift, biosOrb };
 }
 
 // ---- the state ----
@@ -216,7 +230,7 @@ function showConsole(kind) {
 }
 
 // ---- the camera ----
-const view = { panel: 0, first: true, yaw: -0.55, pitch: 0.36, ty: -0.55, tp: 0.36, dist: 3, dragging: false, H: 1, W: 1, top: 0, bot: 0, shake: 0, cy: 0.1, lastDrag: -10 };
+const view = { swayT: 0, panel: 0, first: true, yaw: -0.55, pitch: 0.36, ty: -0.55, tp: 0.36, dist: 3, dragging: false, H: 1, W: 1, top: 0, bot: 0, shake: 0, cy: 0.1, lastDrag: -10 };
 
 function layout() {
   const W = innerWidth, H = innerHeight;
@@ -261,7 +275,8 @@ function placeCamera(dt) {
     view.pitch += (view.tp - view.pitch) * Math.min(1, dt * 0.7);
     if (Math.abs(view.yaw) < 3.3) view.yaw += (view.ty - view.yaw) * Math.min(1, dt * 0.5);
   }
-  const sway = reduced || view.dragging ? 0 : Math.sin(sceneT * 0.22) * 0.12;
+  if (!(state.mode === 'apart' && (state.hover || state.pinned))) view.swayT += dt;
+  const sway = reduced || view.dragging ? 0 : Math.sin(view.swayT * 0.22) * 0.12;
   const yaw = view.yaw + sway;
   const midY = THREE.MathUtils.lerp((c.spec.h * SCALE) / 2, ((a.min.y + a.max.y) / 2) * SCALE, k);
   view.cy += (midY - view.cy) * Math.min(1, dt * 3);
@@ -410,13 +425,18 @@ function updateConsole(dt) {
     state.apartK += (want - state.apartK) * Math.min(1, dt * 2.6);
     const k = state.apartK;
     for (const p of c.parts) {
-      const hoverLift = p === (state.pinned || state.hover) && state.mode === 'apart' ? 0.012 : 0;
+      p.lift += ((p === state.pinned && state.mode === 'apart' ? 0.012 : 0) - p.lift) * Math.min(1, dt * 9);
       p.k += (k - p.k) * Math.min(1, dt * (3 + (p.apart.length() * 3)));
       p.node.position.copy(p.home).addScaledVector(p.apart, p.k);
-      p.node.position.y += hoverLift;
+      p.node.position.y += p.lift;
       p.node.quaternion.copy(p.homeQ);
+      if (p.name === 'badge') { // a quarter turn, as for a vertical stand, while the pointer is on it
+        p.turn += ((p === (state.pinned || state.hover) ? -Math.PI / 2 : 0) - p.turn) * Math.min(1, dt * 7);
+        p.node.quaternion.multiply(tmpQ.setFromAxisAngle(tmpV.set(0, 0, 1), p.turn));
+      }
     }
     c.root.visible = now >= state.blinkUntil || reduced || Math.floor(now / 70) % 2 === 0;
+    if (c.biosOrb) c.biosOrb.visible = k > 0.6;
   }
   state.bounce *= Math.exp(-dt * 7);
   const b = state.bounce;
@@ -445,6 +465,10 @@ function setReadout(html) {
   }
 }
 function updateReadout() {
+  if (pending !== undefined && performance.now() - pendingAt > 110) {
+    setHover(pending);
+    pending = undefined;
+  }
   const p = state.pinned || (state.mode !== 'blown' ? state.hover : null);
   if (p) {
     const title = NAMES[p.name] || p.name;
@@ -492,7 +516,18 @@ function under(e) {
   ray.setFromCamera(ndc, camera);
   const c = cur();
   if (!c.root.visible) return null;
-  return ray.intersectObject(c.root, true).find((h) => h.object.userData.part) || null;
+  const hits = ray.intersectObject(c.root, true).filter((h) => h.object.visible && h.object.userData.part);
+  return hits.find((h) => h.object === c.biosOrb) || hits[0] || null; // drawn on top, so it is pointed at on top
+}
+let pending, pendingAt = 0; // undefined: nothing waiting. null: on its way off every part
+function aimAt(p) {
+  if (state.mode !== 'apart' || !state.hover || p === state.hover) {
+    pending = undefined;
+    setHover(p);
+  } else if (p !== pending) {
+    pending = p;
+    pendingAt = performance.now();
+  }
 }
 let down = null;
 canvas.addEventListener('pointerdown', (e) => {
@@ -514,7 +549,7 @@ canvas.addEventListener('pointermove', (e) => {
   } else if (!coarse) {
     const h = under(e);
     canvas.classList.toggle('aim', !!h && state.mode !== 'apart');
-    setHover(h ? h.object.userData.part : null);
+    aimAt(h ? h.object.userData.part : null);
   }
 });
 canvas.addEventListener('pointerup', (e) => {
@@ -534,7 +569,7 @@ canvas.addEventListener('pointerup', (e) => {
   }
 });
 canvas.addEventListener('pointercancel', () => { down = null; view.dragging = false; });
-canvas.addEventListener('pointerleave', () => setHover(null));
+canvas.addEventListener('pointerleave', () => { pending = undefined; setHover(null); });
 
 $('boom').onclick = () => {
   const s = cur().spec;

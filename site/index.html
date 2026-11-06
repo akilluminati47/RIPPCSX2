@@ -59,7 +59,7 @@
     <button id="close" type="button" class="primary">Resume</button>
   </div>
   <nav class="chips" aria-label="On this page">
-    <a href="#what">What it is</a><a href="#real">Like a PS2</a><a href="#adds">What it adds</a><a href="#uses">Use cases</a><a href="#goal">The goal</a><a href="#menu">The menu</a><a href="#agents">AI agents</a><a href="#links">Links</a>
+    <a href="#what">What it is</a><a href="#real">Like a PS2</a><a href="#adds">What it adds</a><a href="#compat">BIOS and storage</a><a href="#uses">Use cases</a><a href="#goal">The goal</a><a href="#menu">The menu</a><a href="#agents">AI agents</a><a href="#links">Links</a>
   </nav>
   <div class="pbody" id="pbody">
 
@@ -68,9 +68,10 @@
       <p class="note">It began as the test lab of the <a href="https://akilluminati47.github.io/RIPPS2/">RIPPS2</a> front end. It is for anyone building PS2 homebrew, themes, tools or game fixes.</p>
       <div class="btns">
         <a class="primary" href="https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-windows-x64-avx2.zip">Download for Windows</a>
+        <a class="primary" href="https://github.com/akilluminati47/RIPPCSX2/releases/latest/download/RIPPCSX2-linux-x64.AppImage">Download for Linux</a>
         <a class="ghost" href="https://github.com/akilluminati47/RIPPCSX2">GitHub</a>
       </div>
-      <p class="note fine">Windows 10 or 11, x64, a CPU with AVX2. Unzip it anywhere and point it at your own BIOS dump. It keeps its settings in its own folder, so a PCSX2 you already have is not touched.</p>
+      <p class="note fine">Windows 10 or 11, or Linux as an AppImage: x64, a CPU with AVX2. Unzip it anywhere and point it at your own BIOS dump. It keeps its settings in its own folder, so a PCSX2 you already have is not touched.</p>
     </section>
 
     <section class="sect" id="real">
@@ -85,7 +86,11 @@
         <figcaption><b>An in-game menu over a real game.</b> The menu hooks the GS registers through the EE's hardware breakpoint to learn which frame the game is showing. Stock PCSX2 has no such breakpoint, so the menu has nothing to draw over.</figcaption>
       </figure>
       <figure>
-        <a href="https://github.com/akilluminati47/RIPPCSX2/blob/rippcsx2/docs/videos/rippcsx2-ai-test.mp4"><img loading="lazy" src="assets/rippcsx2-ai-test.gif" width="640" height="480" alt="An AI agent's test run seen from the corner of a desktop: a small panel previews the hidden emulator while the user keeps the keyboard and mouse"></a>
+        <a href="https://github.com/akilluminati47/RIPPCSX2/blob/rippcsx2/docs/videos/rippcsx2-1080i.mp4"><img loading="lazy" src="assets/rippcsx2-1080i.gif" width="480" height="363" alt="RIPPS2 set to 1080i: the menu drops from a 4:3 frame to a 16:9 picture"></a>
+        <figcaption><b>Setting 1080i in RIPPS2.</b> A real run: Video Mode set to HDTV 1920x1080i, and the window goes from a full 4:3 frame to a 16:9 picture as the mode lands, the way an HDTV shows it. Stock PCSX2 keeps it 4:3.</figcaption>
+      </figure>
+      <figure>
+        <a href="https://github.com/akilluminati47/RIPPCSX2/blob/rippcsx2/docs/videos/rippcsx2-ai-test.mp4"><img loading="lazy" src="assets/rippcsx2-ai-test.gif" width="640" height="480" alt="An AI agent running a test with only a small panel showing"></a>
         <figcaption><b>An AI agent running a test.</b> The emulator is on a hidden desktop. The small panel is all that shows, and you keep your keyboard and mouse.</figcaption>
       </figure>
     </section>
@@ -99,9 +104,30 @@
         <li><b>1080i in the right place.</b> From line 40, as the console's own timing has it. Stock moves it up 42 lines.</li>
         <li><b>Recordings that survive a mode change,</b> carrying on in a new file at the new size.</li>
         <li><b>Video mode lines in the log,</b> with the sync timing and each display's registers, on every change.</li>
+        <li><b>RIPART.</b> OPL Manager's art database in the menu: decoy game entries for themers, every game's art to choose from, and art for the games on a drive.</li>
+        <li><b>Stock OPL's IOP reboot.</b> A <code>host</code> device a program registers itself now gets its own opens, so unmodified OPL starts a game. In stock PCSX2 it stops at <code>file 'host0:' can't open</code>.</li>
+        <li><b>EXIT GAME reaches the browser.</b> A SIO2 interrupt was lost over an IOP reboot, which left OSDSYS waiting on the memory card with a black screen.</li>
         <li><b>A taskbar button for hidden runs,</b> so a volume mixer or a per-app volume mod reaches a test run like any other program.</li>
       </ul>
       <p class="note fine">Everything else is plain PCSX2, and standard definition is byte for byte the same as stock. Each change can be turned off for a side by side.</p>
+    </section>
+
+    <section class="sect" id="compat">
+      <h3>BIOS and storage: where it is strong</h3>
+      <p class="note">RIPPCSX2 runs your own BIOS dump, so the region, the ROM version and every step from power on are the real ones. This is what has been run here, and what has not.</p>
+      <dl class="uses">
+        <dt>ROM 1.60 (SCPH-39001, USA)</dt><dd>The one most tested: RIPPS2, stock OPL, games, and EXIT GAME back to the browser.</dd>
+        <dt>ROM 2.20 (SCPH-77001, USA)</dt><dd>Boots to the console's menu and memory card browser, and runs the boot paths tested here.</dd>
+        <dt>ROM 2.30 and later</dt><dd>Not tested yet.</dd>
+      </dl>
+      <ul class="ticks">
+        <li><b>A virtual internal hard drive, exFAT.</b> The strongest path: RIPPS2 and stock OPL both list games from it and start them.</li>
+        <li><b>Memory cards as files.</b> Read, written, compared and swapped between runs, up to the console's real card browser.</li>
+        <li><b>Disc images,</b> in the virtual drive, read like the disc they came from.</li>
+        <li><b>An ELF's own folder,</b> through <code>host:</code>, while a program that brings its own <code>host</code> device keeps it.</li>
+        <li><b>PS1 games through Ember,</b> on the same virtual drive.</li>
+      </ul>
+      <p class="note fine">Not there yet: USB drives, MMCE and SMB have not been run here, and neither has an APA hard drive. MX4SIO and i.LINK stop a run, so turn them off for now.</p>
     </section>
 
     <section class="sect" id="uses">
@@ -109,7 +135,10 @@
       <dl class="uses">
         <dt>Testing ELFs and homebrew</dt><dd>Run ELF and Run Last ELF: rebuild, press, look. Read the EE and IOP console, the display registers, and PS2 memory over PINE. Keep a save state of the moment it breaks.</dd>
         <dt>Front ends and tools</dt><dd>What RIPPS2 is built on: storage, memory cards, video modes, handing over to a game or another ELF, all without touching a console until it is ready for one.</dd>
-        <dt>Themes</dt><dd>Judge a theme for OPL, RiptOPL or RIPPS2 at 720p and 1080i as a TV shows it, with true-size screenshots and walkthrough videos.</dd>
+        <dt>Theme capture in HD</dt><dd>Judge a theme for OPL, RiptOPL or RIPPS2 at 720p and 1080i as a TV shows it. Screenshots and recordings come out at the real 1280 x 720 and 1920 x 1080, and a recording carries on in a new file when the mode changes.</dd>
+        <dt>A library for your theme</dt><dd>RIPART spoofs games: it adds decoy entries with OPL Manager's art, a dozen random full sets by default, on the drive you pick, so a theme can be judged on a real list with no games there. Each decoy is a 2 KB entry for art only and does not start.</dd>
+        <dt>Art for your own games</dt><dd>RIPART lists all 16,313 games in OPL Manager's database, finds the games on a drive with no cover, and fetches only the pieces you tick. akilluminati47 helped bring that database its 8-bit PNG art and its 128 x 128 disc icons.</dd>
+        <dt>PS1 games</dt><dd>Run Ember and its PS1 games from a virtual drive to test launching and PS1 lists. Digimon World's intro runs here through RIPPS2 and Ember, with your own PS1 BIOS on the drive.</dd>
         <dt>In-game menus and GS tools</dt><dd>Anything built on the data write breakpoint runs here instead of only on hardware: GSM, in-game menus, screenshots read back from GS memory.</dd>
         <dt>AI-assisted testing</dt><dd>Scripted runs with screenshots, captures, save states and memory reads, on a hidden desktop that never takes over your PC.</dd>
       </dl>
@@ -121,13 +150,14 @@
       <p class="note">OPL does not run a game the way a disc does. It patches the kernel, swaps the IOP's drivers and answers for the drive, and some games need one of its compatibility modes to survive that. Finding out which takes a console, a copy of the game and an evening, for one title. The aim is that a person or an agent can do it in the emulator, in minutes, then check the answer on a console.</p>
       <div class="road">
         <div class="now"><h4>Works today</h4><ul>
+          <li>Stock OPL, unmodified, starting a game from a virtual drive through its own IOP reboot</li>
           <li>RIPPS2's OPL-derived core starting games from a virtual hard drive, as it does on a console</li>
           <li>In-game menus over real game frames</li>
           <li>ELFs and homebrew, including one starting another</li>
           <li>The <b>Compatibility Report</b>: one game's result, the modes used and the machine's state, saved as a file and a row in a CSV</li>
         </ul></div>
         <div class="next"><h4>Where it is going</h4><ul>
-          <li><b>The OPL sandbox:</b> stock OPL and its forks starting games unmodified</li>
+          <li><b>The OPL sandbox:</b> stock OPL and its forks across the library, not one game at a time</li>
           <li><b>Mode patching:</b> trying Modes 1 to 8 on a game automatically, and finding the set it needs</li>
           <li><b>KELFs,</b> and homebrew apps launched through the same paths they take on hardware</li>
           <li><b>A shared list:</b> every game, its result, its modes and its fixes</li>
@@ -158,6 +188,7 @@
         <dt>Lab Monitor</dt><dd>The video mode, PMODE, SMODE, DISPFB and DISPLAY, and the data write breakpoint's state and hits, live.</dd>
         <dt>Test Steps</dt><dd>A list of waits, button presses, screenshots and recordings, played into what is running: the same steps the lab's hidden driver runs, with no script needed.</dd>
         <dt>Compatibility Report</dt><dd>The game, what started it, the result, the OPL modes, your notes and the machine's state.</dd>
+        <dt>RIPART</dt><dd>Decoys, a checkbox list of every game in OPL Manager's database, each piece of art to keep or leave out, and a scan for the games on a drive with no cover. Writes to ART, or adds to one art.tar for RIPPS2's ART Pack. It never replaces a file that is there.</dd>
         <dt>HDTV Output, EE Data Write Breakpoint</dt><dd>The fork's two big changes, each one click from stock behaviour.</dd>
         <dt>Lab Switches</dt><dd>EE and IOP console, file logging, PINE, the host filesystem, fast boot, and one item to set them all up for testing.</dd>
         <dt>Lab Folders, Open Log</dt><dd>Screenshots, video captures, save states, cards, logs and reports, one click away.</dd>

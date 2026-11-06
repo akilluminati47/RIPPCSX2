@@ -184,6 +184,53 @@ class Part:
                 self.poly([(ux - w, y0 - w), (ux + w, y0 - w), (ux + w, y1 + w), (ux - w, y1 + w)], plane, m, depth)
         return self
 
+    def curve(self, outlines, scale, plane, m, depth, bevel=0.0, res=16):
+        """Filled outlines as real geometry with a rounded edge. An outline is a list of (x, y) points, or of Bezier nodes
+        (point, left handle, right handle); an outline inside another is a hole. Unlike poly, a concave shape stays concave."""
+        cu = bpy.data.curves.new('c', 'CURVE')
+        cu.dimensions = '2D'
+        cu.fill_mode = 'BOTH'
+        cu.resolution_u = res
+        cu.extrude = max(0.0, depth / 2 - bevel)
+        cu.bevel_depth = bevel
+        cu.bevel_resolution = 3 if bevel else 0
+        cu.offset = -bevel
+        for line in outlines:
+            if isinstance(line[0][0], (int, float)):
+                sp = cu.splines.new('POLY')
+                sp.points.add(len(line) - 1)
+                for q, (x, y) in zip(sp.points, line):
+                    q.co = (x * scale, y * scale, 0, 1)
+            else:
+                sp = cu.splines.new('BEZIER')
+                sp.bezier_points.add(len(line) - 1)
+                for q, (c, l, r) in zip(sp.bezier_points, line):
+                    q.handle_left_type = q.handle_right_type = 'FREE'
+                    q.co = (c[0] * scale, c[1] * scale, 0)
+                    q.handle_left = (l[0] * scale, l[1] * scale, 0)
+                    q.handle_right = (r[0] * scale, r[1] * scale, 0)
+            sp.use_cyclic_u = True
+            sp.use_smooth = True
+        ob = bpy.data.objects.new('c', cu)
+        bpy.context.scene.collection.objects.link(ob)
+        dg = bpy.context.evaluated_depsgraph_get()
+        me = ob.evaluated_get(dg).to_mesh()
+        tmp = bmesh.new()
+        tmp.from_mesh(me)
+        bmesh.ops.transform(tmp, matrix=plane, verts=tmp.verts)
+        tmp.to_mesh(me)
+        before = set(self.bm.faces)
+        self.bm.from_mesh(me)
+        tmp.free()
+        mi = self._mi(m)
+        for f in self.bm.faces:
+            if f not in before:
+                f.material_index = mi
+        ob.evaluated_get(dg).to_mesh_clear()
+        bpy.data.objects.remove(ob)
+        bpy.data.curves.remove(cu)
+        return self
+
     def text(self, body, font, size, plane, m, align='LEFT', depth=0.03, stretch=1.0, spacing=1.0):
         """Text as real geometry on a plane, so it stays sharp and needs no texture."""
         cu = bpy.data.curves.new('t', 'FONT')
